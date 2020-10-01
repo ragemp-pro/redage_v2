@@ -1,0 +1,6 @@
+﻿<meta>
+  <info name="client" type="script"/>
+  <script src="bin/debug/netcoreapp3.1/server.dll"/>
+
+  <export class="Customization" function="ApplyCharacter" />
+</meta>
