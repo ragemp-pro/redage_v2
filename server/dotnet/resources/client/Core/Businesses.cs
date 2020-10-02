@@ -4758,7 +4758,7 @@ namespace NeptuneEvo.Core
                 if (player == null || !Main.Players.ContainsKey(player)) return;
                 Vehicle vehicle = player.Vehicle;
                 if (vehicle == null) return; //check
-                if (player.VehicleSeat != -1) return;
+                if (player.VehicleSeat != 0) return;
                 if (lvl <= 0)
                 {
                     Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Введите корректные данные", 3000);
