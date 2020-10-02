@@ -3749,7 +3749,7 @@ namespace NeptuneEvo.Core
                     if (!player.IsInVehicle) return;
                     Vehicle vehicle = player.Vehicle;
                     if (vehicle == null) return; //check
-                    if (player.VehicleSeat != -1) return;
+                    if (player.VehicleSeat != 0) return;
                     OpenPetrolMenu(player);
                     return;
                 case 2:
