@@ -1559,10 +1559,10 @@ namespace NeptuneEvo.Fractions
         public static Dictionary<string, int> maxMats = new Dictionary<string, int>()
         {
             { "", 300 },
-            { "Barracks", 10000 },
-            { "Burrito", 1500 },
-            { "Youga", 1500 },
-            { "Youga2", 1500 },
+            { "BARRACKS", 10000 },
+            { "BURRITO", 1500 },
+            { "YOUGA", 1500 },
+            { "YOUGA2", 1500 },
         };
 
         [ServerEvent(Event.ResourceStart)]
