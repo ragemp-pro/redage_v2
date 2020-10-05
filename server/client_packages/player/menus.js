@@ -869,7 +869,7 @@ let petHashes = null;
 let pet = {
     model: null,
     entity: null,
-	dimension: 0,
+	dimension: mp.players.local.dimension,//Поставил на локальный
 }
 
 function setPet(type, jsonstr) {
