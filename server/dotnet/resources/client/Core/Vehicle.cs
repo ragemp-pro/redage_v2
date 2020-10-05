@@ -213,7 +213,7 @@ namespace NeptuneEvo.Core
                 {
                     if (NAPI.Data.GetEntityData(vehicle, "ACCESS") == "FRACTION")
                     {
-                        if (NAPI.Data.GetEntityData(vehicle, "FRACTION") == 14 && vehicle.DisplayName == "Barracks")
+                        if (NAPI.Data.GetEntityData(vehicle, "FRACTION") == 14 && vehicle.DisplayName == "BARRACKS")
                         {
                             int fracid = Main.Players[player].FractionID;
                             if ((fracid >= 1 && fracid <= 5) || (fracid >= 10 && fracid <= 13))
