@@ -823,7 +823,7 @@ namespace NeptuneEvo.Core
                     /*if (!NAPI.Data.HasEntitySharedData(vehicle, "PETROL"))
                         VehicleStreaming.SetEngineState(vehicle, true);*/
 
-                    if (NAPI.Data.HasEntityData(vehicle, "PETROL") && NAPI.Data.GetEntityData(vehicle, "PETROL") <= 0)
+                    if (NAPI.Data.HasEntityData(vehicle, "PETROL") && (int)NAPI.Data.GetEntityData(vehicle, "PETROL") <= 0)
                     {
                         Notify.Send(sender, NotifyType.Error, NotifyPosition.BottomCenter, $"Топливный бак пуст, невозможно завести машину", 3000);
                         return;
