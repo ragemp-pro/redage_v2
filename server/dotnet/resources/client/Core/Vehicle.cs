@@ -818,7 +818,8 @@ namespace NeptuneEvo.Core
                     Vehicle vehicle = sender.Vehicle;
                     if (vehicle.Class == 13 && Main.Players[sender].InsideGarageID == -1) return;
 
-                    if (!NAPI.Data.HasEntityData(vehicle, "PETROL") || (int)NAPI.Data.GetEntityData(vehicle, "PETROL") <= 0)
+                    int fuel = vehicle.GetSharedData<int>("PETROL");
+                    if (fuel <= 0)
                     {
                         Notify.Send(sender, NotifyType.Error, NotifyPosition.BottomCenter, $"Топливный бак пуст, невозможно завести машину", 3000);
                         return;
