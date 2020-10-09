@@ -355,7 +355,7 @@ namespace NeptuneEvo.Core
                 }
                 var split = target.Split('_');
                 MySQL.QueryRead($"UPDATE `characters` SET `unmute`={time * 60} WHERE firstname='{split[0]}' AND lastname='{split[1]}'");
-                NAPI.Chat.SendChatMessageToAll($"!{{#f25c49}}{player.Name} выдал мут игроку {target} на {time} минут");
+                NAPI.Chat.SendChatMessageToAll($"!{{#f25c49}}{player.Name} выдал мут игроку {target.Name} на {time} минут");
                 NAPI.Chat.SendChatMessageToAll($"!{{#f25c49}}Причина: {reason}");
                 GameLog.Admin($"{player.Name}", $"mutePlayer({time}, {reason})", $"{target}");
             }
