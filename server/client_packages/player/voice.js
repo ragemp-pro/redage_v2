@@ -3,10 +3,12 @@ const Use3d = true;
 const UseAutoVolume = false;
 const MaxRange = 10.0;
 
+let muted = mp.players.local.getVariable('voice.muted');
+
 const enableMicrophone = () => {
     if (
         global.chatActive || 
-        global.localplayer.getVariable('vmuted') ||
+        muted ||
         !global.loggedin || 
         !mp.voiceChat.muted
     ) return;
