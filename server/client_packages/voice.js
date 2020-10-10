@@ -5,7 +5,7 @@ const MaxRange = 10.0;
 const enableMicrophone = () => {
     if (global.chatActive || !global.loggedin) return;
 
-    if (localplayer.getVariable('vmuted') == true) return;
+    if (localplayer.getVariable('voice.muted') == true) return;
 
     if (mp.voiceChat.muted) {
         mp.voiceChat.muted = false;
