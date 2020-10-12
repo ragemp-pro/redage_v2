@@ -3992,6 +3992,51 @@ namespace NeptuneEvo.Core
             catch (Exception e) { Log.Write("petshopCancel: " + e.Message, nLog.Type.Error); }
         }
 
+        public static void Carwash_Pay(Player player)
+        {
+            try
+            {
+                if (player.GetData<int>("BIZ_ID") == -1) return;
+                Business biz = BizList[player.GetData<int>("BIZ_ID")];
+
+                if (player.IsInVehicle)
+                {
+                    if (player.VehicleSeat == 0)
+                    {
+                        if (VehicleStreaming.GetVehicleDirt(player.Vehicle) >= 0f)
+                        {
+                            if (Main.Players[player].Money < biz.Products[0].Price)
+                            {
+                                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно средств", 3000);
+                                return;
+                            }
+
+                            if (!takeProd(biz.ID, 1, "Средство для мытья", biz.Products[0].Price))
+                            {
+                                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно товара на складе", 3000);
+                                return;
+                            }
+                            GameLog.Money($"player({Main.Players[player].UUID})", $"biz({biz.ID})", biz.Products[0].Price, "carwash");
+                            MoneySystem.Wallet.Change(player, -biz.Products[0].Price);
+
+                            VehicleStreaming.SetVehicleDirt(player.Vehicle, 0.0f);
+                            Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, "Ваш транспорт был помыт.", 3000);
+                        }
+                        else
+                            Notify.Send(player, NotifyType.Alert, NotifyPosition.BottomCenter, "Ваш транспорт не грязный.", 3000);
+                    }
+                    else
+                        Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Мыть транспорт может только водитель.", 3000);
+                }
+                return;
+            }
+            catch (Exception e)
+            {
+                Log.Write(e.ToString(), nLog.Type.Error);
+                return;
+            }
+        }
+
         [RemoteEvent("tuningSeatsCheck")]
         public static void RemoteEvent_tuningSeatsCheck(Player player)
         {

@@ -2161,8 +2161,12 @@ namespace NeptuneEvo
             {
                 if (yes)
                 {
+                    
                     switch (callback)
                     {
+                        case "CARWASH_PAY":
+                            BusinessManager.Carwash_Pay(player);
+                            return;
                         case "BUS_RENT":
                             Jobs.Bus.acceptBusRent(player);
                             return;
