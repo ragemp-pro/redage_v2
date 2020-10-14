@@ -47,6 +47,18 @@ namespace NeptuneEvo.Core
             player.SetData<Entity>("ROOMCAR", veh);
         }
 
+        [RemoteEvent("vehchangecolor")]
+        public static void vehchangecolor(Player player, int color1, int color2, int color3)
+        {
+            if (!player.HasData("CARROOMID")) return;
+            if (player.HasData("ROOMCAR"))
+            {
+                var uveh = player.GetData<Entity>("ROOMCAR");
+                NAPI.Vehicle.SetVehicleCustomSecondaryColor(uveh, color1, color2, color3);
+                NAPI.Vehicle.SetVehicleCustomPrimaryColor(uveh, color1, color2, color3);
+            }
+        }
+
         public static void enterCarroom(Player player, string name)
         {
             if (NAPI.Player.IsPlayerInAnyVehicle(player)) return;

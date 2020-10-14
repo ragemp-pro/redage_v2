@@ -1107,7 +1107,7 @@ mp.events.add('auto', (act, value) => {
             break;
         case "color":
             auto.color = autoColors[value];
-			mp.events.callRemote('createveh', auto.model, colors[autoColors[value]][0], colors[autoColors[value]][1]);
+			mp.events.callRemote('vehchangecolor', colors[auto.color][0], colors[auto.color][1], colors[auto.color][2]);
             break;
     }
 });
