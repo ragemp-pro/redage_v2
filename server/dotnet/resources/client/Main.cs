@@ -521,6 +521,8 @@ namespace NeptuneEvo
         {
             try
             {
+                player.SetData("RealSocialClub", player.SocialClubName);
+                
                 if (Admin.IsServerStoping)
                 {
                     player.Kick("Рестарт сервера");
