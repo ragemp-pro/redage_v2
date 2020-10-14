@@ -45,7 +45,7 @@ mp.events.add('render', function (nametags) {
         var player = playerTarget;
         if (player === undefined || player.handle === undefined || !player.handle) player = playerAimAt;
         if (player === undefined || player.handle === undefined || !player.handle) {} else {
-            if (player.getType() === 4) {
+            if (player.getType() === 4 && player != global.localplayer) {
                 mp.game.graphics.drawText(player.name + ' (' + player.remoteId + ')', [0.46, 0.4], { font: 4, color: [255, 255, 255, 235], scale: [2, 0.35], outline: true });
             }
         }
