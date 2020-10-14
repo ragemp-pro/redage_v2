@@ -522,7 +522,8 @@ namespace NeptuneEvo
             try
             {
                 player.SetData("RealSocialClub", player.SocialClubName);
-                
+                player.SetData("RealHWID", player.Serial);
+
                 if (Admin.IsServerStoping)
                 {
                     player.Kick("Рестарт сервера");
