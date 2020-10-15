@@ -1125,6 +1125,19 @@ mp.events.add('buyAuto', () => {
     auto.entity.destroy();
     auto.entity = null;
 })
+mp.events.add('testdriveAuto', (model, value) => {
+    if(new Date().getTime() - global.lastCheck < 50) return; 
+    global.lastCheck = new Date().getTime();
+
+
+    global.menuClose();
+    global.menu.execute('auto.active=0');
+
+    mp.events.callRemote('carroomTestDrive', auto.model, colors[autoColors[value]][0], colors[autoColors[value]][1], colors[autoColors[value]][2]);
+    if (auto.entity == null) return;
+    auto.entity.destroy();
+    auto.entity = null;
+})
 mp.events.add('closeAuto', () => {
 	if(new Date().getTime() - global.lastCheck < 50) return; 
 	global.lastCheck = new Date().getTime();

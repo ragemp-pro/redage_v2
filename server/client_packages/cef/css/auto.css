@@ -331,3 +331,5 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30ff90', end
 .control output{
     margin-top: 10px;
     display: block;
+}
+.auto .testdrive { border-color: #ffdb00; margin-bottom: 10px; } .auto .testdrive:hover { background-color: #ffce00; }

@@ -135,6 +135,7 @@ namespace NeptuneEvo.Core
         {
             try
             {
+                if (!player.HasData("CARROOMID")) return;
                 if (!vehicle.HasData("ACCESS") || vehicle.GetData<string>("ACCESS") != "RENT" || vehicle.GetData<Player>("DRIVER") != player) return;
                 Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, $"Через 3 минуты аренда транспорта закончится, если вы снова не сядете в т/с", 3000);
                 NAPI.Data.SetEntityData(player, "IN_RENT_CAR", false);

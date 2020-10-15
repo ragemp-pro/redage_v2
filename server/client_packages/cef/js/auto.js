@@ -63,6 +63,10 @@ var auto = new Vue({
             //console.log('buy')
             mp.trigger('buyAuto')
         },
+        testdrive: function() {
+            console.log('testdriveAuto');
+            mp.trigger('testdriveAuto', this.indexM, this.indexC);
+        },
         exit: function(){
             //console.log('exit')
             this.reset()
