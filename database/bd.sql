@@ -41,7 +41,7 @@ CREATE TABLE `accounts` (
   `viplvl` varchar(155) NOT NULL,
   `vipdate` datetime NOT NULL,
   `promocodes` varchar(155) NOT NULL,
-  `present` tinyint(1) NOT NULL,
+  `present` tinyint(1) NOT NULL DEFAULT 0,
   `idkey` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -293,7 +293,7 @@ CREATE TABLE `characters` (
   `hotel` int(255) NOT NULL,
   `hotelleft` int(255) NOT NULL,
   `sim` int(255) NOT NULL,
-  `PetName` text NOT NULL,
+  `PetName` text DEFAULT NULL,
   `eat` int(255) NOT NULL,
   `water` int(255) NOT NULL,
   `demorgan` int(255) NOT NULL,
