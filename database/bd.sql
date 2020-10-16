@@ -301,7 +301,7 @@ CREATE TABLE `characters` (
   `unwarn` datetime NOT NULL,
   `unmute` int(255) NOT NULL,
   `bank` int(255) NOT NULL,
-  `wanted` enum('1','2','3','4','5') NOT NULL,
+  `wanted` text NOT NULL DEFAULT '0',
   `lvl` int(255) NOT NULL,
   `exp` int(255) NOT NULL,
   `gender` tinyint(1) NOT NULL,

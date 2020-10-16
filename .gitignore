@@ -8,3 +8,4 @@ server/Settings.db
 .listcache
 *.obj
 [Oo]bj/
+.vs/
