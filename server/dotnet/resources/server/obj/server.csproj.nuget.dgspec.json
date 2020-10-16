@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\admin\\Desktop\\1\\CRP 1.1 old\\dotnet\\resources\\server\\server.csproj": {}
+    "C:\\Users\\admin\\Desktop\\123\\redage_v2\\server\\dotnet\\resources\\server\\server.csproj": {}
   },
   "projects": {
-    "C:\\Users\\admin\\Desktop\\1\\CRP 1.1 old\\dotnet\\resources\\server\\server.csproj": {
+    "C:\\Users\\admin\\Desktop\\123\\redage_v2\\server\\dotnet\\resources\\server\\server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\admin\\Desktop\\1\\CRP 1.1 old\\dotnet\\resources\\server\\server.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\Desktop\\123\\redage_v2\\server\\dotnet\\resources\\server\\server.csproj",
         "projectName": "server",
-        "projectPath": "C:\\Users\\admin\\Desktop\\1\\CRP 1.1 old\\dotnet\\resources\\server\\server.csproj",
+        "projectPath": "C:\\Users\\admin\\Desktop\\123\\redage_v2\\server\\dotnet\\resources\\server\\server.csproj",
         "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\admin\\Desktop\\1\\CRP 1.1 old\\dotnet\\resources\\server\\obj\\",
+        "outputPath": "C:\\Users\\admin\\Desktop\\123\\redage_v2\\server\\dotnet\\resources\\server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -62,7 +62,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
         }
       }
     }

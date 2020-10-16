@@ -1335,11 +1335,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\admin\\Desktop\\1\\CRP 1.1 old\\dotnet\\resources\\client\\client.csproj",
+      "projectUniqueName": "C:\\Users\\admin\\Desktop\\123\\redage_v2\\server\\dotnet\\resources\\client\\client.csproj",
       "projectName": "client",
-      "projectPath": "C:\\Users\\admin\\Desktop\\1\\CRP 1.1 old\\dotnet\\resources\\client\\client.csproj",
+      "projectPath": "C:\\Users\\admin\\Desktop\\123\\redage_v2\\server\\dotnet\\resources\\client\\client.csproj",
       "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\admin\\Desktop\\1\\CRP 1.1 old\\dotnet\\resources\\client\\obj\\",
+      "outputPath": "C:\\Users\\admin\\Desktop\\123\\redage_v2\\server\\dotnet\\resources\\client\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1355,8 +1355,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\admin\\Desktop\\1\\CRP 1.1 old\\dotnet\\resources\\server\\server.csproj": {
-              "projectPath": "C:\\Users\\admin\\Desktop\\1\\CRP 1.1 old\\dotnet\\resources\\server\\server.csproj"
+            "C:\\Users\\admin\\Desktop\\123\\redage_v2\\server\\dotnet\\resources\\server\\server.csproj": {
+              "projectPath": "C:\\Users\\admin\\Desktop\\123\\redage_v2\\server\\dotnet\\resources\\server\\server.csproj"
             }
           }
         }
@@ -1410,7 +1410,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
       }
     }
   }

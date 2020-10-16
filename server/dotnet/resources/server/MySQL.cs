@@ -24,7 +24,7 @@ namespace Redage.SDK
             Connection = 
                 $"Host={config.TryGet<string>("Server", "127.0.0.1")};" +
                 $"User={config.TryGet<string>("User", "root")};" +
-                $"Password={config.TryGet<string>("Password", "root")};" + // Ваш пароль от бд в ""
+                $"Password={config.TryGet<string>("Password", "")};" + // Ваш пароль от бд в ""
                 $"Database={config.TryGet<string>("DataBase", "crp11")};" + // Название вашей бд ( какое создадте - такое и будет)
                 $"{config.TryGet<string>("SSL", "SslMode=None;")}";
         }

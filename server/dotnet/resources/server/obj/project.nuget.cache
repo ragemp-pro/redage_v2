@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ctOi4GfdqD/2ziSzkjhp0ts62xox1UiXbIq3iG3y0zkbvQ86/Ns5d3EX3zRELurJeou9ZSye38x/6BvQwnsl2w==",
+  "dgSpecHash": "pxXDdzjm+9Cl+iXOI9qkoWu7LP0wa+/5C6plntfm8IWJ1V4NJj0Sad88ZvJ8LCAhxU4j3v6aLdcqwNGW3RLESQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\admin\\Desktop\\1\\CRP 1.1 old\\dotnet\\resources\\server\\server.csproj",
+  "projectFilePath": "C:\\Users\\admin\\Desktop\\123\\redage_v2\\server\\dotnet\\resources\\server\\server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\admin\\.nuget\\packages\\mysqlconnector\\0.66.0\\mysqlconnector.0.66.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\system.data.sqlite.core\\1.0.113.1\\system.data.sqlite.core.1.0.113.1.nupkg.sha512"
