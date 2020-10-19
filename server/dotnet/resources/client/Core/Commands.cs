@@ -3515,6 +3515,16 @@ namespace NeptuneEvo.Core
         }
         #endregion
 
+        [Command("testnotify", GreedyArg = true)]
+        public static void CMD_testnotify(Player player, int id, int sum, string reason)
+        {
+            Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Уведомление Success", 3000);
+            Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Уведомление Error", 3000);
+            Notify.Send(player, NotifyType.Alert, NotifyPosition.BottomCenter, $"Уведомление Alert", 3000);
+            Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Уведомление Info", 3000);
+            Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, $"Уведомление Info", 3000);
+        }
+
         [Command("ticket", GreedyArg = true)]
         public static void CMD_govTicket(Player player, int id, int sum, string reason)
         {

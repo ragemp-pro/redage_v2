@@ -220,6 +220,7 @@ $(document).ready(() => {
 	registerBtn.on('click', (e) => {
 		e.preventDefault();
 		authPage.removeClass('show');
+		restPage.removeClass('show');
 		regPage.addClass('show');
 	});
 
@@ -227,6 +228,7 @@ $(document).ready(() => {
 	restoreBtn.on('click', (e) => {
 		e.preventDefault();
 		authPage.removeClass('show');
+		regPage.removeClass('show');
 		restPage.addClass('show');
 	});
 
@@ -281,69 +283,174 @@ $(document).ready(() => {
 		return false;
 	});
 
-	$(document)
-		// Выбор персонажа
-		.on('click', '.char', (e) => {
-			slots.canChoose = false;
-			slots.chooseBuy = false;
+	 // Кнопка "Войти"
+    $('.js-btn-enter-1').on('click', () => {
+        mp.trigger('selectChar', 1);
+        return false;
+    });
 
-			var the = $(e.target);
-			if (!the.hasClass('char')) the = the.parents('.char');
+    $('.js-btn-enter-2').on('click', () => {
+        mp.trigger('selectChar', 2);
+        return false;
+    });
 
-			var id = 0;
+    $('.js-btn-enter-3').on('click', () => {
+        mp.trigger('selectChar', 3);
+        return false;
+    });
 
-			if (the.hasClass('col-l')) id = 1;
-			if (the.hasClass('col-m')) id = 2;
-			if (the.hasClass('col-r')) id = 3;
+    // Кнопка "Разблокировать слот"
+    $('.js-unlock-slot-1').on('click', () => {
+        mp.trigger('buyNewSlot', 1);
+        return false;
+    });
 
-			slots.currSlotId = id;
-			slots.currSlot = slots[U.slotNameById(id)];
+    $('.js-unlock-slot-2').on('click', () => {
+        mp.trigger('buyNewSlot', 2);
+        return false;
+    });
 
-			return false;
-		})
-		.on('click', '.char.active:not(.free):not(.non-active)', () => {
-			slots.canChoose = true;
-			var ids = slots.currSlotId - 1;
-			U.trigger('chooseChar', parseInt(slots.uuids[ids]));
-			return false;
-		})
+    $('.js-unlock-slot-3').on('click', () => {
+        mp.trigger('buyNewSlot', 3);
+        return false;
+    });
 
-		// Кнопка "Содание нового персонажа"
-		.on('click', '.char.free.active', () => {
-			slots.is_modal = true;
-			slots.show_modal_new_char = true;
-			return false;
-		})
-		.on('click', '.js-btn-create', () => {
-			let data = $('.form-new-char').toJSON();
-			data = JSON.parse(data);
-			U.trigger('newChar', slots.currSlotId, data["name"], data["surname"]);
-			slots.disable_new_char_btn = true;
-			return false;
-		})
+    // Кнопка "Перенос персонажа"
+    $('.js-transfer-person-submit-1').on('click', () => {
+        let data = $('#transfer-person-1').toJSON();
+        data = JSON.parse(data);
+        mp.trigger('transferChar', 1, data["transfer-person-1__name"], data["transfer-person-1__sername"], data["transfer-person-1__pw"]);
+        return false;
+    });
 
-		// Кнопка "Войти"
-		.on('click', '.choose-chars .choose-the', () => {
-			U.trigger('selectChar', slots.currSlotId);
-			return false;
-		})
-		.on('click', '.choose-chars .buy-the', () => {
-			U.trigger1('buyNewSlot', slots.currSlotId);
-			return false;
-		})
+    $('.js-transfer-person-submit-2').on('click', () => {
+        let data = $('#transfer-person-2').toJSON();
+        data = JSON.parse(data);
+        console.log(`transfer 2 activated ${data["transfer-person-2__name"]} ${data["transfer-person-2__sername"]} ${data["transfer-person-2__pw"]}`)
+        mp.trigger('transferChar', 2, data["transfer-person-2__name"], data["transfer-person-2__sername"], data["transfer-person-2__pw"]);
+        return false;
+    });
 
-		// Кнопка "Разблокировать слот"
-		.on('click', '.char.non-active', () => {
-			slots.chooseBuy = true;
-			return false;
-		})
+    $('.js-transfer-person-submit-3').on('click', () => {
+        let data = $('#transfer-person-3').toJSON();
+        data = JSON.parse(data);
+        mp.trigger('transferChar', 3, data["transfer-person-3__name"], data["transfer-person-3__sername"], data["transfer-person-3__pw"]);
+        return false;
+    });
 
-		// Кнопка "Удалить персонажа" (отдельно на каждый слот)
-		.on('click', '.delet-char .button', () => {
-			slots.is_modal = true;
-			slots.show_modal_delete = true;
-			return false;
-		})
-	;
+    // Кнопка "Создание персонажа"
+    $('.js-create-person-submit-1').on('click', () => {
+        let data = $('#create-person-1').toJSON();
+        data = JSON.parse(data);
+        mp.trigger('newChar', 1, data["new-person-1__name"], data["new-person-1__sername"]);
+        return false;
+    });
 
+    $('.js-create-person-submit-2').on('click', () => {
+        let data = $('#create-person-2').toJSON();
+        data = JSON.parse(data);
+        mp.trigger('newChar', 2, data["new-person-2__name"], data["new-person-2__sername"]);
+        return false;
+    });
+
+    $('.js-create-person-submit-3').on('click', () => {
+        let data = $('#create-person-3').toJSON();
+        data = JSON.parse(data);
+        mp.trigger('newChar', 3, data["new-person-3__name"], data["new-person-3__sername"]);
+        return false;
+    });
+
+    // Кнопка "Удалить персонажа" (отдельно на каждый слот)
+    $('.js-btn-delete-1').on('click', (e) => {
+        e.preventDefault();
+        $('.col-l').addClass('delete opacity');
+    });
+
+    $('.js-btn-delete-2').on('click', (e) => {
+        e.preventDefault();
+        $('.col-m').addClass('delete opacity');
+    });
+
+    $('.js-btn-delete-3').on('click', (e) => {
+        e.preventDefault();
+        $('.col-r').addClass('delete opacity');
+    });
+
+    // Кнопка "Отмена" при удаления персонажа (отдельно на каждый слот)
+    $('.js-delete-cancel-1').on('click', (e) => {
+        e.preventDefault();
+        $('.col-l').removeClass('delete opacity');
+    });
+
+    $('.js-delete-cancel-2').on('click', (e) => {
+        e.preventDefault();
+        $('.col-m').removeClass('delete opacity');
+    });
+
+    $('.js-delete-cancel-3').on('click', (e) => {
+        e.preventDefault();
+        $('.col-r').removeClass('delete opacity');
+    });
+// col-l
+    $('.js-create-new-1').on('click', (e) => {
+        e.preventDefault();
+        $('.col-l').addClass('create');
+    });
+
+    $('.js-create-cancel-1').on('click', (e) => {
+        e.preventDefault();
+        $('.col-l').removeClass('create');
+    });
+
+    $('.js-transfer-person-1').on('click', (e) => {
+        e.preventDefault();
+        $('.col-l').addClass('transfer');
+    });
+
+    $('.js-transfer-cancel-1').on('click', (e) => {
+        e.preventDefault();
+        $('.col-l').removeClass('transfer');
+    });
+
+    // col-m
+    $('.js-create-new-2').on('click', (e) => {
+        e.preventDefault();
+        $('.col-m').addClass('create');
+    });
+
+    $('.js-create-cancel-2').on('click', (e) => {
+        e.preventDefault();
+        $('.col-m').removeClass('create');
+    });
+
+    $('.js-transfer-person-2').on('click', (e) => {
+        e.preventDefault();
+        $('.col-m').addClass('transfer');
+    });
+
+    $('.js-transfer-cancel-2').on('click', (e) => {
+        e.preventDefault();
+        $('.col-m').removeClass('transfer');
+    });
+
+    // col-r
+    $('.js-create-new-3').on('click', (e) => {
+        e.preventDefault();
+        $('.col-r').addClass('create');
+    });
+
+    $('.js-create-cancel-3').on('click', (e) => {
+        e.preventDefault();
+        $('.col-r').removeClass('create');
+    });
+
+    $('.js-transfer-person-3').on('click', (e) => {
+        e.preventDefault();
+        $('.col-r').addClass('transfer');
+    });
+
+    $('.js-transfer-cancel-3').on('click', (e) => {
+        e.preventDefault();
+        $('.col-r').removeClass('transfer');
+    });
 });

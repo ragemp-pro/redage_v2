@@ -1,105 +1,182 @@
-body {
-    font-family: 'Ubuntu', sans-serif;
-    user-select: none;
-}
+	body {
+		font-weight: 100;
+		font-family: ProximaNova, sans-serif;
+		user-select: none;
+	}
 
-.noty_theme__fivestar.noty_bar {
-  margin: 4px 0;
-  overflow: hidden;
-  position: relative;
-  background-color: rgba(0, 0, 0, 0.6);
-  box-shadow: rgba(0, 0, 0, 0.6) 0 0 10px 0; }
-  .noty_theme__fivestar.noty_bar .noty_progressbar {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 4px;
-    width: 100%;
-    background-color: #fff;
-    opacity: 0.8; }
-  .noty_theme__fivestar.noty_bar .noty_body {
-    padding: 1.25em;
-    font-size: 12pt; }
-  .noty_theme__fivestar.noty_bar .noty_buttons {
-    padding: 0 10px .5em 10px; }
+	@font-face {
+		font-family: ProximaNova;
+		src: url(../fonts/ProximaNova-Regular.woff);
+		font-weight: 400;
+		font-style: normal;
+		font-display: swap
+	}
 
-.noty_theme__fivestar.noty_type__alert,
-.noty_theme__fivestar.noty_type__notification {
-  background: linear-gradient(90deg, rgba(196, 196, 196,0.8) 0%, rgba(33,32,43,0.8) 31%);
-  border-radius: 5px;  
-}
+	@font-face {
+		font-family: ProximaNova;
+		src: url(../fonts/ProximaNova-Semibold.woff);
+		font-weight: 500;
+		font-display: swap
+	}
 
-.noty_theme__fivestar.noty_type__alert .text i,
-.noty_theme__fivestar.noty_type__notification .text i {
-  color: #fff; 
-}
+	@font-face {
+		font-family: ProximaNova;
+		src: url(../fonts/ProximaNova-Light.woff);
+		font-weight: 100;
+		font-display: swap
+	}
 
-.noty_theme__fivestar.noty_type__warning {
-	border-bottom: 5px solid #f56d17;
-    border-radius: 22px;
-        height: auto;
-}
+	@font-face {
+		font-family: ProximaNova;
+		src: url(../fonts/ProximaNova-Bold.woff);
+		font-weight: 900;
+		font-style: normal;
+		font-display: swap
+	}
 
-.noty_theme__fivestar.noty_type__warning .text i {
-  color: #ff6a00; 
-      margin-top: -5px;
-}  
+	@font-face {
+		font-family: ProximaNova;
+		src: url(../fonts/ProximaNova-Extrabld.woff);
+		font-weight: 700;
+		font-style: normal;
+		font-display: swap
+	}
 
-.noty_theme__fivestar.noty_type__error {
-	border-bottom: 5px solid #e03c3b;
-    border-radius: 22px;
-    height: 54px;
-}
+	.noty_theme__fivestar.noty_bar {
+		margin: 4px 0;
+		overflow: hidden;
+		position: relative;
+		background-color: rgba(0, 0, 0, 0.6);
+		box-shadow: rgba(0, 0, 0, 0.6) 0 0 10px 0;
+	}
 
-.noty_theme__fivestar.noty_type__error .text i {
-  color: #ff6a00; 
-      margin-top: -5px;
-}
+	.noty_theme__fivestar.noty_bar .noty_progressbar {
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		height: 4px;
+		width: 100%;
+		background-color: #fff;
+		opacity: 0.8;
+	}
 
-.noty_theme__fivestar.noty_type__info,
-.noty_theme__fivestar.noty_type__information {
-	border-bottom: 5px solid #3b83e0;
-    border-radius: 22px;
-    height: 54px;
-}
+	.noty_theme__fivestar.noty_bar .noty_body {
+		padding: 1.25em;
+		font-size: 10pt;
+	}
 
-.noty_theme__fivestar.noty_type__info .text i,
-.noty_theme__fivestar.noty_type__information .text i {
-  color: #ff6a00; 
-      margin-top: -5px;
-}
+	.noty_theme__fivestar.noty_bar .noty_buttons {
+		padding: 0 10px .5em 10px;
+	}
 
-.noty_theme__fivestar.noty_type__success {
-	border-bottom: 5px solid #3b83e0;
-    border-radius: 22px;
-    height: 54px;
-}
+	.noty_theme__fivestar.noty_type__alert,
+	.noty_theme__fivestar.noty_type__notification {
+		background: linear-gradient(90deg, rgba(196, 196, 196, 0.8) 0%, rgba(33, 32, 43, 0.8) 31%);
+		border-radius: 5px;
+	}
 
+	.noty_theme__fivestar.noty_type__alert .text i,
+	.noty_theme__fivestar.noty_type__notification .text i {
+		color: #fff;
+	}
 
-.noty_theme__fivestar.noty_type__success .text i {
-   color: #3b83e0; 
-      margin-top: -5px;
-}
+	.noty_theme__fivestar.noty_type__warning {
+		padding: 1vh;
+		height: auto;
+		margin-bottom: 1vh;
+	}
 
-.text{
-line-height: 1em;
-    /* text-align: center; */
-    font-size: 13pt;
-    margin-top: -3px;
-    color: #fff;
-}
-.text i{
-  float: left;
-  font-size: 34pt;
-  margin-right: 30px;
-}
+	.noty_theme__fivestar.noty_type__warning .border {
+		border-left: 5px solid #f56d17;
+		position: absolute;
+		width: 0vh;
+		height: 30vh;
+		margin-top: -3vh;
+		left: 0vh;
+		box-shadow: #f56d17 0 0 20px 0px;
+	}
 
-#noty_layout__bottomCenter, #noty_layout__topCenter{
-  width: 600px;
-}
-#noty_layout__topLeft, #noty_layout__topRight,
-#noty_layout__bottomLeft, #noty_layout__bottomRight,
-#noty_layout__centerLeft, #noty_layout__centerRight,
-#noty_layout__center{
-  width: 450px;
-}
+	.noty_theme__fivestar.noty_type__error {
+		padding: 1vh;
+		height: auto;
+		margin-bottom: 1vh;
+	}
+
+	.noty_theme__fivestar.noty_type__error .border {
+		border-left: 5px solid #F44336;
+		position: absolute;
+		width: 0vh;
+		height: 30vh;
+		margin-top: -3vh;
+		left: 0vh;
+		box-shadow: #F44336 0 0 20px 0px;
+	}
+
+	.noty_theme__fivestar.noty_type__info,
+	.noty_theme__fivestar.noty_type__information {
+		padding: 1vh;
+		height: auto;
+		margin-bottom: 1vh;
+	}
+
+	.noty_theme__fivestar.noty_type__info,
+	.noty_theme__fivestar.noty_type__information .border {
+		border-left: 5px solid #2196F3;
+		position: absolute;
+		width: 0vh;
+		height: 30vh;
+		margin-top: -3vh;
+		left: 0vh;
+		box-shadow: #2196F3 0 0 20px 0px;
+	}
+
+	.noty_theme__fivestar.noty_type__success {
+		padding: 1vh;
+		height: auto;
+		margin-bottom: 1vh;
+	}
+
+	.noty_theme__fivestar.noty_type__success .border {
+		border-left: 5px solid #8BC34A;
+		position: absolute;
+		width: 0vh;
+		height: 30vh;
+		margin-top: -3vh;
+		left: 0vh;
+		box-shadow: #8BC34A 0 0 20px 0px;
+	}
+
+	.text {
+		line-height: 1em;
+		font-size: 11pt;
+		margin-top: -3px;
+		margin-left: 3vh;
+		color: #ffffffe0;
+		font-weight: 100;
+		font-family: ProximaNova, sans-serif;
+	}
+
+	.noty_theme__fivestar img {
+		position: absolute;
+		margin-top: -0.5vh;
+		margin-left: -4vh;
+	}
+
+	.text i {
+		font-style: initial;
+	}
+
+	#noty_layout__bottomCenter,
+	#noty_layout__topCenter {
+		width: 41vh;
+	}
+
+	#noty_layout__topLeft,
+	#noty_layout__topRight,
+	#noty_layout__bottomLeft,
+	#noty_layout__bottomRight,
+	#noty_layout__centerLeft,
+	#noty_layout__centerRight,
+	#noty_layout__center {
+		width: 450px;
+	}
