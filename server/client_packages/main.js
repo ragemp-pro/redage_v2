@@ -235,7 +235,7 @@ mp.keys.bind(Keys.VK_2, false, function () { // 2 key
 });
 
 mp.keys.bind(Keys.VK_UP, false, function () { // стрелка вверх
-    if (!loggedin || chatActive || editing || global.menuCheck() || cuffed || localplayer.getVariable('InDeath') == true) return;
+    if (!loggedin || chatActive || editing || global.menuCheck() || cuffed || localplayer.getVariable('InDeath') == true || new Date().getTime() - lastCheck < 400) return;
     mp.events.callRemote('openPlayerMenu');
 	mp.game.mobile.createMobilePhone(3);
 	mp.game.mobile.setMobilePhoneScale (0);
