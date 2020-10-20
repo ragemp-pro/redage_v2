@@ -1509,12 +1509,13 @@ namespace NeptuneEvo
         {
             try
             {
-                await OpenPlayerMenu(player);
-                player.SetData("phone", false);
-                uint phoneHash = NAPI.Util.GetHashKey("prop_amb_phone");
+                if (!player.HasData("Phone"))
+                {
+                    await OpenPlayerMenu(player);
+                    uint phoneHash = NAPI.Util.GetHashKey("prop_amb_phone");
 
-                BasicSync.AttachObjectToPlayer(player, phoneHash, 6286, new Vector3(0.11, 0.03, -0.01), new Vector3(85, -15, 120));
-                return;
+                    if (!player.IsInVehicle) BasicSync.AttachObjectToPlayer(player, phoneHash, 6286, new Vector3(0.11, 0.03, -0.01), new Vector3(85, -15, 120));
+                }
             } catch (Exception e) { Log.Write("openPlayerMenu: " + e.Message, nLog.Type.Error); }
         }
 
