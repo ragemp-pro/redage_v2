@@ -1,80 +1,40 @@
-﻿global.editing = false;
-let object = null;
-let posShift = new mp.Vector3(0, 0, 0);
-let rotShift = new mp.Vector3(0, 0, 0);
+﻿var moving_speeds = [0.01, 0.1, 1.0, 5.0, 10.0];
+var moving_speed_idx = 0;
 
-let objPos = new mp.Vector3(0, 0, 0);
-let objRot = new mp.Vector3(0, 0, 0);
-let objModel = '';
+var editing_types = ["Позиция по X", "Позиция по Y", "Высота", "Наклон по X", "Наклон по Y", "Поворот"];
+var editing_type_idx = 0;
 
-mp.events.add('startEditing', (model) => {
-    objModel = model;
+global.editing = false;
+var object = null;
 
-    object = mp.objects.new(mp.game.joaat(model), localPlayer.position, {
-        rotation: localPlayer.rotation,
-        dimension: localPlayer.dimension
-    });
-    object.setCollision(false, false);
-    object.setAlpha(155);
+mp.events.add('startEditing', function (model) {
+    object = mp.objects.new(mp.game.joaat(model), new mp.Vector3(localplayer.position.x+1, localplayer.position.y+1, localplayer.position.z-0.5), //localplayer.getCoords(true),
+        {
+            rotation: new mp.Vector3(0, 0, 0),
+            alpha: 255,
+            dimension: localplayer.dimension
+        });
     editing = true;
-
-    mp.events.call('showHUD', false);
-    mp.game.invoke(getNative("SET_FOLLOW_PED_CAM_VIEW_MODE"), 4);
 });
+
+function updateObject() {
+    if (object == null) return;
+    var model = object.model;
+    var position = object.position;
+    var rot = object.getRotation(2);
+    var pitch = object.getPitch();
+    object.destroy();
+    object = mp.objects.new(model, position,
+        {
+            rotation: new mp.Vector3(0, 0, 0),
+            alpha: 255,
+            dimension: localplayer.dimension
+        });
+    object.setRotation(pitch, rot.y, rot.z, 2, true);
+}
 
 let sc = mp.game.graphics.requestScaleformMovie("instructional_buttons");
 let scInst = 0;
-
-var furnitureObjects = { };
-mp.events.add('loadHouseFurniture', function (data) {
-    mp.events.call('unloadHouseFurniture');
-    data = JSON.parse(data);
-
-    for (let furnid in data) {
-        let obj = mp.objects.new(mp.game.joaat(data[furnid][0]), data[furnid][1],
-            {
-                rotation: data[furnid][2],
-                dimension: localPlayer.dimension
-            });
-        obj.setAlpha(255);
-
-        obj.isFurniture = true;
-        obj._furnid = furnid;
-
-        furnitureObjects[furnid] = obj;
-    }
-});
-
-mp.events.add('loadFurniture', function (id, data) {
-    data = JSON.parse(data);
-
-    let obj = mp.objects.new(mp.game.joaat(data[0]), data[1],
-        {
-            rotation: data[2],
-            dimension: localPlayer.dimension
-        });
-    obj.setAlpha(255);
-
-    obj.isFurniture = true;
-    obj._furnid = id;
-
-    furnitureObjects[id] = obj;
-});
-
-mp.events.add('unloadHouseFurniture', function () {
-    for (let id in furnitureObjects) {
-        if (furnitureObjects[id])
-            furnitureObjects[id].destroy();
-    }
-    furnitureObjects = {};
-});
-
-mp.events.add('unloadFurniture', function (id) {
-    if (furnitureObjects[id] && furnitureObjects[id].isFurniture && furnitureObjects[id]) {
-        furnitureObjects[id].destroy();
-        delete furnitureObjects[id];
-    }
-});
 
 function AddInstructionalStart() {
     scInst = 0;
@@ -85,6 +45,7 @@ function AddInstructionalStart() {
     mp.game.graphics.pushScaleformMovieFunctionParameterInt(200);
     mp.game.graphics.popScaleformMovieFunctionVoid();
 }
+
 function AddInstructionalButton(text, button) //this shit brazy
 {
     mp.game.graphics.pushScaleformMovieFunction(sc, "SET_DATA_SLOT");
@@ -94,6 +55,7 @@ function AddInstructionalButton(text, button) //this shit brazy
     mp.game.graphics.popScaleformMovieFunctionVoid();
     scInst++;
 }
+
 function AddInstructionalButtonCustom(text, button) {
     mp.game.graphics.pushScaleformMovieFunction(sc, "SET_DATA_SLOT");
     mp.game.graphics.pushScaleformMovieFunctionParameterInt(scInst);
@@ -102,6 +64,7 @@ function AddInstructionalButtonCustom(text, button) {
     mp.game.graphics.popScaleformMovieFunctionVoid();
     scInst++;
 }
+
 function AddInstructionalEnd(type) {
     mp.game.graphics.pushScaleformMovieFunction(sc, "DRAW_INSTRUCTIONAL_BUTTONS");
     mp.game.graphics.pushScaleformMovieFunctionParameterInt(type);
@@ -118,75 +81,152 @@ mp.events.add('endEditing', function () {
     object.destroy();
     object = null;
     editing = false;
-    mp.events.call('showHUD', true);
+});
+
+mp.keys.bind(0x26, false, function () { // UP Arrow
+    //mp.gui.chat.push("Old rot: " + new mp.Vector3(object.getRotation(2).x, object.getRotation(2).y, object.getRotation(2).z));
+    if (chatActive || !editing) return;
+    switch (editing_type_idx) {
+        // pos x
+        case 0:
+            var pos = object.position;
+            object.position = new mp.Vector3(pos.x + moving_speeds[moving_speed_idx], pos.y, pos.z);
+            break;
+        // pos y
+        case 1:
+            var pos = object.position;
+            object.position = new mp.Vector3(pos.x, pos.y + moving_speeds[moving_speed_idx], pos.z);
+            break;
+        // pos z
+        case 2:
+            var pos = object.position;
+            object.position = new mp.Vector3(pos.x, pos.y, pos.z + moving_speeds[moving_speed_idx]);
+            break;
+        // rot x
+        case 3:
+            var rot = object.getRotation(2);
+            var pitch = object.getPitch();
+            object.setRotation(pitch + moving_speeds[moving_speed_idx], rot.y, rot.z, 2, true);
+            break;
+        // rot y
+        case 4:
+            var rot = object.getRotation(2);
+            var pitch = object.getPitch();
+            object.setRotation(pitch, rot.y + moving_speeds[moving_speed_idx], rot.z, 2, true);
+            break;
+        // rot z
+        case 5:
+            var rot = object.getRotation(2);
+            var pitch = object.getPitch();
+            object.setRotation(pitch, rot.y, rot.z + moving_speeds[moving_speed_idx], 2, true);
+            break;
+    }
+    //mp.gui.chat.push("New rot Fixes: " + new mp.Vector3(object.getRotation(2).x.toFixed(2), object.getRotation(2).y.toFixed(2), object.getRotation(2).z.toFixed(2)));
+    updateObject();
+});
+
+mp.keys.bind(0x28, false, function () { // DOWN Arrow
+    if (chatActive || !editing) return;
+    switch (editing_type_idx) {
+        // pos x
+        case 0:
+            var pos = object.position;
+            object.position = new mp.Vector3(pos.x - moving_speeds[moving_speed_idx], pos.y, pos.z);
+            break;
+        // pos y
+        case 1:
+            var pos = object.position;
+            object.position = new mp.Vector3(pos.x, pos.y - moving_speeds[moving_speed_idx], pos.z);
+            break;
+        // pos z
+        case 2:
+            var pos = object.position;
+            object.position = new mp.Vector3(pos.x, pos.y, pos.z - moving_speeds[moving_speed_idx]);
+            break;
+        // rot x
+        case 3:
+            var rot = object.getRotation(2);
+            var pitch = object.getPitch();
+            object.setRotation(pitch - moving_speeds[moving_speed_idx], rot.y, rot.z, 2, true);
+            break;
+        // rot y
+        case 4:
+            var rot = object.getRotation(2);
+            var pitch = object.getPitch();
+            object.setRotation(pitch, rot.y - moving_speeds[moving_speed_idx], rot.z, 2, true);
+            break;
+        // rot z
+        case 5:
+            var rot = object.getRotation(2);
+            var pitch = object.getPitch();
+            object.setRotation(pitch, rot.y, rot.z - moving_speeds[moving_speed_idx], 2, true);
+            break;
+    }
+    updateObject();
 });
 
 mp.keys.bind(0x25, false, function () { // LEFT Arrow
     if (chatActive || !editing) return;
-    rotShift.z += 5;
+    editing_type_idx--;
+    if (editing_type_idx < 0) editing_type_idx = editing_types.length - 1;
 });
+
 mp.keys.bind(0x27, false, function () { // RIGHT Arrow
     if (chatActive || !editing) return;
-    rotShift.z -= 5;
+    editing_type_idx++;
+    if (editing_type_idx >= editing_types.length) editing_type_idx = 0;
 });
+
 mp.keys.bind(0x59, false, function () { // Y key
     if (chatActive || !editing) return;
-
-    mp.events.callRemote('acceptEdit', objPos.x.toFixed(3), objPos.y.toFixed(3), objPos.z.toFixed(3), objRot.x.toFixed(3), objRot.y.toFixed(3), objRot.z.toFixed(3), objModel);
-
-    mp.events.call('endEditing', true);
+    var rot = object.getRotation(2);
+    var pitch = object.getPitch();
+    var position = new mp.Vector3(object.position.x.toFixed(3), object.position.y.toFixed(3), object.position.z.toFixed(3));
+    var rotation = new mp.Vector3(rot.x.toFixed(2), rot.y.toFixed(2), rot.z.toFixed(2));
+    mp.events.callRemote('acceptEdit', position.x, position.y, position.z, rotation.x, rotation.y, rotation.z);
+    object.destroy();
+    object = null;
+    editing = false;
 });
+
 mp.keys.bind(0x4E, false, function () { // N key
     if (chatActive || !editing) return;
-
-    mp.events.call('endEditing', true);
+    object.destroy();
+    object = null;
+    editing = false;
     mp.events.callRemote('cancelEdit');
 });
 
-mp.events.add('render', () => {
-    for (let id in furnitureObjects) {
-        if (furnitureObjects[id]) {
-            mp.game.graphics.drawText(`${id}`, [furnitureObjects[id].position.x, furnitureObjects[id].position.y, furnitureObjects[id].position.z + 0.2], {
-                font: 0,
-                color: [255, 255, 255, 185],
-                scale: [0.4, 0.4],
-                outline: true
-            });
-        }
-    }
+mp.keys.bind(0x6B, false, function () { // Add key
+    if (chatActive || !editing) return;
+    moving_speed_idx++;
+    if (moving_speed_idx >= moving_speeds.length) moving_speed_idx = 0;
+});
 
-    if (object === null) {
-        return;
-    }
+mp.keys.bind(0x6D, false, function () { // Subtract key
+    if (chatActive || !editing) return;
+    moving_speed_idx--;
+    if (moving_speed_idx < 0) moving_speed_idx = moving_speeds.length - 1;
+});
+
+mp.events.add('render', () => {
+    if (object === null) return;
 
     AddInstructionalStart();
-    AddInstructionalButton("Повернуть объект", 197);
-    AddInstructionalButton("Повернуть объект", 196);
+    AddInstructionalButton("Следующий режим", 197);
+    AddInstructionalButton("Предыдущий режим", 196);
+    AddInstructionalButton("Управление объектом", 194);
+    AddInstructionalButton("Управление объектом", 195);
+    AddInstructionalButtonCustom("Увеличить скорость", "t_+");
+    AddInstructionalButtonCustom("Уменьшить скорость", "t_-");
     AddInstructionalButtonCustom("Установить", "t_Y");
     AddInstructionalButtonCustom("Отмена", "t_N");
     AddInstructionalEnd(1);
 
-    const camera = mp.cameras.new("gameplay");
-    let distance = 5;
-    let position = camera.getCoord();
-    let direction = camera.getDirection();
-    let endPoint = new mp.Vector3(position.x + direction.x * distance, position.y + direction.y * distance, position.z + direction.z * distance);
-
-    let raycast = mp.raycasting.testPointToPoint(position, endPoint, [1, 16]);
-
-    if (typeof raycast === 'undefined') {
-        raycast = {};
-        raycast.position = endPoint;
-    } else if (typeof object === 'undefined') {
-        return;
-    }
-
-    let rotation = camera.getRot(2);
-
-    object.slide(raycast.position.x, raycast.position.y, raycast.position.z, 100, 100, 100, false);
-    object.setRotation(rotShift.x, rotShift.y, rotation.z + rotShift.z, 1, true);
-    object.placeOnGroundProperly();
-
-    objPos = object.getCoords(true);
-    objRot = new mp.Vector3(rotShift.x, rotShift.y, rotation.z + rotShift.z);
-}, 'furniture');
+    mp.game.graphics.drawText(`Режим редактирования: ${editing_types[editing_type_idx]}\nСкорость: ${moving_speeds[moving_speed_idx]}`, [0.5, 0.9], {
+        font: 0,
+        color: [255, 255, 255, 255],
+        scale: [0.5, 0.5],
+        outline: false
+    });
+});

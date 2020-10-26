@@ -81,23 +81,6 @@ mp.events.add('circleCallback', (index) => {
                         return;
                 }
                 return;
-				            case "Мебель":
-                if (entity == null) return;
-                switch (index) {
-                    case 0:
-                        mp.events.callRemote('furnSelected', entity._furnid, "Открыть инвентарь");
-                        return;
-                    case 1:
-                        mp.events.callRemote('furnSelected', entity._furnid, "Открыть/Закрыть");
-                        return;
-                    case 2:
-                        mp.events.callRemote('furnSelected', entity._furnid, "Переставить");
-                        return;
-                    case 3:
-                        mp.events.callRemote('furnSelected', entity._furnid, "Убрать");
-                        return;
-                }
-                return;
             case "Фракция":
                 if (entity == null) return;
                 circleEntity = entity;

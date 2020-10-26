@@ -18,9 +18,11 @@ namespace NeptuneEvo.Core
         {
             try
             {
-                //var entity = (GTANetworkAPI.Object)arguments[0]; // error "Object referance not set to an instance of an object"
+                // var entity = (GTANetworkAPI.Object)arguments[0]; // error "Object referance not set to an instance of an object"
                 if (entity == null || player == null || !Main.Players.ContainsKey(player)) return;
-                if (entity.GetSharedData<bool>("PICKEDT") == true) {
+                //  if (entity.GetSharedData<bool>("PICKEDT") == true)
+                if (player.HasData("PICKEDT") && player.GetData<bool>("PICKEDT") == true) //вот эту дичь ебался долго!!!
+                {
                     Commands.SendToAdmins(3, $"!{{#d35400}}[PICKUP-ITEMS-EXPLOIT] {player.Name} ({player.Value}) ");
                     return;
                 }
@@ -36,14 +38,16 @@ namespace NeptuneEvo.Core
                                     try
                                     {
                                         NAPI.Entity.DeleteEntity(entity);
-                                    } catch { }
+                                    }
+                                    catch { }
                                 });
                                 player.ResetData("isRemoveObject");
                                 return;
                             }
 
                             var id = entity.GetData<int>("ID");
-                            if (Items.InProcessering.Contains(id)) {
+                            if (Items.InProcessering.Contains(id))
+                            {
                                 entity.SetSharedData("PICKEDT", false);
                                 return;
                             }
@@ -57,7 +61,7 @@ namespace NeptuneEvo.Core
                                 Items.InProcessering.Remove(id);
                                 return;
                             }
-                            
+
                             var tryAdd = nInventory.TryAdd(player, item);
                             if (tryAdd == -1 || (tryAdd > 0 && nInventory.WeaponsItems.Contains(item.Type)))
                             {
@@ -94,15 +98,16 @@ namespace NeptuneEvo.Core
                             if (Main.Players[player].InsideHouseID == -1) return;
                             int houseID = Main.Players[player].InsideHouseID;
                             House house = HouseManager.Houses.FirstOrDefault(h => h.ID == Main.Players[player].InsideHouseID);
-                            if(house == null) return;
-                            if(!house.Owner.Equals(player.Name)) {
+                            if (house == null) return;
+                            if (!house.Owner.Equals(player.Name))
+                            {
                                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Пользоваться мебелью может только владелец дома.", 3000);
                                 return;
                             }
                             var furnID = NAPI.Data.GetEntityData(entity, "ID");
                             HouseFurniture furniture = FurnitureManager.HouseFurnitures[houseID][furnID];
                             var items = FurnitureManager.FurnituresItems[houseID][furnID];
-                            if(items == null) return;
+                            if (items == null) return;
                             player.SetData("OpennedSafe", furnID);
                             player.SetData("OPENOUT_TYPE", FurnitureManager.SafesType[furniture.Name]);
                             Dashboard.OpenOut(player, items, furniture.Name, FurnitureManager.SafesType[furniture.Name]);
@@ -129,7 +134,7 @@ namespace NeptuneEvo.Core
                             player.PlayAnimation("random@domestic", "pickup_low", 39);
                             NAPI.Task.Run(() => { try { player.StopAnimation(); Main.OffAntiAnim(player); } catch { } }, 1700);
                             return;
-                            }
+                        }
                     case "DrillBag":
                         {
                             if (player.HasData("HEIST_DRILL") || player.HasData("HAND_MONEY"))
@@ -138,11 +143,11 @@ namespace NeptuneEvo.Core
                                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"У Вас уже есть дрель или деньги в руках", 3000);
                                 return;
                             }
-                            
+
                             player.SetClothes(5, 41, 0);
                             nInventory.Add(player, new nItem(ItemType.BagWithDrill));
                             player.SetData("HEIST_DRILL", true);
-                            
+
                             NAPI.Task.Run(() => { try { NAPI.Entity.DeleteEntity(entity); } catch { } });
                             Main.OnAntiAnim(player);
                             player.PlayAnimation("random@domestic", "pickup_low", 39);
@@ -243,7 +248,8 @@ namespace NeptuneEvo.Core
                             Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Вы не можете открыть инвентарь машины, пока багажник закрыт", 3000);
                             return;
                         }
-                        if(vehicle.GetData<bool>("BAGINUSE") == true) {
+                        if (vehicle.GetData<bool>("BAGINUSE") == true)
+                        {
                             Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Дождитесь, пока другой человек перестанет пользоваться багажником.", 3000);
                             return;
                         }
@@ -269,7 +275,7 @@ namespace NeptuneEvo.Core
                     return;
                 }
                 player.SetData("SELECTEDPLAYER", target);
-                
+
                 if (arguments.Length == 1) return;
                 var action = arguments[1].ToString();
                 switch (action)
@@ -383,7 +389,7 @@ namespace NeptuneEvo.Core
                                 gender,
                                 lic
                             };
-                            
+
                             string json = Newtonsoft.Json.JsonConvert.SerializeObject(data);
                             Trigger.ClientEvent(player, "licenses", json);
                         }
@@ -460,7 +466,8 @@ namespace NeptuneEvo.Core
 
         public static void playerTransferMoney(Player player, string arg)
         {
-            if(Main.Players[player].LVL < 1) {
+            if (Main.Players[player].LVL < 1)
+            {
                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Передача денег будет доступна начиная с 1 уровня.", 3000);
                 return;
             }
@@ -650,22 +657,28 @@ namespace NeptuneEvo.Core
         }
         public static void playerHandshakeTarget(Player player, Player target)
         {
-            if((!player.HasData("CUFFED") && !player.HasSharedData("InDeath")) || player.HasData("CUFFED") && player.GetData<bool>("CUFFED") == false && player.HasSharedData("InDeath") && player.GetSharedData<bool>("InDeath") == false) {
-                if((!target.HasData("CUFFED") && !target.HasSharedData("InDeath")) || target.HasData("CUFFED") && target.GetData<bool>("CUFFED") == false && target.HasSharedData("InDeath") && target.GetSharedData<bool>("InDeath") == false) {
+            if ((!player.HasData("CUFFED") && !player.HasSharedData("InDeath")) || player.HasData("CUFFED") && player.GetData<bool>("CUFFED") == false && player.HasSharedData("InDeath") && player.GetSharedData<bool>("InDeath") == false)
+            {
+                if ((!target.HasData("CUFFED") && !target.HasSharedData("InDeath")) || target.HasData("CUFFED") && target.GetData<bool>("CUFFED") == false && target.HasSharedData("InDeath") && target.GetSharedData<bool>("InDeath") == false)
+                {
                     target.SetData("HANDSHAKER", player);
                     target.SetData("REQUEST", "HANDSHAKE");
                     target.SetData("IS_REQUESTED", true);
                     Notify.Send(target, NotifyType.Warning, NotifyPosition.BottomCenter, $"Игрок ({player.Value}) хочет пожать Вам руку. Y/N - принять/отклонить", 3000);
                     Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Вы предложили игроку ({target.Value}) пожать руку.", 3000);
-                } else Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Невозможно пожать руку игроку в данный момент", 3000);
-            } else Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Невозможно пожать руку игроку в данный момент", 3000);
+                }
+                else Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Невозможно пожать руку игроку в данный момент", 3000);
+            }
+            else Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Невозможно пожать руку игроку в данный момент", 3000);
         }
         public static void hanshakeTarget(Player player)
         {
             if (!Main.Players.ContainsKey(player) || !player.HasData("HANDSHAKER") || !Main.Players.ContainsKey(player.GetData<Player>("HANDSHAKER"))) return;
             Player target = player.GetData<Player>("HANDSHAKER");
-            if((!player.HasData("CUFFED") && !player.HasSharedData("InDeath")) || player.HasData("CUFFED") && player.GetData<bool>("CUFFED") == false && player.HasSharedData("InDeath") && player.GetSharedData<bool>("InDeath") == false) {
-                if((!target.HasData("CUFFED") && !target.HasSharedData("InDeath")) || target.HasData("CUFFED") && target.GetData<bool>("CUFFED") == false && target.HasSharedData("InDeath") && target.GetSharedData<bool>("InDeath") == false) {
+            if ((!player.HasData("CUFFED") && !player.HasSharedData("InDeath")) || player.HasData("CUFFED") && player.GetData<bool>("CUFFED") == false && player.HasSharedData("InDeath") && player.GetSharedData<bool>("InDeath") == false)
+            {
+                if ((!target.HasData("CUFFED") && !target.HasSharedData("InDeath")) || target.HasData("CUFFED") && target.GetData<bool>("CUFFED") == false && target.HasSharedData("InDeath") && target.GetSharedData<bool>("InDeath") == false)
+                {
                     player.PlayAnimation("mp_ped_interaction", "handshake_guy_a", 39);
                     target.PlayAnimation("mp_ped_interaction", "handshake_guy_a", 39);
 
@@ -702,21 +715,26 @@ namespace NeptuneEvo.Core
                         NAPI.Entity.SetEntityPosition(player, player.Position + new Vector3(0, 0, 0.2));
                     return;
                 }
-                if(category == 6) { // Лицевые эмоции
+                if (category == 6)
+                { // Лицевые эмоции
                     player.SetSharedData("playermood", animation);
                     NAPI.ClientEvent.TriggerClientEventInRange(player.Position, 250, "Player_SetMood", player, animation);
                     return;
-                } else  if(category == 12) { // Стили походки
+                }
+                else if (category == 12)
+                { // Стили походки
                     player.SetSharedData("playerws", animation);
                     NAPI.ClientEvent.TriggerClientEventInRange(player.Position, 250, "Player_SetWalkStyle", player, animation);
                     return;
-                } else {
+                }
+                else
+                {
                     if (animation >= AnimList[category].Count) return;
                     player.PlayAnimation(AnimList[category][animation].Dictionary, AnimList[category][animation].Name, AnimList[category][animation].Flag);
                     if (category == 0 && animation == 0) NAPI.Entity.SetEntityPosition(player, player.Position - new Vector3(0, 0, 0.3));
 
                     if (AnimList[category][animation].Dictionary == "random@arrests@busted" && AnimList[category][animation].Name == "idle_c") player.SetData("HANDS_UP", true);
-                
+
                     player.SetData("LastAnimFlag", AnimList[category][animation].Flag);
                     if (AnimList[category][animation].StopDelay != -1)
                     {
@@ -724,10 +742,12 @@ namespace NeptuneEvo.Core
                         {
                             try
                             {
-                                if (player != null && !player.HasData("AntiAnimDown") && !player.HasData("FOLLOWING")) {
+                                if (player != null && !player.HasData("AntiAnimDown") && !player.HasData("FOLLOWING"))
+                                {
                                     player.StopAnimation();
                                 }
-                            } catch { }
+                            }
+                            catch { }
                         }, AnimList[category][animation].StopDelay);
                     }
                 }
@@ -757,7 +777,7 @@ namespace NeptuneEvo.Core
 
                 new Animation("anim@mp_player_intupperyou_loco", "idle_a", 49),
                 new Animation("anim@mp_player_intupperwave", "idle_a", 49),
-                new Animation("anim@mp_player_intupperv_sign", "idle_a", 49), 
+                new Animation("anim@mp_player_intupperv_sign", "idle_a", 49),
 
             },
             new List<Animation>()
@@ -765,8 +785,8 @@ namespace NeptuneEvo.Core
                 new Animation("amb@world_human_yoga@female@base", "base_a", 39),
                 new Animation("amb@world_human_yoga@male@base", "base_b", 39),
                 new Animation("amb@world_human_sit_ups@male@base", "base", 39),
-                new Animation("amb@world_human_push_ups@male@base", "base", 39), 
-                new Animation("rcmcollect_paperleadinout@", "meditiate_idle", 39), 
+                new Animation("amb@world_human_push_ups@male@base", "base", 39),
+                new Animation("rcmcollect_paperleadinout@", "meditiate_idle", 39),
             },
             new List<Animation>()
             {
@@ -784,7 +804,7 @@ namespace NeptuneEvo.Core
                 new Animation("anim@amb@nightclub@peds@", "mini_strip_club_idles_bouncer_go_away_go_away", 39),
                 new Animation("anim@amb@nightclub@peds@", "mini_strip_club_idles_bouncer_stop_stop", 39),
                 new Animation("anim@amb@nightclub@peds@", "amb_world_human_muscle_flex_arms_in_front_base", 39),
-                new Animation("amb@world_human_muscle_flex@arms_at_side@base", "base", 39), 
+                new Animation("amb@world_human_muscle_flex@arms_at_side@base", "base", 39),
             },
             new List<Animation>()
             {
@@ -827,22 +847,22 @@ namespace NeptuneEvo.Core
             },
             new List<Animation>()
             {
-                new Animation("anim@mp_player_intupperthumbs_up", "idle_a", 49), 
-                new Animation("anim@mp_player_intupperthumb_on_ears", "idle_a", 49), 
-                new Animation("anim@mp_player_intuppersurrender", "idle_a", 49), 
+                new Animation("anim@mp_player_intupperthumbs_up", "idle_a", 49),
+                new Animation("anim@mp_player_intupperthumb_on_ears", "idle_a", 49),
+                new Animation("anim@mp_player_intuppersurrender", "idle_a", 49),
                 new Animation("anim@mp_player_intupperslow_clap", "idle_a", 49),
-                new Animation("anim@mp_player_intupperpeace", "idle_a", 49), 
+                new Animation("anim@mp_player_intupperpeace", "idle_a", 49),
                 new Animation("anim@mp_player_intupperno_way", "idle_a", 49),
                 new Animation("anim@mp_player_intupperjazz_hands", "idle_a", 49),
             },
             new List<Animation>()
             {
-                new Animation("anim@mp_player_intupperfind_the_fish", "idle_a", 49), 
-                new Animation("anim@mp_player_intupperface_palm", "idle_a", 49), 
-                new Animation("anim@mp_player_intupperchicken_taunt", "idle_a", 49), 
-                new Animation("anim@mp_player_intselfiedock", "idle_a", 49), 
-                new Animation("friends@frf@ig_1", "over_here_idle_b", 49), 
-                new Animation("mp_player_int_upperrock", "mp_player_int_rock", 49), 
+                new Animation("anim@mp_player_intupperfind_the_fish", "idle_a", 49),
+                new Animation("anim@mp_player_intupperface_palm", "idle_a", 49),
+                new Animation("anim@mp_player_intupperchicken_taunt", "idle_a", 49),
+                new Animation("anim@mp_player_intselfiedock", "idle_a", 49),
+                new Animation("friends@frf@ig_1", "over_here_idle_b", 49),
+                new Animation("mp_player_int_upperrock", "mp_player_int_rock", 49),
                 new Animation("mp_player_int_upperpeace_sign", "mp_player_int_peace_sign", 49),
             },
             new List<Animation>() // NOT USED
@@ -851,10 +871,10 @@ namespace NeptuneEvo.Core
             },
             new List<Animation>()
             {
-                new Animation("amb@world_human_muscle_flex@arms_at_side@idle_a", "idle_a", 39), 
-                new Animation("amb@world_human_muscle_flex@arms_at_side@idle_a", "idle_c", 39), 
-                new Animation("amb@world_human_muscle_flex@arms_in_front@idle_a", "idle_a", 39), 
-                new Animation("amb@world_human_muscle_flex@arms_in_front@idle_a", "idle_b", 39), 
+                new Animation("amb@world_human_muscle_flex@arms_at_side@idle_a", "idle_a", 39),
+                new Animation("amb@world_human_muscle_flex@arms_at_side@idle_a", "idle_c", 39),
+                new Animation("amb@world_human_muscle_flex@arms_in_front@idle_a", "idle_a", 39),
+                new Animation("amb@world_human_muscle_flex@arms_in_front@idle_a", "idle_b", 39),
             },
         };
 

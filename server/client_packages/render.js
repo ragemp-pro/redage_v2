@@ -96,17 +96,11 @@ mp.keys.bind(0x47, false, function () { // G key
     if (!loggedin || chatActive || entity == null || new Date().getTime() - lastCheck < 1000) return;
     switch (entity.type) {
         case "object":
-            if (entity.getVariable('TYPE') === "DROPPED" || entity.getVariable('TYPE') === "MoneyBag" || entity.getVariable('TYPE') === "DrillBag") {
-                if (entity && mp.objects.exists(entity)) {
-                    mp.events.callRemote('furnSelected', entity);
-                }
-                entity = null;
+            if (entity && mp.objects.exists(entity)) {
+                mp.events.callRemote('oSelected', entity);
             }
-            else {
-                mp.gui.cursor.visible = true;
-                OpenCircle('Мебель', 0);
-            }
-            break;
+            entity = null;
+            return;
         case "player":
             mp.gui.cursor.visible = true;
             OpenCircle('Игрок', 0);
@@ -129,14 +123,7 @@ mp.keys.bind(0x71, false, function () { // F2 key
     if (!loggedin || chatActive || nearestObject == null || new Date().getTime() - lastCheck < 1000) return;
 
     if (nearestObject && nearestObject.type == 'object' && mp.objects.exists(nearestObject)) {
-        if (nearestObject.getVariable('TYPE') === "DROPPED" || nearestObject.getVariable('TYPE') === "MoneyBag" || nearestObject.getVariable('TYPE') === "DrillBag") {
-            mp.events.callRemote('oSelected', nearestObject);
-        }
-        else {
-            mp.gui.cursor.visible = true;
-            OpenCircle('Мебель', 0);
-            entity = nearestObject;
-        }
+        mp.events.callRemote('oSelected', nearestObject);
     }
     else if (nearestObject && mp.players.exists(nearestObject)) {
         entity = nearestObject;
