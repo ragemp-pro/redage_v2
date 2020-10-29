@@ -536,60 +536,6 @@ mp.events.add('fishshop', (json) => {
     let data = JSON.parse(json);
     global.openSM(10, JSON.stringify(data));
 })
-// ATM //
-var atmIndex = 0;
-mp.events.add('openatm', () => {
-    if (global.menuCheck()) return;
-    global.menu.execute('atm.active=1');
-    global.menuOpen();
-});
-mp.events.add('closeatm', () => {
-    global.menuClose();
-    global.menu.execute('atm.reset();atm.active=0');
-})
-mp.events.add('setatm', (num, name, bal, sub) => {
-    global.menu.execute(`atm.set('${num}','${name}','${bal}','${sub}')`);
-})
-mp.events.add('setbank', (bal) => {
-    global.menu.execute(`atm.balance="${bal}"`);
-})
-mp.events.add('atmCB', (type, data) => {
-    mp.events.callRemote('atmCB', type, data);
-})
-atmTcheck = 0;
-mp.events.add('atmVal', (data) => {
-    if (new Date().getTime() - atmTcheck < 1000) {
-        mp.events.callRemote('atmDP');
-    } else {
-        mp.events.callRemote('atmVal', data);
-        atmTcheck = new Date().getTime();
-    }
-})
-mp.events.add('atmOpen', (data) => {
-    global.menu.execute(`atm.open(${data})`);
-})
-mp.events.add('atmOpenBiz', (data1, data2) => {
-    global.menu.execute(`atm.open([3, ${data1}, ${data2}])`);
-})
-mp.events.add('atm', (index, data) => {
-    if (index == 4) {
-        ATMTemp = data;
-        global.menu.execute('atm.change(44)');
-    }
-    else if (index == 44) {
-        mp.events.callRemote('atm', 4, data, ATMTemp);
-        global.menu.execute('atm.reset()');
-        return;
-    }
-    else if (index == 33) {
-        mp.events.callRemote('atm', 3, data, ATMTemp);
-    }
-    else {
-        mp.events.callRemote('atm', index, data);
-        global.menu.execute('atm.reset()');
-    }
-})
-let ATMTemp = "";
 // ELEVATOR //
 var liftcBack = "";
 function openLift(type, cBack) {

@@ -30,6 +30,11 @@ namespace NeptuneEvo.GUI
             {0, "Игрок" },
             {16, "Администратор" }
         };
+        private static Dictionary<int, string> Gender = new Dictionary<int, string>
+        {// Group id, Status
+            {0, "Женский" },
+            {1, "Мужской" }
+        };
 
         [RemoteEvent("Inventory")]
         public void ClientEvent_Inventory(Player player, params object[] arguments)
@@ -53,7 +58,7 @@ namespace NeptuneEvo.GUI
                             item = items[index];
                             if (data == "drop")
                             {//remove one item from player inventory
-                                if(item.Type == ItemType.GasCan)
+                                if (item.Type == ItemType.GasCan)
                                 {
                                     Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Возможность выкладывать канистры временно отключена", 3000);
                                     return;
@@ -99,7 +104,8 @@ namespace NeptuneEvo.GUI
                                     sendItems(player);
                                     return;
                                 }
-                                if(player.IsInVehicle) {
+                                if (player.IsInVehicle)
+                                {
                                     Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Нельзя выбрасывать вещи, находясь в машине", 3000);
                                     return;
                                 }
@@ -119,7 +125,8 @@ namespace NeptuneEvo.GUI
                                 try
                                 {
                                     Log.Debug($"ItemID: {item.ID} | ItemType: {item.Type} | ItemData: {item.Data} | ItemName: {nInventory.ItemsNames[(int)item.Type]}");
-                                    if (player.HasData("CHANGE_WITH")) {
+                                    if (player.HasData("CHANGE_WITH"))
+                                    {
                                         Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Чтобы использовать вещи, нужно закрыть обмен вещами", 3000);
                                         return;
                                     }
@@ -368,7 +375,7 @@ namespace NeptuneEvo.GUI
                                                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Максимум 5 ключей", 3000);
                                                 return;
                                             }
-                                            
+
                                             if (item.Type != ItemType.CarKey)
                                             {
                                                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Применимо только для ключей", 3000);
@@ -661,10 +668,12 @@ namespace NeptuneEvo.GUI
                             }
                             break;
                         }
-                    case 20: 
+                    case 20:
                         {
-                            if(Main.Players[player].AdminLVL >= 6 && Main.Players[player].InsideHouseID == -1) {
-                                if (!player.HasData("CHANGE_WITH")) {
+                            if (Main.Players[player].AdminLVL >= 6 && Main.Players[player].InsideHouseID == -1)
+                            {
+                                if (!player.HasData("CHANGE_WITH"))
+                                {
                                     Close(player);
                                     return;
                                 }
@@ -738,7 +747,8 @@ namespace NeptuneEvo.GUI
             {
                 if (player.HasData("OPENOUT_TYPE") && player.GetData<int>("OPENOUT_TYPE") == 20) sendItems(player);
 
-                if(player.HasData("SELECTEDVEH")) {
+                if (player.HasData("SELECTEDVEH"))
+                {
                     Vehicle vehicle = player.GetData<Vehicle>("SELECTEDVEH");
                     vehicle.SetData("BAGINUSE", false);
                 }
@@ -750,12 +760,12 @@ namespace NeptuneEvo.GUI
                     Close(player.GetData<Player>("CHANGE_WITH"));
                     NAPI.Data.ResetEntityData(player.GetData<Player>("CHANGE_WITH"), "CHANGE_WITH");
                     player.ResetData("CHANGE_WITH");
-                    if(Main.Players[player].AdminLVL != 0) sendStats(player);
+                    if (Main.Players[player].AdminLVL != 0) sendStats(player);
                 }
             }
             catch (Exception e) { Log.Write($"CloseInventory: " + e.Message, nLog.Type.Error); }
         }
-        
+
         public static void Close(Player player, bool resetOpenOut = false)
         {
             int data = (resetOpenOut) ? 11 : 1;
@@ -784,25 +794,26 @@ namespace NeptuneEvo.GUI
                 string work = (acc.WorkID > 0) ? Jobs.WorkManager.JobStats[acc.WorkID - 1] : "Безработный";
                 string fraction = (acc.FractionID > 0) ? Fractions.Manager.FractionNames[acc.FractionID] : "Нет";
 
+
                 string number = (acc.Sim == -1) ? "Нет сим-карты" : Main.Players[player].Sim.ToString();
+
 
                 List<object> data = new List<object>
                 {
-                    acc.LVL,
-                    $"{acc.EXP}/{3 + acc.LVL * 3}",
-                    number,
-                    status,
-                    0,
-                    acc.Warns,
-                    lic,
-                    acc.CreateDate.ToString("dd.MM.yyyy"),
-                    acc.UUID,
-                    acc.Bank,
-                    work,
-                    fraction,
-                    acc.FractionLVL,
-                    acc.Eat,
-                    acc.Water,
+                    acc.LVL, //0
+                    $"{acc.EXP}/{3 + acc.LVL * 3}", //1
+                    number, //2
+                    status, //3
+                    acc.Warns,//4
+                    lic,//5
+                    acc.CreateDate.ToString("dd.MM.yyyy"),//6
+                    work,//7
+                    fraction,//8
+                    acc.FractionLVL,//9
+                    acc.FirstName,//10
+                    acc.LastName,//11
+                    acc.UUID,//12
+                    acc.Bank,//13
                 };
 
                 string json = JsonConvert.SerializeObject(data);
@@ -836,28 +847,29 @@ namespace NeptuneEvo.GUI
                     if (acc.Licenses[i]) lic += $"{Main.LicWords[i]} / ";
                 if (lic == "") lic = "Отсутствуют";
 
-                string work = (acc.WorkID > 0) ? Jobs.WorkManager.JobStats[acc.WorkID - 1] : "Безработный";
-                string fraction = (acc.FractionID > 0) ? Fractions.Manager.FractionNames[acc.FractionID] : "Нет";
+                string work = (acc.WorkID > 0) ? Jobs.WorkManager.JobStats[acc.WorkID - 1] : "Отсутствует";
+                string fraction = (acc.FractionID > 0) ? Fractions.Manager.FractionNames[acc.FractionID] : "Отсутствует";
 
                 string number = (acc.Sim == -1) ? "Нет сим-карты" : Main.Players[player].Sim.ToString();
 
+
+
                 List<object> data = new List<object>
                 {
-                    acc.LVL,
-                    $"{acc.EXP}/{3 + acc.LVL * 3}",
-                    number,
-                    status,
-                    0,
-                    acc.Warns,
-                    lic,
-                    acc.CreateDate.ToString("dd.MM.yyyy"),
-                    acc.UUID,
-                    acc.Bank,
-                    work,
-                    fraction,
-                    acc.FractionLVL,
-                    acc.LVL,
-                    acc.LVL,
+                    acc.LVL, //0
+                    $"{acc.EXP}/{3 + acc.LVL * 3}", //1
+                    number, //2
+                    status, //3
+                    acc.Warns,//4
+                    lic,//5
+                    acc.CreateDate.ToString("dd.MM.yyyy"),//6
+                    work,//7
+                    fraction,//8
+                    acc.FractionLVL,//9
+                    acc.FirstName,//10
+                    acc.LastName,//11
+                    acc.UUID,//12
+                    acc.Bank,//13
                 };
 
                 string json = JsonConvert.SerializeObject(data);
@@ -941,11 +953,11 @@ namespace NeptuneEvo.GUI
                 Log.Write("EXCEPTION AT \"DASHBOARD_SENDITEMS\":\n" + e.ToString(), nLog.Type.Error);
             }
         }
-        public static void Open(Player client)
+        public static void Open(Player Player)
         {
-            Trigger.ClientEvent(client, "board", 0);
+            Trigger.ClientEvent(Player, "board", 0);
         }
-        public static void OpenOut(Player client, List<nItem> items, string title, int type = 1)
+        public static void OpenOut(Player Player, List<nItem> items, string title, int type = 1)
         {
             try
             {
@@ -969,10 +981,10 @@ namespace NeptuneEvo.GUI
 
                 string json = JsonConvert.SerializeObject(data);
                 Log.Debug(json);
-                client.SetData("OPENOUT_TYPE", type);
-                Trigger.ClientEvent(client, "board", 4, json);
-                Trigger.ClientEvent(client, "board", 5, true);
-                Trigger.ClientEvent(client, "board", 0);
+                Player.SetData("OPENOUT_TYPE", type);
+                Trigger.ClientEvent(Player, "board", 4, json);
+                Trigger.ClientEvent(Player, "board", 5, true);
+                Trigger.ClientEvent(Player, "board", 0);
             }
             catch (Exception e)
             {
@@ -980,7 +992,7 @@ namespace NeptuneEvo.GUI
             }
         }
 
-        public static void Update(Player client, nItem item, int index)
+        public static void Update(Player Player, nItem item, int index)
         {
             List<object> idata = new List<object>
                     {
@@ -990,9 +1002,9 @@ namespace NeptuneEvo.GUI
                         (nInventory.WeaponsItems.Contains(item.Type) || item.Type == ItemType.StunGun) ? "Serial: " + item.Data : (item.Type == ItemType.CarKey) ? $"{(string)item.Data.Split('_')[0]}" : ""
                     };
             string json = JsonConvert.SerializeObject(idata);
-            Trigger.ClientEvent(client, "board", 6, json, index);
+            Trigger.ClientEvent(Player, "board", 6, json, index);
         }
-        public static async Task UpdateAsync(Player client, nItem item, int index)
+        public static async Task UpdateAsync(Player Player, nItem item, int index)
         {
             try
             {
@@ -1004,7 +1016,7 @@ namespace NeptuneEvo.GUI
                         (nInventory.WeaponsItems.Contains(item.Type) || item.Type == ItemType.StunGun) ? "Serial: " + item.Data : (item.Type == ItemType.CarKey) ? $"{(string)item.Data.Split('_')[0]}" : ""
                     };
                 string json = JsonConvert.SerializeObject(idata);
-                NAPI.Task.Run(() => Trigger.ClientEvent(client, "board", 6, json, index));
+                NAPI.Task.Run(() => Trigger.ClientEvent(Player, "board", 6, json, index));
             }
             catch (Exception e) { Log.Write("UpdateAsync: " + e.Message); }
         }

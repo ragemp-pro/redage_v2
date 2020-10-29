@@ -2,6 +2,23 @@
 var cruiseSpeed = -1;
 var cruiseLastPressed = 0;
 var showHint = true;
+
+var hudstatus =
+{
+    safezone: null, // Last safezone size
+    online: 0, // Last online int
+
+    street: null,
+    area: null,
+
+    invehicle: false,
+    updatespeedTimeout: 0, // Timeout for optimization speedometer
+    engine: false,
+    belt: false,
+    doors: true,
+    fuel: 0,
+    health: 0
+}
 let fishingState = 0;
 let fishingSuccess = 0;
 let fishingBarPosition = 0;
@@ -15,60 +32,76 @@ let isInZone = false;
 let isShowPrompt = false;
 let isEnter = false;
 let isjoinTable = false;
+const checkConditions = () => {
+  /*  mp.gui.chat.push("RodInHand "+localplayer.getVariable('RodInHand'));*/
+    return (
+        localplayer.getVariable('RodInHand') == true&&
+        !localplayer.isSwimming() &&
+        !localplayer.vehicle &&
+        !localplayer.getVehicleIsTryingToEnter() &&
+        !localplayer.isInAir() &&
+        !localplayer.isJumping() &&
+        !localplayer.isDiving() &&
+        !localplayer.isEvasiveDiving() &&
+        !localplayer.isFalling() &&
+        !localplayer.isSwimmingUnderWater() &&
+        !localplayer.isClimbing()
+    );
+};
+mp.keys.bind(Keys.VK_E, false, function () {
+    if (global.menuOpened || global.chatActive || editing) return;
+    if (!checkConditions())return;
+    if (isEnter || !isInZone) return;
+    mp.events.callRemote('fishing');
 
-var hudstatus =
-{
-    safezone: null, // Last safezone size
-    online: 0, // Last online int
+});
+mp.events.add('startPlayerFishing', () => {
 
-    street: null,
-    area: null,
-
-    invehicle: false,
-    updatespeedTimeout: 0, // Timeout for optimization speedometer
-    engine: false,
-	belt: false,
-    doors: true,
-    fuel: 0,
-    health: 0
-}
-mp.events.add('fishingBaitTaken', () => {
-	fishingBarMin = 0.277;
+    fishingBarMin = 0.277;
     fishingBarMax = 0.675;
-	fishingAchieveStart = Math.random() * 0.39 + fishingBarMin;
     isEnter=true;
+    fishingState = 2;
     fishingBarPosition = 0.476;
+    mp.events.callRemote('startFishingTimer');
+});
+mp.events.add('fishingBaitTaken', () => {
+    fishingAchieveStart = Math.random() * 0.39 + fishingBarMin;
     fishingSuccess = 0;
     fishingState = 3;
 });
-mp.events.add('UpdateEat', function (temp, amount) {
-    mp.gui.execute(`HUD.eat=${temp}`);
-});
 
-mp.events.add('UpdateWater', function (temp, amount) {
-    mp.gui.execute(`HUD.water=${temp}`);
-});
 function drawFishingMinigame() {
 
        if(mp.game.controls.isControlPressed(0, 24) && mp.game.controls.isControlJustPressed(0, 24)) {
             switch(fishingState) {
             case 2:
+
                 fishingState = -1;
-                mp.events.callRemote('stopFishDrop');
+                mp.events.callRemote('fishingCanceled');
                 isEnter=false;
                 break;
             case 3:
                 if(fishingBarPosition > fishingAchieveStart-0.01 && fishingBarPosition < fishingAchieveStart+0.01) {
                     fishingSuccess++;
-                    if(fishingSuccess == 1) {
+                    if(fishingSuccess == 3) {
                         fishingState = -1;
+
                         let heading = localplayer.getHeading() + 90;
                         let point = {
                             x: localplayer.position.x + 15*Math.cos(heading * Math.PI / 180.0),
                             y: localplayer.position.y + 15*Math.sin(heading * Math.PI / 180.0),
                             z: localplayer.position.z
                         }
-                        mp.events.callRemote('giveRandomFish');
+                        let water = Math.abs(mp.game.water.getWaterHeight(point.x, point.y, point.z, 0));
+                        let ground = mp.game.gameplay.getGroundZFor3dCoord(point.x, point.y, point.z, 0.0, false);
+                        let depth;
+                        if (ground === 0) {
+                            depth = 420;
+                        } else {
+                            depth = water - ground;
+                        }
+
+                        mp.events.callRemote('fishingSuccess',depth);
                         isEnter=false;
                     } else {
 
@@ -78,27 +111,39 @@ function drawFishingMinigame() {
                     }
                 } else {
                     fishingState = -1;
-                    mp.events.callRemote('stopFishDrop');
+                    mp.events.callRemote('fishingFailed');
                     isEnter=false;
                 }
                 break;
         }
+
+
         return;
     }
 
     if(fishingState == 3) {
-        mp.game.graphics.drawRect(0.47, 0.2, 0.39, 0.025, 60, 60, 60, 120);
-		// x y w h r g b a
+
+
+        mp.game.graphics.drawRect(0.45, 0.2, 0.5, 0.025, 0, 0, 0, 200);
+
+
         mp.game.graphics.drawRect(fishingAchieveStart, 0.2, 0.030, 0.025, 0, 255, 0, 255);
+
+
         mp.game.graphics.drawRect(fishingBarPosition, 0.19, 0.002, 0.026, 255, 255, 255, 255);
+
         if(movementRight) {
+
             fishingBarPosition += 0.001;
+
             if(fishingBarPosition > fishingBarMax) {
                 fishingBarPosition = fishingBarMax;
                 movementRight = false;
             }
         } else {
+
             fishingBarPosition -= 0.001;
+
             if(fishingBarPosition < fishingBarMin) {
                 fishingBarPosition = fishingBarMin;
                 movementRight = true;
@@ -117,12 +162,20 @@ mp.events.add('showHUD', (show) => {
     if (!show) mp.gui.execute(`hidehelp(${!showhud})`);
     else if (show && showHint) mp.gui.execute(`hidehelp(${!showhud})`);
 
-    if(show) mp.gui.execute(`logotype.server=${serverid};`);
+    if (show) {
+        mp.gui.execute(`HUD.server=${serverid};`);
+        mp.gui.execute(`HUD.playerId=${mp.players.local.remoteId}`);
+    }
     mp.gui.execute(`hidehud(${!showhud})`);
+
 
     var screen = mp.game.graphics.getScreenActiveResolution(0,0);
     mp.gui.execute(`updateSafeZoneSize(${screen.x},${screen.y},${hudstatus.safezone})`);
-
+	
+	var playerId = localplayer.getVariable('REMOTE_ID');
+	
+	mp.gui.execute(`HUD.playerId='${playerId}'`);
+	
     mp.game.ui.displayAreaName(showhud);
     mp.game.ui.displayRadar(showhud);
     mp.game.ui.displayHud(showhud);
@@ -130,20 +183,118 @@ mp.events.add('showHUD', (show) => {
 });
 
 mp.events.add('UpdateMoney', function (temp, amount) {
-    mp.gui.execute(`HUD.money=${temp}`);
+    let money = temp.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1 ");
+    mp.gui.execute(`HUD.money="${money}"`);
 });
 
 mp.events.add('UpdateBank', function (temp, amount) {
-    mp.gui.execute(`HUD.bank=${temp}`);
+    let money = temp.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1 ");
+    mp.gui.execute(`HUD.bank="${money}"`);
 });
 
 mp.events.add('setWanted', function (lvl) {
     mp.game.gameplay.setFakeWantedLevel(lvl);
 });
+var blips = {};
+class BlipHelper {
+    static createBlip(name, position, color) {
+        if (blips.length != 0 && blips[name] !== undefined && blips[name] !== null) {
+            blips[name].destroy();
+            blips[name] = null;
+        }
 
+        var blip = mp.blips.new(1, position, {
+            name: name,
+            color: color,
+
+            shortRange: false,
+        });
+        blips[name] = blip;
+        return blip;
+    }
+    static createBlipExt(name, position, color, size, sprite = 0, shortRange = false, bname = null) {
+        if (blips.length != 0 && blips[name] !== undefined && blips[name] !== null) {
+            blips[name].destroy();
+            blips[name] = null;
+        }
+        var blip;
+
+        if (bname == null) {
+            blip = mp.blips.new(1, position, {
+                //name: name,
+                color: color,
+                scale: size,
+                shortRange: false,
+            });
+        } else {
+            blip = mp.blips.new(1, position, {
+                name: bname,
+                color: color,
+                scale: size,
+                shortRange: false,
+            });
+        }
+
+        blips[name] = blip;
+        blips[name].setColour(color);
+        blips[name].setAsShortRange(shortRange);
+        blips[name].setScale(size);
+        blips[name].name = name;
+
+
+
+        if (sprite != 0) blips[name].setSprite(sprite);
+        return blip;
+    }
+
+    static removeBlip(name) {
+        if (blips.length != 0 && blips[name] !== undefined && blips[name] !== null) {
+            blips[name].destroy();
+            blips[name] = null;
+        }
+        //mp.game.ui.removeBlip(blips[name]);
+        //blips[name] = null;
+    }
+
+    static moveBlip(name, position) {
+        if (blips[name] == null) {
+            return;
+        }
+        blips[name].setCoords(position);
+    }
+
+    static colorBlip(name, color) {
+        if (blips[name] == null) {
+            return;
+        }
+        blips[name].setColour(color);
+    }
+
+    static SetRoute(name, enabled) {
+        if (blips[name] == null) {
+            return;
+        }
+        blips[name].setRoute(enabled);
+    }
+}
+mp.events.add('blip_create_ext', function (name, position, color, size, sprite = 0, range = false, bname = null) {
+    BlipHelper.createBlipExt(name, position, color, size, sprite, range, bname);
+    BlipHelper.colorBlip(name, color);
+});
+mp.events.add('blip_remove', function (name) {
+    BlipHelper.removeBlip(name);
+});
+mp.events.add('blip_move', function (name, position) {
+    BlipHelper.moveBlip(name, position);
+});
+mp.events.add('blip_color', function (name, color) {
+    BlipHelper.colorBlip(name, color);
+});
 mp.keys.bind(Keys.VK_F5, false, function () { // F5 key
-    if (global.menuOpened) return;
-
+    if (global.menuOpened) {
+        global.menuClose();
+        mp.gui.cursor.visible = false;
+    }
     if (global.showhud && showHint) {
         showHint = false;
         mp.gui.execute(`hidehelp(${!showHint})`);
@@ -159,31 +310,28 @@ mp.keys.bind(Keys.VK_F5, false, function () { // F5 key
         mp.events.call('showHUD', global.showhud);
     }
 });
-
 mp.keys.bind(Keys.VK_K, false, function () { // belt system
-if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 400 || global.menuOpened) return;
-if (localplayer.isInAnyVehicle(false)) {
-lastCheck = new Date().getTime();
+    if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 400 || global.menuOpened) return;
+    if (localplayer.isInAnyVehicle(false)) {
+        lastCheck = new Date().getTime();
 
-if(hudstatus.belt)
-{
-localplayer.setConfigFlag(32, true);
-mp.events.call('notify', 4, 9, "Вы отстегнули ремень безопасности", 2000);
-}
-else
-{
-localplayer.setConfigFlag(32, false);
-mp.events.call('notify', 2, 9, "Вы пристегнули ремень безопасности", 2000);
-}
+        if (hudstatus.belt) {
+            localplayer.setConfigFlag(32, true);
+            mp.events.call('notify', 0, 2, "Вы отстегнули ремень безопасности", 2000);
+        }
+        else {
+            localplayer.setConfigFlag(32, false);
+            mp.events.call('notify', 0, 2, "Вы пристегнули ремень безопасности", 2000);
+        }
 
-hudstatus.belt = !hudstatus.belt;
-mp.gui.execute(`HUD.belt=${hudstatus.belt}`);
+        hudstatus.belt = !hudstatus.belt;
+        mp.gui.execute(`HUD.belt=${hudstatus.belt}`);
 
-var testBelt = localplayer.getConfigFlag(32, true);
-//mp.gui.chat.push(`flag32: ` + testBelt + ` hud.belt ` + hudstatus.belt);
+        var testBelt = localplayer.getConfigFlag(32, true);
+        //mp.gui.chat.push(`flag32: ` + testBelt + ` hud.belt ` + hudstatus.belt);
 
-mp.events.callRemote('beltCarPressed', testBelt);
-}
+        mp.events.callRemote('beltCarPressed', testBelt);
+    }
 });
 
 // CRUISE CONTROL //
@@ -271,7 +419,7 @@ mp.events.add('sendRPMessage', (type, msg, players) => {
 			if(player.getVariable('IS_MASK') == true) {
 				name = (player === localplayer || localplayer.getVariable('IS_ADMIN') == true) ? `${player.name.replace("_", " ")} (${player.getVariable('REMOTE_ID')})` : `Незнакомец (${id})`;
 			} else {
-				name = (player === localplayer || localplayer.getVariable('IS_ADMIN') == true || passports[player.name] != undefined || friends[player.name] != undefined) ? `${player.name.replace("_", " ")} (${player.getVariable('REMOTE_ID')})` : `Незнакомец (${id})`;
+				name = (player === localplayer || localplayer.getVariable('IS_ADMIN') == true || passports[player.name] != undefined || mp.storage.data.friends[player.name] != undefined) ? `${player.name.replace("_", " ")} (${player.getVariable('REMOTE_ID')})` : `Незнакомец (${id})`;
 			}
             msg = msg.replace("{name}", name);
         }
@@ -286,8 +434,7 @@ mp.events.add('sendRPMessage', (type, msg, players) => {
 mp.events.add('render', (nametags) => {
 
     if (!global.loggedin) return;
-	
-	if(fishingState > 0) {
+    if(fishingState > 0) {
         drawFishingMinigame();
     }
     // Disable HUD components.    
@@ -306,9 +453,50 @@ mp.events.add('render', (nametags) => {
     if (hudstatus.online != mp.players.length) {
 
         hudstatus.online = mp.players.length;
-        mp.gui.execute(`logotype.online=${hudstatus.online}`);
+        mp.gui.execute(`HUD.online=${hudstatus.online}`);
     }
+  if (checkConditions()) {
 
+          if (!isIntervalCreated) {
+            isIntervalCreated = true;
+            intervalFishing = mp.timer.addInterval(() => {
+                let heading = localplayer.getHeading() + 90;
+                let point = {
+                    x: localplayer.position.x + 15*Math.cos(heading * Math.PI / 180.0),
+                    y: localplayer.position.y + 15*Math.sin(heading * Math.PI / 180.0),
+                    z: localplayer.position.z
+                };
+               let ground = mp.game.gameplay.getGroundZFor3dCoord(point.x, point.y, point.z, 0.0, false);
+               let water = Math.abs(mp.game.water.getWaterHeight(point.x, point.y, point.z, 0));
+                // debug(`water: ${water} | ground: ${ground}`);
+
+                if (water > 0 && ground < water && ground != 0) {
+                    /*  mp.gui.chat.push("RodInHand "+localplayer.getVariable('RodInHand'));*/
+                    
+                    isShowPrompt = true;
+                    isInZone = true;
+                    mp.gui.execute(`prompt.showByName('fishing')`);
+                } else {
+                    if (isShowPrompt) {
+                        mp.gui.execute(`prompt.hide()`);
+                        isShowPrompt = false;
+                    }
+                    isInZone = false;
+                }
+            }, 1000);
+        }
+    }
+    else {
+        if (isIntervalCreated) {
+               mp.gui.execute(`prompt.hide()`);
+            isInZone = false;
+            isShowPrompt = false;
+            mp.timer.remove(intervalFishing);
+            isIntervalCreated = false;
+        }
+    }
+    if(localplayer.getVariable('RodInHand') == false)
+        isIntervalCreated=false;
     // Update street & district
     var street = mp.game.pathfind.getStreetNameAtCoord(localplayer.position.x, localplayer.position.y, localplayer.position.z, 0, 0);
     let area  = mp.game.zone.getNameOfZone(localplayer.position.x, localplayer.position.y, localplayer.position.z);
@@ -404,7 +592,15 @@ mp.events.add('render', (nametags) => {
     {
         if (hudstatus.invehicle) mp.gui.execute(`HUD.inVeh=0`);
         hudstatus.invehicle = false;
-		hudstatus.belt = false;
+        hudstatus.belt = false;
         mp.gui.execute(`HUD.belt=${hudstatus.belt}`);
     }
+});
+
+mp.events.add('UpdateEat', function (temp, amount) {
+    mp.gui.execute(`HUD.eat=${temp}`);
+});
+
+mp.events.add('UpdateWater', function (temp, amount) {
+    mp.gui.execute(`HUD.water=${temp}`);
 });

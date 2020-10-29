@@ -34,7 +34,6 @@
     <link rel="stylesheet" href="css/input.css">
     <link rel="stylesheet" href="css/joblist.css">
     <link rel="stylesheet" href="css/menu.css">
-    <link rel="stylesheet" href="css/atm.css">
     <link rel="stylesheet" href="css/lift.css">
     <link rel="stylesheet" href="css/petrol.css">
     <link rel="stylesheet" href="css/fmenu.css">
@@ -131,74 +130,6 @@
             <div id="btn1" class="btn exit" style="display:none">Выйти</div>
             <div id="btn2" class="btn resign" style="display:none">Уволиться</div>
             <div id="btn3" class="btn exit big" style="display:none">Выйти</div>
-        </div>
-    </div>
-    <div class="atm" v-if="active">
-		<div class="left">
-			<div class="number">
-				<img src="http://m99606v6.beget.tech/1/items/number.png" class="png1">
-				<p class="lex">Номер Счёта</p>
-				<p id="number">{{number}}</p>
-			</div>
-			<div class="holder">
-				<img src="http://m99606v6.beget.tech/1/items/holder.png" class="png1">
-				<p class="lex">Владелец счёта</p>
-				<p id="holder">{{holder}}</p>
-			</div>
-			<div class="balance">
-				<img src="http://m99606v6.beget.tech/1/items/balance.png" class="png1">
-				<p class="lex">В банке</p>
-				<p id="balance">{{balance}}$</p>
-			</div>
-        </div>
-        <div class="right">
-            <div v-if="type == 1">
-				<div class="blintik">
-					<div @click="btn" id="0" class="block">
-						<img src="http://m99606v6.beget.tech/1/items/shared.png" class="png2">
-						<p id="0">Внести средства</p>
-					</div>
-					<div @click="btn" id="1" class="block1">
-						<img src="http://m99606v6.beget.tech/1/items/received.png" class="png2">
-						<p id="1">Вывести средства</p>
-					</div>
-					<div @click="btn" id="2" class="block2">
-						<img src="http://m99606v6.beget.tech/1/items/home.png" class="png2">
-						<p id="2">Внести налог за дом</p>
-					</div>
-					<div @click="btn" id="3" class="block3">
-						<img src="http://m99606v6.beget.tech/1/items/store.png" class="png2">
-						<p id="3">Внести налог за бизнес</p>
-					</div>
-					<div @click="btn" id="4" class="block4">
-						<img src="http://m99606v6.beget.tech/1/items/article.png" class="png2">
-						<p id="4">Перевести на другой счет</p>
-					</div>
-				</div>
-                <div @click="btn" id="-1" class="block5"><p id="-1" style="padding: 7px;font-size: 19px;">Выйти</p></div>
-            </div>
-            <div v-if="type == 2">
-				<div class="blintik2">
-					<div class="gern">
-						<img src="http://m99606v6.beget.tech/1/items/dolla.png" class="png3">
-						<input :placeholder="plholder" v-model="value" maxlength="7">
-					</div>
-					<div class="gern2">
-						<div @click="next" id="next" class="block6"><p id="next">Далее</p></div>
-						<div @click="prev" id="prev" class="block7"><p id="prev">Отмена</p></div>
-					</div>
-				<p class="subinfo">{{subdata}}</p>
-				</div>
-			</div>
-            <div v-if="type == 3">
-                <div v-for="(b, i) in subdata">
-                    <div @click="btn" :id="i" class="block8">
-						<img src="http://m99606v6.beget.tech/1/items/store.png" class="png4">
-						<p :id="i" class="lex1">{{b}}</p>
-					</div>
-                </div>
-                <div @click="btn" id="-1" class="block5" style=""><p id="-1">Выйти</p></div>
-            </div>
         </div>
     </div>
     <div class="lift" v-if="active">

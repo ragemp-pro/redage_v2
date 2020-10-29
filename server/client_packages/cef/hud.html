@@ -2,176 +2,70 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Fenix - Hud</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1.0" name="viewport">
     <link rel="stylesheet" href="css/chat.css">
-    <link rel="stylesheet" href="css/hud.css">
-    <link rel="stylesheet" href="css/hudmod.css">
+    <link rel="stylesheet" href="css/hud_new.css">
     <link rel="stylesheet" href="fonts/notify.css">
     <link rel="stylesheet" href="css/noty.css" />
     <link rel="stylesheet" href="css/theme.css" />
-    <link rel="stylesheet" href="css/prompt.css" />
-    <title>HUD</title>
 </head>
-<body style="background-color: #0000;">
+<body style="background:">
+
     <div id="safezone">
         <div class="inGameHud" v-if="show">
-            <div class="adaptivhud">
-                <div class="position">
-				<div class="datehud">
-				<p id="pguid">Ваш ID: {{ playerId }}</p>
-					</div>
-                    <div class="gunshud" v-if="ammo">
-                        <!-- if have weapon -->
-                        <div class="patrons">
-
-                            <img src="images/hud/patron.svg">
-                            <div class="patronsblock">
-                                <p id="patronnum">{{ammo}}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="lineinfo">
-                        <div class="eathud" style="border: 2px solid #e0282850;" v-if="eat < 21">
-                            <p id="eat"><i class="fas fa-hamburger"></i><br>{{eat}}%</p>
-                        </div>
-                        <div class="eathud" style="border: 2px solid #32d94350;" v-else-if="eat > 79">
-                            <p id="eat"><i class="fas fa-hamburger"></i><br>{{eat}}%</p>
-                        </div>
-                        <div class="eathud" style="border: 2px solid #ffffff50;" v-else>
-                            <p id="eat"><i class="fas fa-hamburger"></i><br>{{eat}}%</p>
-                        </div>
-                        <div class="waterhud" style="border: 2px solid #e0282850;" v-if="water < 21">
-                            <p id="water"><i class="fas fa-wine-bottle"></i><br>{{water}}%</p>
-                        </div>
-                        <div class="waterhud" style="border: 2px solid #32d94350;" v-else-if="water > 79">
-                            <p id="water"><i class="fas fa-wine-bottle"></i><br>{{water}}%</p>
-                        </div>
-                        <div class="waterhud" style="border: 2px solid #ffffff50;" v-else>
-                            <p id="water"><i class="fas fa-wine-bottle"></i><br>{{water}}%</p>
-                        </div>
-                    </div>
-                    <div class="hud">
-                        <!-- on foot default hud -->
-                        <div class="eathud" style="border: 2px solid #e0282850;" v-if="eat < 21">
-                            <p id="eat"><i class="fas fa-hamburger"></i><br>{{eat}}%</p>
-                        </div>
-                        <div class="eathud" style="border: 2px solid #32d94350;" v-else-if="eat > 79">
-                            <p id="eat"><i class="fas fa-hamburger"></i><br>{{eat}}%</p>
-                        </div>
-                        <div class="eathud" style="border: 2px solid #ffffff50;" v-else>
-                            <p id="eat"><i class="fas fa-hamburger"></i><br>{{eat}}%</p>
-                        </div>
-                        <div class="waterhud" style="border: 2px solid #e0282850;" v-if="water < 21">
-                            <p id="water"><i class="fas fa-wine-bottle"></i><br>{{water}}%</p>
-                        </div>
-                        <div class="waterhud" style="border: 2px solid #32d94350;" v-else-if="water > 79">
-                            <p id="water"><i class="fas fa-wine-bottle"></i><br>{{water}}%</p>
-                        </div>
-                        <div class="waterhud" style="border: 2px solid #ffffff50;" v-else>
-                            <p id="water"><i class="fas fa-wine-bottle"></i><br>{{water}}%</p>
-                        </div>
-                        <div class="pouch">
-                            <img src="https://cdn.discordapp.com/attachments/399987780203315210/721380926998839458/-1.png">
-                            <div class="moneyinblock">
-                                <p class="head">Наличные</p>
-                                <p style="color: #fff;" id="jsmoney">{{money}}</p>
-                            </div>
-                        </div>
-                        <div class="bank">
-                            <img src="https://cdn.discordapp.com/attachments/399987780203315210/721380932367548486/-2.png">
-                            <div class="bankinblock">
-                                <p class="head">Банк</p>
-                                <p style="color: #fff;" id="jsbank">{{bank}}</p>
-                            </div>
-                        </div>
-                        <div class="microhud">
-                            <img v-if="mic" id="microsound" src="images/hud/micro_on.svg">
-                            <img v-else="" id="microsound" src="images/hud/micro_off.svg">
-                        </div>
-                    </div>
-
-                    <div class="locationhud">
-                        <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
-                        <p id="location">{{crossingRoad}}</p>
-                        <p id="street">{{street}}</p>
-                    </div>
-
-                    <div class="speedometer" :style="{ opacity: inVeh ? 1 : 0 }">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="15 0 167 167" :data-value="speed" class="speed">
-                            <path class="bg" d="M41 149.5a77 77 0 1 1 117.93 0" fill="none" />
-                            <path class="meter" d="M41 149.5a77 77 0 1 1 117.93 0" fill="none" stroke-dasharray="350" stroke-dashoffset="350" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="15 0 167 167" :data-value="fuel" data-maxvalue="100" class="fuel">
-                            <path class="bg" d="M41 149.5a77 77 0 1 1 117.93 0" fill="none" />
-                            <path class="meter" d="M41 149.5a77 77 0 1 1 117.93 0" fill="none" stroke-dasharray="350" stroke-dashoffset="350" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="15 0 167 167" :data-value="hp" data-maxvalue="100" class="hp" style="display: none;">
-                            <path class="bg" d="M41 149.5a77 77 0 1 1 117.93 0" fill="none" />
-                            <path class="meter" d="M41 149.5a77 77 0 1 1 117.93 0" fill="none" stroke-dasharray="350" stroke-dashoffset="350" />
-                        </svg>
-                        <div class="speed_count">
-                            <!-- v-if="Math.random() > 0.5" -->
-
-                            <div class="count" v-if="speed < 10"><div class="bg">00</div><div v-bind:style="{ color: cruiseColor }">{{speed}}</div></div>
-                            <div class="count" v-else-if="speed < 100"><div class="bg">0</div><div v-bind:style="{ color: cruiseColor }">{{speed}}</div></div>
-                            <div class="count" v-else><div class="bg"></div><div v-bind:style="{ color: cruiseColor }">{{speed}}</div></div>
-                            <div class="type">км/ч</div>
-
-                        </div>
-                        <img src="./images/hud/new/fuel.png" alt="" class="icon_fuel">
-                        <div class="eng_check" style="display: none;">
-                            <div class="engon" v-if="engine">
-                                <img v-if="hp > 30" src="./images/hud/new/engine_yes.png" alt="" class="engine">
-                                <img v-if="hp < 31" src="./images/hud/new/engine_brock.png" alt="" class="engine">
-                            </div>
-                            <div class="engon" v-else>
-                                <img v-if="hp > 30" src="./images/hud/new/engine_no.png" alt="" class="engine">
-                                <img v-if="hp < 31" src="./images/hud/new/engine_brock.png" alt="" class="engine">
-                            </div>
-                        </div>
-                        <div class="lamp_list">
-                            <img v-if="belt" src="./images/hud/new/sec_yes.png" alt="" class="sec">
-                            <img v-else src="./images/hud/new/sec_no.png" alt="" class="sec">
-                            <img v-if="engine" src="./images/hud/new/engine_no.png" alt="" class="engine">
-                            <img v-else src="./images/hud/new/engine_yes.png" alt="" class="engine">
-                            <img v-if="doors" src="./images/hud/new/door_no.png" alt="" class="door">
-                            <img v-else src="./images/hud/new/door_yes.png" alt="" class="door">
-                            <img src="./images/hud/new/lamp_no.png" alt="" class="lamp">
-                        </div>
-                        <span style="display: none;">{{gear}}</span>
-                        <br>
-                        <span style="display: none;">{{rpm}}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="help">
-            <p><span>N</span>Микрофон</p>
-            <p><span>I</span>Инвентарь</p>
-            <p><span>M</span>Телефон</p>
-            <p><span>B</span>Завести машину</p>
-			<p><span>F3</span>Перезагр.Микро.</p>
-			<p><span>TAB</span>Показать Палец</p>
-			<p><span>U</span>Анимации</p>
-            <p><span>L</span>Зак/Отк Авто</p>
-            <p><span>5</span>Никнеймы</p>
-            <p><span>F5</span>Скрыть HUD</p>
-            <p><span>F10</span>Помощь</p>
-            <p><span>Ё</span>Курсор</p>
-        </div>
-
+		
+			<div class="header_hud">
+				<div class="online"><img src="hud/user.png" class="user"><a class="onlinecount">{{online}}</a></div>
+				<div class="id">ID {{playerId}}</div> 
+				<img src="img/logo-anim.gif" width="60" height="60" class="logo">
+			</div>
+			
+			<div class="money">{{money}}<img src="hud/dollar.png" class="ico"></div>
+			
+			<div class="stars">
+				<img src="hud/star.png" class="ico">
+				<img src="hud/star.png" class="ico">
+				<img src="hud/star.png" class="ico">
+				<img src="hud/star.png" class="ico">
+				<img src="hud/star.png" class="ico">
+				<img src="hud/star.png" class="ico">
+			</div>
+			
+			
+			<div class="speedometer_hud" :style="{ opacity: inVeh ? 1 : 0 }">
+				<div class="speedcount" v-if="speed < 100"><a class="count">{{speed}}</a><p>км/ч</p></div>
+				<div class="speedcount" v-else-if="speed < 200"><a class="count" style="color:#eda123">{{speed}}</a><p>км/ч</p></div>
+				<div class="speedcount" v-else="speed < 300"><a class="count" style="color:red">{{speed}}</a><p>км/ч</p></div>
+				<div class="fuel"><a>{{fuel}} л.</a><img src="hud/fuel.svg" style="opacity:0.2" class="fuel_ico"></div>
+				
+				<div class="help_car">
+				<div v-if="engine" class="helps"><img src="hud/engine.png" class="icon_help"><p>B</p></div>
+				<div v-else class="helps"><img src="hud/engine.png" style="opacity:0.5;transition: all .33s;" class="icon_help"><p>B</p></div>
+				<div v-if="belt" class="helps"><img src="hud/belt.png" class="icon_help"><p>N</p></div>
+				<div v-else class="helps"><img src="hud/belt.png" style="opacity:0.5;transition: all .33s;" class="icon_help"><p>N</p></div>
+				<div v-if="doors" class="helps"><img src="hud/door.svg" class="icon_help"><p>L</p></div>
+				<div v-else class="helps"><img src="hud/door.svg" style="opacity:0.5;transition: all .33s;" class="icon_help"><p>L</p></div>
+				</div>
+			</div>
+			
+			<div class="steet_block">
+				<div class="crossingroad">{{crossingRoad}}</div>
+				<div class="street"><img src="hud/marker.png" class="marker">{{street}}</div>
+				
+				<div class="info_table">
+					<div class="info"><img src="hud/mobile.png" class="icon"><p>M</p></div>
+					<div v-if="mic" class="info"><img src="hud/micro.svg" class="icon" style="opacity:1;transition: all .33s;"><p class="activeP">N</p></div>
+					<div v-else class="info"><img src="hud/micro.svg" class="icon"><p>N</p></div>
+				</div>
+				
+			</div>
+			
+		</div>
+            
         <div id="chat" class="chat">
             <ul id="chat_messages"></ul>
         </div>
-        <!--
-        <div class="logobox">
-            <img src="img/logo.png" alt="">
-            <a class="criminalrp"></a>
-            <a class="online">Онлайн {{online}}<a>
-        </div>
-        -->
+        
         <div id="prompt" v-if="text">
             <div class="text" v-html="text"></div>
         </div>
@@ -180,15 +74,16 @@
 
     <div id="effect"></div>
     <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/colorInterpolator.js"></script>
     <script src="js/vue.js"></script>
     <script src="js/hud.js"></script>
     <script src="js/chat.js"></script>
     <script src="js/noty.min.js"></script>
     <script src="js/notify.js"></script>
-    <script src="js/prompt.js"></script>
-    <script type="application/javascript" src="/core.js?1592422207642"></script>
     <script src="https://kit.fontawesome.com/c552bfdf6a.js" crossorigin="anonymous"></script>
+	
+	
+
+
     <script>
         function hidehud(toggle) {
             if (toggle) {
@@ -206,26 +101,8 @@
                 $('.help').show();
             }
         }
-    </script>
-    <script>
-        var moskowUtc = 3;
-        var timerId = setInterval(function () {
-            let t = new Date(),
-                tt = t.getUTCHours() + moskowUtc;
-            document.getElementById('tik-tak').innerHTML = (tt > 24 ? "0" : "") + (tt > 24 ? tt - 24 : tt) + ":" + (t.getMinutes() < 10 ? '0' : '') + t.getMinutes() + ":" + (t.getSeconds() < 10 ? '0' : '') + t.getSeconds();
-            document.getElementById('tik-tak').classList.add("step");
-        }, 1000);
-    </script>
-    <script>
-        function updateSafeZoneSize(screenWidht, screenHeight, safeZoneSize) {
+		</script>
 
-            var savezoneDiv = document.getElementById("safezone");
-            safeZoneSize = (((1.0 - safeZoneSize) * 0.5) * 100.0);
-
-            savezoneDiv.style.right = savezoneDiv.style.left = ((screenWidht / 100) * safeZoneSize) + "px";
-            savezoneDiv.style.top = savezoneDiv.style.bottom = ((screenHeight / 100) * safeZoneSize) + "px";
-            return true;
-        }
-    </script>
+    <script>function updateSafeZoneSize(screenWidht, screenHeight, safeZoneSize) {var savezoneDiv = document.getElementById("safezone");safeZoneSize = (((1.0 - safeZoneSize) * 0.5) * 100.0);savezoneDiv.style.right = savezoneDiv.style.left = ((screenWidht / 100) * safeZoneSize) + "px";savezoneDiv.style.top = savezoneDiv.style.bottom = ((screenHeight / 100) * safeZoneSize) + "px";return true;}</script>
 </body>
 </html>

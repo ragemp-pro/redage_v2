@@ -125,7 +125,7 @@ setTimeout(function () {
 
 setInterval(function () {
     var name = (localplayer.getVariable('REMOTE_ID') == undefined) ? `Не авторизован` : `Игрок №${localplayer.getVariable("REMOTE_ID")}`;
-	//mp.discord.update('ReplayRP-1.1 RolePlay', name);
+	mp.discord.update('RedAge RP v2.0', name);
 }, 10000);
 
 var pedsaying = null;
@@ -277,7 +277,7 @@ require('./scripts/fingerPointer.js');
 //require('./scripts/Hunting.js'); НЕ РАБОТАЕТ
 require('./scripts/publicGarage/index.js');
 require('./scripts/SmoothThrottle/SmoothThrottle.js');
-
+require('./banks/atm.js');
 
 require('./configs/tattoo.js');
 require('./configs/barber.js');

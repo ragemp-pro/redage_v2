@@ -1,733 +1,355 @@
-var inventory = new Vue({
-    el: ".vinventory",
-    data: {
-        active: false,
-		
-		limits: {
-            invent: 20,
-            trunk: 20,
-		},
+var itemsData = {
+    "-1": "Маска",
+    "-3": "Перчатки",
+    "-4": "Штаны",
+    "-5": "Рюкзак",
+    "-6": "Обувь",
+    "-7": "Аксессуар",
+    "-8": "Нижняя одежда",
+    "-9": "Бронежилет",
+    "-10": "Украшения",
+    "-11": "Верхняя одежда",
+    "-12": "Головной убор",
+    "-13": "Очки",
+    "-14": "Аксессуар",
+    0: "Test Item",
+    1: "Аптечка",
+    2: "Канистра",
+    3: "Чипсы",
+    4: "Пиво",
+    5: "Пицца",
+    6: "Бургер",
+    7: "Хот-Дог",
+    8: "Сэндвич",
+    9: "eCola",
+    10: "Sprunk",
+    11: "Отмычка для замков",
+    12: "Сумка с деньгами",
+    13: "Материалы",
+    14: "Наркотики",
+    15: "Сумка с дрелью",
+    16: "Военная отмычка",
+    17: "Мешок",
+    18: "Стяжки",
+    19: "Ключи от машины",
+    40: "Подарок",
+    41: "Связка ключей",
 
-		initInvent: [],
-        invent: [],
-        
-		trunktoggled: false,
-		initTrunk: [],
-		trunk: [],
-		trunktype: 0,
-        trunktitle: "",
-		
-		sType: 0,
+    20: `"На корке лимона"`,
+    21: `"На бруснике"`,
+    22: `"Русский стандарт"`,
+    23: `"Asahi"`,
+    24: `"Midori"`,
+    25: `"Yamazaki"`,
+    26: `"Martini Asti"`,
+    27: `"Sambuca"`,
+    28: `"Campari"`,
+    29: `"Дживан"`,
+    30: `"Арарат"`,
+    31: `"Noyan Tapan"`,
 
-        items: {
-            "-1": 
-            {
-                name: "Mascara",
-                type: ""
-            },
-            "-3":
-			{
-                name: "Guantes",
-                type: ""
-            },
-            "-4":
-			{
-                name: "Pantalones",
-                type: ""
-            },
-            "-5":
-			{
-                name: "Mochila",
-                type: ""
-            },
-            "-6":
-			{
-                name: "Calzado",
-                type: ""
-            },
-            "-7":
-			{
-                name: "Accesorio",
-                type: ""
-            },
-            "-8":
-			{
-                name: "Ropa interior",
-                type: ""
-            },
-            "-9":
-			{
-                name: "Armadura",
-                type: ""
-            },
-            "-10":
-			{
-                name: "Joyería",
-                type: ""
-            },
-            "-11":
-			{
-                name: "Ropa de calle",
-                type: ""
-            },
-            "-12":
-			{
-                name: "Головной убор",
-                type: ""
-            },
-            "-13":
-			{
-                name: "Vasos",
-                type: ""
-            },
-            "-14":
-			{
-                name: "Accesorio",
-                type: ""
-            },
-            0:
-			{
-                name: "Test Item",
-                type: ""
-            },
-            1:
-			{
-                name: "Kit de primeros auxilios",
-                type: ""
-            },
-            2:
-			{
-                name: "Frasco",
-                type: ""
-            },
-            3:
-			{
-                name: "Papas fritas",
-                type: ""
-            },
-            4:
-			{
-                name: "Cerveza",
-                type: ""
-            },
-            5:
-			{
-                name: "Pizza",
-                type: ""
-            },
-            6:
-			{
-                name: "Hamburguesa",
-                type: ""
-            },
-            7:
-			{
-				name: "Pancho",
-            	type: ""
-			},
-			8:
-			{
-				name: "Sandwich",
-            	type: ""
-			},
-			9:
-			{
-				name: "eCola",
-            	type: ""
-			},
-			10:
-			{
-				name: "Sprunk",
-            	type: ""
-			},
-			11:
-			{
-				name: "Selector de bloqueo",
-            	type: ""
-			},
-			12:
-			{
-				name: "Bolsa de dinero",
-            	type: ""
-			},
-			13:
-			{
-				name: "Materiales",
-            	type: ""
-			},
-			14:
-			{
-				name: "Drogas",
-            	type: ""
-			},
-			15:
-			{
-				name: "Bolsa con taladro",
-            	type: ""
-			},
-			16:
-			{
-				name: "Llave maestra militar",
-            	type: ""
-			},
-			17:
-			{
-				name: "Bolso",
-            	type: ""
-			},
-			18:
-			{
-				name: "Soleras",
-            	type: ""
-			},
-			19:
-			{
-				name: "Llaves del coche",
-            	type: ""
-			},
-			40:
-			{
-				name: "Подарок",
-            	type: ""
-			},
-			41:
-			{
-				name: "llavero",
-                type: ""
-            },
-            20: 
-            {
-                name: "\"En una cáscara de limón\"",
-            	type: ""
-			},
-			21:
-            {
-                name: "\"На бруснике\"",
-            	type: ""
-			},
-			22:
-            {
-                name: "\"Русский стандарт\"",
-            	type: ""
-			},
-			23:
-            {
-                name: "\"Asahi\"",
-            	type: ""
-			},
-			24:
-            {
-                name: "\"Midori\"",
-            	type: ""
-			},
-			25:
-            {
-                name: "\"Yamazaki\"",
-            	type: ""
-			},
-			26:
-            {
-                name: "\"Martini Asti\"",
-            	type: ""
-			},
-			27:
-            {
-                name: "\"Sambuca\"",
-            	type: ""
-			},
-			28:
-            {
-                name: "\"Campari\"",
-            	type: ""
-			},
-			29:
-            {
-                name: "\"Jeevan\"",
-            	type: ""
-			},
-			30:
-            {
-                name: "\"Ararat\"",
-            	type: ""
-			},
-			31:
-            {
-                name: "\"Noyan Tapan\"",
-                type: ""
-            },
-            100:
-			{
-				name: "Pistol",
-                type: "weapon"
-			},
-			101:
-			{
-				name: "Combat Pistol",
-            	type: "weapon"
-			},
-			102:
-			{
-				name: "Pistol .50",
-            	type: "weapon"
-			},
-			103:
-			{
-				name: "SNS Pistol",
-            	type: "weapon"
-			},
-			104:
-			{
-				name: "Heavy Pistol",
-            	type: "weapon"
-			},
-			105:
-			{
-				name: "Vintage Pistol",
-            	type: "weapon"
-			},
-			106:
-			{
-				name: "Marksman Pistol",
-            	type: "weapon"
-			},
-			107:
-			{
-				name: "Revolver",
-            	type: "weapon"
-			},
-			108:
-			{
-				name: "AP Pistol",
-            	type: "weapon"
-			},
-			109:
-			{
-				name: "Stun Gun",
-            	type: "weapon"
-			},
-			110:
-			{
-				name: "Flare Gun",
-            	type: "weapon"
-			},
-			111:
-			{
-				name: "Double Action",
-            	type: "weapon"
-			},
-			112:
-			{
-				name: "Pistol Mk2",
-            	type: "weapon"
-			},
-			113:
-			{
-				name: "SNSPistol Mk2",
-            	type: "weapon"
-			},
-			114:
-			{
-				name: "Revolver Mk2",
-                type: "weapon"
-            },
-            115:
-			{
-				name: "Micro SMG",
-            	type: "weapon"
-			},
-			116:
-			{
-				name: "Machine Pistol",
-            	type: "weapon"
-			},
-			117:
-			{
-				name: "SMG",
-            	type: "weapon"
-			},
-			118:
-			{
-				name: "Assault SMG",
-            	type: "weapon"
-			},
-			119:
-			{
-				name: "Combat PDW",
-            	type: "weapon"
-			},
-			120:
-			{
-				name: "MG",
-            	type: "weapon"
-			},
-			121:
-			{
-				name: "Combat MG",
-            	type: "weapon"
-			},
-			122:
-			{
-				name: "Gusenberg",
-            	type: "weapon"
-			},
-			123:
-			{
-				name: "Mini SMG",
-            	type: ""
-			},
-			124:
-			{
-				name: "SMG Mk2",
-            	type: ""
-			},
-			125:
-			{
-				name: "Combat MG Mk2",
-                type: ""
-            },
-            126:
-			{
-				name: "Assault Rifle",
-            	type: ""
-			},
-			127:
-			{
-				name: "Carbine Rifle",
-            	type: ""
-			},
-			128:
-			{
-				name: "Advanced Rifle",
-            	type: ""
-			},
-			129:
-			{
-				name: "Special Carbine",
-            	type: ""
-			},
-			130:
-			{
-				name: "Bullpup Rifle",
-            	type: ""
-			},
-			131:
-			{
-				name: "Compact Rifle",
-            	type: ""
-			},
-			132:
-			{
-				name: "Assault Rifle Mk2",
-            	type: ""
-			},
-			133:
-			{
-				name: "Carbine Rifle Mk2",
-            	type: ""
-			},
-			134:
-			{
-				name: "Special Carbine Mk2",
-            	type: ""
-			},
-			135:
-			{
-				name: "Bullpup Rifle Mk2",
-                type: ""
-            },
-            136:
-			{
-				name: "Sniper Rifle",
-            	type: ""
-			},
-			137:
-			{
-				name: "Heavy Sniper",
-            	type: ""
-			},
-			138:
-			{
-				name: "Marksman Rifle",
-            	type: ""
-			},
-			139:
-			{
-				name: "Heavy Sniper Mk2",
-            	type: ""
-			},
-			140:
-			{
-				name: "Marksman Rifle Mk2",
-                type: ""
-            },
-            141:
-			{
-				name: "Pump Shotgun",
-            	type: ""
-			},
-			142:
-			{
-				name: "SawnOff Shotgun",
-            	type: ""
-			},
-			143:
-			{
-				name: "Bullpup Shotgun",
-            	type: ""
-			},
-			144:
-			{
-				name: "Assault Shotgun",
-            	type: ""
-			},
-			145:
-			{
-				name: "Musket",
-            	type: ""
-			},
-			146:
-			{
-				name: "Heavy Shotgun",
-            	type: ""
-			},
-			147:
-			{
-				name: "Double Barrel Shotgun",
-            	type: ""
-			},
-			148:
-			{
-				name: "Sweeper Shotgun",
-            	type: ""
-			},
-			149:
-			{
-				name: "Pump Shotgun Mk2",
-                type: ""
-            },
-            180:
-			{
-				name: "Cuchillo",
-            	type: ""
-			},
-			181:
-			{
-				name: "Palo",
-            	type: ""
-			},
-			182:
-			{
-				name: "Martillo",
-            	type: ""
-			},
-			183:
-			{
-				name: "Бита",
-            	type: ""
-			},
-			184:
-			{
-				name: "Chatarra",
-            	type: ""
-			},
-			185:
-			{
-				name: "Palo de Golf",
-            	type: ""
-			},
-			186:
-			{
-				name: "Botella",
-            	type: ""
-			},
-			187:
-			{
-				name: "Daga",
-            	type: ""
-			},
-			188:
-			{
-				name: "Hacha",
-            	type: ""
-			},
-			189:
-			{
-				name: "Nudillos de latón",
-            	type: ""
-			},
-			190:
-			{
-				name: "Machete",
-            	type: ""
-			},
-			191:
-			{
-				name: "Linterna",
-            	type: ""
-			},
-			192:
-			{
-				name: "Cuchillo suizo",
-            	type: ""
-			},
-			193:
-			{
-				name: "Кий",
-            	type: ""
-			},
-			194:
-			{
-				name: "Llave",
-            	type: ""
-			},
-			195:
-			{
-				name: "Hacha de batalla",
-                type: ""
-            },
-            200:
-			{
-				name: "Calibre de pistola",
-            	type: ""
-			},
-			201:
-			{
-				name: "Calibre pequeño",
-            	type: ""
-			},
-			202:
-			{
-				name: "Calibre automático",
-            	type: ""
-			},
-			203:
-			{
-				name: "Calibre francotirador",
-            	type: ""
-			},
-			204:
-			{
-                name: "Fraccion",
-                type: ""
-            }
-        },   
+    100: "Pistol",
+    101: "Combat Pistol",
+    102: "Pistol .50",
+    103: "SNS Pistol",
+    104: "Heavy Pistol",
+    105: "Vintage Pistol",
+    106: "Marksman Pistol",
+    107: "Revolver",
+    108: "AP Pistol",
+    109: "Stun Gun",
+    110: "Flare Gun",
+    111: "Double Action",
+    112: "Pistol Mk2",
+    113: "SNSPistol Mk2",
+    114: "Revolver Mk2",
+
+    115: "Micro SMG",
+    116: "Machine Pistol",
+    117: "SMG",
+    118: "Assault SMG",
+    119: "Combat PDW",
+    120: "MG",
+    121: "Combat MG",
+    122: "Gusenberg",
+    123: "Mini SMG",
+    124: "SMG Mk2",
+    125: "Combat MG Mk2",
+
+    126: "Assault Rifle",
+    127: "Carbine Rifle",
+    128: "Advanced Rifle",
+    129: "Special Carbine",
+    130: "Bullpup Rifle",
+    131: "Compact Rifle",
+    132: "Assault Rifle Mk2",
+    133: "Carbine Rifle Mk2",
+    134: "Special Carbine Mk2",
+    135: "Bullpup Rifle Mk2",
+
+    136: "Sniper Rifle",
+    137: "Heavy Sniper",
+    138: "Marksman Rifle",
+    139: "Heavy Sniper Mk2",
+    140: "Marksman Rifle Mk2",
+
+    141: "Pump Shotgun",
+    142: "SawnOff Shotgun",
+    143: "Bullpup Shotgun",
+    144: "Assault Shotgun",
+    145: "Musket",
+    146: "Heavy Shotgun",
+    147: "Double Barrel Shotgun",
+    148: "Sweeper Shotgun",
+    149: "Pump Shotgun Mk2",
+
+    180: "Нож",
+    181: "Дубинка",
+    182: "Молоток",
+    183: "Бита",
+    184: "Лом",
+    185: "Гольф клюшка",
+    186: "Бутылка",
+    187: "Кинжал",
+    188: "Топор",
+    189: "Кастет",
+    190: "Мачете",
+    191: "Фонарик",
+    192: "Швейцарский нож",
+    193: "Кий",
+    194: "Ключ",
+    195: "Боевой топор",
+
+    200: "Пистолетный калибр",
+    201: "Малый калибр",
+    202: "Автоматный калибр",
+    203: "Снайперский калибр",
+    204: "Дробь",
 	
-        // Player stats
-        username: "",
-        level: 0,
-        exp: "",
-        fractionname: "",
-        fractionlevel: 0,
-        jobname: "",
-        phonenumber: "",
-        status: "",
-        warnscount: "",
-        licensecount: "",
-        registerdate: "",
-        passid: "",
-        bankid: "",
+	// Fishing
+	205: "Удочка",
+	206: "Улучшенная удочка",
+	207: "Удочка MK2",
+    208: "Наживка",
+    209: "Корюшка",
+    210: "Кунджа",
+    211: "Лосось",
+    212: "Окунь",
+    213: "Осётр",
+    214: "Скат",
+	215: "Тунец",
+	216: "Угорь",
+	217: "Чёрный амур",
+	218: "Щука",
+	
+	// AlcoShop
+	219: "Martini Asti",
+	220: "Sambuca",
+	221: "Водка с лимоном",
+	222: "Водка на бруснике",
+	223: "Русский стандарт",
+	224: "Коньяк Дживан",
+	225: "Коньяк Арарат",
+	226: "Пиво разливное",
+	227: "Пиво бутылочное",
+	228: "Кальян",
+	
+	// Repair
+	250: "Рем. Комплект",
+	
+	251: "Бинт",
+	252: "Аптечка", 
+	253: "Таблетки",
+	254: "Шприц адреналина",
+	
+	//Farm
+	255: "Листья коки",
+	
+	//Diver
+	256: "Золото",
+	257: "Железяка"
+}
+
+var itemsInfo = {
+	"-1": "Хуета которая надевается на твою ебанутую бошку",
+    "-3": "Перчатки чтобы при дрочке не было мозолей",
+    "-4": "Штаны чтобы не видели твой маленький писюлькин",
+    "-5": "Рюкзак",
+    "-6": "Чтобы не смотрели на тебя как на долбаеба который идёт босиком",
+    "-7": "Дешевый понт для баб, типо смотрите бабки есть, садись",
+    "-8": "Чтобы не было видно твое обвисшие сиськи",
+    "-9": "Бронежилет",
+    "-10": "Такая хуйня которая выделает тебя, для мира долбаебов",
+    "-11": "Верхняя одежда",
+    "-12": "Ебать нахуй ты её купил это же параша",
+    "-13": "Чтобы не видно было когда тебя отпиздили или наркоманские глаза",
+    "-14": "Аксессуар",
+    1:	"Это такая хуёвина которая вылечит любого в этой игре",
+    2: "Это такая хуёвина которая вылечит любого в этой игре",
+    3: "Это такая хуёвина которая вылечит любого в этой игре",
+    4:"Это такая хуёвина которая вылечит любого в этой игре",
+    5:"Это такая хуёвина которая вылечит любого в этой игре",
+    6: "Это такая хуёвина которая вылечит любого в этой игре",
+    7:  "Это такая хуёвина которая вылечит любого в этой игре",
+	8:	"Это такая хуёвина которая вылечит любого в этой игре",
+	9:	"Это такая хуёвина которая вылечит любого в этой игре",
+	10:	"Это такая хуёвина которая вылечит любого в этой игре",
+	11:	"Это такая хуёвина которая вылечит любого в этой игре",
+	12:	"Это такая хуёвина которая вылечит любого в этой игре",
+	13:	"Это такая хуёвина которая вылечит любого в этой игре",
+	14:	"Это такая хуёвина которая вылечит любого в этой игре",
+	15:	"Это такая хуёвина которая вылечит любого в этой игре",
+	16:	"Это такая хуёвина которая вылечит любого в этой игре",
+	17:	"Это такая хуёвина которая вылечит любого в этой игре",
+	18:	"Это такая хуёвина которая вылечит любого в этой игре",
+	19:	"Это такая хуёвина которая вылечит любого в этой игре",
+	20:	"Это такая хуёвина которая вылечит любого в этой игре",
+	21:	"Это такая хуёвина которая вылечит любого в этой игре",
+	22:	"Это такая хуёвина которая вылечит любого в этой игре",
+	23:	"Это такая хуёвина которая вылечит любого в этой игре",
+	24:	"Это такая хуёвина которая вылечит любого в этой игре",
+	25:	"Это такая хуёвина которая вылечит любого в этой игре",
+	26:	"Это такая хуёвина которая вылечит любого в этой игре",
+	27:	"Это такая хуёвина которая вылечит любого в этой игре",
+	28:	"Это такая хуёвина которая вылечит любого в этой игре",
+	1:	"Это такая хуёвина которая вылечит любого в этой игре",
+}
+
+Vue.component('item', {
+	template: '<div :class="test"><div class="item" v-bind:title="name" v-bind:weight="(weight*count).toFixed(2)" :fastslot="fast_slot" v-bind:class="{active: isactive}" @click.right.prevent="select"> \
+    <img :src="src"><span>{{count}}</span><p class="sub">{{subdata}}</p><p class="names">{{name}}<br><a>{{info}}</a><b>{{count}} шт.</b></p></div></div>',
+    props: ['id', 'index', 'count', 'isactive', 'type', 'subdata'],
+    data: function () {
+        return {
+            src: 'items/' + this.id + '.png',
+			title: itemsData[this.id],
+            name: itemsData[this.id],
+            info: itemsInfo[this.id],
+			test: 'item' + this.id + 'ma',
+        }
     },
     methods: {
-        ToggleInventory: function(toggle) {
-            inventory.active = toggle;
-
-            if(toggle === false)
-            {
-				if(JSON.stringify(inventory.initInvent) != JSON.stringify(inventory.invent))
-				{
-					inventory.initInvent = inventory.invent;
-					mp.trigger("inventory", 7, JSON.stringify(inventory.invent));
-				}
-				
-				if(inventory.trunktoggled && JSON.stringify(inventory.initTrunk) != JSON.stringify(inventory.trunk))
-				{
-					inventory.initTrunk = inventory.trunk;
-					mp.trigger("inventory", 8, JSON.stringify(inventory.trunk));
-					mp.trigger("inventory", 9);
-				}
-				else mp.trigger("inventory", 9);
-            }
-            else
-            {
-                $(`#grid-1 .dropbox`).remove();
-                $(`#grid-2 .dropbox`).remove();
-
-                $('#grid-1').append(dropbox);
-		        $('#grid-2').append(dropbox);
-            }
-        },
-        CloseInventory: function() {
-            mp.trigger("inventory", 1);
-        },
-        UpdateStats: function (data) {
-			
-            data = JSON.parse(data);
-
-            inventory.username = data[0];
-            inventory.level = data[1];
-            inventory.exp = data[2];
-            inventory.fractionname = data[3];
-            inventory.fractionlevel = data[4];
-            inventory.jobname = data[5];
-            inventory.phonenumber = data[6];
-            inventory.status = data[7];
-            inventory.warnscount = data[8];
-            inventory.licensecount = data[9];
-            inventory.registerdate = data[10];
-            inventory.passid = data[11];
-            inventory.bankid = data[12];
-			
-        },
-        UpdatePlayerItems: function(data) {
-            
-            clearItem(`inventory`);
-            data = JSON.parse(data);
-            for(var i = 0; i < data.length; i++)
-            {
-                if(i < count_max[1])
-                {
-					var newitem = {type: data[i][0], count: data[i][1], active: data[i][2], serial: data[i][3]};
-					inventory.initInvent[i] = newitem;
-                    addItem(`inventory`, newitem);
-                }
-            }
-        },
-        UpdatePlayerItem: function(index, data) {
-
-            if(index < count_max[1])
-            {
-                var newitem = {type: data[0], count: data[1], active: data[2], serial: data[3]};
-                updateItem(`inventory`, index, newitem);
-            }
-        },
-        
-        UpdateTrunkItems: function(data) {
-
-            clearItem(`trunk`);
-			data = JSON.parse(data);
-			inventory.trunktype = data[0];
-            inventory.trunktitle = data[1];
-            for(var i = 0; i < data[2].length; i++)
-            {
-                if(i < count_max[2])
-                {
-					var newitem = {type: data[2][i][0], count: data[2][i][1], active: data[2][i][2], serial: data[2][i][3]};
-					inventory.initTrunk[i] = newitem;
-                    addItem(`trunk`, newitem);
-                }
-            }
-		},
-		
-		ContextHandler: function(act, element) {
-
-			if(JSON.stringify(inventory.initInvent) != JSON.stringify(inventory.invent))
-			{
-				inventory.initInvent = inventory.invent;
-				mp.trigger("inventory", 7, JSON.stringify(inventory.invent));
-			}
-
-			//let type = (this.sType) ? 0 : this.trunktype;
-			mp.trigger("inventoryContext", act, type, element);
-		}
+        select: function (event) {
+            board.sType = (this.type == 'inv') ? 1 : 0;
+            board.sID = this.id;
+            board.sIndex = this.index;
+            context.type = (this.type == 'inv') ? 1 : 0;
+			context.fastSlot = this.fast_slot
+        }
     }
-});
+})
+var board = new Vue({
+    el: ".board",
+    data: {
+        active: false,
+        outside: false,
+		text: ["Уровень", "Предупреждения", "Дата создания", "Номер телефона", "Номер счёта", "Номер паспорта", "Организация", "Ранг", "Работа", "Статус"],
+		outType: 0,
+        outHead: "Внешний", 
+		//		0        1  	 2 		     3 		        4	   5            6		  7			  8				9	  10	  11        12	      13    
+		stats: ["15", "30/60", "777 777", "Администрация", "2", "A B C D", "01.05.1980", "Строитель", "CityHall", "17", "Vovan", "Putin", "333 666", "4276 7700"],
+        items: [[-6, 5, 1],[-7, 5, 1],[-8, 5, 1],[-9, 5, 1],[-11, 5, 1],[-12, 5, 1],[-13, 5, 1],[-14, 5, 1],[-1, 5, 1],[-3, 5, 1],[-4, 5, 1],[1, 5, 1],[1, 5, 1],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0], [5, 10, 0], [10, 500, 0], [11, 100, 0],[1, 5, 1],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0], [5, 10, 0], [10, 500, 0], [11, 100, 0]],
+        outitems: [[1, 5, 1],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0], [5, 10, 0], [10, 500, 0], [11, 100, 0]],
+		money: 0,
+		donate: 0,
+		bank: 0, 
+		page: 1,
+        sIndex: 0,
+        sType: 0,
+        sID: 0,
+        key: 0,
+		arraymax: 0
+    },
+    methods: {
+        context: function (event) {
+            if (clickInsideElement(event, 'item')) {
+                context.show(event.pageX, event.pageY)
+            } else {
+                context.hide()
+            }
+        },
+        hide: function (event) {
+            context.hide()
+        },
+        outSet: function (json) {
+            this.key++
+            this.outType = json[0]
+            this.outHead = json[1]
+            this.outitems = json[2]
+        },
+		pages: function(id){
+            this.page = id;
+        },
+		itemsSet: function(t) {
+                this.key++, this.items = t, this.usedFastSlots = [!1, !1, !1, !1, !1];
+                for (let t = 1; t < 6; t++) mp.trigger("bindSlotKey", 0, t, !1);
+                for (let t = 0; t < this.items.length; t++) {
+                    const s = this.items[t];
+                    s[6] > 0 && (this.usedFastSlots[s[6]] = !0, mp.trigger("bindSlotKey", t, s[6], !0))
+                }
+                this.updateWeight()
+            },
+            itemUpd: function(t, s) {
+                this.key++, this.items[t] = s, this.updateWeight()
+            }, 
+			updateWeight: function() {
+                let t = 0;
+                this.items.forEach(s => {
+                    t += s[4] * s[1]
+                }), this.weight = t
+            },
+            useFastSlot: function(t) {
+                this.usedFastSlots[t] || (this.selectFastSlot = !1, this.sFastSlot = t, this.items[board.sIndex][6] = this.sFastSlot, this.usedFastSlots[t] = !0, mp.trigger("useFastSlot", this.sIndex, this.sFastSlot, 0))
+            },
+            unsetFastSlot: function() {
+                let t = this.items[board.sIndex][6];
+                this.usedFastSlots[t] = !1, this.items[board.sIndex][6] = 0, this.key++, mp.trigger("useFastSlot", this.sIndex, 0, t)
+            },
+        send: function (id) {
+            let type = (this.sType) ? 0 : this.outType
+            mp.trigger('boardCB', id, type, this.sIndex)
+        }
+    }
+})
+var context = new Vue({
+    el: ".context_menu",
+    data: {
+		men: ["Использовать", "Передать", "Взять", "Выбросить"],
+        active: false,
+        style: '',
+        type: true,
+        fastSlot: -1
+    },
+    methods: {
+        show: function (x, y) {
+            this.style = `left:${x}px;top:${y}px;`
+            this.active = true
+        },
+        hide: function () {
+            this.active = false
+        },
+        btn: function (id) {
+            this.hide()
+            board.send(id)
+        },
+        setFastSlot: function() {
+		board.usedFastSlots.includes(!1) && (this.hide(), board.selectFastSlot = !0)
+            },
+            unsetFastSlot: function() {
+                this.hide(), board.unsetFastSlot()
+            }
+    }
+})
+function clickInsideElement(e, className) {
+    var el = e.srcElement || e.target;
+    if (el.classList.contains(className)) {
+        return el;
+    } else {
+        while (el = el.parentNode) {
+            if (el.classList && el.classList.contains(className)) {
+                return el;
+            }
+        }
+    }
+    return false;
+}
