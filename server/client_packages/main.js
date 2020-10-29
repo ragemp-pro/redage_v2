@@ -234,7 +234,7 @@ mp.keys.bind(Keys.VK_DOWN, true, () => {
 	}
 });
 
-mp.keys.bind(Keys.VK_2, false, function () { // 2 key
+mp.keys.bind(Keys.VK_B, false, function () { // 2 key
     if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 400 || global.menuOpened) return;
     if (localplayer.isInAnyVehicle(false) && localplayer.vehicle.getSpeed() <= 3) {
         lastCheck = new Date().getTime();
