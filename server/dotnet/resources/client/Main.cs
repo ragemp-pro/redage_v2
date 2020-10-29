@@ -18,6 +18,7 @@ using System.Threading;
 using System.Globalization;
 using System.Net.Mail;
 using NeptuneEvo.Voice;
+using NeptuneEvo.Houses;
 
 namespace NeptuneEvo
 {
@@ -1852,6 +1853,9 @@ namespace NeptuneEvo
                 intid = id;
                 switch (id)
                 {
+                    case 512:
+                        Realtor.OpenRealtorMenu(player);
+                        return;
                     case 1:
                         Fractions.Cityhall.beginWorkDay(player);
                         return;

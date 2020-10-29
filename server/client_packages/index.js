@@ -285,6 +285,8 @@ require('./configs/clothes.js');
 require('./configs/natives.js');
 require('./configs/tuning.js');
 
+require('./realtor.js');
+
 // // // // // // //
 
 if (mp.storage.data.friends == undefined) {
