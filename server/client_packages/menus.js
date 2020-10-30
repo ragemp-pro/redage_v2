@@ -1049,11 +1049,11 @@ mp.events.add('auto', (act, value) => {
     switch (act) {
         case "model":
             auto.model = autoModels[value];
-            mp.events.callRemote('createveh', auto.model, 0, 0);
+            mp.events.callRemote('createlveh', auto.model, colors[auto.color][0], colors[auto.color][1], colors[auto.color][2]);
             break;
         case "color":
             auto.color = autoColors[value];
-			mp.events.callRemote('vehchangecolor', colors[auto.color][0], colors[auto.color][1], colors[auto.color][2]);
+            mp.events.callRemote('vehchangecolor', colors[auto.color][0], colors[auto.color][1], colors[auto.color][2]);
             break;
     }
 });
@@ -1095,10 +1095,8 @@ mp.events.add('closeAuto', () => {
     if (auto.entity == null) return;
     auto.entity.destroy();
     auto.entity = null;
+	cameraRotator.stop();
 })
-mp.events.add("rotateAuto", (angle) => {
-    auto.entity.setRotation(0, 0, angle, 1, true);
-});
 mp.events.add('openAuto', (models, prices) => {
     if (global.menuCheck()) return;
     autoModels = JSON.parse(models);
@@ -1107,17 +1105,14 @@ mp.events.add('openAuto', (models, prices) => {
     setAuto('colors', JSON.stringify(autoColors));
     setAuto('prices', prices);
 
-    auto.entity = mp.vehicles.new(mp.game.joaat(autoModels[0]), new mp.Vector3(-42.79771, -1095.676, 26.0117),
-        {
+    mp.events.callRemote('createlveh', autoModels[0], 0, 0, 0);
 
-        });
-    auto.entity.setRotation(0, 0, -136.246, 2, true);
     auto.color = "Черный";
     auto.model = autoModels[0];
 
     global.menuOpen();
     global.menu.execute(`auto.active=true`);
-})
+});
 //types: models, colors, prices
 function setAuto(type, jsonstr) {
     global.menu.execute(`auto.${type}=${jsonstr}`);
