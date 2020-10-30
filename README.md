@@ -6,12 +6,6 @@
 ![Скриншот](https://i.imgur.com/WUUQtC6.jpg)
 Подробное описание и скришоты: https://ragemp.pro/resources/gotovaja-sborka-redage-rp-v2-0-rage-mp-1-1.63/
 
-Если при регистрации на сервере не сохраняются аккаунты и в консоли есть такая ошибка:
-![](https://i.imgur.com/HMv0gTU.png)
+Отдельно залил dlcpacks от сборки (GiHub не дает залить большие файлы, переместите содержимое в client_resources): https://drive.google.com/file/d/19Be6uvqoLwVHRTH6t8ZmvWG1hBVcMScx/view?usp=sharing
 
-Значит у вас включен строгий режим на сервере MySQL, чтобы исправить данную ошибку можете просто отключить строгий режим.
-Для этого в MySQL (query) от пользователя root выполните команду:
-
-`
-SET sql_mode = '';
-`
+Как установить сборку и настроить сборку - https://www.youtube.com/watch?v=RPsyAkdOMvg
