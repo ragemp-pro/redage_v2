@@ -323,7 +323,6 @@ CREATE TABLE `connlog` (
   `sclub` text NOT NULL,
   `hwid` text NOT NULL,
   `ip` text NOT NULL,
-  `null` varchar(155) NOT NULL,
   `idkey` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
