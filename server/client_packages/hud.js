@@ -19,6 +19,8 @@ var hudstatus =
     fuel: 0,
     health: 0
 }
+
+// fishing
 let fishingState = 0;
 let fishingSuccess = 0;
 let fishingBarPosition = 0;
@@ -32,125 +34,78 @@ let isInZone = false;
 let isShowPrompt = false;
 let isEnter = false;
 let isjoinTable = false;
-const checkConditions = () => {
-  /*  mp.gui.chat.push("RodInHand "+localplayer.getVariable('RodInHand'));*/
-    return (
-        localplayer.getVariable('RodInHand') == true&&
-        !localplayer.isSwimming() &&
-        !localplayer.vehicle &&
-        !localplayer.getVehicleIsTryingToEnter() &&
-        !localplayer.isInAir() &&
-        !localplayer.isJumping() &&
-        !localplayer.isDiving() &&
-        !localplayer.isEvasiveDiving() &&
-        !localplayer.isFalling() &&
-        !localplayer.isSwimmingUnderWater() &&
-        !localplayer.isClimbing()
-    );
-};
-mp.keys.bind(Keys.VK_E, false, function () {
-    if (global.menuOpened || global.chatActive || editing) return;
-    if (!checkConditions())return;
-    if (isEnter || !isInZone) return;
-    mp.events.callRemote('fishing');
 
-});
-mp.events.add('startPlayerFishing', () => {
-
-    fishingBarMin = 0.277;
-    fishingBarMax = 0.675;
-    isEnter=true;
-    fishingState = 2;
-    fishingBarPosition = 0.476;
-    mp.events.callRemote('startFishingTimer');
-});
 mp.events.add('fishingBaitTaken', () => {
-    fishingAchieveStart = Math.random() * 0.39 + fishingBarMin;
+	fishingBarMin = 0.277;
+    fishingBarMax = 0.675;
+	fishingAchieveStart = Math.random() * 0.39 + fishingBarMin;
+    isEnter=true;
+    fishingBarPosition = 0.476;
     fishingSuccess = 0;
     fishingState = 3;
 });
 
 function drawFishingMinigame() {
 
-       if(mp.game.controls.isControlPressed(0, 24) && mp.game.controls.isControlJustPressed(0, 24)) {
-            switch(fishingState) {
-            case 2:
+    if(mp.game.controls.isControlPressed(0, 24) && mp.game.controls.isControlJustPressed(0, 24)) {
+         switch(fishingState) {
+         case 2:
+             fishingState = -1;
+             mp.events.callRemote('stopFishDrop');
+             isEnter=false;
+             break;
+         case 3:
+             if(fishingBarPosition > fishingAchieveStart-0.01 && fishingBarPosition < fishingAchieveStart+0.01) {
+                 fishingSuccess++;
+                 if(fishingSuccess == 1) {
+                     fishingState = -1;
+                     let heading = localplayer.getHeading() + 90;
+                     let point = {
+                         x: localplayer.position.x + 15*Math.cos(heading * Math.PI / 180.0),
+                         y: localplayer.position.y + 15*Math.sin(heading * Math.PI / 180.0),
+                         z: localplayer.position.z
+                     }
+                     mp.events.callRemote('giveRandomFish');
+                     isEnter=false;
+                 } else {
 
-                fishingState = -1;
-                mp.events.callRemote('fishingCanceled');
-                isEnter=false;
-                break;
-            case 3:
-                if(fishingBarPosition > fishingAchieveStart-0.01 && fishingBarPosition < fishingAchieveStart+0.01) {
-                    fishingSuccess++;
-                    if(fishingSuccess == 3) {
-                        fishingState = -1;
+                     movementRight = true;
+                     fishingBarPosition = 0.476;
+                     fishingAchieveStart = Math.random() * 0.39 + fishingBarMin;
+                 }
+             } else {
+                 fishingState = -1;
+                 mp.events.callRemote('stopFishDrop');
+                 isEnter=false;
+             }
+             break;
+     }
+     return;
+ }
 
-                        let heading = localplayer.getHeading() + 90;
-                        let point = {
-                            x: localplayer.position.x + 15*Math.cos(heading * Math.PI / 180.0),
-                            y: localplayer.position.y + 15*Math.sin(heading * Math.PI / 180.0),
-                            z: localplayer.position.z
-                        }
-                        let water = Math.abs(mp.game.water.getWaterHeight(point.x, point.y, point.z, 0));
-                        let ground = mp.game.gameplay.getGroundZFor3dCoord(point.x, point.y, point.z, 0.0, false);
-                        let depth;
-                        if (ground === 0) {
-                            depth = 420;
-                        } else {
-                            depth = water - ground;
-                        }
-
-                        mp.events.callRemote('fishingSuccess',depth);
-                        isEnter=false;
-                    } else {
-
-                        movementRight = true;
-                        fishingBarPosition = 0.476;
-                        fishingAchieveStart = Math.random() * 0.39 + fishingBarMin;
-                    }
-                } else {
-                    fishingState = -1;
-                    mp.events.callRemote('fishingFailed');
-                    isEnter=false;
-                }
-                break;
-        }
-
-
-        return;
-    }
-
-    if(fishingState == 3) {
-
-
-        mp.game.graphics.drawRect(0.45, 0.2, 0.5, 0.025, 0, 0, 0, 200);
-
-
-        mp.game.graphics.drawRect(fishingAchieveStart, 0.2, 0.030, 0.025, 0, 255, 0, 255);
-
-
-        mp.game.graphics.drawRect(fishingBarPosition, 0.19, 0.002, 0.026, 255, 255, 255, 255);
-
-        if(movementRight) {
-
-            fishingBarPosition += 0.001;
-
-            if(fishingBarPosition > fishingBarMax) {
-                fishingBarPosition = fishingBarMax;
-                movementRight = false;
-            }
-        } else {
-
-            fishingBarPosition -= 0.001;
-
-            if(fishingBarPosition < fishingBarMin) {
-                fishingBarPosition = fishingBarMin;
-                movementRight = true;
-            }
-        }
-    }
+ if(fishingState == 3) {
+     mp.game.graphics.drawRect(0.47, 0.2, 0.39, 0.025, 60, 60, 60, 120);
+     // x y w h r g b a
+     mp.game.graphics.drawRect(fishingAchieveStart, 0.2, 0.030, 0.025, 0, 255, 0, 255);
+     mp.game.graphics.drawRect(fishingBarPosition, 0.19, 0.002, 0.026, 255, 255, 255, 255);
+     if(movementRight) {
+         fishingBarPosition += 0.001;
+         if(fishingBarPosition > fishingBarMax) {
+             fishingBarPosition = fishingBarMax;
+             movementRight = false;
+         }
+     } else {
+         fishingBarPosition -= 0.001;
+         if(fishingBarPosition < fishingBarMin) {
+             fishingBarPosition = fishingBarMin;
+             movementRight = true;
+         }
+     }
+ }
 }
+
+// end fishing
+
 // HUD events
 mp.events.add('notify', (type, layout, msg, time) => {
     if (global.loggedin) mp.gui.execute(`notify(${type},${layout},'${msg}',${time})`);
@@ -455,48 +410,7 @@ mp.events.add('render', (nametags) => {
         hudstatus.online = mp.players.length;
         mp.gui.execute(`HUD.online=${hudstatus.online}`);
     }
-  if (checkConditions()) {
 
-          if (!isIntervalCreated) {
-            isIntervalCreated = true;
-            intervalFishing = mp.timer.addInterval(() => {
-                let heading = localplayer.getHeading() + 90;
-                let point = {
-                    x: localplayer.position.x + 15*Math.cos(heading * Math.PI / 180.0),
-                    y: localplayer.position.y + 15*Math.sin(heading * Math.PI / 180.0),
-                    z: localplayer.position.z
-                };
-               let ground = mp.game.gameplay.getGroundZFor3dCoord(point.x, point.y, point.z, 0.0, false);
-               let water = Math.abs(mp.game.water.getWaterHeight(point.x, point.y, point.z, 0));
-                // debug(`water: ${water} | ground: ${ground}`);
-
-                if (water > 0 && ground < water && ground != 0) {
-                    /*  mp.gui.chat.push("RodInHand "+localplayer.getVariable('RodInHand'));*/
-                    
-                    isShowPrompt = true;
-                    isInZone = true;
-                    mp.gui.execute(`prompt.showByName('fishing')`);
-                } else {
-                    if (isShowPrompt) {
-                        mp.gui.execute(`prompt.hide()`);
-                        isShowPrompt = false;
-                    }
-                    isInZone = false;
-                }
-            }, 1000);
-        }
-    }
-    else {
-        if (isIntervalCreated) {
-               mp.gui.execute(`prompt.hide()`);
-            isInZone = false;
-            isShowPrompt = false;
-            mp.timer.remove(intervalFishing);
-            isIntervalCreated = false;
-        }
-    }
-    if(localplayer.getVariable('RodInHand') == false)
-        isIntervalCreated=false;
     // Update street & district
     var street = mp.game.pathfind.getStreetNameAtCoord(localplayer.position.x, localplayer.position.y, localplayer.position.z, 0, 0);
     let area  = mp.game.zone.getNameOfZone(localplayer.position.x, localplayer.position.y, localplayer.position.z);
