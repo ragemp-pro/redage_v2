@@ -1028,6 +1028,11 @@ let auto = {
 }
 const cameraRotator = require("cef/js/vie.js");
 
+/*var vehCamPosition = new mp.Vector3(-42.3758, -1101.672, 26.42235);
+var vehCamRotation = new mp.Vector3(0, 0, 1.701622);
+var vehPosition = new mp.Vector3(-42.79771, -1095.676, 26.0117);
+var vehRotation = new mp.Vector3(0, 0, -136.246);*/
+
 function createCam(x, y, z, rx, ry, rz, viewangle) {
     // camera = mp.cameras.new("Cam", {x, y, z}, {x: rx, y: ry, z: rz}, viewangle);
     camera = mp.cameras.new("default");
@@ -1036,7 +1041,7 @@ function createCam(x, y, z, rx, ry, rz, viewangle) {
     camera.setFov(viewangle);
     camera.setActive(true);
 
-    var vehPosition = new mp.Vector3(134.9819, -1196.723, 29.36534); // спавн авто
+    var vehPosition = new mp.Vector3(-42.79771, -1095.676, 26.0117); // спавн авто
     cameraRotator.start(camera, vehPosition, vehPosition, new mp.Vector3(-3.0, 3.5, 0.5), 180);
     cameraRotator.setZBound(-0.8, 1.8);
     cameraRotator.setZUpMultipler(5);
@@ -1106,6 +1111,9 @@ mp.events.add('openAuto', (models, prices) => {
     setAuto('prices', prices);
 
     mp.events.callRemote('createlveh', autoModels[0], 0, 0, 0);
+
+    createCam(-42.3758, -1101.672, 26.42235, 0, 0, 1.701622, 50); // координаты камеры и ротация
+    cameraRotator.pause(false);
 
     auto.color = "Черный";
     auto.model = autoModels[0];
