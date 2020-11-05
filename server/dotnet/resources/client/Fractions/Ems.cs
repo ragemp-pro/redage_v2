@@ -440,9 +440,9 @@ namespace NeptuneEvo.Fractions
             nInventory.Add(player, new nItem(ItemType.HealthKit));
             nInventory.Remove(seller, ItemType.HealthKit, 1);
 
-            Fractions.Stocks.fracStocks[6].Money += Convert.ToInt32(player.GetData<long>("PRICE") * 0.85);
+            Fractions.Stocks.fracStocks[6].Money += Convert.ToInt32(player.GetData<int>("PRICE") * 0.85);
             MoneySystem.Wallet.Change(player, -player.GetData<int>("PRICE"));
-            MoneySystem.Wallet.Change(seller, Convert.ToInt32(player.GetData<long>("PRICE") * 0.15));
+            MoneySystem.Wallet.Change(seller, Convert.ToInt32(player.GetData<int>("PRICE") * 0.15));
 
             Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы купили аптечку", 3000);
             Notify.Send(seller, NotifyType.Info, NotifyPosition.BottomCenter, $"Игрок ({player.Value}) купил у Вас аптечку", 3000);
@@ -482,7 +482,7 @@ namespace NeptuneEvo.Fractions
                 NAPI.Player.SetPlayerHealth(player, 100);
                 MoneySystem.Wallet.Change(player, -player.GetData<int>("PRICE"));
                 MoneySystem.Wallet.Change(seller, player.GetData<int>("PRICE"));
-                GameLog.Money($"player({Main.Players[player].UUID})", $"player({Main.Players[seller].UUID})", player.GetData<long>("PRICE"), $"payHeal");
+                GameLog.Money($"player({Main.Players[player].UUID})", $"player({Main.Players[seller].UUID})", player.GetData<int>("PRICE"), $"payHeal");
                 return;
             }
             else if (seller.GetData<bool>("IN_HOSPITAL") && player.GetData<bool>("IN_HOSPITAL"))
@@ -492,7 +492,7 @@ namespace NeptuneEvo.Fractions
                 NAPI.Player.SetPlayerHealth(player, 100);
                 MoneySystem.Wallet.Change(player, -player.GetData<int>("PRICE"));
                 MoneySystem.Wallet.Change(seller, player.GetData<int>("PRICE"));
-                GameLog.Money($"player({Main.Players[player].UUID})", $"player({Main.Players[seller].UUID})", player.GetData<long>("PRICE"), $"payHeal");
+                GameLog.Money($"player({Main.Players[player].UUID})", $"player({Main.Players[seller].UUID})", player.GetData<int>("PRICE"), $"payHeal");
                 Trigger.ClientEvent(player, "stopScreenEffect", "PPFilter");
                 return;
             }
