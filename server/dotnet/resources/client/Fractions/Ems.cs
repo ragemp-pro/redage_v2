@@ -413,7 +413,7 @@ namespace NeptuneEvo.Fractions
 
         public static void payMedkit(Player player)
         {
-            if (Main.Players[player].Money < player.GetData<long>("PRICE"))
+            if (Main.Players[player].Money < player.GetData<int>("PRICE"))
             {
                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"У Вас нет столько денег", 3000);
                 return;
@@ -450,7 +450,7 @@ namespace NeptuneEvo.Fractions
 
         public static void payHeal(Player player)
         {
-            if (Main.Players[player].Money < player.GetData<long>("PRICE"))
+            if (Main.Players[player].Money < player.GetData<int>("PRICE"))
             {
                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"У Вас нет столько денег", 3000);
                 return;
