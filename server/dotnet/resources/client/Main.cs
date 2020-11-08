@@ -341,7 +341,7 @@ namespace NeptuneEvo
 
                 Fractions.Configs.LoadFractionConfigs();
 
-                NAPI.World.SetWeather(config.TryGet<string>("Weather", "CLEAR"));
+                NAPI.World.SetWeather(config.TryGet<string>("Weather", "XMAS"));
 
                 if (oldconfig.DonateChecker)
                     MoneySystem.Donations.Start();
@@ -2672,10 +2672,10 @@ namespace NeptuneEvo
         private static DateTime NextWeatherChange = DateTime.Now.AddMinutes(rnd.Next(30, 70));
         private static List<int> Env_lastDate = new List<int>() { DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Year };
         private static List<int> Env_lastTime = new List<int>() { DateTime.Now.Hour, DateTime.Now.Minute };
-        private static string Env_lastWeather = config.TryGet<string>("Weather", "CLEAR");
+        private static string Env_lastWeather = config.TryGet<string>("Weather", "XMAS");
         public static bool SCCheck = config.TryGet<bool>("SocialClubCheck", false);
 
-        public static void changeWeather(byte id) {
+        public static void changeWeather(int id) {
             try {
                 switch(id) {
                     case 0: Env_lastWeather = "EXTRASUNNY";

@@ -11,7 +11,7 @@ namespace NeptuneEvo.Fractions
     class Fbi : Script
     {
         private static Dictionary<int, ColShape> Cols = new Dictionary<int, ColShape>();
-        public static Vector3 EnterFBI = new Vector3(-1581.552, -557.9453, 33.83302);
+        public static Vector3 EnterFBI = new Vector3(104.56081, -744.52924, 44.634758);
         private static Vector3 ExitFBI = new Vector3(107.1693, -744.6852, 44.75476);
         private static List<Vector3> fbiCheckpoints = new List<Vector3>()
         {

@@ -2830,6 +2830,14 @@ namespace NeptuneEvo.Core
             NAPI.World.SetWeather(Weather.XMAS);
         }
 
+        [Command("sw")]
+        public static void CMD_setWeatherID(Player player, int weather)
+        {
+            if (!Group.CanUseCmd(player, "sw")) return;
+            Main.changeWeather(weather);
+            GameLog.Admin($"{player.Name}", $"setWeather({weather})", $"");
+        }
+
         [Command("st")]
         public static void CMD_setTime(Player player, int hours, int minutes, int seconds)
         {
