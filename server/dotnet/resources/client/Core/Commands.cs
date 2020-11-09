@@ -111,6 +111,22 @@ namespace NeptuneEvo.Core
         #endregion Chat logic
 
         #region AdminCommands
+
+        [Command("sh1")]
+        public static void CMD_sheriffAccept(Player player, int id)
+        {
+            try
+            {
+                if (Main.GetPlayerByID(id) == null)
+                {
+                    Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Игрок с таким ID не найден", 3000);
+                    return;
+                }
+                Fractions.Sheriff.acceptCall(player, Main.GetPlayerByID(id));
+            }
+            catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
+        }
+
         [Command("givelic")]
         public static void CMD_giveLicense(Player player, int id, int lic)
         {

@@ -33,6 +33,7 @@ namespace NeptuneEvo.Fractions
             { 15, "LSNEWS" },
             { 16, "THELOST" },
             { 17, "MERRYWEATHER" },
+            { 18, "SHERIFF" },
         };
         // fractionid - ranknumber - rankname, rankclothes
         public static Dictionary<int, Dictionary<int, Tuple<string, string, string, int>>> FractionRanks = new Dictionary<int, Dictionary<int, Tuple<string, string, string, int>>>();
@@ -116,13 +117,13 @@ namespace NeptuneEvo.Fractions
             return;
             */
             #endregion
-            for (int i = 1; i <= 17; i++)
+            for (int i = 1; i <= 18; i++)
                 FractionVehicles.Add(i, new Dictionary<string, Tuple<VehicleHash, Vector3, Vector3, int, int, int, VehicleManager.VehicleCustomization>>());
-            for (int i = 1; i <= 17; i++)
+            for (int i = 1; i <= 18; i++)
                 FractionRanks.Add(i, new Dictionary<int, Tuple<string, string, string, int>>());
-            for (int i = 1; i <= 17; i++)
+            for (int i = 1; i <= 18; i++)
                 FractionCommands.Add(i, new Dictionary<string, int>());
-            for (int i = 1; i <= 17; i++)
+            for (int i = 1; i <= 18; i++)
                 FractionWeapons.Add(i, new Dictionary<string, int>());
 
             // loading fraction vehicle configs and spawn

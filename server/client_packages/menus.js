@@ -389,7 +389,8 @@ function openSM(type, data) {
         case 7: menu.execute(`openArmygun('${data}');`); break;
         case 8: menu.execute(`openGang('${data}');`); break;
         case 9: menu.execute(`openMafia('${data}');`); break;
-		case 10: menu.execute(`openFishShop('${data}');`); break;
+        case 10: menu.execute(`openFishShop('${data}');`); break;
+        case 11: menu.execute(`openSheriff('${data}');`); break;
     }
     global.menuOpen()
 }
@@ -439,6 +440,9 @@ mp.events.add('menu', (action, data) => {
 		case "fishshop":
             mp.events.callRemote('fishshop', data);
             break;
+        case "sheriff":
+            mp.events.callRemote('sheriffgun', data);
+           break;
     }
 });
 // SM DATA //
@@ -457,6 +461,23 @@ mp.events.add('policeg', () => {
     ];
     openSM(4, JSON.stringify(data));
 });
+
+mp.events.add('sheriffg', () => {
+    let data = [
+        "Дубинка",
+        "Пистолет",
+        "SMG",
+        "Дробовик",
+        "Tazer",
+        "Бронежилет",
+        "Аптечка",
+        "Пистолетный калибр x12",
+        "Малый калибр x30",
+        "Дробь x6",
+    ];
+    openSM(4, JSON.stringify(data));
+});
+
 mp.events.add('fbiguns', () => {
     let data = [
         "Tazer",

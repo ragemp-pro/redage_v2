@@ -211,7 +211,7 @@ namespace NeptuneEvo.Core
         public static void setFracLeader(Player sender, Player target, int fracid)
         {
             if (!Group.CanUseCmd(sender, "setleader")) return;
-            if (fracid != 0 && fracid <= 17)
+            if (fracid != 0 && fracid <= 18)
             {
                 Fractions.Manager.UNLoad(target);
                 int index = Fractions.Manager.AllMembers.FindIndex(m => m.Name == target.Name);
@@ -237,7 +237,7 @@ namespace NeptuneEvo.Core
         public static void delFracLeader(Player sender, Player target)
         {
             if (!Group.CanUseCmd(sender, "delleader")) return;
-            if (Main.Players[target].FractionID != 0 && Main.Players[target].FractionID <= 17)
+            if (Main.Players[target].FractionID != 0 && Main.Players[target].FractionID <= 18)
             {
                 if (Main.Players[target].FractionLVL < Fractions.Configs.FractionRanks[Main.Players[target].FractionID].Count)
                 {

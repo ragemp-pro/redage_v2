@@ -771,6 +771,20 @@ background: linear-gradient(135deg, rgba(57,73,96,1) 0%, rgba(79,105,143,1) 49%,
 color: #fff;
 text-shadow: 1px 1px 2px black, 0 0 1em rgba(0,0,0,0.3);
 }
+
+.bg.badge-sheriff {
+    
+background: rgba(57,73,96,1);
+background: -moz-linear-gradient(-45deg, rgba(57,73,96,1) 0%, rgba(79,105,143,1) 49%, rgba(57,73,96,1) 100%);
+background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(57,73,96,1)), color-stop(49%, rgba(79,105,143,1)), color-stop(100%, rgba(57,73,96,1)));
+background: -webkit-linear-gradient(-45deg, rgba(57,73,96,1) 0%, rgba(79,105,143,1) 49%, rgba(57,73,96,1) 100%);
+background: -o-linear-gradient(-45deg, rgba(57,73,96,1) 0%, rgba(79,105,143,1) 49%, rgba(57,73,96,1) 100%);
+background: -ms-linear-gradient(-45deg, rgba(57,73,96,1) 0%, rgba(79,105,143,1) 49%, rgba(57,73,96,1) 100%);
+background: linear-gradient(135deg, rgba(57,73,96,1) 0%, rgba(79,105,143,1) 49%, rgba(57,73,96,1) 100%);
+color: #fff;
+text-shadow: 1px 1px 2px black, 0 0 1em rgba(0,0,0,0.3);
+}
+
 .bg.badge-ems {
 
 background: rgba(255,255,255,1);

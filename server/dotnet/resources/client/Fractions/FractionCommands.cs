@@ -638,6 +638,7 @@ namespace NeptuneEvo.Fractions
                     NAPI.Data.ResetEntityData(player, "ARREST_TIMER");
                     Police.setPlayerWantedLevel(player, null);
                     NAPI.Entity.SetEntityPosition(player, Police.policeCheckpoints[5]);
+                    NAPI.Entity.SetEntityPosition(player, Sheriff.sheriffCheckpoints[5]);
                     NAPI.Entity.SetEntityDimension(player, 0);
                     Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, $"Вы были освобождены из тюрьмы", 3000);
                 }
@@ -650,6 +651,8 @@ namespace NeptuneEvo.Fractions
             NAPI.Entity.SetEntityPosition(target, Police.policeCheckpoints[4]);
             Police.setPlayerWantedLevel(target, null);
             //NAPI.Data.SetEntityData(target, "ARREST_TIMER", Main.StartT(1000, 1000, (o) => arrestTimer(target), "ARREST_TIMER"));
+            NAPI.Entity.SetEntityPosition(target, Sheriff.sheriffCheckpoints[4]);
+            Sheriff.setPlayerWantedLevel(target, null);
             NAPI.Data.SetEntityData(target, "ARREST_TIMER", Timers.Start(1000, () => arrestTimer(target)));
             Weapons.RemoveAll(target, true);
         }
@@ -800,6 +803,7 @@ namespace NeptuneEvo.Fractions
                     var oldStars = (Main.Players[target].WantedLVL == null) ? 0 : Main.Players[target].WantedLVL.Level;
                     var wantedLevel = new WantedLevel(oldStars + stars, player.Name, DateTime.Now, reason);
                     Police.setPlayerWantedLevel(target, wantedLevel);
+                    Sheriff.setPlayerWantedLevel(target, wantedLevel);
                     return;
                 }
                 else Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы не можете выдать такое кол-во звёзд", 3000);
@@ -898,6 +902,14 @@ namespace NeptuneEvo.Fractions
             if (!Manager.canUseCommand(player, "warg"))
             {
                 return;
+            }
+            if (Main.Players[player].FractionID == 18)
+            {
+                var message = "";
+                Police.is_warg = !Police.is_warg;
+                if (Police.is_warg) message = $"{NAPI.Player.GetPlayerName(player)} объявил режим ЧП!!!";
+                else message = $"{NAPI.Player.GetPlayerName(player)} отключил режим ЧП.";
+                Manager.sendFractionMessage(7, message);
             }
             if (Main.Players[player].FractionID == 7)
             {

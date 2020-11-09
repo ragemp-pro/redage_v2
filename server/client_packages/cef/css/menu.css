@@ -107,6 +107,10 @@
 .menu#lspd .exit{ background-color: #214984; }
 .menu#lspd .exit:hover{ background-color: #214984; }
 
+.menu#sheriff h1 { background-color: #214984; }
+.menu#sheriff .exit{ background-color: #214984; }
+.menu#sheriff .exit:hover{ background-color: #214984; }
+
 .menu#army h1{ background-color: #2a2b26; }
 .menu#army .exit{ background-color: #2a2b26; }
 .menu#army .exit:hover{ background-color: #2a2b26; }

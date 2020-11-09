@@ -37,7 +37,10 @@ var Peds = [
     { Hash: -1306051250, Pos: new mp.Vector3(257.5671, -1344.612, 24.54937), Angle: 229.3922 }, // Billy_Bob
     { Hash: -907676309, Pos: new mp.Vector3(724.8585, 134.1029, 80.95643), Angle: 245.0083 }, // Ronny_Bolls
 	{ Hash: 940330470, Pos: new mp.Vector3(458.7059, -995.118, 25.35196), Angle: 176.8092 }, // Rashkovsky
-	{ Hash: 1596003233, Pos: new mp.Vector3(459.7471, -1000.333, 24.91329), Angle: 177.2829 }, // Muscle Prisoner
+    { Hash: 1596003233, Pos: new mp.Vector3(459.7471, -1000.333, 24.91329), Angle: 177.2829 }, // Muscle Prisoner
+    { Hash: -520477356, Pos: new mp.Vector3(-455.9738, 6014.119, 31.59654), Angle: 357.7483 }, // Bot
+    { Hash: -1614285257, Pos: new mp.Vector3(-449.8658, 6012.458, 31.59655), Angle: 308.1411 }, // Kira
+    { Hash: -1699520669, Pos: new mp.Vector3(-429.0482, 5997.3, 31.59655), Angle: 86.12 }, // Stepa
 ];
 
 /*mp.colshapes.forEach( 

@@ -25,6 +25,8 @@ namespace NeptuneEvo.Fractions
                 NAPI.Blip.CreateBlip(526, Police.policeCheckpoints[1], 1, 38, Main.StringToU16("Полиция"), 255, 0, true, 0, 0);
                 NAPI.Blip.CreateBlip(85, Army.ArmyCheckpoints[2], 1, 28, Main.StringToU16("Доки"), 255, 0, true, 0, 0);
 
+                NAPI.Blip.CreateBlip(526, Manager.FractionSpawns[18], 1.1f, 47, Main.StringToU16("Sheriff"), 255, 0, true, 0, 0);
+
                 NAPI.Blip.CreateBlip(630, Manager.FractionSpawns[1], 1.35f, 52, Main.StringToU16("The Families"), 255, 0, true, 0, 0);
                 NAPI.Blip.CreateBlip(630, Manager.FractionSpawns[2], 1.35f, 58, Main.StringToU16("The Ballas"), 255, 0, true, 0, 0);
                 NAPI.Blip.CreateBlip(630, Manager.FractionSpawns[3], 1.35f, 28, Main.StringToU16("Los Santos Vagos"), 255, 0, true, 0, 0);
@@ -168,6 +170,7 @@ namespace NeptuneEvo.Fractions
             {15, new Vector3(-1063.046, -249.463, 44.0211)},    // LSNews
             {16, new Vector3(982.2743, -104.14917, 73.72877)},    // The Lost
             {17, new Vector3(2154.641, 2921.034, -63.02243)},    // Merryweather
+            {18, new Vector3(-441.9835, 5987.603, 30.59653)},    // Sheriff
         };
         public static SortedList<int, int> FractionTypes = new SortedList<int, int>() // 0 - mafia, 1 gangs, 2 - gov, 
         {
@@ -189,6 +192,7 @@ namespace NeptuneEvo.Fractions
             {15, 2}, // News
             {16, 1}, // The Lost
             {17, 2}, // Merryweather
+            {18, 2}, // Sheriff
         };
         public static SortedList<int, string> FractionNames = new SortedList<int, string>()
         {
@@ -210,6 +214,7 @@ namespace NeptuneEvo.Fractions
             {15, "News" },
             {16, "The Lost" },
             {17, "Merryweather Security" },
+            {18, "Sheriff" },
         };
         public static List<MemberData> AllMembers = new List<MemberData>();
 
@@ -248,7 +253,8 @@ namespace NeptuneEvo.Fractions
             { 9, 14 },
             { 14, 15 },
             { 15, 16 },
-            { 17, 15 }
+            { 17, 15 },
+            { 18, 14 }
         };
         public static Dictionary<int, string> GovTags = new Dictionary<int, string>
         {
@@ -258,7 +264,8 @@ namespace NeptuneEvo.Fractions
             { 9, "FIB" },
             { 14, "ARMY" },
             { 15, "NEWS" },
-            { 17, "MERRYWEATHER" }
+            { 17, "MERRYWEATHER" },
+            { 18, "SHERIFF" }
         };
         public static void govFractionChat(Player sender, string message)
         {
@@ -480,6 +487,76 @@ namespace NeptuneEvo.Fractions
             {
                 switch (clothes)
                 {
+                    case "sheriff_1":
+                        player.SetClothes(11, 26, 0);
+                        player.SetClothes(3, Customization.CorrectTorso[Main.Players[player].Gender][26], 0);
+                        player.SetClothes(4, 35, 0);
+                        player.SetClothes(6, 10, 0);
+                        player.SetClothes(8, 58, 0);
+                        break;
+                    case "sheriff_2":
+                        player.SetClothes(11, 55, 0);
+                        player.SetClothes(3, Customization.CorrectTorso[Main.Players[player].Gender][55], 0);
+                        player.SetClothes(4, 35, 0);
+                        player.SetClothes(6, 10, 0);
+                        player.SetClothes(8, 58, 0);
+                        player.SetClothes(10, 8, 1);
+                        break;
+                    case "sheriff_3":
+                        player.SetClothes(11, 55, 0);
+                        player.SetClothes(3, Customization.CorrectTorso[Main.Players[player].Gender][55], 0);
+                        player.SetClothes(4, 35, 0);
+                        player.SetClothes(6, 10, 0);
+                        player.SetClothes(8, 58, 0);
+                        player.SetClothes(10, 8, 2);
+                        break;
+                    case "sheriff_4":
+                        player.SetClothes(11, 53, 0);
+                        player.SetClothes(3, 4, 0);
+                        player.SetClothes(4, 33, 0);
+                        player.SetClothes(6, 25, 0);
+                        player.SetClothes(8, 122, 0);
+                        player.SetClothes(9, 7, 1);
+                        player.SetClothes(7, 125, 0);
+                        Customization.SetHat(player, 58, 2);
+                        break;
+                    case "sheriff_5":
+                        player.SetClothes(11, 13, 3);
+                        player.SetClothes(3, Customization.CorrectTorso[Main.Players[player].Gender][13], 0);
+                        player.SetClothes(4, 35, 0);
+                        player.SetClothes(6, 10, 0);
+                        player.SetClothes(7, 125, 0);
+                        player.SetClothes(8, 130, 0);
+                        player.SetClothes(9, 28, 9);
+                        Customization.SetHat(player, 46, 0);
+                        break;
+                    case "sheriff_6":
+                        player.SetClothes(11, 13, 2);
+                        player.SetClothes(3, Customization.CorrectTorso[Main.Players[player].Gender][13], 0);
+                        player.SetClothes(4, 25, 0);
+                        player.SetClothes(6, 10, 0);
+                        player.SetClothes(7, 125, 0);
+                        player.SetClothes(8, 130, 0);
+                        player.SetClothes(9, 28, 9);
+                        break;
+                    case "sheriff_7":
+                        player.SetClothes(11, 13, 5);
+                        player.SetClothes(3, Customization.CorrectTorso[Main.Players[player].Gender][13], 0);
+                        player.SetClothes(4, 25, 0);
+                        player.SetClothes(6, 10, 0);
+                        player.SetClothes(7, 125, 0);
+                        player.SetClothes(8, 130, 0);
+                        player.SetClothes(9, 28, 9);
+                        break;
+                    case "sheriff_8":
+                        player.SetClothes(11, 13, 0);
+                        player.SetClothes(3, Customization.CorrectTorso[Main.Players[player].Gender][13], 0);
+                        player.SetClothes(4, 25, 0);
+                        player.SetClothes(6, 10, 0);
+                        player.SetClothes(7, 125, 0);
+                        player.SetClothes(8, 130, 0);
+                        player.SetClothes(9, 28, 9);
+                        break;
                     case "city_1":
                         player.SetAccessories(1, 1, 1);
                         player.SetClothes(11, 242, 2);
@@ -762,6 +839,76 @@ namespace NeptuneEvo.Fractions
             {
                 switch (clothes)
                 {
+                    case "sheriff_1":
+                        player.SetClothes(11, 27, 1);
+                        player.SetClothes(3, Customization.CorrectTorso[Main.Players[player].Gender][27], 0);
+                        player.SetClothes(4, 37, 0);
+                        player.SetClothes(6, 29, 0);
+                        player.SetClothes(8, 35, 0);
+                        break;
+                    case "sheriff_2":
+                        player.SetClothes(11, 48, 0);
+                        player.SetClothes(3, Customization.CorrectTorso[Main.Players[player].Gender][48], 0);
+                        player.SetClothes(4, 37, 0);
+                        player.SetClothes(6, 29, 0);
+                        player.SetClothes(8, 35, 0);
+                        player.SetClothes(10, 7, 1);
+                        break;
+                    case "sheriff_3":
+                        player.SetClothes(11, 48, 0);
+                        player.SetClothes(3, Customization.CorrectTorso[Main.Players[player].Gender][48], 0);
+                        player.SetClothes(4, 37, 0);
+                        player.SetClothes(6, 29, 0);
+                        player.SetClothes(8, 35, 0);
+                        player.SetClothes(10, 7, 2);
+                        break;
+                    case "sheriff_4":
+                        player.SetClothes(11, 46, 0);
+                        player.SetClothes(3, Customization.CorrectTorso[Main.Players[player].Gender][46], 0);
+                        player.SetClothes(4, 32, 0);
+                        player.SetClothes(6, 25, 0);
+                        player.SetClothes(8, 152, 0);
+                        player.SetClothes(9, 9, 1);
+                        player.SetClothes(7, 95, 0);
+                        Customization.SetHat(player, 58, 2);
+                        break;
+                    case "sheriff_5":
+                        player.SetClothes(11, 27, 5);
+                        player.SetClothes(3, Customization.CorrectTorso[Main.Players[player].Gender][27], 0);
+                        player.SetClothes(4, 37, 0);
+                        player.SetClothes(6, 29, 0);
+                        player.SetClothes(7, 95, 0);
+                        player.SetClothes(8, 152, 0);
+                        player.SetClothes(9, 27, 9);
+                        Customization.SetHat(player, 45, 0);
+                        break;
+                    case "sheriff_6":
+                        player.SetClothes(11, 27, 1);
+                        player.SetClothes(3, Customization.CorrectTorso[Main.Players[player].Gender][27], 0);
+                        player.SetClothes(4, 37, 0);
+                        player.SetClothes(6, 29, 0);
+                        player.SetClothes(7, 95, 0);
+                        player.SetClothes(8, 152, 0);
+                        player.SetClothes(9, 27, 9);
+                        break;
+                    case "sheriff_7":
+                        player.SetClothes(11, 27, 4);
+                        player.SetClothes(3, Customization.CorrectTorso[Main.Players[player].Gender][27], 0);
+                        player.SetClothes(4, 37, 0);
+                        player.SetClothes(6, 29, 0);
+                        player.SetClothes(7, 95, 0);
+                        player.SetClothes(8, 152, 0);
+                        player.SetClothes(9, 27, 9);
+                        break;
+                    case "sheriff_8":
+                        player.SetClothes(11, 27, 0);
+                        player.SetClothes(3, Customization.CorrectTorso[Main.Players[player].Gender][27], 0);
+                        player.SetClothes(4, 37, 0);
+                        player.SetClothes(6, 29, 0);
+                        player.SetClothes(7, 95, 0);
+                        player.SetClothes(8, 152, 0);
+                        player.SetClothes(9, 27, 9);
+                        break;
                     case "city_1":
                         player.SetClothes(11, 250, 2);
                         player.SetAccessories(1, 0, 1);
@@ -1134,6 +1281,7 @@ namespace NeptuneEvo.Fractions
 
             var minutes = 5;
             if (Main.Players[player].FractionID == 7) minutes = 10;
+            if (Main.Players[player].FractionID == 18) minutes = 10;
             player.SetData($"GET_{gun.ToString()}", DateTime.Now.AddMinutes(minutes));
 
             GameLog.Stock(Main.Players[player].FractionID, Main.Players[player].UUID, $"{gun.ToString()}({serial})", 1, false);
@@ -1535,6 +1683,7 @@ namespace NeptuneEvo.Fractions
             { 15, new Vector3()},
             { 16, new Vector3(976.768738, -103.651985, 73.725174)},
             { 17, new Vector3(2040.175, 3018.278, -73.82208)},
+            { 18, new Vector3()},
         };
         private static Dictionary<int, Vector3> garageCoords = new Dictionary<int, Vector3>()
         {
@@ -1555,6 +1704,7 @@ namespace NeptuneEvo.Fractions
             { 15, new Vector3()},
             { 16, new Vector3()},
             { 17, new Vector3()}, // TODO:
+            { 18, new Vector3(-447.6798, 5993.688, 29.22054)}, // Sheriff 
         };
         public static Dictionary<string, int> maxMats = new Dictionary<string, int>()
         {

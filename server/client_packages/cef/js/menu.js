@@ -119,6 +119,19 @@ function openLspd(data){
     });
     menu.self.children('.buttons').children('#btn3').css('display','inline-block');
 }
+
+function openSheriff(data){
+    menu.reset();
+    menu.self.attr('id', 'sheriff');
+    menu.self.children('h1').html("Выдача оружия");
+    var json = JSON.parse(data);
+    json.forEach(function (item, i, arr) {
+        // name, additional
+        menu.add(i, 2, item);
+    });
+    menu.self.children('.buttons').children('#btn3').css('display','inline-block');
+}
+
 function openArmy(data){
     menu.reset();
     menu.self.attr('id', 'army');

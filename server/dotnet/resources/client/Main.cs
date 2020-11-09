@@ -467,6 +467,7 @@ namespace NeptuneEvo
                         Fractions.Army.onPlayerDisconnected(player, type, reason);
                         Fractions.Ems.onPlayerDisconnectedhandler(player, type, reason);
                         Fractions.Police.onPlayerDisconnectedhandler(player, type, reason);
+                        Fractions.Sheriff.onPlayerDisconnectedhandler(player, type, reason);
                         Fractions.CarDelivery.Event_PlayerDisconnected(player);
                     }
                     catch (Exception e) { Log.Write("EXCEPTION AT \"UnLoad:Unloading Neptune.fractions\":\n" + e.ToString()); }
@@ -621,6 +622,7 @@ namespace NeptuneEvo
                     {
                         player.SetData("ARREST_TIMER", Timers.StartTask(1000, () => Fractions.FractionCommands.arrestTimer(player)));
                         NAPI.Entity.SetEntityPosition(player, Fractions.Police.policeCheckpoints[4]);
+                        NAPI.Entity.SetEntityPosition(player, Fractions.Sheriff.sheriffCheckpoints[4]);
                     } else Log.Write($"ClientSpawn ArrestTime (KPZ) worked avoid", nLog.Type.Warn);
                 }
                 else if (Players[player].DemorganTime != 0)
@@ -741,6 +743,7 @@ namespace NeptuneEvo
                 {
                     case "fuelcontrol_city":
                     case "fuelcontrol_police":
+                    case "fuelcontrol_sheriff":
                     case "fuelcontrol_ems":
                     case "fuelcontrol_fib":
                     case "fuelcontrol_army":
@@ -763,6 +766,11 @@ namespace NeptuneEvo
                         {
                             fracName = "Полиция";
                             fracID = 7;
+                        }
+                        else if (callback == "fuelcontrol_sheriff")
+                        {
+                            fracName = "Sheriff";
+                            fracID = 18;
                         }
                         else if (callback == "fuelcontrol_ems")
                         {
@@ -885,6 +893,14 @@ namespace NeptuneEvo
                             return;
                         }
                         Fractions.Police.callPolice(player, text);
+                        break;
+                    case "call_sheriff":
+                        if (text.Length == 0)
+                        {
+                            Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Введите причину", 3000);
+                            return;
+                        }
+                        Fractions.Sheriff.callSheriff(player, text);
                         break;
                     case "loadmats":
                     case "unloadmats":
@@ -1894,6 +1910,17 @@ namespace NeptuneEvo
                     case 59:
                     case 66:
                         Fractions.Police.interactPressed(player, id);
+                        return;
+                    #endregion
+                    #region sheriff interact
+                    case 100:
+                    case 110:
+                    case 120:
+                    case 420:
+                    case 440:
+                    case 590:
+                    case 660:
+                        Fractions.Sheriff.interactPressed(player, id);
                         return;
                     #endregion
                     case 13:
@@ -3025,6 +3052,7 @@ namespace NeptuneEvo
                     {
                         Fractions.Stocks.fracStocks[6].FuelLeft = Fractions.Stocks.fracStocks[6].FuelLimit; // city
                         Fractions.Stocks.fracStocks[7].FuelLeft = Fractions.Stocks.fracStocks[7].FuelLimit; // police
+                        Fractions.Stocks.fracStocks[18].FuelLeft = Fractions.Stocks.fracStocks[18].FuelLimit; // sheriff
                         Fractions.Stocks.fracStocks[8].FuelLeft = Fractions.Stocks.fracStocks[8].FuelLimit; // fib
                         Fractions.Stocks.fracStocks[9].FuelLeft = Fractions.Stocks.fracStocks[9].FuelLimit; // ems
                         Fractions.Stocks.fracStocks[14].FuelLeft = Fractions.Stocks.fracStocks[14].FuelLimit; // army
@@ -3625,6 +3653,7 @@ namespace NeptuneEvo
                 "LSPD",
                 "Госпиталь",
                 "ФБР",
+                "Sheriff",
             }},
             { "Работы", new List<string>(){
                 "Электростанция",
@@ -3681,6 +3710,7 @@ namespace NeptuneEvo
             { "Русская мафия", Fractions.Manager.FractionSpawns[11] },
             { "Yakuza", Fractions.Manager.FractionSpawns[12] },
             { "Армянская мафия", Fractions.Manager.FractionSpawns[13] },
+            { "Sheriff", new Vector3(-439.4586, 6006.434, 30.59653) },
         };
         public static void OpenGPSMenu(Player player, string cat)
         {
@@ -3718,6 +3748,7 @@ namespace NeptuneEvo
                     return;
                 case "Мэрия":
                 case "LSPD":
+                case "Sheriff":
                 case "Госпиталь":
                 case "ФБР":
                 case "Электростанция":
@@ -3783,6 +3814,10 @@ namespace NeptuneEvo
             menuItem.Text = "Вызвать полицию";
             menu.Add(menuItem);
 
+            menuItem = new Menu.Item("sheriff", Menu.MenuItem.Button);
+            menuItem.Text = "Вызвать Шерифа";
+            menu.Add(menuItem);
+
             menuItem = new Menu.Item("ems", Menu.MenuItem.Button);
             menuItem.Text = "Вызвать EMS";
             menu.Add(menuItem);
@@ -3808,6 +3843,10 @@ namespace NeptuneEvo
                 case "police":
                     MenuManager.Close(player);
                     Trigger.ClientEvent(player, "openInput", "Вызвать полицию", "Что произошло?", 30, "call_police");
+                    return;
+                case "sheriff":
+                    MenuManager.Close(player);
+                    Trigger.ClientEvent(player, "openInput", "Вызвать Шерифа", "Что произошло?", 30, "call_sheriff");
                     return;
                 case "ems":
                     MenuManager.Close(player);
@@ -3935,6 +3974,14 @@ namespace NeptuneEvo
             menuItem.Text = "Установить лимит";
             menu.Add(menuItem);
 
+            menuItem = new Menu.Item("info_sheriff", Menu.MenuItem.Card);
+            menuItem.Text = $"Полиция. Осталось сегодня: {Fractions.Stocks.fracStocks[18].FuelLeft}/{Fractions.Stocks.fracStocks[18].FuelLimit}$";
+            menu.Add(menuItem);
+
+            menuItem = new Menu.Item("setsheriff", Menu.MenuItem.Button);
+            menuItem.Text = "Установить лимит";
+            menu.Add(menuItem);
+
             menuItem = new Menu.Item("back", Menu.MenuItem.Button);
             menuItem.Text = "Назад";
             menu.Add(menuItem);
@@ -3951,6 +3998,9 @@ namespace NeptuneEvo
                     return;
                 case "set_police":
                     Trigger.ClientEvent(player, "openInput", "Установить лимит", "Введите топливный лимит полиции мэрии в долларах", 5, "fuelcontrol_police");
+                    return;
+                case "set_sheriff":
+                    Trigger.ClientEvent(player, "openInput", "Установить лимит", "Введите топливный лимит Шерифа мэрии в долларах", 5, "fuelcontrol_sheriff");
                     return;
                 case "set_ems":
                     Trigger.ClientEvent(player, "openInput", "Установить лимит", "Введите топливный лимит для EMS в долларах", 5, "fuelcontrol_ems");

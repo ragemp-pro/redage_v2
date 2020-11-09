@@ -53,6 +53,18 @@
 				<div class="street"><img src="hud/marker.png" class="marker">{{street}}</div>
 				
 				<div class="info_table">
+                    <div class="eatings">
+                        <div class="eat"><img src="hud/eat.svg" class="icohud">
+                            <a v-if="eat < 20" style="color:red;">{{eat}}</a>
+                            <a v-else-if="eat < 50" style="color:#E1E442;">{{eat}}</a>
+                            <a v-else>{{eat}}</a>
+                        </div>
+                        <div class="water"><img src="hud/water.svg" class="waterhud">
+                            <a v-if="water < 20" style="color:red;">{{water}}</a>
+                            <a v-else-if="water < 50" style="color:#E1E442;">{{water}}</a>
+                            <a v-else>{{water}}</a>
+                        </div>
+                    </div>
 					<div class="info"><img src="hud/mobile.png" class="icon"><p>M</p></div>
 					<div v-if="mic" class="info"><img src="hud/micro.svg" class="icon" style="opacity:1;transition: all .33s;"><p class="activeP">N</p></div>
 					<div v-else class="info"><img src="hud/micro.svg" class="icon"><p>N</p></div>
