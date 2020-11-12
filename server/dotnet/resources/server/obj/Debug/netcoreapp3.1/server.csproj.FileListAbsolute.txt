@@ -78,3 +78,4 @@ C:\Users\admin\Desktop\123\redage_v2\server\dotnet\resources\server\obj\Debug\ne
 C:\Users\admin\Desktop\123\redage_v2\server\dotnet\resources\server\obj\Debug\netcoreapp3.1\server.csproj.CoreCompileInputs.cache
 C:\Users\admin\Desktop\123\redage_v2\server\dotnet\resources\server\obj\Debug\netcoreapp3.1\server.dll
 C:\Users\admin\Desktop\123\redage_v2\server\dotnet\resources\server\obj\Debug\netcoreapp3.1\server.pdb
+C:\Users\admin\Desktop\123\redage_v2\server\dotnet\resources\server\obj\Debug\netcoreapp3.1\server.csprojAssemblyReference.cache

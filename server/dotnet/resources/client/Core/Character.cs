@@ -138,73 +138,77 @@ namespace NeptuneEvo.Core.Character
 
         public async Task Load(Player player, int uuid)
         {
-            try
+            NAPI.Task.Run(async () =>
             {
-                if (Main.Players.ContainsKey(player))
-                    Main.Players.Remove(player);
-
-                DataTable result = await MySQL.QueryReadAsync($"SELECT * FROM `characters` WHERE uuid={uuid}");
-                if (result == null || result.Rows.Count == 0) return;
-
-                foreach (DataRow Row in result.Rows)
+                try
                 {
-                    UUID = Convert.ToInt32(Row["uuid"]);
-                    FirstName = Convert.ToString(Row["firstname"]);
-                    LastName = Convert.ToString(Row["lastname"]);
-                    Gender = Convert.ToBoolean(Row["gender"]);
-                    Health = Convert.ToInt32(Row["health"]);
-                    Armor = Convert.ToInt32(Row["armor"]);
-                    LVL = Convert.ToInt32(Row["lvl"]);
-                    EXP = Convert.ToInt32(Row["exp"]);
-                    Eat = Convert.ToInt32(Row["eat"]);
-                    Water = Convert.ToInt32(Row["water"]);
-                    Money = Convert.ToInt64(Row["money"]);
-                    Bank = Convert.ToInt32(Row["bank"]);
-                    WorkID = Convert.ToInt32(Row["work"]);
-                    FractionID = Convert.ToInt32(Row["fraction"]);
-                    FractionLVL = Convert.ToInt32(Row["fractionlvl"]);
-                    ArrestTime = Convert.ToInt32(Row["arrest"]);
-                    DemorganTime = Convert.ToInt32(Row["demorgan"]);
-                    WantedLVL = JsonConvert.DeserializeObject<WantedLevel>(Row["wanted"].ToString());
-                    BizIDs = JsonConvert.DeserializeObject<List<int>>(Row["biz"].ToString());
-                    AdminLVL = Convert.ToInt32(Row["adminlvl"]);
-                    Licenses = JsonConvert.DeserializeObject<List<bool>>(Row["licenses"].ToString());
-                    Unwarn = ((DateTime)Row["unwarn"]);
-                    Unmute = Convert.ToInt32(Row["unmute"]);
-                    Warns = Convert.ToInt32(Row["warns"]);
-                    LastVeh = Convert.ToString(Row["lastveh"]);
-                    OnDuty = Convert.ToBoolean(Row["onduty"]);
-                    LastHourMin = Convert.ToInt32(Row["lasthour"]);
-                    HotelID = Convert.ToInt32(Row["hotel"]);
-                    HotelLeft = Convert.ToInt32(Row["hotelleft"]);
-                    Contacts = JsonConvert.DeserializeObject<Dictionary<int, string>>(Row["contacts"].ToString());
-                    Achievements = JsonConvert.DeserializeObject<List<bool>>(Row["achiev"].ToString());
-                    if(Achievements == null) {
-                        Achievements = new List<bool>();
-                        for(uint i = 0; i != 401; i++) Achievements.Add(false);
-                    }
-                    Sim = Convert.ToInt32(Row["sim"]);
-                    PetName =  Convert.ToString(Row["PetName"]);
-                    CreateDate = ((DateTime)Row["createdate"]);
+                    if (Main.Players.ContainsKey(player))
+                        Main.Players.Remove(player);
 
-                    SpawnPos = JsonConvert.DeserializeObject<Vector3>(Row["pos"].ToString());
-                    if (Row["pos"].ToString().Contains("NaN"))
+                    DataTable result = await MySQL.QueryReadAsync($"SELECT * FROM `characters` WHERE uuid={uuid}");
+                    if (result == null || result.Rows.Count == 0) return;
+
+                    foreach (DataRow Row in result.Rows)
                     {
-                        Log.Debug("Detected wrong coordinates!", nLog.Type.Warn);
-                        if(LVL <= 1) SpawnPos = new Vector3(-1036.3226, -2732.918, 12.766636); // На спавне новичков
-                        else SpawnPos = new Vector3(-1036.3226, -2732.918, 12.766636); //На спавне новичков у мэрии 
+                        UUID = Convert.ToInt32(Row["uuid"]);
+                        FirstName = Convert.ToString(Row["firstname"]);
+                        LastName = Convert.ToString(Row["lastname"]);
+                        Gender = Convert.ToBoolean(Row["gender"]);
+                        Health = Convert.ToInt32(Row["health"]);
+                        Armor = Convert.ToInt32(Row["armor"]);
+                        LVL = Convert.ToInt32(Row["lvl"]);
+                        EXP = Convert.ToInt32(Row["exp"]);
+                        Eat = Convert.ToInt32(Row["eat"]);
+                        Water = Convert.ToInt32(Row["water"]);
+                        Money = Convert.ToInt64(Row["money"]);
+                        Bank = Convert.ToInt32(Row["bank"]);
+                        WorkID = Convert.ToInt32(Row["work"]);
+                        FractionID = Convert.ToInt32(Row["fraction"]);
+                        FractionLVL = Convert.ToInt32(Row["fractionlvl"]);
+                        ArrestTime = Convert.ToInt32(Row["arrest"]);
+                        DemorganTime = Convert.ToInt32(Row["demorgan"]);
+                        WantedLVL = JsonConvert.DeserializeObject<WantedLevel>(Row["wanted"].ToString());
+                        BizIDs = JsonConvert.DeserializeObject<List<int>>(Row["biz"].ToString());
+                        AdminLVL = Convert.ToInt32(Row["adminlvl"]);
+                        Licenses = JsonConvert.DeserializeObject<List<bool>>(Row["licenses"].ToString());
+                        Unwarn = ((DateTime)Row["unwarn"]);
+                        Unmute = Convert.ToInt32(Row["unmute"]);
+                        Warns = Convert.ToInt32(Row["warns"]);
+                        LastVeh = Convert.ToString(Row["lastveh"]);
+                        OnDuty = Convert.ToBoolean(Row["onduty"]);
+                        LastHourMin = Convert.ToInt32(Row["lasthour"]);
+                        HotelID = Convert.ToInt32(Row["hotel"]);
+                        HotelLeft = Convert.ToInt32(Row["hotelleft"]);
+                        Contacts = JsonConvert.DeserializeObject<Dictionary<int, string>>(Row["contacts"].ToString());
+                        Achievements = JsonConvert.DeserializeObject<List<bool>>(Row["achiev"].ToString());
+                        if (Achievements == null)
+                        {
+                            Achievements = new List<bool>();
+                            for (uint i = 0; i != 401; i++) Achievements.Add(false);
+                        }
+                        Sim = Convert.ToInt32(Row["sim"]);
+                        PetName = Convert.ToString(Row["PetName"]);
+                        CreateDate = ((DateTime)Row["createdate"]);
+
+                        SpawnPos = JsonConvert.DeserializeObject<Vector3>(Row["pos"].ToString());
+                        if (Row["pos"].ToString().Contains("NaN"))
+                        {
+                            Log.Debug("Detected wrong coordinates!", nLog.Type.Warn);
+                            if (LVL <= 1) SpawnPos = new Vector3(-1036.3226, -2732.918, 12.766636); // На спавне новичков
+                            else SpawnPos = new Vector3(-1036.3226, -2732.918, 12.766636); //На спавне новичков у мэрии 
+                        }
                     }
+                    player.Name = FirstName + "_" + LastName;
+                    Main.Players.Add(player, this);
+                    CheckAchievements(player);
+                    GameLog.Connected(player.Name, UUID, player.GetData<string>("RealSocialClub"), player.GetData<string>("RealHWID"), player.Value, player.Address);
+                    Spawn(player);
                 }
-                player.Name = FirstName + "_" + LastName;
-                Main.Players.Add(player, this);
-                CheckAchievements(player);
-                GameLog.Connected(player.Name, UUID, player.GetData<string>("RealSocialClub"), player.GetData<string>("RealHWID"), player.Value, player.Address);
-                Spawn(player);
-            }
-            catch (Exception e)
-            {
-                Log.Write("EXCEPTION AT \"Load\":\n" + e.ToString());
-            }
+                catch (Exception e)
+                {
+                    Log.Write("EXCEPTION AT \"Load\":\n" + e.ToString());
+                }
+            });
         }
 
         public static void CheckAchievements(Player player) {
