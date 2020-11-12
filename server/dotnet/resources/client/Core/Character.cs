@@ -138,16 +138,16 @@ namespace NeptuneEvo.Core.Character
 
         public async Task Load(Player player, int uuid)
         {
-            NAPI.Task.Run(async () =>
+            try
             {
-                try
+                if (Main.Players.ContainsKey(player))
+                    Main.Players.Remove(player);
+
+                DataTable result = await MySQL.QueryReadAsync($"SELECT * FROM `characters` WHERE uuid={uuid}");
+                if (result == null || result.Rows.Count == 0) return;
+
+                NAPI.Task.Run(() =>
                 {
-                    if (Main.Players.ContainsKey(player))
-                        Main.Players.Remove(player);
-
-                    DataTable result = await MySQL.QueryReadAsync($"SELECT * FROM `characters` WHERE uuid={uuid}");
-                    if (result == null || result.Rows.Count == 0) return;
-
                     foreach (DataRow Row in result.Rows)
                     {
                         UUID = Convert.ToInt32(Row["uuid"]);
@@ -203,13 +203,14 @@ namespace NeptuneEvo.Core.Character
                     CheckAchievements(player);
                     GameLog.Connected(player.Name, UUID, player.GetData<string>("RealSocialClub"), player.GetData<string>("RealHWID"), player.Value, player.Address);
                     Spawn(player);
-                }
-                catch (Exception e)
-                {
-                    Log.Write("EXCEPTION AT \"Load\":\n" + e.ToString());
-                }
-            });
+                });
+            }
+            catch (Exception e)
+            {
+                Log.Write("EXCEPTION AT \"Load\":\n" + e.ToString());
+            }
         }
+
 
         public static void CheckAchievements(Player player) {
             try {
