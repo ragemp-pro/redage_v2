@@ -77,6 +77,7 @@ namespace NeptuneEvo.Core.nAccount
 
                 pass_ = GetSha256(pass_);
                 DataTable result = await MySQL.QueryReadAsync($"SELECT * FROM `accounts` WHERE `login`='{login_}' AND password='{pass_}'");
+
                 //Если база не вернула таблицу, то отправляем сброс
                 if (result == null || result.Rows.Count == 0) return LoginEvent.Refused;
                 //Иначе, парсим строку
@@ -87,8 +88,7 @@ namespace NeptuneEvo.Core.nAccount
                 Password = pass_;
                 //Служебные данные
                 HWID = client.GetData<string>("RealHWID");
-                if(client.Address.Equals("80.235.53.64")) IP = "31.13.190.88";
-                else IP = client.Address;
+                NAPI.Task.Run(() => IP = client.Address);
                 SocialClub = row["socialclub"].ToString();
                 if(Main.SCCheck) {
                     if (SocialClub != client.GetData<string>("RealSocialClub")) return LoginEvent.SclubError;
