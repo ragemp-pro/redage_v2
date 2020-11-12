@@ -70,87 +70,92 @@ namespace NeptuneEvo.Core
         }
         public static void CheckEat()
         {
-
-            Log.Write("Check Eat.", nLog.Type.Info);
-            foreach (Player player in Main.Players.Keys.ToList())
+            NAPI.Task.Run(() =>
             {
-                try
+                Log.Write("Check Eat.", nLog.Type.Info);
+                foreach (Player player in Main.Players.Keys.ToList())
                 {
-                    if (player.Health > 0)
+                    try
                     {
-                        var rnd = new Random();
-                        int intrnd = rnd.Next(2, 5);
-                        if (Main.Players[player].Eat > 0 && Main.Players[player].Eat - intrnd > 0)
+                        if (player.Health > 0)
                         {
-                            if (player.IsInVehicle)
+                            var rnd = new Random();
+                            int intrnd = rnd.Next(2, 5);
+                            if (Main.Players[player].Eat > 0 && Main.Players[player].Eat - intrnd > 0)
                             {
-                                AddEat(player, -1);
+                                if (player.IsInVehicle)
+                                {
+                                    AddEat(player, -1);
+                                }
+                                else
+                                {
+                                    AddEat(player, -intrnd);
+                                }
                             }
-                            else
+                            else if (Main.Players[player].Eat - intrnd < 0)
                             {
-                                AddEat(player, -intrnd);
+                                SetEat(player, 0);
                             }
-                        }
-                        else if (Main.Players[player].Eat - intrnd < 0)
-                        {
-                            SetEat(player, 0);
-                        }
-                        if (Main.Players[player].Eat == 0 && player.Health >= 20)
-                        {
-                            player.Health -= 2;
-                        }
-                        else if (Main.Players[player].Water == 0 && Main.Players[player].Eat == 0)
-                        {
-                            player.Health -= 4;
-                        }
-                        if (Main.Players[player].Eat >= 80 && Main.Players[player].Water >= 80)
-                        {
-                            if (player.Health + 2 > 100)
+                            if (Main.Players[player].Eat == 0 && player.Health >= 20)
                             {
-                                player.Health = 100;
+                                player.Health -= 2;
                             }
-                            else
+                            else if (Main.Players[player].Water == 0 && Main.Players[player].Eat == 0)
                             {
-                                player.Health += 2;
+                                player.Health -= 4;
+                            }
+                            if (Main.Players[player].Eat >= 80 && Main.Players[player].Water >= 80)
+                            {
+                                if (player.Health + 2 > 100)
+                                {
+                                    player.Health = 100;
+                                }
+                                else
+                                {
+                                    player.Health += 2;
+                                }
                             }
                         }
                     }
+                    catch (Exception e) { }
                 }
-                catch (Exception e) {  }
-            }
+            });
         }
         public static void CheckWater()
         {
-            Log.Write("Check Water.", nLog.Type.Info);
-            foreach (Player player in Main.Players.Keys.ToList())
+            NAPI.Task.Run(() =>
             {
-                try
+                Log.Write("Check Water.", nLog.Type.Info);
+                foreach (Player player in Main.Players.Keys.ToList())
                 {
-                    if (player.Health > 0)
+                    try
                     {
-                        if (Main.Players[player].Water > 0 && Main.Players[player].Water - 2 > 0)
+                        if (player.Health > 0)
                         {
-                            if (player.IsInVehicle)
+                            if (Main.Players[player].Water > 0 && Main.Players[player].Water - 2 > 0)
                             {
-                                AddWater(player, -1);
+                                if (player.IsInVehicle)
+                                {
+                                    AddWater(player, -1);
+                                }
+                                else
+                                {
+                                    AddWater(player, -2);
+                                }
                             }
-                            else
+                            else if (Main.Players[player].Water - 2 < 0)
                             {
-                                AddWater(player, -2);
+                                SetWater(player, 0);
                             }
-                        }
-                        else if (Main.Players[player].Water - 2 < 0)
-                        {
-                            SetWater(player, 0);
-                        }
-                        if (Main.Players[player].Water == 0 && player.Health >= 20)
-                        {
-                            player.Health -= 2;
+                            if (Main.Players[player].Water == 0 && player.Health >= 20)
+                            {
+                                player.Health -= 2;
+                            }
                         }
                     }
+                    catch (Exception e) { }
                 }
-                catch (Exception e) { }
-            }
+            });
         }
 
     }
