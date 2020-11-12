@@ -3,7 +3,7 @@
 	"name" : "Isengard", 
 	"gamemode" : "freeroam", 
 	"stream-distance" : 500.0,
-	"announce" : false,
+	"announce" : true,
 	"csharp" : "enabled",
 	"port": 22005,
 	"voice-chat": true,

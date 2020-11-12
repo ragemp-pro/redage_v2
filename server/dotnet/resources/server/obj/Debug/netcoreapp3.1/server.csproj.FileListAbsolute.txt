@@ -73,12 +73,8 @@ C:\Users\admin\Desktop\1\CRP 1.1 old\dotnet\resources\server\obj\Debug\netcoreap
 C:\Users\admin\Desktop\123\redage_v2\server\dotnet\resources\server\bin\Debug\netcoreapp3.1\server.deps.json
 C:\Users\admin\Desktop\123\redage_v2\server\dotnet\resources\server\bin\Debug\netcoreapp3.1\server.dll
 C:\Users\admin\Desktop\123\redage_v2\server\dotnet\resources\server\bin\Debug\netcoreapp3.1\server.pdb
-C:\Users\admin\Desktop\123\redage_v2\server\dotnet\resources\server\bin\Debug\netcoreapp3.1\Bootstrapper.dll
-C:\Users\admin\Desktop\123\redage_v2\server\dotnet\resources\server\bin\Debug\netcoreapp3.1\Bootstrapper.xml
-C:\Users\admin\Desktop\123\redage_v2\server\dotnet\resources\server\obj\Debug\netcoreapp3.1\server.csprojAssemblyReference.cache
 C:\Users\admin\Desktop\123\redage_v2\server\dotnet\resources\server\obj\Debug\netcoreapp3.1\server.AssemblyInfoInputs.cache
 C:\Users\admin\Desktop\123\redage_v2\server\dotnet\resources\server\obj\Debug\netcoreapp3.1\server.AssemblyInfo.cs
 C:\Users\admin\Desktop\123\redage_v2\server\dotnet\resources\server\obj\Debug\netcoreapp3.1\server.csproj.CoreCompileInputs.cache
-C:\Users\admin\Desktop\123\redage_v2\server\dotnet\resources\server\obj\Debug\netcoreapp3.1\server.csproj.CopyComplete
 C:\Users\admin\Desktop\123\redage_v2\server\dotnet\resources\server\obj\Debug\netcoreapp3.1\server.dll
 C:\Users\admin\Desktop\123\redage_v2\server\dotnet\resources\server\obj\Debug\netcoreapp3.1\server.pdb

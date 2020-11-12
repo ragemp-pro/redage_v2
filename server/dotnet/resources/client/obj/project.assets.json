@@ -38,6 +38,15 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         }
       },
+      "RAGEMP-Bootstrapper/1.1.3": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.1/Bootstrapper.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Bootstrapper.dll": {}
+        }
+      },
       "System.Collections/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -246,6 +255,7 @@
         "framework": ".NETCoreApp,Version=v3.1",
         "dependencies": {
           "MySqlConnector": "0.66.0",
+          "RAGEMP-Bootstrapper": "1.1.3",
           "System.Data.SQLite.Core": "1.0.113.1"
         },
         "compile": {
@@ -345,6 +355,19 @@
         "newtonsoft.json.12.0.3.nupkg.sha512",
         "newtonsoft.json.nuspec",
         "packageIcon.png"
+      ]
+    },
+    "RAGEMP-Bootstrapper/1.1.3": {
+      "sha512": "9fEMNOlyqNRgmccLBc8lxjc4h+STbAlbaSmzfp9cD6hoKM26P565XVZMrVOARO12SWWIrtIwkNWgTXj3Zj/u0A==",
+      "type": "package",
+      "path": "ragemp-bootstrapper/1.1.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netcoreapp3.1/Bootstrapper.dll",
+        "lib/netcoreapp3.1/Bootstrapper.xml",
+        "ragemp-bootstrapper.1.1.3.nupkg.sha512",
+        "ragemp-bootstrapper.nuspec"
       ]
     },
     "System.Collections/4.3.0": {
@@ -1322,6 +1345,7 @@
     ".NETCoreApp,Version=v3.1": [
       "MySqlConnector >= 0.66.0",
       "Newtonsoft.Json >= 12.0.3",
+      "RAGEMP-Bootstrapper >= 1.1.3",
       "System.Data.SQLite.Core >= 1.0.113.1",
       "System.Linq >= 4.3.0",
       "System.Threading.Tasks.Extensions >= 4.5.4",
@@ -1377,6 +1401,10 @@
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[12.0.3, )"
+          },
+          "RAGEMP-Bootstrapper": {
+            "target": "Package",
+            "version": "[1.1.3, )"
           },
           "System.Data.SQLite.Core": {
             "target": "Package",

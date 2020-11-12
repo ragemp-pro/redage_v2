@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "dqfXjAomK05f3fWVMGC6QI3AanBypK80HQf2cWqsvaOeQynkG0Gj4svROelO0NiKxkCIiMMGAz3deZNY3jEZ4w==",
+  "dgSpecHash": "Ha1JyN8wqWg6T7FM8u4LyyDu4wG5bemKSghFPRnlmEkmceUciN770X3WzjzJK1YwILIEs0IAxjwqews+aX30Xg==",
   "success": true,
   "projectFilePath": "C:\\Users\\admin\\Desktop\\123\\redage_v2\\server\\dotnet\\resources\\client\\client.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\admin\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\mysqlconnector\\0.66.0\\mysqlconnector.0.66.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
+    "C:\\Users\\admin\\.nuget\\packages\\ragemp-bootstrapper\\1.1.3\\ragemp-bootstrapper.1.1.3.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\system.collections\\4.3.0\\system.collections.4.3.0.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\system.data.sqlite.core\\1.0.113.1\\system.data.sqlite.core.1.0.113.1.nupkg.sha512",
     "C:\\Users\\admin\\.nuget\\packages\\system.diagnostics.debug\\4.3.0\\system.diagnostics.debug.4.3.0.nupkg.sha512",
