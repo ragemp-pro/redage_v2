@@ -374,7 +374,6 @@ namespace NeptuneEvo
                 }
                 vehicle.SetSharedData("hlcolor", 0);
                 vehicle.SetSharedData("LOCKED", false);
-                vehicle.SetSharedData("vehradio", 255);
                 vehicle.SetData("ITEMS", new List<nItem>());
                 vehicle.SetData("SPAWNPOS", vehicle.Position);
                 vehicle.SetData("SPAWNROT", vehicle.Rotation);

@@ -316,17 +316,6 @@ namespace NeptuneEvo.Core
             return data.Locked;
         }
 
-        [RemoteEvent("VehStream_RadioChange")]
-        public void VehStreamRadioChange(Player client, Vehicle vehicle, short index)
-        {
-            try
-            {
-                if (client.Vehicle != vehicle) return;
-                NAPI.Data.SetEntitySharedData(vehicle, "vehradio", index);
-            }
-            catch (Exception e) { Log.Write("VehStream_RadioChange: " + e.Message); }
-        }
-
         [RemoteEvent("VehStream_RequestFixStreamIn")]
         public void VehicleFixStreamIn(Player player, Vehicle veh)
         {

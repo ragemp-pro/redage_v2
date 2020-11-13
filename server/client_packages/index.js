@@ -200,9 +200,6 @@ mp.events.add('setFriendList', function (friendlist) {
 
 mp.events.add('newFriend', function (friend) {
     friends[friend] = true;
-    // пожал руку = отображаем ник
-    if (player && mp.players.exists(player))
-        passports[player.name] = pass;
 });
 
 mp.events.add('setClientRotation', function (player, rots) {
@@ -269,7 +266,6 @@ require('./gangzones.js');
 require('./fly.js');
 require('./environment.js');
 require('./elections.js');
-require('./radiosync.js');
 require('./animals.js');
 require('./client/utils/utils.js');
 require('./scripts/autopilot.js');
