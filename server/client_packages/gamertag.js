@@ -2,7 +2,7 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 mp.nametags.enabled = false;
 
-var showGamertags = false;
+var showGamertags = true;
 var reupdateTagLabel = [];
 var tagLabelPool = [];
 
@@ -133,7 +133,7 @@ function drawPlayerTag(player, x, y, displayname, color) {
 }
 
 function drawPlayerVoiceIcon(player, x, y) {
-    if (player.isVoiceActive) drawVoiceSprite("mpleaderboard", 'leaderboard_audio_3', [0.7, 0.7], 0, [255, 255, 255, 255], x, y - 0.02 * 0.7);else if (player.getVariable('voice.muted') == true) drawVoiceSprite("mpleaderboard", 'leaderboard_audio_mute', [0.7, 0.7], 0, [255, 0, 0, 255], x, y - 0.02 * 0.7);
+    if (player.isVoiceActive) drawVoiceSprite("mpleaderboard", 'leaderboard_audio_3', [0.7, 0.7], 0, [255, 255, 255, 255], x, y - 0.02 * 0.7);else if (player.getVariable('vmuted') == true) drawVoiceSprite("mpleaderboard", 'leaderboard_audio_mute', [0.7, 0.7], 0, [255, 0, 0, 255], x, y - 0.02 * 0.7);
 }
 
 function drawVoiceSprite(dist, name, scale, heading, colour, x, y, layer) {

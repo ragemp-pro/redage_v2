@@ -199,7 +199,10 @@ mp.events.add('setFriendList', function (friendlist) {
 });
 
 mp.events.add('newFriend', function (friend) {
-	friends[friend] = true;
+    friends[friend] = true;
+    // пожал руку = отображаем ник
+    if (player && mp.players.exists(player))
+        passports[player.name] = pass;
 });
 
 mp.events.add('setClientRotation', function (player, rots) {

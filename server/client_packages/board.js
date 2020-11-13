@@ -109,16 +109,6 @@ mp.events.add('boardCB', (act, type, index) => {
 });
 // // //
 
-mp.events.add("useFastSlot", (e, a, o) => {
-    (new Date).getTime() - global.lastCheck < 100 || (global.lastCheck = (new Date).getTime(), mp.events.callRemote("useFastSlot", e, a), bindSlot = a > 0 ? a : o, a > 0 ? mp.events.call("bindSlotKey", e, a, !0) : o > 0 && mp.events.call("bindSlotKey", e, o, !1))
-}),
- mp.events.add("bindSlotKey", (e, a, o) => {
-    let t;
-    1 == a ? t = Keys.VK_1 : 2 == a ? t = Keys.VK_2 : 3 == a ? t = Keys.VK_3 : 4 == a ? t = Keys.VK_4 : 5 == a && (t = Keys.VK_5), o ? mp.keys.bind(t, !1, (function() {
-        !loggedin || chatActive || (new Date).getTime() - global.lastCheck < 500 || global.menuOpened || mp.gui.cursor.visible || (mp.events.callRemote("Inventory", 0, e, "use"), global.lastCheck = (new Date).getTime())
-    })) : mp.keys.unbind(t, !1)
-}), 
-
 mp.events.add("playerQuit", (player, exitType, reason) => {
     if (board !== null) {
         if (player.name === localplayer.name) {
