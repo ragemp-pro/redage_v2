@@ -226,7 +226,7 @@ mp.events.add('CreatorCamera', () => {
 
     localplayer.taskPlayAnim("amb@world_human_guard_patrol@male@base", "base", 8.0, 1, -1, 1, 0.0, false, false, false);
 
-    if(editorBrowser == null) editorBrowser = mp.browsers.new('package://cef/character.html');
+    if(editorBrowser == null) editorBrowser = mp.browsers.new('package://cef/character.html#content-1');
 
     global.menuOpen();
     mp.events.call('camMenu', true);
