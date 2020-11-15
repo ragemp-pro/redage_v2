@@ -165,11 +165,11 @@ namespace NeptuneEvo.Core
                 return vNumber;
             }
 
-            //if (!BusinessManager.takeProd(biz.ID, 1, vName, prod.Price))
-            //{
-            //    Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Транспортного средства больше нет на складе", 3000);
-            //    return vNumber;
-            //}
+            if (!BusinessManager.takeProd(biz.ID, 1, vName, prod.Price))
+            {
+                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Транспортного средства больше нет на складе", 3000);
+                return vNumber;
+            }
 
             MoneySystem.Wallet.Change(player, -prod.Price);
 
