@@ -227,10 +227,10 @@ namespace NeptuneEvo.Core.Character
         {
             try
             {
+                Customization.SaveCharacter(player);
+
                 NAPI.Task.Run(async () =>
                 {
-                    Customization.SaveCharacter(player);
-
                     Vector3 LPos = (player.IsInVehicle) ? player.Vehicle.Position + new Vector3(0, 0, 0.5) : player.Position;
                     string pos = JsonConvert.SerializeObject(LPos);
                     try

@@ -1687,29 +1687,32 @@ namespace NeptuneEvo
             }
         }
         [RemoteEvent("signin")]
-        public async void ClientEvent_signin(Player player, params object[] arguments)
+        public void ClientEvent_signin(Player player, params object[] arguments)
         {
-            try
+            NAPI.Task.Run(async () =>
             {
-                if (player.HasData("CheatTrigger"))
-               /* {
-                    int cheatCode = player.GetData<object>("CheatTrigger");
-                    if(cheatCode > 1)
-                    {
-                        Log.Write($"CheatKick: {((Cheat)cheatCode).ToString()} on {player.Name} ", nLog.Type.Warn);
-                        Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, "Непредвиденная ошибка! Попробуйте перезайти.", 10000);
-                        player.Kick();
-                        return;
-                    }
-                }*/
+                try
+                {
+                    if (player.HasData("CheatTrigger"))
+                        /* {
+                             int cheatCode = player.GetData<object>("CheatTrigger");
+                             if(cheatCode > 1)
+                             {
+                                 Log.Write($"CheatKick: {((Cheat)cheatCode).ToString()} on {player.Name} ", nLog.Type.Warn);
+                                 Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, "Непредвиденная ошибка! Попробуйте перезайти.", 10000);
+                                 player.Kick();
+                                 return;
+                             }
+                         }*/
 
-                await Log.WriteAsync($"{player.Name} try to signin step 1");
-                string login = arguments[0].ToString();
-                string pass = arguments[1].ToString();
-                
-                await SignInOnTimer(player, login, pass);
-            }
-            catch (Exception e) { Log.Write("signin: " + e.Message, nLog.Type.Error); }
+                        await Log.WriteAsync($"{player.Name} try to signin step 1");
+                    string login = arguments[0].ToString();
+                    string pass = arguments[1].ToString();
+
+                    await SignInOnTimer(player, login, pass);
+                }
+                catch (Exception e) { Log.Write("signin: " + e.Message, nLog.Type.Error); }
+            });
         }
         public async Task SignInOnTimer(Player player, string login, string pass)
         {
