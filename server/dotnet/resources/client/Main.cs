@@ -1687,22 +1687,35 @@ namespace NeptuneEvo
             }
         }
         [RemoteEvent("signin")]
-        public void ClientEvent_signin(Player player, params object[] arguments)
+        public async void ClientEvent_signin(Player player, params object[] arguments)
         {
-            string nickname = NAPI.Player.GetPlayerName(player);
-
             try
             {
-                Log.Write($"{nickname} try to signin step 1");
+                string nickname = NAPI.Player.GetPlayerName(player);
+
+                /*
+                if (player.HasData("CheatTrigger"))
+                {
+                    int cheatCode = player.GetData<object>("CheatTrigger");
+                    if(cheatCode > 1)
+                    {
+                        Log.Write($"CheatKick: {((Cheat)cheatCode).ToString()} on {player.Name} ", nLog.Type.Warn);
+                        Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, "Непредвиденная ошибка! Попробуйте перезайти.", 10000);
+                        player.Kick();
+                        return;
+                    }
+                }
+                */
+
+                await Log.WriteAsync($"{nickname} try to signin step 1");
                 string login = arguments[0].ToString();
                 string pass = arguments[1].ToString();
 
-                SignInOnTimer(player, login, pass);
-                Log.Write($"{nickname} try to signin step 1.5");
+                await SignInOnTimer(player, login, pass);
             }
             catch (Exception e) { Log.Write("signin: " + e.Message, nLog.Type.Error); }
         }
-        public async void SignInOnTimer(Player player, string login, string pass)
+        public async Task SignInOnTimer(Player player, string login, string pass)
         {
             try
             {
@@ -1722,7 +1735,7 @@ namespace NeptuneEvo
                         return;
                     }
                 }
-                Log.Write($"{nickname} try to signin step 2");
+                await Log.WriteAsync($"{nickname} try to signin step 2");
                 Account user = new Account();
                 LoginEvent result = await user.LoginIn(player, login, pass);
                 if (result == LoginEvent.Authorized)
@@ -1741,7 +1754,7 @@ namespace NeptuneEvo
                 {
                     Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "SocialClub, с которого Вы подключены, не совпадает с тем, который привязан к аккаунту.", 3000);
                 }
-                Log.Write($"{nickname} try to signin step 3");
+                await Log.WriteAsync($"{nickname} try to signin step 3");
                 return;
             }
             catch (Exception e) { Log.Write("signin: " + e.Message, nLog.Type.Error); }
