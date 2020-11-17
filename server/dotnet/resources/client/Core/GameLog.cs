@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+﻿using MySqlConnector;
 using Redage.SDK;
 using System;
 using System.Collections.Generic;

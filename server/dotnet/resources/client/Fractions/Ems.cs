@@ -393,7 +393,7 @@ namespace NeptuneEvo.Fractions
             Voice.Voice.PhoneHCommand(player);
 
             NAPI.Player.SetPlayerHealth(player, 10);
-            var time = (call) ? 600000 : 180000;
+            var time = (call) ? 600000 : 1800;
             Trigger.ClientEvent(player, "DeathTimer", time);
             var timeMsg = (call) ? "10 минут Вас не вылечит медик или кто-нибудь другой" : "3 минут Вас никто не вылечит";
             //player.SetData("DYING_TIMER", Main.StartT(time, time, (o) => { player.Health = 0; }, "DYING_TIMER"));

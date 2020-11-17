@@ -12,7 +12,7 @@ namespace Redage.SDK
         /// </summary>
         /// <param name="reference">Зависимость - Пространство вызова лога, своя пометка в консоли</param>
         /// <param name="canDebug">Включить или отключить вывод отладочных сообщений для всего пространства</param>
-        public nLog(string _reference = null, bool _canDebug = false)
+        public nLog(string _reference = null, bool _canDebug = true)
         {
             if (_reference == null) _reference = "Logger";
             Reference = _reference;

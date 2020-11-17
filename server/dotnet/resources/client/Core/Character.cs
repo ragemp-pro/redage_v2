@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NeptuneEvo.Houses;
 using NeptuneEvo.GUI;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using Redage.SDK;
 
 namespace NeptuneEvo.Core.Character
@@ -227,9 +227,12 @@ namespace NeptuneEvo.Core.Character
         {
             try
             {
+                string nickname = NAPI.Player.GetPlayerName(player);
+                bool inveh = NAPI.Player.IsPlayerInAnyVehicle(player);
+
                 Customization.SaveCharacter(player);
 
-                Vector3 LPos = (player.IsInVehicle) ? player.Vehicle.Position + new Vector3(0, 0, 0.5) : player.Position;
+                Vector3 LPos = (inveh) ? player.Vehicle.Position + new Vector3(0, 0, 0.5) : player.Position;
                 string pos = JsonConvert.SerializeObject(LPos);
                 try
                 {
@@ -288,7 +291,7 @@ namespace NeptuneEvo.Core.Character
 
                 try
                 {
-                    var all_vehicles = VehicleManager.getAllPlayerVehicles(player.Name);
+                    var all_vehicles = VehicleManager.getAllPlayerVehicles(nickname);
                     foreach (var number in all_vehicles)
                         VehicleManager.Save(number);
                 }

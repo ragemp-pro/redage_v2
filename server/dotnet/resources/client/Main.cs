@@ -25,9 +25,9 @@ namespace NeptuneEvo
 
     public class Main : Script
     { 
-        public static string Codename { get; } = "3.0.1";
-        public static string Version { get; } = ""; // 2.2.4 r.i.p
-        public static string Build { get; } = ""; // 1583 r.i.p
+        public static string Codename { get; } = "redage_v2";
+        public static string Version { get; } = "2.3.7";
+        public static string Build { get; } = "1000";
         // // // //
         public static string Full { get; } = $"{Codename} {Version} {Build}";
         public static DateTime StartDate { get; } = DateTime.Now;
@@ -3222,7 +3222,7 @@ namespace NeptuneEvo
         {
             try
             {
-                client.SendChatMessage($"Обновление !{{#00FFFF}}{Full}!{{#FFF}} запущенно !{{#f39c12}}{StartDate}");
+                client.SendChatMessage($"Сборка сервера (by RAGEMP.PRO) !{{#00FFFF}}{Full}!{{#FFF}} успешно запущена !{{#f39c12}}{StartDate}");
             }
             catch { }
         }

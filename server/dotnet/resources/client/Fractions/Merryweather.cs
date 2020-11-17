@@ -6,7 +6,7 @@ using Redage.SDK;
 using NeptuneEvo.GUI;
 using System.Data;
 using System.Linq;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 
 namespace NeptuneEvo.Fractions
 {

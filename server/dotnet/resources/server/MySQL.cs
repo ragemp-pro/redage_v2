@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using MySqlConnector;
-using MySql.Data.MySqlClient;
 using System.Data.Common;
 using System.Data;
 using System.Threading.Tasks;

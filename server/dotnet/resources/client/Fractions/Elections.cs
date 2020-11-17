@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GTANetworkAPI;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using NeptuneEvo.Core;
 using Redage.SDK;
 using NeptuneEvo.GUI;
@@ -48,7 +48,7 @@ namespace NeptuneEvo.Fractions
         public static void OnResourceStart()
         {
             minVoteLVL = config.TryGet<byte>("minVoteLVL", 5);
-            LoadElections();
+            //LoadElections();
         }
         
         public static void Interaction(ColShape colshape, Player player)

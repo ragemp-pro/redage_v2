@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using GTANetworkAPI;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using NeptuneEvo.Core;
 using Redage.SDK;
 using NeptuneEvo.GUI;

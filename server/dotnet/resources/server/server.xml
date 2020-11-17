@@ -182,7 +182,7 @@
             </summary>
             <returns>True - если все хорошо</returns>
         </member>
-        <member name="M:Redage.SDK.MySQL.Query(MySql.Data.MySqlClient.MySqlCommand)">
+        <member name="M:Redage.SDK.MySQL.Query(MySqlConnector.MySqlCommand)">
             <summary>
             Выполнить запрос без ответа
             </summary>
@@ -194,7 +194,7 @@
             </summary>
             <param name="command">Передаем команду в виде строки</param>
         </member>
-        <member name="M:Redage.SDK.MySQL.QueryAsync(MySql.Data.MySqlClient.MySqlCommand)">
+        <member name="M:Redage.SDK.MySQL.QueryAsync(MySqlConnector.MySqlCommand)">
             <summary>
             Выполнить запрос без ответа
             </summary>
@@ -206,7 +206,7 @@
             </summary>
             <param name="command">Передаем команду в виде строки</param>
         </member>
-        <member name="M:Redage.SDK.MySQL.QueryRead(MySql.Data.MySqlClient.MySqlCommand)">
+        <member name="M:Redage.SDK.MySQL.QueryRead(MySqlConnector.MySqlCommand)">
             <summary>
             Отправить запрос и считать ответ
             </summary>
@@ -220,7 +220,7 @@
             <param name="command">Передаем команду в виде строки</param>
             <returns>Ответ базы данных в формате таблицы</returns>
         </member>
-        <member name="M:Redage.SDK.MySQL.QueryReadAsync(MySql.Data.MySqlClient.MySqlCommand)">
+        <member name="M:Redage.SDK.MySQL.QueryReadAsync(MySqlConnector.MySqlCommand)">
             <summary>
             Асинхронная версия Read
             </summary>

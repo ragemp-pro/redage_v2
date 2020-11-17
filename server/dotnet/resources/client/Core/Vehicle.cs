@@ -7,7 +7,7 @@ using NeptuneEvo.GUI;
 using Newtonsoft.Json;
 using System.Linq;
 using Redage.SDK;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using NeptuneEvo.Fractions;
 
 namespace NeptuneEvo.Core

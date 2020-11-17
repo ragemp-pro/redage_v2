@@ -8,7 +8,7 @@ using NeptuneEvo.GUI;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using Newtonsoft.Json;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 
 namespace NeptuneEvo.Core.nAccount
 {
