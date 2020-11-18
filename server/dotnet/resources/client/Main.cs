@@ -485,8 +485,6 @@ namespace NeptuneEvo
                     catch (Exception e) { Log.Write("EXCEPTION AT \"UnLoad:Unloading managers\":\n" + e.ToString()); }
                     Log.Debug("STAGE 7 (HOUSES)");
 
-                    MoneySystem.Casino.Disconnect(player, type);
-
                     Voice.Voice.PlayerQuit(player, reason);
                     Players[player].Save(player).Wait();
                     Accounts[player].Save(player).Wait();
@@ -2019,9 +2017,6 @@ namespace NeptuneEvo
                     case 65:
                         Fractions.Manager.exitInterier(player, player.GetData<int>("FRACTIONCHECK"));
                         return;
-                    case 70:
-                        MoneySystem.Casino.Interact(player);
-                        return;
                     case 80:
                     case 81:
                         Fractions.LSNews.interactPressed(player, id);
@@ -2526,7 +2521,6 @@ namespace NeptuneEvo
 
             EventSys.Init();
 
-            MoneySystem.Casino.OnResourceStart();
             Fractions.ElectionsSystem.OnResourceStart();
 
             // НЕ УДАЛЯТЬ!!!!
