@@ -25,6 +25,7 @@ namespace NeptuneEvo
 
     public class Main : Script
     { 
+        // test (добавил строку для теста)
         public static string Codename { get; } = "redage_v2";
         public static string Version { get; } = "2.3.7";
         public static string Build { get; } = "1600";
