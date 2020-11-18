@@ -227,7 +227,6 @@ namespace NeptuneEvo.Core.Character
         {
             try
             {
-                string nickname = NAPI.Player.GetPlayerName(player);
                 bool inveh = NAPI.Player.IsPlayerInAnyVehicle(player);
 
                 Customization.SaveCharacter(player);
@@ -291,7 +290,7 @@ namespace NeptuneEvo.Core.Character
 
                 try
                 {
-                    var all_vehicles = VehicleManager.getAllPlayerVehicles(nickname);
+                    var all_vehicles = VehicleManager.getAllPlayerVehicles($"{FirstName}_{LastName}");
                     foreach (var number in all_vehicles)
                         VehicleManager.Save(number);
                 }
