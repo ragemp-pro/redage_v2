@@ -2707,7 +2707,7 @@ namespace NeptuneEvo
         private static string Env_lastWeather = config.TryGet<string>("Weather", "XMAS");
         public static bool SCCheck = config.TryGet<bool>("SocialClubCheck", false);
 
-        public static void changeWeather(int id) {
+        public static void changeWeather(byte id) {
             try {
                 switch(id) {
                     case 0: Env_lastWeather = "EXTRASUNNY";
@@ -2728,17 +2728,20 @@ namespace NeptuneEvo
                         break;
                     case 8: Env_lastWeather = "CLEARING";
                         break;
-                    case 9: Env_lastWeather = "SMOG";
+                    case 9: Env_lastWeather = "NEUTRAL";
                         break;
-                    case 10: Env_lastWeather = "XMAS";
+                    case 10: Env_lastWeather = "SNOW";
                         break;
-                    case 11: Env_lastWeather = "SNOWLIGHT";
+                    case 11: Env_lastWeather = "BLIZZARD";
                         break;
-                    case 12: Env_lastWeather = "BLIZZARD";
+                    case 12: Env_lastWeather = "SNOWLIGHT";
                         break;
-                    default: Env_lastWeather = "EXTRASUNNY";
+                    case 13: Env_lastWeather = "HALLOWEEN";
+                        break;
+                    default: Env_lastWeather = "XMAS";
                         break;
                 }
+                NAPI.World.SetWeather(Env_lastWeather);
                 ClientEventToAll("Enviroment_Weather", Env_lastWeather);
             } catch {
             }
