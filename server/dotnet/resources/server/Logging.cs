@@ -79,7 +79,7 @@ namespace Redage.SDK
         /// </summary>
         /// <param name="text"></param>
         /// <param name="logType"></param>
-        public async Task WriteAsync(string text, Type logType = Type.Info)
+        public Task WriteAsync(string text, Type logType = Type.Info)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace Redage.SDK
                         Console.Write(" Succ");
                         break;
                     default:
-                        return;
+                        return Task.CompletedTask;
                 }
                 Console.ResetColor();
                 Console.Write($" | {Reference} | {text}\n");
@@ -115,7 +115,10 @@ namespace Redage.SDK
                 Console.WriteLine("Logger Error:\n" + e.ToString());
                 Console.ResetColor();
             }
+
+            return Task.CompletedTask;
         }
+
         /// <summary>
         /// Вывести в консоль отладочный текст с нужным флагом
         /// </summary>
@@ -167,11 +170,12 @@ namespace Redage.SDK
         /// </summary>
         /// <param name="text">Выводимый текст</param>
         /// <param name="logType">Флаг. Указывает, как нужно пометить строку</param>
-        public async Task DebugAsync(string text, Type logType = Type.Info)
+        public Task DebugAsync(string text, Type logType = Type.Info)
         {
             try
             {
-                if (!CanDebug) return;
+                if (!CanDebug)
+                    return Task.CompletedTask;
                 Console.ResetColor();
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.Write($"{DateTime.Now.ToString("HH':'mm':'ss.fff")}");
@@ -195,7 +199,7 @@ namespace Redage.SDK
                         Console.Write(" Succ");
                         break;
                     default:
-                        return;
+                        return Task.CompletedTask;
                 }
                 Console.ResetColor();
                 Console.Write($" | {Reference} | {text}\n");
@@ -207,7 +211,8 @@ namespace Redage.SDK
                 Console.WriteLine("Logger Error:\n" + e.ToString());
                 Console.ResetColor();
             }
-        }
 
+            return Task.CompletedTask;
+        }
     }
 }

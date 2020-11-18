@@ -117,7 +117,7 @@ namespace NeptuneEvo.Core
                             }
                         }
                     }
-                    catch (Exception e) { }
+                    catch { }
                 }
             });
         }
@@ -153,7 +153,7 @@ namespace NeptuneEvo.Core
                             }
                         }
                     }
-                    catch (Exception e) { }
+                    catch { }
                 }
             });
         }

@@ -1183,7 +1183,6 @@ namespace NeptuneEvo.Houses
                             MenuManager.Close(player);
                             return;
                     }
-                    return;
                 case "listChangeleft":
                 case "listChangeright":
 

@@ -1,4 +1,4 @@
 ﻿<meta>
   <info name="server" type="script"/>
-  <script src="bin/Debug/netcoreapp3.1/server.dll"/>
+  <script src="bin/x64/Debug/netcoreapp3.1/server.dll"/>
 </meta>

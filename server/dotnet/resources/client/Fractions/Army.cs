@@ -286,7 +286,7 @@ namespace NeptuneEvo.Fractions
                     Vehicle vehicle = player.GetData<Vehicle>("vehicleMats");
 
                     var itemCount = VehicleInventory.GetCountOfType(player.Vehicle, ItemType.Material);
-                    if (player.GetData<object>("whereLoad") == "WAR" && !Fractions.MatsWar.isWar)
+                    if (player.GetData<string>("whereLoad") == "WAR" && !Fractions.MatsWar.isWar)
                     {
                         player.SetData("INTERACTIONCHECK", 0);
                         //Main.StopT(player.GetData<string>("loadMatsTimer"), "loadMaterialsTimer");
@@ -302,7 +302,7 @@ namespace NeptuneEvo.Fractions
                         return;
                     }
                     var data = new nItem(ItemType.Material);
-                    if (player.GetData<object>("whereLoad") == "WAR")
+                    if (player.GetData<string>("whereLoad") == "WAR")
                     {
                         var count = Fractions.Stocks.maxMats[vehicle.DisplayName] - itemCount;
                         if (count >= Fractions.MatsWar.matsLeft)
