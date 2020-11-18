@@ -4102,7 +4102,7 @@ namespace NeptuneEvo.Core
                 NAPI.Entity.SetEntityDimension(veh, 0);
                 NAPI.Entity.SetEntityDimension(player, 0);
 
-                player.SetIntoVehicle(veh, -1);
+                player.SetIntoVehicle(veh, 0);
 
                 NAPI.Entity.SetEntityPosition(veh, BizList[bizID].EnterPoint + new Vector3(0, 0, 1.0));
                 VehicleManager.ApplyCustomization(veh);

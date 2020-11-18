@@ -130,7 +130,7 @@ namespace NeptuneEvo.Houses
                         var vehicle = NAPI.Vehicle.CreateVehicle(VehicleHash.Faggio2, player.Position, player.Rotation, 0, 0, "HOTEL");
                         VehicleStreaming.SetEngineState(vehicle, true);
                         VehicleStreaming.SetLockStatus(vehicle, true);
-                        NAPI.Player.SetPlayerIntoVehicle(player, vehicle, -1);
+                        NAPI.Player.SetPlayerIntoVehicle(player, vehicle, 0);
                         player.SetData("HOTELCAR", vehicle);
                         vehicle.SetData("ACCESS", "HOTEL");
                         vehicle.SetData("OWNER", player);
