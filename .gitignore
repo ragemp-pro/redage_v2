@@ -9,6 +9,7 @@ server/dotnet/server_logs.txt
 server/client_packages/game_resources/dlcpacks
 server/Settings.db
 server/coords.txt
+launchSettings.json
 
 # User-specific files
 *.rsuser
