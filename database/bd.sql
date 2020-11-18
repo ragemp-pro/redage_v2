@@ -4614,31 +4614,22 @@ CREATE TABLE `safes` (
 -- Структура таблицы `vehicles`
 --
 
-CREATE TABLE `vehicles` (
+CREATE TABLE IF NOT EXISTS `vehicles` (
   `holder` varchar(155) NOT NULL,
   `model` varchar(155) NOT NULL,
-  `health` int(155) NOT NULL,
-  `fuel` int(155) NOT NULL,
+  `health` int(11) NOT NULL,
+  `fuel` int(11) NOT NULL,
   `components` text NOT NULL,
   `items` text NOT NULL,
-  `position` varchar(255) NOT NULL DEFAULT 0,
-  `rotation` varchar(255) NOT NULL DEFAULT 0,
-  `keynum` int(155) NOT NULL DEFAULT 0,
-  `dirt` float NOT NULL DEFAULT 0,
-  `price` int(155) NOT NULL,
-  `idkey` int(155) NOT NULL,
-  `number` varchar(155) NOT NULL
+  `position` varchar(255) DEFAULT NULL,
+  `rotation` varchar(255) DEFAULT NULL,
+  `keynum` int(11) DEFAULT NULL,
+  `dirt` float DEFAULT NULL,
+  `price` int(11) NOT NULL,
+  `idkey` int(11) NOT NULL AUTO_INCREMENT,
+  `number` varchar(155) NOT NULL,
+  PRIMARY KEY (`idkey`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `vehicles`
---
-
-INSERT INTO `vehicles` (`holder`, `model`, `health`, `fuel`, `components`, `items`, `position`, `rotation`, `keynum`, `dirt`, `price`, `idkey`, `number`) VALUES
-('Julia_Aurora', 'Osiris', 1000, 100, '{\"PrimColor\":{\"Red\":225,\"Green\":225,\"Blue\":225,\"Alpha\":255},\"SecColor\":{\"Red\":255,\"Green\":0,\"Blue\":0,\"Alpha\":255},\"NeonColor\":{\"Red\":225,\"Green\":225,\"Blue\":225,\"Alpha\":255},\"PrimModColor\":-1,\"SecModColor\":-1,\"Muffler\":-1,\"SideSkirt\":-1,\"Hood\":-1,\"Spoiler\":-1,\"Lattice\":-1,\"Wings\":-1,\"Roof\":-1,\"Vinyls\":-1,\"FrontBumper\":-1,\"RearBumper\":-1,\"Engine\":3,\"Turbo\":0,\"Horn\":-1,\"Transmission\":2,\"WindowTint\":0,\"Suspension\":-1,\"Brakes\":-1,\"Headlights\":-1,\"NumberPlate\":0,\"Wheels\":-1,\"WheelsType\":0,\"WheelsColor\":0,\"Armor\":-1}', '[]', '', '', 0, 0, 0, 1, 'D741V'),
-('Julia_Cyrus', 'Osiris', 1000, 150, '{\"PrimColor\":{\"Red\":225,\"Green\":225,\"Blue\":225,\"Alpha\":255},\"SecColor\":{\"Red\":225,\"Green\":225,\"Blue\":225,\"Alpha\":255},\"NeonColor\":{\"Red\":225,\"Green\":225,\"Blue\":225,\"Alpha\":255},\"PrimModColor\":-1,\"SecModColor\":-1,\"Muffler\":-1,\"SideSkirt\":-1,\"Hood\":-1,\"Spoiler\":-1,\"Lattice\":-1,\"Wings\":-1,\"Roof\":-1,\"Vinyls\":-1,\"FrontBumper\":-1,\"RearBumper\":-1,\"Engine\":-1,\"Turbo\":-1,\"Horn\":-1,\"Transmission\":-1,\"WindowTint\":0,\"Suspension\":-1,\"Brakes\":-1,\"Headlights\":-1,\"NumberPlate\":0,\"Wheels\":-1,\"WheelsType\":0,\"WheelsColor\":0,\"Armor\":-1}', '[]', '{\"x\":-1939.7003,\"y\":361.7826,\"z\":93.132225}', '{\"x\":3.6795223,\"y\":-2.7478735,\"z\":-3.5711794}', 0, 0, 0, 13, 'K645X'),
-('John_Shepard', 'Osiris', 1000, 100, '{\"PrimColor\":{\"Red\":225,\"Green\":225,\"Blue\":225,\"Alpha\":255},\"SecColor\":{\"Red\":225,\"Green\":225,\"Blue\":225,\"Alpha\":255},\"NeonColor\":{\"Red\":0,\"Green\":0,\"Blue\":0,\"Alpha\":0},\"PrimModColor\":-1,\"SecModColor\":-1,\"Muffler\":-1,\"SideSkirt\":-1,\"Hood\":-1,\"Spoiler\":-1,\"Lattice\":-1,\"Wings\":-1,\"Roof\":-1,\"Vinyls\":-1,\"FrontBumper\":-1,\"RearBumper\":-1,\"Engine\":-1,\"Turbo\":-1,\"Horn\":-1,\"Transmission\":-1,\"WindowTint\":0,\"Suspension\":-1,\"Brakes\":-1,\"Headlights\":-1,\"NumberPlate\":0,\"Wheels\":-1,\"WheelsType\":0,\"WheelsColor\":0,\"Armor\":-1}', '[]', '', '', 0, 0, 0, 14, 'O548W'),
-('Lil_Pumpers', 'Ninef', 1000, 100, '{\"PrimColor\":{\"Red\":255,\"Green\":255,\"Blue\":255,\"Alpha\":255},\"SecColor\":{\"Red\":255,\"Green\":147,\"Blue\":0,\"Alpha\":255},\"NeonColor\":{\"Red\":0,\"Green\":0,\"Blue\":0,\"Alpha\":0},\"PrimModColor\":-1,\"SecModColor\":-1,\"Muffler\":-1,\"SideSkirt\":-1,\"Hood\":-1,\"Spoiler\":-1,\"Lattice\":-1,\"Wings\":-1,\"Roof\":-1,\"Vinyls\":-1,\"FrontBumper\":0,\"RearBumper\":-1,\"Engine\":-1,\"Turbo\":-1,\"Horn\":-1,\"Transmission\":-1,\"WindowTint\":0,\"Suspension\":-1,\"Brakes\":-1,\"Headlights\":-1,\"NumberPlate\":0,\"Wheels\":-1,\"WheelsType\":0,\"WheelsColor\":0,\"Armor\":-1}', '[]', '{\"x\":918.27484,\"y\":-178.98537,\"z\":73.87863}', '{\"x\":3.4384117,\"y\":0.120831415,\"z\":-24.53384}', 0, 0, 0, 15, 'S216R');
 
 -- --------------------------------------------------------
 
@@ -4837,12 +4828,6 @@ ALTER TABLE `safes`
   ADD PRIMARY KEY (`idkey`);
 
 --
--- Индексы таблицы `vehicles`
---
-ALTER TABLE `vehicles`
-  ADD PRIMARY KEY (`idkey`);
-
---
 -- Индексы таблицы `weapons`
 --
 ALTER TABLE `weapons`
@@ -4947,12 +4932,6 @@ ALTER TABLE `questions`
 --
 ALTER TABLE `safes`
   MODIFY `idkey` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT для таблицы `vehicles`
---
-ALTER TABLE `vehicles`
-  MODIFY `idkey` int(155) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT для таблицы `whitelist`
