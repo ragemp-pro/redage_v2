@@ -5,9 +5,9 @@
 
 ![Логотип](https://ragemp.pro/attachments/kfc500-jpg.613/)
 
-Продолжение работы над слитой сборкой - https://ragemp.pro/resources/gotovaja-sborka-redage-rp-v2-0-rage-mp-1-1.63/
+Продолжение работы над слитой сборкой - [RedAge RP V2.3.4 (RAGE:MP 1.1)](https://ragemp.pro/resources/gotovaja-sborka-redage-rp-v2-0-rage-mp-1-1.63/)
 
-История обновлений - https://ragemp.pro/resources/mesjachnaja-podderzhka-obnovlenija-dlja-sborki-redage-rp-v2-0-rage-mp-1-1-30-dnej.112/updates
+[Посмотреть историю обновлений](https://ragemp.pro/resources/mesjachnaja-podderzhka-obnovlenija-dlja-sborki-redage-rp-v2-0-rage-mp-1-1-30-dnej.112/updates)
 
 Описание:
 
