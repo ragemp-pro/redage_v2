@@ -155,9 +155,9 @@ namespace NeptuneEvo.Fractions
         {
             {1, new Vector3(-219.8333, -1615.615, 35.74932)},    // The Families
             {2, new Vector3(93.79514, -1961.605, 21.62755)},     // The Ballas Gang
-            {3, new Vector3(1403.206, -1483.664, 60.63504)},     // Los Santos Vagos
-            {4, new Vector3(891.9399, -2174.212, 33.16626)},     // Marabunta Grande
-            {5, new Vector3(480.8304, -1527.922, 30.18241)},     // Blood Street
+            {3, new Vector3(480.8304, -1527.922, 30.18241)},     // Los Santos Vagos
+            {4, new Vector3(1403.206, -1483.664, 60.63504)},     // Marabunta Grande
+            {5, new Vector3(891.9399, -2174.212, 33.16626)},     // Blood Street
             {6, new Vector3(262.9857, 223.3491, 102.5633)},      // Cityhall
             {7, new Vector3(457.4271, -991.4473, 31.5696)},      // LSPD police
             {8, new Vector3(244.7622, -1374.57, 40.41434)},      // Emergency care
