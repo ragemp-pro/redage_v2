@@ -4113,6 +4113,12 @@ namespace NeptuneEvo
                 NAPI.ClientEvent.TriggerClientEventToPlayers(players, eventName, args);
             });
         }
+
+        [ServerEvent(Event.VehicleDamage)]
+        public void OnVehicleDamage(Vehicle vehicle, float bodyHealthLoss, float engineHealthLoss)
+        {
+            NAPI.Util.ConsoleOutput($"{vehicle.DisplayName} - {bodyHealthLoss} - {engineHealthLoss}");
+        }
     }
 
     public static class PasswordRestore

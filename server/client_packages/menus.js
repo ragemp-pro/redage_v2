@@ -638,29 +638,6 @@ mp.events.add('fmenu', (act, data1, data2) => {
     global.menuClose();
 });
 
-// PLAYERLIST //
-var pliststate = false;
-mp.keys.bind(0x77, false, function () { // F8
-    if (localplayer.getVariable('IS_ADMIN') == true) {
-        if (pliststate) closePlayerList();
-        else openPlayerList();
-    }
-    
-});
-function openPlayerList() {
-    if (global.menuCheck()) return;
-    global.menuOpen();
-    global.menu.execute('plist.show()');
-    mp.players.forEach((player) => {
-        global.menu.execute(`plist.add(${player.getVariable('REMOTE_ID')},'${player.name}',0,${player.ping})`)
-    });
-    pliststate = true;
-}
-function closePlayerList() {
-    global.menuClose();
-    global.menu.execute('plist.hide()');
-    pliststate = false;
-}
 // MATS //
 /*mp.keys.bind(0x78, false, function () { // F9
     mp.events.call('matsOpen', true);

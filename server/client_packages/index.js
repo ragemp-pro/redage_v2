@@ -277,6 +277,7 @@ require('./scripts/fingerPointer.js');
 require('./scripts/publicGarage/index.js');
 require('./scripts/SmoothThrottle/SmoothThrottle.js');
 require('./banks/atm.js');
+require('./admin/adminpanel.js');
 
 require('./configs/tattoo.js');
 require('./configs/barber.js');

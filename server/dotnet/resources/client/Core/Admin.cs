@@ -27,6 +27,65 @@ namespace NeptuneEvo.Core
             Group.LoadCommandsConfigs();
         }
 
+        [RemoteEvent("openAdminPanel")]
+        private static void OpenAdminPanel(Player player)
+        {
+            CharacterData acc = Main.Players[player];
+            List<Group.GroupCommand> cmds = new List<Group.GroupCommand>();
+            List<object> players = new List<object>();
+            if (acc.AdminLVL > 0)
+            {
+                foreach (Group.GroupCommand item in Group.GroupCommands)
+                {
+                    if (item.IsAdmin)
+                    {
+                        if (item.MinLVL <= acc.AdminLVL)
+                        {
+                            cmds.Add(item);
+                        }
+                    }
+                }
+                foreach (var p in Main.Players.Keys.ToList())
+                {
+                    string[] data = { Main.Players[p].AdminLVL.ToString(), p.Value.ToString(), p.Name.ToString(), p.Ping.ToString() };
+                    players.Add(data);
+                }
+                string json = Newtonsoft.Json.JsonConvert.SerializeObject(cmds);
+                string json2 = Newtonsoft.Json.JsonConvert.SerializeObject(players);
+                Trigger.ClientEvent(player, "openAdminPanel", json, json2);
+            }
+            cmds.Clear();
+            players.Clear();
+        }
+
+        [RemoteEvent("getPlayerInfoToAdminPanel")]
+        private static void LoadPlayerInfoToPanel(Player player, int id)
+        {
+            Player target = Main.GetPlayerByID(id);
+            if (target == null) return;
+            CharacterData ccr = Main.Players[target];
+            AccountData acc = Main.Accounts[target];
+            Houses.House house = Houses.HouseManager.GetHouse(target);
+            int houseID = -1;
+            if (house != null) houseID = house.ID;
+            List<object> data = new List<object>()
+            {
+                new Dictionary<string, object>()
+                {
+                    { "Character", ccr },
+                    { "Account", acc },
+                    { "Props", new List<object>()
+                        {
+                            houseID,
+                            MoneySystem.Bank.Accounts[ccr.Bank].Balance,
+                        }
+                    }
+                }
+            };
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(data);
+            Trigger.ClientEvent(player, "loadPlayerInfo", json);
+        }
+
         public static void sendRedbucks(Player player, Player target, int amount)
         {
             if (!Group.CanUseCmd(player, "givereds")) return;
@@ -1073,7 +1132,7 @@ namespace NeptuneEvo.Core
 
     public class Group
     {
-        private static List<GroupCommand> GroupCommands = new List<GroupCommand>();
+        public static List<GroupCommand> GroupCommands = new List<GroupCommand>();
         public static void LoadCommandsConfigs()
         {
             DataTable result = MySQL.QueryRead($"SELECT * FROM adminaccess");
@@ -1168,7 +1227,7 @@ namespace NeptuneEvo.Core
             return false;
         }
 
-        internal class GroupCommand
+        public class GroupCommand
         {
             public GroupCommand(string command, bool isAdmin, int minlvl)
             {
