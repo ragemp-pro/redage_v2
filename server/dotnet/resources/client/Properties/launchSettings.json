@@ -1,9 +1,0 @@
-{
-  "profiles": {
-    "client": {
-      "commandName": "Executable",
-      "executablePath": "C:\\Users\\admin\\Desktop\\TEST_NEW_DOTNET\\ragemp-server.exe",
-      "workingDirectory": "C:\\Users\\admin\\Desktop\\TEST_NEW_DOTNET"
-    }
-  }
-}
