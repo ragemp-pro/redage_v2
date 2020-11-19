@@ -576,11 +576,11 @@ namespace NeptuneEvo
         }
         [RemoteEvent("teleportWaypoint")]
         public static void ClientEvent_tpWP(Player player, float x, float y, float z)
-       {
-         if (!Main.Players.ContainsKey(player)) return;
-          if (Main.Players[player].AdminLVL < 1) return;
-           NAPI.Entity.SetEntityPosition(player, new Vector3(x, y, z));
-       }
+        {
+            if (!Main.Players.ContainsKey(player)) return;
+            if (Main.Players[player].AdminLVL < 1) return;
+            NAPI.Entity.SetEntityPosition(player, new Vector3(x, y, z));
+        }
         [RemoteEvent("syncWaypoint")]
         public void ClientEvent_SyncWP(Player player, float X, float Y) {
             try {
