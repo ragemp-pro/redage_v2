@@ -27,6 +27,6 @@
     PayPal (в ручном режиме, пишите в ЛС или Discord)
     Поддержка и обновления приобретаются сроком на 30 дней с моменты оплаты.
 
-Отдельно залил dlcpacks от сборки (GiHub не дает залить большие файлы, переместите содержимое в client_packages): https://drive.google.com/file/d/19Be6uvqoLwVHRTH6t8ZmvWG1hBVcMScx/view?usp=sharing
+Отдельно залил dlcpacks от сборки (GiHub не дает залить большие файлы, переместите содержимое в client_packages): https://drive.google.com/file/d/1TtV6A0AK4hwG4eCJcO3tAqssC381vTtQ/view?usp=sharing
 
 Как установить сборку и настроить сборку - https://www.youtube.com/watch?v=RPsyAkdOMvg
