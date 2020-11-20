@@ -185,6 +185,7 @@ namespace NeptuneEvo.Core
         {
             new List<string>() // premium
             {
+                "Dukes",
                 "Sultan",
                 "SultanRS",
                 "Kuruma",
@@ -4244,8 +4245,9 @@ namespace NeptuneEvo.Core
                     case 20:
                         if (id == 0)
                             VehicleManager.Vehicles[number].Components.PrimColor = new Color(r, g, b);
-                        else
+                        else if (id == 1)
                             VehicleManager.Vehicles[number].Components.SecColor = new Color(r, g, b);
+                        else
                             VehicleManager.Vehicles[number].Components.NeonColor = new Color(r, g, b);
                         break;
                 }
