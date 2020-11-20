@@ -4246,6 +4246,7 @@ namespace NeptuneEvo.Core
                             VehicleManager.Vehicles[number].Components.PrimColor = new Color(r, g, b);
                         else
                             VehicleManager.Vehicles[number].Components.SecColor = new Color(r, g, b);
+                            VehicleManager.Vehicles[number].Components.NeonColor = new Color(r, g, b);
                         break;
                 }
                 VehicleManager.Save(number);

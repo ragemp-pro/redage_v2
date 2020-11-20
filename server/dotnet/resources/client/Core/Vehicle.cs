@@ -338,7 +338,7 @@ namespace NeptuneEvo.Core
             VehicleStreaming.UpdateVehicleSyncData(vehicle, new VehicleStreaming.VehicleSyncData());
         }
 
-        public static string Create(string Holder, string Model, Color Color1, Color Color2, int Health = 1000, int Fuel = 100, int Price = 0)
+        public static string Create(string Holder, string Model, Color Color1, Color Color2, Color Color3, int Health = 1000, int Fuel = 100, int Price = 0)
         {
             VehicleData data = new VehicleData();
             data.Holder = Holder;
@@ -349,6 +349,7 @@ namespace NeptuneEvo.Core
             data.Components = new VehicleCustomization();
             data.Components.PrimColor = Color1;
             data.Components.SecColor = Color2;
+            data.Components.NeonColor = Color3;
             data.Items = new List<nItem>();
             data.Dirt = 0.0F;
 

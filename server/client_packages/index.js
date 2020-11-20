@@ -682,3 +682,5 @@ mp.events.add("setResistStage", function (stage) {
     mp.game.player.setMeleeWeaponDefenseModifier(0.25 + resistStages[stage]);
     mp.game.player.setWeaponDefenseModifier(1.3 + resistStages[stage]);
 });
+
+mp.game.gxt.set("PM_PAUSE_HDR", "RAGEMP.PRO");
