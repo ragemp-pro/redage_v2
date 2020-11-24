@@ -622,7 +622,7 @@ mp.events.add("entityStreamIn", (entity) => {
             let actualData = entity.getVariable('VehicleSyncData');
 
             //Needed to stop vehicles from freaking out
-            mp.game.streaming.requestCollisionAtCoord(entity.position.x, entity.position.y, entity.position.z);
+            ///mp.game.streaming.requestCollisionAtCoord(entity.position.x, entity.position.y, entity.position.z);
             //mp.game.invoke(getNative("REQUEST_ADDITIONAL_COLLISION_AT_COORD"), entity.position.x, entity.position.y, entity.position.z);
             entity.setLoadCollisionFlag(true);
             entity.trackVisibility();

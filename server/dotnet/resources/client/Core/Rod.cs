@@ -121,26 +121,6 @@ namespace NeptuneEvo.Core
             return type;
         }
 
-        public static Dictionary<string, int> ProductsSellPrice = new Dictionary<string, int>()
-        {
-            {"Корюшка",13},
-            {"Кунджа",16},
-            {"Лосось",10},
-            {"Окунь",4},
-            {"Осётр",5},
-            {"Скат",12},
-            {"Тунец",18},
-            {"Угорь",5},
-            {"Чёрный амур",15},
-            {"Щука",6},
-        };
-
-        public static Dictionary<string, int> ProductsRodPrice = new Dictionary<string, int>()
-        {
-            {"Удочка", 1000},
-            {"Наживка", 100},
-        };
-
         public static string GetNameByItemType(ItemType tupe)
         {
             string type = "nope";

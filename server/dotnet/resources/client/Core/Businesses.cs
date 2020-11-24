@@ -139,6 +139,7 @@ namespace NeptuneEvo.Core
             3, // fishshop
             3, // sellshop
         };
+
         private static List<string> FishProducts = new List<string>()
         {
             "Удочка",
@@ -146,6 +147,7 @@ namespace NeptuneEvo.Core
             "Удочка MK2",
             "Наживка",
         };
+
         private static List<string> SellProducts = new List<string>()
         {
             "Корюшка",
@@ -159,6 +161,7 @@ namespace NeptuneEvo.Core
             "Чёрный амур",
             "Щука",
         };
+
         public static List<string> PetNames = new List<string>() {
             "Husky",
             "Poodle",
@@ -3457,10 +3460,13 @@ namespace NeptuneEvo.Core
             { "MachinePistol", 20},
             { "Патроны", 5000},
 
+            #region FishShop
             { "Удочка", 10 },
             { "Улучшенная удочка", 10 },
             { "Удочка MK2", 10 },
             { "Наживка", 10 },
+            #endregion FishShop
+            #region SellShop
             { "Корюшка", 1 },
             { "Кунджа", 1 },
             { "Лосось", 1 },
@@ -3470,7 +3476,8 @@ namespace NeptuneEvo.Core
             { "Тунец", 1 },
             { "Угорь", 1 },
             { "Чёрный амур", 1 },
-            { "Щука", 1 },
+            { "Щука", 1 }
+            #endregion SellShop
         };
         public static Dictionary<string, int> ProductsOrderPrice = new Dictionary<string, int>()
         {
@@ -3595,6 +3602,25 @@ namespace NeptuneEvo.Core
             {"CombatPDW",3600},
             {"MachinePistol",2160},
             {"Патроны",4},
+
+            #region FishShop
+            { "Удочка", 2000 },
+            { "Улучшенная удочка", 5000 },
+            { "Удочка MK2", 9000 },
+            { "Наживка", 45 },
+            #endregion FishShop
+            #region SellShop
+            {"Корюшка",13},
+            {"Кунджа",16},
+            {"Лосось",10},
+            {"Окунь",4},
+            {"Осётр",5},
+            {"Скат",12},
+            {"Тунец",18},
+            {"Угорь",5},
+            {"Чёрный амур",15},
+            {"Щука",6},
+            #endregion SellShop
         };
 
         public static List<Product> fillProductList(int type)
@@ -3681,14 +3707,14 @@ namespace NeptuneEvo.Core
                 case 15:
                     foreach (var name in FishProducts)
                     {
-                        Product product = new Product(RodManager.ProductsRodPrice[name], 0, 1, name, false);
+                        Product product = new Product(ProductsOrderPrice[name], 0, 1, name, false);
                         products_list.Add(product);
                     }
                     break;
                 case 16:
                     foreach (var name in SellProducts)
                     {
-                        Product product = new Product(RodManager.ProductsSellPrice[name], 0, 1, name, false);
+                        Product product = new Product(ProductsOrderPrice[name], 0, 1, name, false);
                         products_list.Add(product);
                     }
                     break;
@@ -4942,7 +4968,7 @@ namespace NeptuneEvo.Core
             Business biz = BizList[BizID];
             var prodName = player.GetData<string>("SELECTPROD");
 
-            double minPrice = (biz.Type == 7 || biz.Type == 11 || biz.Type == 12 || prodName == "Татуировки" || prodName == "Парики" 
+            double minPrice = (biz.Type == 7 || biz.Type == 11 || biz.Type == 12 || prodName == "Татуировки" || prodName == "Парики"
                 || prodName == "Патроны") ? 80 : (biz.Type == 1) ? 2 : ProductsOrderPrice[player.GetData<string>("SELECTPROD")] * 0.8;
             double maxPrice = (biz.Type == 7 || biz.Type == 11 || biz.Type == 12 || prodName == "Татуировки" || prodName == "Парики"
                 || prodName == "Патроны") ? 150 : (biz.Type == 1) ? 7 : ProductsOrderPrice[player.GetData<string>("SELECTPROD")] * 1.2;

@@ -112,16 +112,14 @@ namespace NeptuneEvo.Core
 
         #region AdminCommands
 
-        [Command("fakeipl")]
-        public static void CMD_SwitchFakeIPL(Player client, string IPLName)
+        [Command("createrod")]
+        public static void CMD_createRod(Player player, float radius)
         {
             try
             {
-                if (!Group.CanUseCmd(client, "setvehdirt")) return;
-                //FakeIPLs.SwitchFakeIpls(IPLName);
-                client.SendChatMessage("Has cambiado al FakeIPL: " + IPLName);
+                RodManager.createRodAreaCommand(player, radius);
             }
-            catch { }
+            catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
 
         [Command("sh1")]
