@@ -242,6 +242,14 @@ namespace NeptuneEvo.Core
                 NAPI.Entity.SetEntityDimension(player, 0);
                 Dimensions.DismissPrivateDimension(player);
                 player.ResetData("CARROOMID");
+
+                if (player.HasData("ROOMCAR"))
+                {
+                    var uveh = player.GetData<Entity>("ROOMCAR");
+                    uveh.Delete();
+                    player.ResetData("ROOMCAR");
+                }
+
                 if (!player.HasData("CARROOMTEST")) Trigger.ClientEvent(player, "destroyCamera");
             }
             catch (Exception e) { Log.Write("carroomCancel: " + e.Message, nLog.Type.Error); }

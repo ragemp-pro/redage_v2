@@ -5969,7 +5969,7 @@ namespace NeptuneEvo.Core
             if (Type == 1) range = 10f;
             else if (Type == 12) range = 5f;
             else range = 1f;
-            shape = NAPI.ColShape.CreateCylinderColShape(EnterPoint, range, 3, 0);
+            shape = NAPI.ColShape.CreateCylinderColShape(EnterPoint, range, 3, NAPI.GlobalDimension);
 
             shape.OnEntityEnterColShape += (s, entity) =>
             {
