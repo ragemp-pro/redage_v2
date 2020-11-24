@@ -3090,6 +3090,38 @@ namespace NeptuneEvo.Core
                 { "0", 3000 },
                 { "1", 3900 },
                 { "2", 4500 },
+                { "3", 4500 },
+                { "4", 4500 },
+                { "5", 4500 },
+                { "6", 4500 },
+                { "7", 4500 },
+                { "8", 4500 },
+                { "9", 4500 },
+                { "10", 4500 },
+                { "11", 4500 },
+                { "12", 4500 },
+                { "13", 4500 },
+                { "14", 4500 },
+                { "15", 4500 },
+                { "16", 4500 },
+                { "17", 4500 },
+                { "18", 4500 },
+                { "19", 4500 },
+                { "20", 4500 },
+                { "21", 4500 },
+                { "22", 4500 },
+                { "23", 4500 },
+                { "24", 4500 },
+                { "25", 4500 },
+                { "26", 4500 },
+                { "27", 4500 },
+                { "28", 4500 },
+                { "29", 4500 },
+                { "30", 4500 },
+                { "31", 4500 },
+                { "32", 4500 },
+                { "33", 4500 },
+                { "34", 4500 },
             }},
             { 13, new Dictionary<string, int>() { // transmission_menu
                 { "-1", 5000 },
@@ -4910,8 +4942,10 @@ namespace NeptuneEvo.Core
             Business biz = BizList[BizID];
             var prodName = player.GetData<string>("SELECTPROD");
 
-            double minPrice = (biz.Type == 7 || biz.Type == 11 || biz.Type == 12 || prodName == "Татуировки" || prodName == "Парики" || prodName == "Патроны") ? 80 : (biz.Type == 1) ? 2 : ProductsOrderPrice[player.GetData<string>("SELECTPROD")] * 0.8;
-            double maxPrice = (biz.Type == 7 || biz.Type == 11 || biz.Type == 12 || prodName == "Татуировки" || prodName == "Парики" || prodName == "Патроны") ? 150 : (biz.Type == 1) ? 7 : ProductsOrderPrice[player.GetData<string>("SELECTPROD")] * 1.2;
+            double minPrice = (biz.Type == 7 || biz.Type == 11 || biz.Type == 12 || prodName == "Татуировки" || prodName == "Парики" 
+                || prodName == "Патроны") ? 80 : (biz.Type == 1) ? 2 : ProductsOrderPrice[player.GetData<string>("SELECTPROD")] * 0.8;
+            double maxPrice = (biz.Type == 7 || biz.Type == 11 || biz.Type == 12 || prodName == "Татуировки" || prodName == "Парики"
+                || prodName == "Патроны") ? 150 : (biz.Type == 1) ? 7 : ProductsOrderPrice[player.GetData<string>("SELECTPROD")] * 1.2;
 
             if (price < minPrice || price > maxPrice)
             {
