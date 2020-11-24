@@ -175,7 +175,7 @@ namespace NeptuneEvo.Core
 
             GameLog.Money($"player({Main.Players[player].UUID})", $"biz({biz.ID})", prod.Price, $"buyCar({vName})");
 
-            vNumber = VehicleManager.Create(player.Name, vName, carColors[color], carColors[color], carColors[color]);
+            vNumber = VehicleManager.Create(player.Name, vName, carColors[color], carColors[color], new Color(0, 0, 0));
 
             Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Вы купили {vName} с идентификатором {vNumber} ", 3000);
             Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Автомобиль доставлен в ваш гараж!", 5000);
@@ -239,9 +239,9 @@ namespace NeptuneEvo.Core
                 Main.Players[player].ExteriorPos = new Vector3();
                 Trigger.ClientEvent(player, "freeze", false);
                 //player.FreezePosition = false;
+                NAPI.Entity.SetEntityDimension(player, 0);
                 Dimensions.DismissPrivateDimension(player);
                 player.ResetData("CARROOMID");
-                NAPI.Entity.SetEntityDimension(player, 0);
                 if (!player.HasData("CARROOMTEST")) Trigger.ClientEvent(player, "destroyCamera");
             }
             catch (Exception e) { Log.Write("carroomCancel: " + e.Message, nLog.Type.Error); }

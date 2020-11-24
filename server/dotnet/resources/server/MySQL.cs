@@ -22,9 +22,9 @@ namespace Redage.SDK
             if (Connection is string) return;
             Connection = 
                 $"Host={config.TryGet<string>("Server", "127.0.0.1")};" +
-                $"User={config.TryGet<string>("User", "root")};" +
-                $"Password={config.TryGet<string>("Password", "")};" + // Ваш пароль от бд в ""
-                $"Database={config.TryGet<string>("DataBase", "crp11")};" + // Название вашей бд ( какое создадте - такое и будет)
+                $"User={config.TryGet<string>("User", "redage")};" +
+                $"Password={config.TryGet<string>("Password", "redagev2")};" + // Ваш пароль от бд в ""
+                $"Database={config.TryGet<string>("DataBase", "redage")};" + // Название вашей бд ( какое создадте - такое и будет)
                 $"{config.TryGet<string>("SSL", "SslMode=None;")}";
         }
 
