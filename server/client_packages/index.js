@@ -294,68 +294,6 @@ if (mp.storage.data.friends == undefined) {
     mp.storage.flush();
 }
 
-// LOAD ALL DEFAULT IPL'S
-//mp.game.streaming.requestIpl("Coroner_Int_On");
-//mp.game.streaming.requestIpl('hei_vw_dlc_casino_door_replay');
-mp.game.streaming.requestIpl('vw_prop_vw_casino_door_r_02a');
-mp.game.streaming.requestIpl('vw_casino_garage');
-mp.game.streaming.requestIpl('vw_casino_carpark');
-mp.game.streaming.requestIpl('vw_casino_penthouse');
-mp.game.streaming.requestIpl('vw_casino_door');
-mp.game.streaming.requestIpl('prop_casino_door_01');
-mp.game.streaming.requestIpl('hei_dlc_windows_casino');
-mp.game.streaming.requestIpl('hei_dlc_casino_aircon');
-mp.game.streaming.requestIpl('hei_dlc_casino_door');
-mp.game.streaming.requestIpl("bh1_47_joshhse_unburnt");
-mp.game.streaming.requestIpl("bh1_47_joshhse_unburnt_lod");
-mp.game.streaming.requestIpl("CanyonRvrShallow");
-mp.game.streaming.requestIpl("ch1_02_open");
-mp.game.streaming.requestIpl("Carwash_with_spinners");
-mp.game.streaming.requestIpl("sp1_10_real_interior");
-mp.game.streaming.requestIpl("sp1_10_real_interior_lod");
-mp.game.streaming.requestIpl("ferris_finale_Anim");
-mp.game.streaming.removeIpl("hei_bi_hw1_13_door");
-mp.game.streaming.requestIpl("fiblobby");
-mp.game.streaming.requestIpl("fiblobby_lod");
-mp.game.streaming.requestIpl("apa_ss1_11_interior_v_rockclub_milo_");
-mp.game.streaming.requestIpl("hei_sm_16_interior_v_bahama_milo_");
-mp.game.streaming.requestIpl("hei_hw1_blimp_interior_v_comedy_milo_");
-mp.game.streaming.requestIpl("gr_case6_bunkerclosed");
-mp.game.streaming.requestIpl("vw_casino_main");
-//
-
-/*mp.events.add('emsload', () => {
-	if(emsloaded == false) {
-		emsloaded = true;
-		mp.game.streaming.requestIpl("Coroner_Int_On");
-	}
-});*/
-
-mp.events.add('pentload', () => {
-	if(pentloaded == false) {
-		pentloaded = true;
-		// Enable Penthouse interior // Thanks & Credits to root <3
-		let phIntID = mp.game.interior.getInteriorAtCoords(976.636, 70.295, 115.164);
-		let phPropList = [
-			"Set_Pent_Tint_Shell",
-			"Set_Pent_Pattern_01",
-			"Set_Pent_Spa_Bar_Open",
-			"Set_Pent_Media_Bar_Open",
-			"Set_Pent_Dealer",
-			"Set_Pent_Arcade_Modern",
-			"Set_Pent_Bar_Clutter",
-			"Set_Pent_Clutter_01",
-			"set_pent_bar_light_01",
-			"set_pent_bar_party_0"
-		];
-		for (const propName of phPropList) {
-			mp.game.interior.enableInteriorProp(phIntID, propName);
-			mp.game.invoke("0x8D8338B92AD18ED6", phIntID, propName, 1);
-		}
-		mp.game.interior.refreshInterior(phIntID);
-	}
-});
-
 // // // // // // //
 const mSP = 30;
 var prevP = mp.players.local.position;
@@ -684,3 +622,24 @@ mp.events.add("setResistStage", function (stage) {
 });
 
 mp.game.gxt.set("PM_PAUSE_HDR", "RAGEMP.PRO");
+
+/* Недостающие части IPL карты */
+
+mp.game.streaming.requestIpl("ch1_02_open"); // Глитч открытого интерьера на пляже
+mp.game.streaming.requestIpl("sp1_10_real_interior"); // открытый интерьер стадика
+mp.game.streaming.requestIpl("sp1_10_real_interior_lod"); // открытый интерьер стадика
+mp.game.streaming.requestIpl("ferris_finale_Anim"); // колесо обозрения на пляже
+mp.game.streaming.requestIpl("gr_case6_bunkerclosed"); // закрытый бункер merryweather
+mp.game.streaming.requestIpl("Coroner_Int_On"); // части интерьера больницы
+
+/* */
+
+/* casino */
+
+// Подгружаем недостающие части здания самого казино...
+mp.game.streaming.requestIpl("hei_dlc_windows_casino"); // зеркальные окна на здании
+mp.game.streaming.requestIpl("hei_dlc_casino_door"); // рамка двери
+mp.game.streaming.requestIpl("vw_dlc_casino_door"); // сами двери
+mp.game.streaming.requestIpl("hei_dlc_casino_aircon"); // кондиционер на крыше
+
+/* casino end */
