@@ -22,43 +22,17 @@ namespace NeptuneEvo.Core
         {
             try
             {
-                if (player.HasData("ROOMCAR"))
-                {
-                    var uveh = player.GetData<Entity>("ROOMCAR");
-                    uveh.Delete();
-                    player.ResetData("ROOMCAR");
-                }
+                if (!player.HasData("CARROOMTEST")) return;
+
+                var veh = player.GetData<Vehicle>("CARROOMTEST");
+                veh.Delete();
+
+                RemoteEvent_carroomCancel(player);
+
+                player.ResetData("CARROOMTEST");
+
             }
             catch (Exception e) { Log.Write("PlayerDisconnected: " + e.Message, nLog.Type.Error); }
-        }
-        [RemoteEvent("createlveh")]
-        public static void createveh(Player player, string name, int color1, int color2, int color3)
-        {
-            if (!player.HasData("CARROOMID")) return;
-            if (player.HasData("ROOMCAR"))
-            {
-                var uveh = player.GetData<Entity>("ROOMCAR");
-                uveh.Delete();
-                player.ResetData("ROOMCAR");
-            }
-            VehicleHash vh = (VehicleHash)NAPI.Util.GetHashKey(name);
-            Entity veh = NAPI.Vehicle.CreateVehicle(vh, CarSpawnPos, CarSpawnRot, 0, 0);
-            NAPI.Vehicle.SetVehicleCustomSecondaryColor(veh, color1, color2, color3);
-            NAPI.Vehicle.SetVehicleCustomPrimaryColor(veh, color1, color2, color3);
-            NAPI.Entity.SetEntityDimension(veh, Dimensions.GetPlayerDimension(player));
-            player.SetData<Entity>("ROOMCAR", veh);
-        }
-
-        [RemoteEvent("vehchangecolor")]
-        public static void vehchangecolor(Player player, int color1, int color2, int color3)
-        {
-            if (!player.HasData("CARROOMID")) return;
-            if (player.HasData("ROOMCAR"))
-            {
-                var uveh = player.GetData<Entity>("ROOMCAR");
-                NAPI.Vehicle.SetVehicleCustomSecondaryColor(uveh, color1, color2, color3);
-                NAPI.Vehicle.SetVehicleCustomPrimaryColor(uveh, color1, color2, color3);
-            }
         }
 
         public static void enterCarroom(Player player, string name)
@@ -119,7 +93,6 @@ namespace NeptuneEvo.Core
                 VehicleStreaming.SetEngineState(veh, true);
                 player.SetIntoVehicle(veh, 0);
                 player.SetData("CARROOMTEST", veh);
-                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "CARROOMID - " + player.GetData<int>("CARROOMID"), 3000);
             }
             catch (Exception e)
             {
@@ -242,13 +215,6 @@ namespace NeptuneEvo.Core
                 NAPI.Entity.SetEntityDimension(player, 0);
                 Dimensions.DismissPrivateDimension(player);
                 player.ResetData("CARROOMID");
-
-                if (player.HasData("ROOMCAR"))
-                {
-                    var uveh = player.GetData<Entity>("ROOMCAR");
-                    uveh.Delete();
-                    player.ResetData("ROOMCAR");
-                }
 
                 if (!player.HasData("CARROOMTEST")) Trigger.ClientEvent(player, "destroyCamera");
             }

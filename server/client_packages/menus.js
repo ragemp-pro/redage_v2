@@ -1052,11 +1052,17 @@ mp.events.add('auto', (act, value) => {
     switch (act) {
         case "model":
             auto.model = autoModels[value];
-            mp.events.callRemote('createlveh', auto.model, colors[auto.color][0], colors[auto.color][1], colors[auto.color][2]);
+            auto.entity.model = mp.game.joaat(autoModels[value]);
+
+            auto.entity.setCustomPrimaryColour(colors[auto.color][0], colors[auto.color][1], colors[auto.color][2]);
+            auto.entity.setCustomSecondaryColour(colors[auto.color][0], colors[auto.color][1], colors[auto.color][2])
+            auto.entity.setRotation(0, 0, -136.246, 2, true);
             break;
         case "color":
             auto.color = autoColors[value];
-            mp.events.callRemote('vehchangecolor', colors[auto.color][0], colors[auto.color][1], colors[auto.color][2]);
+
+            auto.entity.setCustomPrimaryColour(colors[autoColors[value]][0], colors[autoColors[value]][1], colors[autoColors[value]][2]);
+            auto.entity.setCustomSecondaryColour(colors[autoColors[value]][0], colors[autoColors[value]][1], colors[autoColors[value]][2])
             break;
     }
 });
@@ -1078,11 +1084,11 @@ mp.events.add('testdriveAuto', (model, value) => {
     if(new Date().getTime() - global.lastCheck < 50) return; 
     global.lastCheck = new Date().getTime();
 
-
     global.menuClose();
     global.menu.execute('auto.active=0');
 
     mp.events.callRemote('carroomTestDrive', auto.model, colors[autoColors[value]][0], colors[autoColors[value]][1], colors[autoColors[value]][2]);
+
     if (auto.entity == null) return;
     auto.entity.destroy();
     auto.entity = null;
@@ -1098,6 +1104,7 @@ mp.events.add('closeAuto', () => {
     if (auto.entity == null) return;
     auto.entity.destroy();
     auto.entity = null;
+
 	cameraRotator.stop();
 })
 mp.events.add('openAuto', (models, prices) => {
@@ -1108,13 +1115,24 @@ mp.events.add('openAuto', (models, prices) => {
     setAuto('colors', JSON.stringify(autoColors));
     setAuto('prices', prices);
 
-    mp.events.callRemote('createlveh', autoModels[0], 0, 0, 0);
-
     createCam(-42.3758, -1101.672, 26.42235, 0, 0, 1.701622, 50); // координаты камеры и ротация
     cameraRotator.pause(false);
 
+    // Создание авто в автосалоне
+    auto.entity = mp.vehicles.new(mp.game.joaat(autoModels[0]), new mp.Vector3(-42.79771, -1095.676, 26.0117),
+    {
+        heading: -136.246,
+        numberPlate: 'CARROOM',
+        alpha: 255,
+        color: [[0, 0, 0], [0, 0, 0]],
+        locked: false,
+        engine: false,
+        dimension: localplayer.dimension
+    });
+    auto.entity.setRotation(0, 0, -136.246, 2, true);
     auto.color = "Черный";
     auto.model = autoModels[0];
+    //
 
     global.menuOpen();
     global.menu.execute(`auto.active=true`);
