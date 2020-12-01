@@ -643,3 +643,15 @@ mp.game.streaming.requestIpl("vw_dlc_casino_door"); // сами двери
 mp.game.streaming.requestIpl("hei_dlc_casino_aircon"); // кондиционер на крыше
 
 /* casino end */
+
+mp.events.add('loadProp', (x, y, z, prop) => {
+    var interior = mp.game.interior.getInteriorAtCoords(x, y, z);
+    mp.game.interior.enableInteriorProp(interior, prop);
+    mp.game.interior.refreshInterior(interior);
+});
+
+mp.events.add('UnloadProp', (x, y, z, prop) => {
+    var interior = mp.game.interior.getInteriorAtCoords(x, y, z);
+    mp.game.interior.disableInteriorProp(interior, prop);
+    mp.game.interior.refreshInterior(interior);
+});

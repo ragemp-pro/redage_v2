@@ -3021,6 +3021,33 @@ namespace NeptuneEvo.Core
             }
         }
 
+        [Command("loadprop")]
+        public static void CMD_LoadProp(Player player, double x, double y, double z, string prop)
+        {
+            try
+            {
+                if (!Group.CanUseCmd(player, "setvehdirt")) return;
+                Trigger.ClientEvent(player, "loadProp", x, y, z, prop);
+                player.SendChatMessage("Вы подгрузили Interior Prop: " + prop);
+            }
+            catch
+            {
+            }
+        }
+        [Command("unloadprop")]
+        public static void CMD_UnLoadProp(Player player, double x, double y, double z, string prop)
+        {
+            try
+            {
+                if (!Group.CanUseCmd(player, "setvehdirt")) return;
+                Trigger.ClientEvent(player, "UnloadProp", x, y, z, prop);
+                player.SendChatMessage("Вы выгрузили Interior Prop: " + prop);
+            }
+            catch
+            {
+            }
+        }
+
         [Command("starteffect")]
         public static void CMD_StartEffect(Player player, string effect, int dur = 0, bool loop = false)
         {
