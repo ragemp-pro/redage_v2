@@ -374,15 +374,6 @@ mp.keys.bind(Keys.VK_OEM_3, false, function () { // ` key
     mp.gui.cursor.visible = !mp.gui.cursor.visible;
 });
 
-mp.keys.bind(Keys.VK_F6, false, function () { // F6 key
-    /*if (global.menuCheck()) return;
-    if (!mp.game.recorder.isRecording()) {
-        mp.game.recorder.start(1);
-    } else {
-        mp.game.recorder.stop();
-    }*/
-});
-
 var lastPos = new mp.Vector3(0, 0, 0);
 
 mp.game.gameplay.setFadeInAfterDeathArrest(false);
