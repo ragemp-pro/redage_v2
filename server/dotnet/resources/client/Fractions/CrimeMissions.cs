@@ -247,7 +247,7 @@ namespace NeptuneEvo.Fractions
                                 return;
                             }
 
-                            NAPI.Data.ResetEntityData(e.Vehicle.GetData<Vehicle>("WHOS_VEH"), "DELIVERY_CAR");
+                            NAPI.Data.ResetEntityData(e.Vehicle.GetData<Player>("WHOS_VEH"), "DELIVERY_CAR");
                             e.Vehicle.Delete();
                             Stocks.fracStocks[Main.Players[e].FractionID].Money += 500;
                             GameLog.Money($"server", $"frac({Main.Players[e].FractionID})", 500, "dropCar");
