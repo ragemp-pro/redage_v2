@@ -4127,7 +4127,7 @@ namespace NeptuneEvo
         private static nLog Log = new nLog("PassRestore");
         private static Config config = new Config("PassRestore");
 
-        private static string mailFrom = config.TryGet<string>("From", "noreply@redage.net");
+        private static string mailFrom = config.TryGet<string>("From", "noreply@ragemp.pro");
         private static string mailTitle1 = config.TryGet<string>("Title1", "Password Restore");
         private static string mailTitle2 = config.TryGet<string>("Title2", "New Password");
         private static string mailBody1 = config.TryGet<string>("Body1", "<p>Код для восстановления пароля: {0}</p>");

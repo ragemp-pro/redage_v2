@@ -1,11 +1,11 @@
 
-# # (redage_v2) Готовая сборка RedAge RP V2.0 (RAGE:MP 1.1)
+# # (redage_v2) Готовая сборка RAGEMP.PRO V2.0 (RAGE:MP 1.1)
 
 Сборка на основе оригинального NeptuneEvo. Версия RAGE Multiuplayer 1.1.
 
 ![Логотип](https://ragemp.pro/attachments/kfc500-jpg.613/)
 
-Продолжение работы над слитой сборкой - [RedAge RP V2.3.4 (RAGE:MP 1.1)](https://ragemp.pro/resources/gotovaja-sborka-redage-rp-v2-0-rage-mp-1-1.63/)
+Продолжение работы над слитой сборкой - [RAGEMP.PRO V2.3.4 (RAGE:MP 1.1)](https://ragemp.pro/resources/gotovaja-sborka-redage-rp-v2-0-rage-mp-1-1.63/)
 
 [Посмотреть историю обновлений](https://ragemp.pro/resources/mesjachnaja-podderzhka-obnovlenija-dlja-sborki-redage-rp-v2-0-rage-mp-1-1-30-dnej.112/updates)
 

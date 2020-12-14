@@ -125,7 +125,7 @@ setTimeout(function () {
 
 setInterval(function () {
     var name = (localplayer.getVariable('REMOTE_ID') == undefined) ? `Не авторизован` : `Игрок №${localplayer.getVariable("REMOTE_ID")}`;
-	mp.discord.update('RedAge RP v2.0', name);
+	mp.discord.update('RAGEMP.PRO v2.0', name);
 }, 10000);
 
 var pedsaying = null;
