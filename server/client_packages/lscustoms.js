@@ -188,7 +188,7 @@ mp.events.add('tclk', (id) => {
         case "muffler_menu":
             if (vehicleComponents.Muffler == id) setted = true;
             break;
-        case "sideskirt_menu":
+        case "sides_menu":
             if (vehicleComponents.SideSkirt == id) setted = true;
             break;
         case "hood_menu":
