@@ -286,6 +286,7 @@ require('./configs/natives.js');
 require('./configs/tuning.js');
 
 require('./realtor.js');
+require('./radiosync.js');
 
 // // // // // // //
 
