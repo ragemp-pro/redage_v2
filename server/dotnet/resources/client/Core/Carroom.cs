@@ -2,8 +2,8 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Threading;
-using NeptuneEvo.GUI;
+using NeptuneEvo.Core.nAccount;
+using NeptuneEvo.Core.Character;
 using System.Linq;
 using Redage.SDK;
 
@@ -117,8 +117,10 @@ namespace NeptuneEvo.Core
         public static void OpenCarromMenu(Player player, int biztype)
         {
             var bizid = player.GetData<int>("CARROOMID");
+            Business biz = BusinessManager.BizList[player.GetData<int>("CARROOMID")];
+            var prices = new List<int>();
 
-            if (bizid == 107)
+            if (biz.Type == 17)
             {
                 player.SetSharedData("CARROOM-DONATE", true);
                 biztype = 5;
@@ -129,8 +131,6 @@ namespace NeptuneEvo.Core
                 biztype -= 2;
             }
 
-            var prices = new List<int>();
-            Business biz = BusinessManager.BizList[player.GetData<int>("CARROOMID")];
             foreach (var p in biz.Products)
             {
                 prices.Add(p.Price);
@@ -141,25 +141,40 @@ namespace NeptuneEvo.Core
 
         private static string BuyVehicle(Player player, Business biz, string vName, string color)
         {
-            // Check products available
             var prod = biz.Products.FirstOrDefault(p => p.Name == vName);
             string vNumber = "none";
 
-            if (Main.Players[player].Money < prod.Price)
+            if (biz.Type != 17)
             {
-                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно средств", 3000);
-                return vNumber;
-            }
+                // Check products available
+                if (Main.Players[player].Money < prod.Price)
+                {
+                    Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно средств", 3000);
+                    return vNumber;
+                }
 
-            if (!BusinessManager.takeProd(biz.ID, 1, vName, prod.Price))
+                if (!BusinessManager.takeProd(biz.ID, 1, vName, prod.Price))
+                {
+                    Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Транспортного средства больше нет на складе", 3000);
+                    return vNumber;
+                }
+
+                MoneySystem.Wallet.Change(player, -prod.Price);
+
+                GameLog.Money($"player({Main.Players[player].UUID})", $"biz({biz.ID})", prod.Price, $"buyCar({vName})");
+            }
+            else if (biz.Type == 17)
             {
-                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Транспортного средства больше нет на складе", 3000);
-                return vNumber;
+                Account acc = Main.Accounts[player];
+
+                if (acc.RedBucks < prod.Price)
+                {
+                    Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно Redbucks!", 3000);
+                    return vNumber;
+                }
+                acc.RedBucks -= prod.Price;
+                GameLog.Money(acc.Login, "server", prod.Price, "donateAutoroom");
             }
-
-            MoneySystem.Wallet.Change(player, -prod.Price);
-
-            GameLog.Money($"player({Main.Players[player].UUID})", $"biz({biz.ID})", prod.Price, $"buyCar({vName})");
 
             vNumber = VehicleManager.Create(player.Name, vName, carColors[color], carColors[color], new Color(0, 0, 0));
 

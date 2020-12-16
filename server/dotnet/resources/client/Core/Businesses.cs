@@ -119,6 +119,7 @@ namespace NeptuneEvo.Core
             251, // aero shop
             371, // FishShop
             628, // SellShop
+            641, // авто-донат
         };
         public static List<int> BlipColorByType = new List<int>()
         {
@@ -139,6 +140,7 @@ namespace NeptuneEvo.Core
             15, // aero shop
             3, // fishshop
             3, // sellshop
+            60, // авто-донат
         };
 
         private static List<string> FishProducts = new List<string>()
@@ -287,6 +289,10 @@ namespace NeptuneEvo.Core
                 "Mammatus",
                 "Luxor2"
             }, // aero room
+            new List<string>() // авто-донат
+            {
+                "deluxo",
+            },
         };
         private static List<string> GunNames = new List<string>()
         {
@@ -3816,6 +3822,7 @@ namespace NeptuneEvo.Core
                 case 3:
                 case 4:
                 case 5:
+                case 17:
                     if (player.HasData("FOLLOWER"))
                     {
                         Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Отпустите человека", 3000);

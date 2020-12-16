@@ -1136,6 +1136,13 @@ mp.events.add('openAuto', (models, prices) => {
 
     global.menuOpen();
     global.menu.execute(`auto.active=true`);
+
+    // donate-carroom check
+    mp.console.logWarning("CARROOM-DONATE: " + localplayer.getVariable('CARROOM-DONATE'), true, true);
+    if(localplayer.getVariable('CARROOM-DONATE')) global.menu.execute('auto.donate=true');
+    else global.menu.execute('auto.donate=false');
+    //
+    
 });
 //types: models, colors, prices
 function setAuto(type, jsonstr) {
