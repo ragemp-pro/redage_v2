@@ -116,12 +116,25 @@ namespace NeptuneEvo.Core
 
         public static void OpenCarromMenu(Player player, int biztype)
         {
-            biztype -= 2;
+            var bizid = player.GetData<int>("CARROOMID");
+
+            if (bizid == 107)
+            {
+                player.SetSharedData("CARROOM-DONATE", true);
+                biztype = 5;
+            }
+            else
+            {
+                player.SetSharedData("CARROOM-DONATE", false);
+                biztype -= 2;
+            }
 
             var prices = new List<int>();
             Business biz = BusinessManager.BizList[player.GetData<int>("CARROOMID")];
             foreach (var p in biz.Products)
+            {
                 prices.Add(p.Price);
+            }
 
             Trigger.ClientEvent(player, "openAuto", JsonConvert.SerializeObject(BusinessManager.CarsNames[biztype]), JsonConvert.SerializeObject(prices));
         }

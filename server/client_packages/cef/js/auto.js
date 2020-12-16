@@ -10,7 +10,8 @@ var auto = new Vue({
         modelsName: [],
         colors: ["Black Briliant","Blueberry","Cold White"],
         prices: [19,199,1999],
-        header: "Автосалон"
+        header: "Автосалон",
+        donate: false,
     },
     computed: {
         bizIncome: function() {

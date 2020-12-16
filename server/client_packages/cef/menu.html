@@ -315,7 +315,8 @@
         <div id="log"></div>
       </div>
       <div class="btns">
-        <div class="pr"><font color="white">Цена: <span>{{prices[indexM]}}$</span></font></div>
+        <div v-if="donate" class="pr"><font color="white">Цена: <span>{{prices[indexM]}} RedBucks</span></font></div>
+        <div v-else class="pr"><font color="white">Цена: <span>{{prices[indexM]}}$</span></font></div>
         <div @click="buy" class="btn buy">Купить</div>
         <div @click="testdrive" class="btn testdrive">Тест-драйв</div>
         <div @click="exit" class="btn exit">Выйти</div>
