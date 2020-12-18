@@ -112,16 +112,7 @@ namespace NeptuneEvo.Core
 
         #region AdminCommands
 
-        [Command("createrod")]
-        public static void CMD_createRod(Player player, float radius)
-        {
-            try
-            {
-                RodManager.createRodAreaCommand(player, radius);
-            }
-            catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
-        }
-
+        /*
         [Command("sh1")]
         public static void CMD_sheriffAccept(Player player, int id)
         {
@@ -136,8 +127,19 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
+        */
 
-        [Command("givelic")]
+        [Command("createrod")] // Создать место для рыбалки (7 лвл)
+        public static void CMD_createRod(Player player, float radius)
+        {
+            try
+            {
+                RodManager.createRodAreaCommand(player, radius);
+            }
+            catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
+        }
+
+        [Command("givelic")] // Выдать лицензии (7 лвл)
         public static void CMD_giveLicense(Player player, int id, int lic)
         {
             try
@@ -164,7 +166,8 @@ namespace NeptuneEvo.Core
             }
             catch { }
         }
-        [Command("vehchange")]
+        
+        [Command("vehchange")] // Сменить тип машины (7 лвл)
         public static void CMD_vehchage(Player client, string newmodel)
         {
             try
@@ -189,22 +192,8 @@ namespace NeptuneEvo.Core
             }
             catch { }
         }
-        [Command("findtrailer")]
-        public static void CMD_findTrailer(Player player)
-        {
-            try
-            {
-                if (player.HasData("TRAILER"))
-                {
-                    Vehicle trailer = player.GetData<Vehicle>("TRAILER");
-                    Trigger.ClientEvent(player, "createWaypoint", trailer.Position.X, trailer.Position.Y);
-                    Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, "Вы успешно установили маркер на карту, там находится Ваш трейлер", 5000);
-                }
-            }
-            catch { }
-        }
 
-        [Command("bankfix")]
+        [Command("bankfix")] // Удалить банковский счет (7 лвл)
         public static void CMD_bankfix(Player client, int bank)
         {
             try
@@ -220,7 +209,7 @@ namespace NeptuneEvo.Core
             catch { }
         }
 
-        [Command("gethwid")]
+        [Command("gethwid")] // Получить HWID игрока (7 лвл)
         public static void CMD_gethwid(Player client, int ID)
         {
             try
@@ -237,7 +226,7 @@ namespace NeptuneEvo.Core
             catch { }
         }
 
-        [Command("getsocialclub")]
+        [Command("getsocialclub")] // Получить Social Club игрока (7 лвл)
         public static void CMD_getsc(Player client, int ID)
         {
             try
@@ -254,13 +243,13 @@ namespace NeptuneEvo.Core
             catch { }
         }
 
-        [Command("loggedinfix")]
+        [Command("loggedinfix")] // Фикс авторизации (хз) (7 лвл)
         public static void CMD_loggedinfix(Player player, string login)
         {
             try
             {
                 if (!Main.Players.ContainsKey(player)) return;
-                if (Main.Players[player].AdminLVL <= 6) return;
+                if (!Group.CanUseCmd(client, "setvehdirt")) return;
                 if (Main.LoggedIn.ContainsKey(login))
                 {
                     if (NAPI.Player.IsPlayerConnected(Main.LoggedIn[login]))
@@ -280,12 +269,12 @@ namespace NeptuneEvo.Core
             catch { }
         }
 
-        [Command("vconfigload")]
+        [Command("vconfigload")] // Перезагрузить конфиг авто (7 лвл)
         public static void CMD_loadConfigVehicles(Player player, int type, int number)
         {
             try
             {
-                if (!Group.CanUseCmd(player, "vconfigload")) return;
+                if (!Group.CanUseCmd(player, "setvehdirt")) return;
                 if (type == 0) // fractionvehicles
                 {
                     Fractions.Configs.FractionVehicles[number] = new Dictionary<string, Tuple<VehicleHash, Vector3, Vector3, int, int, int, VehicleManager.VehicleCustomization>>();
@@ -429,12 +418,13 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("vconfigload: " + e.Message, nLog.Type.Error); }
         }
-        [Command("addpromo")]
+        
+        [Command("addpromo")] // Добавить промокод (7 лвл)
         public static void CMD_addPromo(Player player, int uuid, string promocode)
         {
             try
             {
-                if (!Group.CanUseCmd(player, "promosync")) return;
+                if (!Group.CanUseCmd(player, "setvehdirt")) return;
                 promocode = promocode.ToLower();
 
                 Main.PromoCodes.Add(promocode, new Tuple<int, int, int>(1, 0, uuid));
@@ -456,7 +446,8 @@ namespace NeptuneEvo.Core
             }
             catch { }
         }
-        [Command("giveammo")]
+        
+        [Command("giveammo")] // Выдать патроны (4 лвл)
         public static void CMD_ammo(Player client, int ID, int type, int amount = 1)
         {
             try
@@ -491,13 +482,14 @@ namespace NeptuneEvo.Core
             }
             catch { }
         }
-        [Command("newvnum")]
+        
+        [Command("newvnum")] // Новый номер на транспорт (7 лвл)
         public static void CMD_newVehicleNumber(Player player, string oldNum, string newNum)
         {
             try
             {
                 if (!Main.Players.ContainsKey(player)) return;
-                if (!Group.CanUseCmd(player, "newvnum")) return;
+                if (!Group.CanUseCmd(player, "setvehdirt")) return;
                 if (!VehicleManager.Vehicles.ContainsKey(oldNum))
                 {
                     Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Такой машины не существует", 3000);
@@ -527,7 +519,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("newvnum: " + e.Message, nLog.Type.Error); }
         }
-        [Command("redname")]
+        
+        [Command("redname")] // Красный админский ник (1 лвл)
         public static void CMD_redname(Player player)
         {
             try
@@ -548,7 +541,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("hidenick")]
+        
+        [Command("hidenick")] // Скрыть ник (7 лвл)
         public static void CMD_hidenick(Player player)
         {
             if (!Group.CanUseCmd(player, "setvehdirt")) return;
@@ -564,11 +558,14 @@ namespace NeptuneEvo.Core
             }
 
         }
-        [Command("givereds")]
+        
+        [Command("givereds")] // Выдать RedBucks (8 лвл)
         public static void CMD_givereds(Player player, int id, int amount)
         {
             try
             {
+                if (!Group.CanUseCmd(player, "givereds")) return;
+
                 var target = Main.GetPlayerByID(id);
                 if (target == null)
                 {
@@ -579,7 +576,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("checkprop")]
+        
+        [Command("checkprop")] // Узнать о имуществе игрока (3 лвл)
         public static void CMD_checkProperety(Player player, int id)
         {
             try
@@ -616,7 +614,8 @@ namespace NeptuneEvo.Core
                 Log.Write("checkprop: " + e.Message, nLog.Type.Error);
             }
         }
-        [Command("id", "~y~/id [имя/id]")]
+        
+        [Command("id", "~y~/id [имя/id]")] // Найти игрока по персональному ID (1 лвл)
         public static void CMD_checkId(Player player, string target)
         {
             try
@@ -656,7 +655,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\"/id/:\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("setdim")]
+        
+        [Command("setdim")] // Установить виртуальный мир для себя (4 лвл)
         public static void CMD_setDim(Player player, int id, int dim)
         {
             try
@@ -680,13 +680,14 @@ namespace NeptuneEvo.Core
                 Log.Write("setdim: " + e.Message, nLog.Type.Error);
             }
         }
-        [Command("checkdim")]
+        
+        [Command("checkdim")] // Узнать виртуальный мир игрока (4 лвл)
         public static void CMD_checkDim(Player player, int id)
         {
             try
             {
                 if (!Main.Players.ContainsKey(player)) return;
-                if (!Group.CanUseCmd(player, "checkdim")) return;
+                if (!Group.CanUseCmd(player, "setdim")) return;
 
                 var target = Main.GetPlayerByID(id);
                 if (target == null)
@@ -704,7 +705,8 @@ namespace NeptuneEvo.Core
                 Log.Write("checkdim: " + e.Message, nLog.Type.Error);
             }
         }
-        [Command("setbizmafia")]
+        
+        [Command("setbizmafia")] // Выдать бизнес под контроль мафии (6 лвл)
         public static void CMD_setBizMafia(Player player, int mafia)
         {
             try
@@ -722,7 +724,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("setbizmafia: " + e.Message, nLog.Type.Error); }
         }
-        [Command("newsimcard")]
+        
+        [Command("newsimcard")] // Новая симкарта с номером для игрока (8 лвл)
         public static void CMD_newsimcard(Player player, int id, int newnumber)
         {
             try
@@ -753,7 +756,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("newsimcard: " + e.Message, nLog.Type.Error); }
         }
-        [Command("takeoffbiz")]
+        
+        [Command("takeoffbiz")] // Отобрать бизнес у игрока (8 лвл)
         public static void CMD_takeOffBusiness(Player admin, int bizid, bool byaclear = false)
         {
             try
@@ -797,7 +801,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("takeoffbiz: " + e.Message, nLog.Type.Error); }
         }
-        [Command("paydaymultiplier")]
+        
+        [Command("paydaymultiplier")] // Установить множитель на PaydayMultiplier (8 лвл)
         public static void CMD_paydaymultiplier(Player player, int multi)
         {
             try
@@ -816,7 +821,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("paydaymultiplier: " + e.Message, nLog.Type.Error); }
         }
-        [Command("expmultiplier")]
+        
+        [Command("expmultiplier")] // Установить множитель на ExpMultiplier (7 лвл)
         public static void CMD_expmultiplier(Player player, int multi)
         {
             try
@@ -835,7 +841,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("paydaymultiplier: " + e.Message, nLog.Type.Error); }
         }
-        [Command("offdelfrac")]
+        
+        [Command("offdelfrac")] // Уволить игрока из фракции оффлайн (5 лвл)
         public static void CMD_offlineDelFraction(Player player, string name)
         {
             try
@@ -855,7 +862,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("offdelfrac: " + e.Message, nLog.Type.Error); }
         }
-        [Command("removeobj")]
+        
+        [Command("removeobj")] // ??? (8 лвл)
         public static void CMD_removeObject(Player player)
         {
             try
@@ -868,7 +876,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("removeobj: " + e.Message, nLog.Type.Error); }
         }
-        [Command("unwarn")]
+        
+        [Command("unwarn")] // Снять варн у игрока (3 лвл)
         public static void CMD_unwarn(Player player, int id)
         {
             try
@@ -899,7 +908,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("unwarn: " + e.Message, nLog.Type.Error); }
         }
-        [Command("offunwarn")]
+        
+        [Command("offunwarn")] // Снять варн у игрока в оффлайне (3 лвл)
         public static void CMD_offunwarn(Player player, string target)
         {
             try
@@ -939,7 +949,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("offunwarn: " + e.Message, nLog.Type.Error); }
         }
-        [Command("rescar")]
+        
+        [Command("rescar")] // Респавн авто игрока (3 лвл)
         public static void CMD_respawnCar(Player player)
         {
             try
@@ -964,7 +975,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("ResCar: " + e.Message, nLog.Type.Error); }
         }
-        [Command("bansync")]
+        
+        [Command("bansync")] // Синхронизация банов ??? (3 лвл)
         public static void CMD_banlistSync(Player client)
         {
             try
@@ -976,7 +988,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("bansync: " + e.Message, nLog.Type.Error); }
         }
-        [Command("setcolour")]
+        
+        [Command("setcolour")] // Смена цвета территорий у банд (6 лвл)
         public static void CMD_setTerritoryColor(Player player, int gangid)
         {
             try
@@ -1004,7 +1017,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("CMD_SetColour: " + e.Message, nLog.Type.Error); }
         }
-        [Command("sc")]
+        
+        [Command("sc")] // Выдать одежду (8 лвл)
         public static void CMD_setClothes(Player player, int id, int draw, int texture)
         {
             try
@@ -1017,7 +1031,8 @@ namespace NeptuneEvo.Core
             }
             catch { }
         }
-        [Command("sac")]
+        
+        [Command("sac")] // Выдать аксы (8 лвл)
         public static void CMD_setAccessories(Player player, int id, int draw, int texture)
         {
             if (!Main.Players.ContainsKey(player)) return;
@@ -1028,11 +1043,12 @@ namespace NeptuneEvo.Core
                 player.ClearAccessory(id);
 
         }
-        [Command("checkwanted")]
+        
+        [Command("checkwanted")] // Узнать розыск игрока (8 лвл)
         public static void CMD_checkwanted(Player player, int id)
         {
             if (!Main.Players.ContainsKey(player)) return;
-            if (!Group.CanUseCmd(player, "checkwanted")) return;
+            if (!Group.CanUseCmd(player, "setvehdirt")) return;
             var target = Main.GetPlayerByID(id);
             if (target == null)
             {
@@ -1042,7 +1058,8 @@ namespace NeptuneEvo.Core
             var stars = (Main.Players[target].WantedLVL == null) ? 0 : Main.Players[target].WantedLVL.Level;
             Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Количество звезд - {stars}", 3000);
         }
-        [Command("fixcar")]
+        
+        [Command("fixcar")] // Починить авто (3 лвл)
         public static void CMD_fixcar(Player player)
         {
             try
@@ -1056,7 +1073,8 @@ namespace NeptuneEvo.Core
                 Log.Write("EXCEPTION AT \"CMD_fixcar\":" + e.ToString(), nLog.Type.Error);
             }
         }
-        [Command("stats")]
+        
+        [Command("stats")] // Статистика игрока (2 лвл)
         public static void CMD_showPlayerStats(Player admin, int id)
         {
             try
@@ -1116,7 +1134,8 @@ namespace NeptuneEvo.Core
                 Log.Write("EXCEPTION AT \"CMD_showPlayerStats\":" + e.ToString(), nLog.Type.Error);
             }
         }
-        [Command("admins")]
+        
+        [Command("admins")] // Список администраторов онлайн (2 лвл)
         public static void CMD_AllAdmins(Player client)
         {
             try
@@ -1137,7 +1156,8 @@ namespace NeptuneEvo.Core
                 Log.Write("EXCEPTION AT \"CMD_AllAdmins\":" + e.ToString(), nLog.Type.Error);
             }
         }
-        [Command("fixweaponsshops")]
+        
+        [Command("fixweaponsshops")] // Фикс ??? (8 лвл)
         public static void CMD_fixweaponsshops(Player client)
         {
             try
@@ -1160,7 +1180,8 @@ namespace NeptuneEvo.Core
                 Log.Write("EXCEPTION AT \"CMD_fixweaponsshops\":\n" + e.ToString(), nLog.Type.Error);
             }
         }
-        [Command("fixgovbizprices")]
+        
+        [Command("fixgovbizprices")] // Фикс ??? (8 лвл)
         public static void CMD_fixgovbizprices(Player client)
         {
             try
@@ -1195,7 +1216,8 @@ namespace NeptuneEvo.Core
                 Log.Write("EXCEPTION AT \"CMD_fixgovbizprices\":\n" + e.ToString(), nLog.Type.Error);
             }
         }
-        [Command("setproductbyindex")]
+        
+        [Command("setproductbyindex")] // Выдать продукты в бизнес (8 лвл)
         public static void CMD_setproductbyindex(Player client, int id, int index, int product)
         {
             try
@@ -1210,7 +1232,8 @@ namespace NeptuneEvo.Core
                 Log.Write("EXCEPTION AT \"CMD_setproductbyindex\":\n" + e.ToString(), nLog.Type.Error);
             }
         }
-        [Command("deleteproducts")]
+        
+        [Command("deleteproducts")] // Удалить продукты в бизнесе (8 лвл)
         public static void CMD_deleteproducts(Player client, int id)
         {
             try
@@ -1226,7 +1249,8 @@ namespace NeptuneEvo.Core
                 Log.Write("EXCEPTION AT \"CMD_setproductbyindex\":\n" + e.ToString(), nLog.Type.Error);
             }
         }
-        [Command("changebizprice")]
+        
+        [Command("changebizprice")] // Изменить цену бизнеса (8 лвл)
         public static void CMD_changeBusinessPrice(Player player, int newPrice)
         {
             if (!Group.CanUseCmd(player, "changebizprice")) return;
@@ -1239,19 +1263,22 @@ namespace NeptuneEvo.Core
             biz.SellPrice = newPrice;
             biz.UpdateLabel();
         }
-        [Command("pa")]
+        
+        [Command("pa")] // Выполнить анимацию (8 лвл)
         public static void CMD_playAnimation(Player player, string dict, string anim, int flag)
         {
             if (!Group.CanUseCmd(player, "pa")) return;
             player.PlayAnimation(dict, anim, flag);
         }
-        [Command("sa")]
+        
+        [Command("sa")] // Остановить анимацию (8 лвл)
         public static void CMD_stopAnimation(Player player)
         {
             if (!Group.CanUseCmd(player, "sa")) return;
             player.StopAnimation();
         }
-        [Command("changestock")]
+        
+        [Command("changestock")] // Изменить склад фракции (6 лвл)
         public static void CMD_changeStock(Player player, int fracID, string item, int amount)
         {
             if (!Group.CanUseCmd(player, "changestock")) return;
@@ -1285,13 +1312,15 @@ namespace NeptuneEvo.Core
             player.SendChatMessage("~r~money - деньги");
             GameLog.Admin($"{player.Name}", $"changeStock({item},{amount})", $"");
         }
-        [Command("tpc")]
+        
+        [Command("tpc")] // Телепорт по координатам (3 лвл)
         public static void CMD_tpCoord(Player player, double x, double y, double z)
         {
             if (!Group.CanUseCmd(player, "tpc")) return;
             NAPI.Entity.SetEntityPosition(player, new Vector3(x, y, z));
         }
-        [Command("inv")]
+        
+        [Command("inv")] // Невидимость (2 лвл)
         public static void CMD_ToogleInvisible(Player player)
         {
             if (!Main.Players.ContainsKey(player)) return;
@@ -1299,7 +1328,8 @@ namespace NeptuneEvo.Core
 
             BasicSync.SetInvisible(player, !BasicSync.GetInvisible(player));
         }
-        [Command("delfrac")]
+        
+        [Command("delfrac")] // Удалить игрока из фракции (3 лвл)
         public static void CMD_delFrac(Player player, int id)
         {
             if (!Main.Players.ContainsKey(player)) return;
@@ -1310,7 +1340,8 @@ namespace NeptuneEvo.Core
             }
             Admin.delFrac(player, Main.GetPlayerByID(id));
         }
-        [Command("sendcreator")]
+        
+        [Command("sendcreator")] // Отправить игрока в редактор внешности (5 лвл)
         public static void CMD_SendToCreator(Player player, int id)
         {
             if (!Main.Players.ContainsKey(player)) return;
@@ -1324,7 +1355,8 @@ namespace NeptuneEvo.Core
             Customization.SendToCreator(target);
             GameLog.Admin($"{player.Name}", $"sendCreator", $"{target.Name}");
         }
-        [Command("afuel")]
+        
+        [Command("afuel")] // Заправить авто (2 лвл)
         public static void CMD_setVehiclePetrol(Player player, int fuel)
         {
             try
@@ -1336,7 +1368,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("afuel: " + e.Message, nLog.Type.Error); }
         }
-        [Command("changename", GreedyArg = true)]
+        
+        [Command("changename", GreedyArg = true)] // Изменить имя игрока (5 лвл)
         public static void CMD_changeName(Player client, string curient, string newName)
         {
             try
@@ -1384,7 +1417,8 @@ namespace NeptuneEvo.Core
                 Log.Write("EXCEPTION AT \"CMD_CHANGENAME\":\n" + e.ToString(), nLog.Type.Error);
             }
         }
-        [Command("startmatwars")]
+        
+        [Command("startmatwars")] // Начать войну за маты (6 лвл)
         public static void CMD_startMatWars(Player player)
         {
             try
@@ -1401,9 +1435,12 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("startmatwars: " + e.Message, nLog.Type.Error); }
         }
-        [Command("whitelistdel")]
+        
+        [Command("whitelistdel")] // Удалить игрока из WhiteList (8 лвл)
         public static void CMD_whitelistdel(Player player, string socialClub)
         {
+            if (!Group.CanUseCmd(player, "setvehdirt")) return;
+
             try
             {
                 if (CheckSocialClubInWhiteList(socialClub))
@@ -1431,9 +1468,12 @@ namespace NeptuneEvo.Core
             }
             return false;
         }
-        [Command("whitelistadd")]
+        
+        [Command("whitelistadd")] // Добавить игрока из WhiteList (8 лвл)
         public static void CMD_whitelistadd(Player player, string socialClub)
         {
+            if (!Group.CanUseCmd(player, "setvehdirt")) return;
+
             try
             {
                 if (CheckSocialClubInAccounts(socialClub))
@@ -1468,7 +1508,8 @@ namespace NeptuneEvo.Core
             }
             return false;
         }
-        [Command("giveexp")]
+        
+        [Command("giveexp")] // Выдать EXP игроку (6 лвл)
         public static void CMD_giveExp(Player player, int id, int exp)
         {
             try
@@ -1495,7 +1536,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("giveexp" + e.Message, nLog.Type.Error); }
         }
-        [Command("housetypeprice")]
+        
+        [Command("housetypeprice")] // ??? (8 лвл)
         public static void CMD_replaceHousePrices(Player player, int type, int newPrice)
         {
             if (!Group.CanUseCmd(player, "housetypeprice")) return;
@@ -1507,7 +1549,8 @@ namespace NeptuneEvo.Core
                 h.Save();
             }
         }
-        [Command("delhouseowner")]
+        
+        [Command("delhouseowner")] // Удалить владельца у дома (8 лвл)
         public static void CMD_deleteHouseOwner(Player player)
         {
             if (!Group.CanUseCmd(player, "delhouseowner")) return;
@@ -1525,7 +1568,8 @@ namespace NeptuneEvo.Core
             house.Save();
             GameLog.Admin($"{player.Name}", $"delHouseOwner({house.ID})", $"");
         }
-        [Command("stt")]
+        
+        [Command("stt")] // Буст машины / ускорение (7 лвл)
         public static void CMD_SetTurboTorque(Player player, float power, float torque)
         {
             try
@@ -1539,7 +1583,8 @@ namespace NeptuneEvo.Core
                 Log.Write("Error at \"STT\":" + e.ToString(), nLog.Type.Error);
             }
         }
-        [Command("svm")]
+        
+        [Command("svm")] // Модификация авто / тюнинг (8 лвл)
         public static void CMD_SetVehicleMod(Player player, int type, int index)
         {
             try
@@ -1554,7 +1599,8 @@ namespace NeptuneEvo.Core
                 Log.Write("Error at \"SVM\":" + e.ToString(), nLog.Type.Error);
             }
         }
-        [Command("svn")]
+        
+        [Command("svn")] // Установить неон на авто (8 лвл)
         public static void CMD_SetVehicleNeon(Player player, byte r, byte g, byte b, byte alpha)
         {
             try
@@ -1578,7 +1624,8 @@ namespace NeptuneEvo.Core
                 Log.Write("Error at \"SVN\":" + e.ToString(), nLog.Type.Error);
             }
         }
-        [Command("svhid")]
+        
+        [Command("svhid")] // Установить цвет фар на авто (8 лвл)
         public static void CMD_SetVehicleHeadlightColor(Player player, int hlcolor)
         {
             try
@@ -1598,7 +1645,8 @@ namespace NeptuneEvo.Core
                 Log.Write("Error at \"SVN\":" + e.ToString(), nLog.Type.Error);
             }
         }
-        [Command("svh")]
+        
+        [Command("svh")] // Установить здоровье транспорту / починить (8 лвл)
         public static void CMD_SetVehicleHealth(Player player, int health = 100)
         {
             try
@@ -1616,7 +1664,8 @@ namespace NeptuneEvo.Core
             }
 
         }
-        [Command("delacars")]
+        
+        [Command("delacars")] // Удалить все созданные админские авто (5 лвл)
         public static void CMD_deleteAdminCars(Player player)
         {
             try
@@ -1638,7 +1687,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("delacars: " + e.Message, nLog.Type.Error); }
         }
-        [Command("delacar")]
+       
+        [Command("delacar")] // Удалить конкретное админское авто (3 лвл)
         public static void CMD_deleteThisAdminCar(Player client)
         {
             if (!Group.CanUseCmd(client, "delacar")) return;
@@ -1648,7 +1698,8 @@ namespace NeptuneEvo.Core
                 veh.Delete();
             GameLog.Admin($"{client.Name}", $"delacar", $"");
         }
-        [Command("delmycars", "dmcs")]
+        
+        [Command("delmycars", "dmcs")] // Удалить все свои админские авто (4 лвл)
         public static void CMD_delMyCars(Player client)
         {
             try
@@ -1673,17 +1724,20 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("delacars: " + e.Message, nLog.Type.Error); }
         }
-        [Command("allspawncar")]
+        
+        [Command("allspawncar")] // Зареспавнить все авто (8 лвл)
         public static void CMD_allSpawnCar(Player player)
         {
             Admin.respawnAllCars(player);
         }
-        [Command("save")]
+        
+        [Command("save")] // Сохранить координаты (8 лвл)
         public static void CMD_saveCoord(Player player, string name)
         {
             Admin.saveCoords(player, name);
         }
-        [Command("setfractun")]
+        
+        [Command("setfractun")] // Установить тюнинг на фракционное авто (8 лвл)
         public static void ACMD_setfractun(Player player, int cat = -1, int id = -1)
         {
             try
@@ -1812,30 +1866,8 @@ namespace NeptuneEvo.Core
             }
             catch { }
         }
-        //[Command("veh")]
-        //public static void CMD_createVehicle(Player player, string name, int a, int b)
-        //{
-        //    try
-        //    {
-        //        if (player == null || !Main.Players.ContainsKey(player)) return;
-        //        if (!Group.CanUseCmd(player, "vehc")) return;
-        //        VehicleHash vh = (VehicleHash)NAPI.Util.GetHashKey(name);
-        //        if (vh == 0) throw null;
-        //        var veh = NAPI.Vehicle.CreateVehicle(vh, player.Position, player.Rotation.Z, 0, 0);
-        //        veh.Dimension = player.Dimension;
-        //        veh.NumberPlate = "ADMIN";
-        //        veh.PrimaryColor = a;
-        //        veh.SecondaryColor = b;
-        //        veh.SetData("ACCESS", "ADMIN");
-        //        veh.SetData("BY", player.Name);
-        //        VehicleStreaming.SetEngineState(veh, true);
-        //        GameLog.Admin($"{player.Name}", $"vehCreate({name})", $"");
-        //    }
-        //    catch { }
-        //}
-        // player.SocialClubName;
-        //СВОЯ КОМАНДА
-        [Command("newrentveh")]
+
+        [Command("newrentveh")] // Добавить машину для аренды (8 лвл)
         public static void newrentveh(Player player, string model, string number, int price, int c1, int c2)
         {
             try
@@ -1866,7 +1898,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"newrentveh\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("newjobveh")]
+        
+        [Command("newjobveh")] // Добавить машину на работу (8 лвл)
         public static void newjobveh(Player player, string typejob, string model, string number, int c1, int c2)
         {
             try
@@ -1923,7 +1956,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"newjobveh\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("newfracveh")]
+        
+        [Command("newfracveh")] // Добавить машину для фракции (8 лвл)
         public static void ACMD_newfracveh(Player player, string model, int fracid, string number, int c1, int c2) // add rank, number
         {
             try
@@ -1954,7 +1988,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"ACMD_newfracveh\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("setfracveh")]
+        
+        [Command("setfracveh")] // Изменить машину фракции (8 лвл)
         public static void ACMD_setfracveh(Player player, string vehname, int rank, int c1, int c2)
         {
             try
@@ -2012,24 +2047,27 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"ACMD_setfracveh\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("stop")]
+        
+        [Command("stop")] // Выключить сервер (8 лвл)
         public static void CMD_stopServer(Player player, string text = null)
         {
             Admin.stopServer(player, text);
         }
-        [Command("payday")]
+        
+        [Command("payday")] // Выполнить PAYDAY (7 лвл)
         public static void payDay(Player player, string text = null)
         {
             if (!Group.CanUseCmd(player, "payday")) return;
             GameLog.Admin($"{player.Name}", $"payDay", "");
             Main.payDayTrigger();
         }
-        [Command("giveitem")]
+        
+        [Command("giveitem")] // Выдать предмет (8 лвл)
         public static void CMD_giveItem(Player player, int id, int itemType, int amount, string data)   //        public static void CMD_giveItem(Client player, int id, int itemType, int amount, string data)
         {
             try
             {
-                if (!Group.CanUseCmd(player, "giveitem"))
+                if (!Group.CanUseCmd(player, "setvehdirt"))
                 {
                     return;
                 }
@@ -2060,7 +2098,8 @@ namespace NeptuneEvo.Core
             }
             catch { }
         }
-        [Command("setleader")]
+        
+        [Command("setleader")] // Назначить игрока лидером (5 лвл)
         public static void CMD_setLeader(Player player, int id, int fracid)
         {
             try
@@ -2074,7 +2113,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("sp")]
+        
+        [Command("sp")] // Следить за игроком (2 лвл)
         public static void CMD_spectateMode(Player player, int id)
         {
             if (!Group.CanUseCmd(player, "sp")) return;
@@ -2084,7 +2124,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("usp")]
+        
+        [Command("usp")] // Закончить следить за игроком (2 лвл)
         public static void CMD_unspectateMode(Player player)
         {
             if (!Group.CanUseCmd(player, "sp")) return;
@@ -2094,7 +2135,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("metp")]
+        
+        [Command("metp")] // Телепортировать игрока к себе (2 лвл)
         public static void CMD_teleportToMe(Player player, int id)
         {
             try
@@ -2108,7 +2150,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("gethere")]
+        
+        [Command("gethere")] // Телепортировать игрока к себе вместе с машиной (2 лвл)
         public static void CMD_teleportVehToMe(Player player, int id)
         {
             try
@@ -2122,7 +2165,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("kill")]
+        
+        [Command("kill")] // Убить игрока (3 лвл)
         public static void CMD_kill(Player player, int id)
         {
             try
@@ -2136,7 +2180,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("hp")]
+        
+        [Command("hp")] // Выдать здоровье игроку (2 лвл)
         public static void CMD_adminHeal(Player player, int id, int hp)
         {
             try
@@ -2150,7 +2195,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("ar")]
+        
+        [Command("ar")] // Выдать броню игроку (8 лвл)
         public static void CMD_adminArmor(Player player, int id, int ar)
         {
             try
@@ -2164,7 +2210,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("fz")]
+        
+        [Command("fz")] // Заморозить игрока (3 лвл)
         public static void CMD_adminFreeze(Player player, int id)
         {
             try
@@ -2178,7 +2225,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("ufz")]
+        
+        [Command("ufz")] // Разморозить игрока (3 лвл)
         public static void CMD_adminUnFreeze(Player player, int id)
         {
             try
@@ -2192,7 +2240,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("setadmin")]
+        
+        [Command("setadmin")] // Назначить игрока админом (6 лвл)
         public static void CMD_setAdmin(Player player, int id)
         {
             try
@@ -2206,7 +2255,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("lsn", GreedyArg = true)]
+        
+        [Command("lsn", GreedyArg = true)] // Админское объявление (8 лвл)
         public static void CMD_adminLSnewsChat(Player player, string message)
         {
             try
@@ -2215,7 +2265,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("tpcar")]
+        
+        [Command("tpcar")] // Телепорт игрока к себе (в авто) (2 лвл)
         public static void CMD_teleportToMeWithCar(Player player, int id)
         {
             try
@@ -2241,7 +2292,8 @@ namespace NeptuneEvo.Core
                 Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error);
             }
         }
-        [Command("deladmin")]
+        
+        [Command("deladmin")] // Снять полномочия админа с игрока (6 лвл)
         public static void CMD_delAdmin(Player player, int id)
         {
             try
@@ -2255,7 +2307,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("setadminrank")]
+        
+        [Command("setadminrank")] // Установить админский ранг (6 лвл)
         public static void CMD_setAdminRank(Player player, int id, int rank)
         {
             try
@@ -2269,7 +2322,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("guns")]
+        
+        [Command("guns")] // Выдать оружие игроку (выдает любые предметы) (8 лвл)
         public static void CMD_adminGuns(Player player, int id, string wname, string serial)
         {
             try
@@ -2283,7 +2337,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("giveclothes")]
+        
+        [Command("giveclothes")] // Выдать одежду игроку (8 лвл)
         public static void CMD_adminClothes(Player player, int id, string wname, string serial)
         {
             try
@@ -2297,7 +2352,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("setskin")]
+        
+        [Command("setskin")] // Установить скин игроку (4 лвл)
         public static void CMD_adminSetSkin(Player player, int id, string pedModel)
         {
             try
@@ -2311,7 +2367,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("oguns")]
+        
+        [Command("oguns")] // Забрать оружие у игрока (8 лвл)
         public static void CMD_adminOGuns(Player player, int id)
         {
             try
@@ -2325,7 +2382,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("givemoney")]
+        
+        [Command("givemoney")] // Напечатать денег (8 лвл)
         public static void CMD_adminGiveMoney(Player player, int id, int money)
         {
             try
@@ -2339,7 +2397,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("delleader")]
+        
+        [Command("delleader")] // Снять лидера (6 лвл)
         public static void CMD_delleader(Player player, int id)
         {
             try
@@ -2353,7 +2412,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("deljob")]
+        
+        [Command("deljob")] // Уволить игрока с работы (6 лвл)
         public static void CMD_deljob(Player player, int id)
         {
             try
@@ -2367,7 +2427,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("vehc")]
+        
+        [Command("vehc")] // Создать авто ??? (4 лвл)
         public static void CMD_createVehicleCustom(Player player, string name, int r, int g, int b)
         {
             try
@@ -2389,9 +2450,11 @@ namespace NeptuneEvo.Core
             }
             catch { }
         }
-        [Command("pos")]
+        
+        [Command("pos")] // Отобразить текущие координаты (1 лвл)
         public void HandlePos(Player c)
         {
+            if (!Group.CanUseCmd(player, "a")) return;
 
             Vector3 pos = c.Position;
             Vector3 rot = c.Rotation;
@@ -2411,16 +2474,19 @@ namespace NeptuneEvo.Core
             c.SendChatMessage("Rotation");
             c.SendChatMessage("Z: " + rot.Z);
         }
-        // ped sich selber geben
-        [Command("ped")]
+        
+        [Command("ped")] // ped sich selber geben / Стать хаскеном (1 лвл)
         public void HandlePad(Player c)
         {
-
+            if (!Group.CanUseCmd(player, "a")) return;
             c.SetSkin(PedHash.Husky);
         }
-        [Command("restart")]
+        
+        [Command("restart")] // Перезагрузить сервер (8 лвл)
         public void HandleShutDown(Player cc, int second)
         {
+            if (!Group.CanUseCmd(player, "setvehdirt")) return;
+
             if (second < 5 || second > 900)
             {
                 cc.SendNotification("Минимум 5 секунд и максимум 9 минут!");
@@ -2442,21 +2508,22 @@ namespace NeptuneEvo.Core
                 Environment.Exit(0);
             });
         }
-        // dimension  command
-        [Command("dim")]
+        
+        [Command("dim")] // dimension  command / Изменить виртуальный мир (8 лвл)
         public void HandleTp(Player c, uint d)
         {
-
+            if (!Group.CanUseCmd(player, "setvehdirt")) return;
             c.Dimension = d;
         }
-        // teleport zu den Kondinarten x y Z
-        [Command("mtp2")]
+
+        [Command("mtp2")] // teleport zu den Kondinarten x y Z (8 лвл)
         public void HandleTp(Player c, double x, double y, double z)
         {
-
+            if (!Group.CanUseCmd(player, "setvehdirt")) return;
             c.Position = new Vector3(x, y, z);
         }
-        [Command("veh")]
+        
+        [Command("veh")] // Создать авто (4 лвл)
         public static void CMD_createVehicle(Player player, string name, int a, int b)
         {
             try
@@ -2482,7 +2549,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD_veh\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("vehhash")]
+        
+        [Command("vehhash")] // Создать авто ??? (8 лвл)
         public static void CMD_createVehicleHash(Player player, string name, int a, int b)
         {
             try
@@ -2500,13 +2568,14 @@ namespace NeptuneEvo.Core
             }
             catch { }
         }
-        [Command("vehs")]
+        
+        [Command("vehs")] // Создать авто ??? (8 лвл)
         public static void CMD_createVehicles(Player player, string name, int a, int b, int count)
         {
             try
             {
                 if (player == null || !Main.Players.ContainsKey(player)) return;
-                if (!Group.CanUseCmd(player, "vehc")) return;
+                if (!Group.CanUseCmd(player, "setvehdirt")) return;
                 VehicleHash vh = (VehicleHash)NAPI.Util.GetHashKey(name);
                 if (vh == 0) throw null;
                 for (int i = count; i > 0; i--)
@@ -2524,13 +2593,14 @@ namespace NeptuneEvo.Core
             }
             catch { }
         }
-        [Command("vehcs")]
+        
+        [Command("vehcs")] // Создать авто ??? (8 лвл)
         public static void CMD_createVehicleCustoms(Player player, string name, int r, int g, int b, int count)
         {
             try
             {
                 if (player == null || !Main.Players.ContainsKey(player)) return;
-                if (!Group.CanUseCmd(player, "vehc")) return;
+                if (!Group.CanUseCmd(player, "setvehdirt")) return;
                 VehicleHash vh = (VehicleHash)NAPI.Util.GetHashKey(name);
                 if (vh == 0) throw null;
                 for (int i = count; i > 0; i--)
@@ -2549,7 +2619,8 @@ namespace NeptuneEvo.Core
             }
             catch { }
         }
-        [Command("vehcustompcolor")]
+        
+        [Command("vehcustompcolor")] // Кастомная покраска на авто (8 лвл)
         public static void CMD_ApplyCustomPColor(Player client, int r, int g, int b, int mod = -1)
         {
             try
@@ -2568,13 +2639,14 @@ namespace NeptuneEvo.Core
             }
             catch { }
         }
-        [Command("aclear")]
+        
+        [Command("aclear")] // Очистить аккаунт игрока (8 лвл)
         public static void ACMD_aclear(Player player, string target)
         {
             try
             {
                 if (!Main.Players.ContainsKey(player)) return;
-                if (!Group.CanUseCmd(player, "aclear")) return;
+                if (!Group.CanUseCmd(player, "setvehdirt")) return;
                 if (!Main.PlayerNames.ContainsValue(target))
                 {
                     Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Игрок не найден", 3000);
@@ -2681,7 +2753,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT aclear\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("vehcustomscolor")]
+        
+        [Command("vehcustomscolor")] // Кастомная покраска на авто ??? (8 лвл)
         public static void CMD_ApplyCustomSColor(Player client, int r, int g, int b, int mod = -1)
         {
             try
@@ -2701,11 +2774,11 @@ namespace NeptuneEvo.Core
             catch { }
         }
 
-        [Command("findbyveh")]
+        [Command("findbyveh")] // Найти авто по номеру (8 лвл)
         public static void CMD_FindByVeh(Player player, string number)
         {
             if (!Main.Players.ContainsKey(player)) return;
-            if (!Group.CanUseCmd(player, "findbyveh")) return;
+            if (!Group.CanUseCmd(player, "setvehdirt")) return;
             if (number.Length > 8)
             {
                 Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, "Количество символов в номерном знаке не может превышать 8.", 3000);
@@ -2715,7 +2788,7 @@ namespace NeptuneEvo.Core
             else Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Не найдено машины с таким номерным знаком.", 3000);
         }
 
-        [Command("vehcustom")]
+        [Command("vehcustom")] // ??? (8 лвл)
         public static void CMD_ApplyCustom(Player client, int cat = -1, int id = -1)
         {
             try
@@ -2822,7 +2895,7 @@ namespace NeptuneEvo.Core
             catch { }
         }
 
-        [Command("sw")]
+        [Command("sw")] // Установить погоду (6 лвл)
         public static void CMD_setWeatherID(Player player, byte weather)
         {
             if (!Group.CanUseCmd(player, "sw")) return;
@@ -2830,13 +2903,14 @@ namespace NeptuneEvo.Core
             GameLog.Admin($"{player.Name}", $"setWeather({weather})", $"");
         }
 
-        [Command("st")]
+        [Command("st")] // Установить время (8 лвл)
         public static void CMD_setTime(Player player, int hours, int minutes, int seconds)
         {
             if (!Group.CanUseCmd(player, "st")) return;
             NAPI.World.SetTime(hours, minutes, seconds);
         }
-        [Command("tp")]
+        
+        [Command("tp")] // Телепорт к игроку (2 лвл)
         public static void CMD_teleport(Player player, int id)
         {
             try
@@ -2854,7 +2928,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("goto")]
+        
+        [Command("goto")] // Телепорт к игроку вместе с машиной (2 лвл)
         public static void CMD_teleportveh(Player player, int id)
         {
             try
@@ -2872,7 +2947,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("flip")]
+        
+        [Command("flip")] // Перевернуть авто (2 лвл)
         public static void CMD_flipveh(Player player, int id)
         {
             try
@@ -2895,7 +2971,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("mtp")]
+        
+        [Command("mtp")] // Очередной телепорт ??? (8 лвл)
         public static void CMD_maskTeleport(Player player, int id)
         {
             try
@@ -2914,7 +2991,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("createbusiness")]
+        
+        [Command("createbusiness")] // Создать бизнес (8 лвл)
         public static void CMD_createBiz(Player player, int govPrice, int type)
         {
             try
@@ -2923,16 +3001,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        //[Command("position")]
-        //public static void position(Player player)
-        //{
-        //    try
-        //    {
-        //        player.SendChatMessage(player.Position.ToString());
-        //    }
-        //    catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
-        //}
-        [Command("createunloadpoint")]
+
+        [Command("createunloadpoint")] // Создать точку разгрузки у бизнеса (8 лвл)
         public static void CMD_createUnloadPoint(Player player, int bizid)
         {
             try
@@ -2941,7 +3011,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("deletebusiness")]
+        
+        [Command("deletebusiness")] // Удалить бизнес (8 лвл)
         public static void CMD_deleteBiz(Player player, int bizid)
         {
             try
@@ -2950,7 +3021,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("createsafe", GreedyArg = true)]
+        
+        [Command("createsafe", GreedyArg = true)] // Создать сейф для ограблений (8 лвл)
         public static void CMD_createSafe(Player player, int id, float distance, int min, int max, string address)
         {
             try
@@ -2959,7 +3031,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("removesafe")]
+        
+        [Command("removesafe")] // Удалить сейф для ограблений (8 лвл)
         public static void CMD_removeSafe(Player player)
         {
             NAPI.Task.Run(() =>
@@ -2971,16 +3044,20 @@ namespace NeptuneEvo.Core
                 catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
             });
         }
-        [Command("createstock")]
+        
+        [Command("createstock")] // Создать склад (8 лвл)
         public static void CMD_createStock(Player player, int frac, int drugs, int mats, int medkits, int money)
         {
+            if (!Group.CanUseCmd(player, "createstock")) return;
+
             try
             {
                 MySQL.Query($"INSERT INTO fractions (id,drugs,mats,medkits,money) VALUES ({frac},{drugs},{mats},{medkits},{money})");
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("demorgan", GreedyArg = true)]
+        
+        [Command("demorgan", GreedyArg = true)] // Посадить игрока в деморган (2 лвл)
         public static void CMD_sendTargetToDemorgan(Player player, int id, int time, string reason)
         {
             try
@@ -2994,7 +3071,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("loadipl")]
+        
+        [Command("loadipl")] // Подгрузить всем игрокам IPL для карты (8 лвл)
         public static void CMD_LoadIPL(Player player, string ipl)
         {
             try
@@ -3007,7 +3085,8 @@ namespace NeptuneEvo.Core
             {
             }
         }
-        [Command("unloadipl")]
+        
+        [Command("unloadipl")] // Выгрузить у всех игроков IPL (8 лвл)
         public static void CMD_UnLoadIPL(Player player, string ipl)
         {
             try
@@ -3021,7 +3100,7 @@ namespace NeptuneEvo.Core
             }
         }
 
-        [Command("loadprop")]
+        [Command("loadprop")] // Подгрузить себе PROP для карты (8 лвл)
         public static void CMD_LoadProp(Player player, double x, double y, double z, string prop)
         {
             try
@@ -3034,7 +3113,8 @@ namespace NeptuneEvo.Core
             {
             }
         }
-        [Command("unloadprop")]
+        
+        [Command("unloadprop")]// Подгрузить у себя PROP (8 лвл)
         public static void CMD_UnLoadProp(Player player, double x, double y, double z, string prop)
         {
             try
@@ -3048,7 +3128,7 @@ namespace NeptuneEvo.Core
             }
         }
 
-        [Command("starteffect")]
+        [Command("starteffect")] // Включить эффект ??? (8 лвл)
         public static void CMD_StartEffect(Player player, string effect, int dur = 0, bool loop = false)
         {
             try
@@ -3061,7 +3141,8 @@ namespace NeptuneEvo.Core
             {
             }
         }
-        [Command("stopeffect")]
+        
+        [Command("stopeffect")] // Выключить эффект ??? (8 лвл)
         public static void CMD_StopEffect(Player player, string effect)
         {
             try
@@ -3074,7 +3155,8 @@ namespace NeptuneEvo.Core
             {
             }
         }
-        [Command("udemorgan")]
+        
+        [Command("udemorgan")] // Выпустить игрока из деморгана (8 лвл)
         public static void CMD_releaseTargetFromDemorgan(Player player, int id)
         {
             try
@@ -3089,7 +3171,7 @@ namespace NeptuneEvo.Core
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
 
-        [Command("offjail", GreedyArg = true)]
+        [Command("offjail", GreedyArg = true)] // Посадить игрока в оффлайне (3 лвл)
         public static void CMD_offlineJailTarget(Player player, string target, int time, string reason)
         {
             try
@@ -3128,7 +3210,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("offwarn", GreedyArg = true)]
+        
+        [Command("offwarn", GreedyArg = true)] // Выдать игроку варн в оффлайне (3 лвл)
         public static void CMD_offlineWarnTarget(Player player, string target, int time, string reason)
         {
             try
@@ -3178,7 +3261,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("ban", GreedyArg = true)]
+        
+        [Command("ban", GreedyArg = true)] // Забанить игрока (3 лвл обычный бан) (8 лвл скрытый бан)
         public static void CMD_banTarget(Player player, int id, int time, string reason)
         {
             try
@@ -3192,7 +3276,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("hardban", GreedyArg = true)]
+        
+        [Command("hardban", GreedyArg = true)] // Жестко забанить игрока (3 лвл)
         public static void CMD_hardbanTarget(Player player, int id, int time, string reason)
         {
             try
@@ -3206,7 +3291,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("offban", GreedyArg = true)]
+        
+        [Command("offban", GreedyArg = true)] // Забанить игрока оффлайн (3 лвл)
         public static void CMD_offlineBanTarget(Player player, string name, int time, string reason)
         {
             try
@@ -3220,7 +3306,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("offhardban", GreedyArg = true)]
+        
+        [Command("offhardban", GreedyArg = true)] // Жестко забанить игрока оффлайн (3 лвл)
         public static void CMD_offlineHardbanTarget(Player player, string name, int time, string reason)
         {
             try
@@ -3234,7 +3321,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("unban", GreedyArg = true)]
+        
+        [Command("unban", GreedyArg = true)] // Разбанить игрока (3 лвл)
         public static void CMD_unbanTarget(Player player, string name)
         {
             if (!Group.CanUseCmd(player, "ban")) return;
@@ -3244,7 +3332,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("unhardban", GreedyArg = true)]
+        
+        [Command("unhardban", GreedyArg = true)] // Снять хар-бан у игрока (3 лвл)
         public static void CMD_unhardbanTarget(Player player, string name)
         {
             if (!Group.CanUseCmd(player, "ban")) return;
@@ -3254,10 +3343,11 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("offgivereds")]
+        
+        [Command("offgivereds")] // Выдать RedBucks в оффлайне (8 лвл)
         public static void CMD_offredbaks(Player client, string name, long amount)
         {
-            if (!Group.CanUseCmd(client, "offredbucks")) return;
+            if (!Group.CanUseCmd(client, "setvehdirt")) return;
             try
             {
                 name = name.ToLower();
@@ -3272,7 +3362,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("mute", GreedyArg = true)]
+        
+        [Command("mute", GreedyArg = true)] // Выдать игроку мут (2 лвл)
         public static void CMD_muteTarget(Player player, int id, int time, string reason)
         {
             try
@@ -3286,7 +3377,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("offmute", GreedyArg = true)]
+        
+        [Command("offmute", GreedyArg = true)] // Выдать игроку мут в оффлайне (2 лвл)
         public static void CMD_offlineMuteTarget(Player player, string target, int time, string reason)
         {
             try
@@ -3300,7 +3392,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("unmute")]
+        
+        [Command("unmute")] // Снять мут у игрока (2 лвл)
         public static void CMD_muteTarget(Player player, int id)
         {
             try
@@ -3314,7 +3407,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("vmute", GreedyArg = true)]
+        
+        [Command("vmute", GreedyArg = true)] // Замутить игрока в войс-чате (2 лвл)
         public static void CMD_voiceMuteTarget(Player player, int id)
         {
             try
@@ -3331,7 +3425,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("vunmute")]
+        
+        [Command("vunmute")] // Снять мут у игрока в войс-чате (2 лвл)
         public static void CMD_voiceUnMuteTarget(Player player, int id)
         {
             try
@@ -3347,7 +3442,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("sban", GreedyArg = true)]
+        
+        [Command("sban", GreedyArg = true)] // Скрыто забанить игрока (8 лвл)
         public static void CMD_silenceBan(Player player, int id, int time)
         {
             try
@@ -3361,7 +3457,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("kick", GreedyArg = true)]
+        
+        [Command("kick", GreedyArg = true)] // Кикнуть игрока (2 лвл)
         public static void CMD_kick(Player player, int id, string reason)
         {
             try
@@ -3375,7 +3472,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("skick")]
+        
+        [Command("skick")] // Скрытно кикнуть игрока (4 лвл)
         public static void CMD_silenceKick(Player player, int id)
         {
             try
@@ -3389,7 +3487,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("gm")]
+        
+        [Command("gm")] // Проверка на ГМ (2 лвл)
         public static void CMD_checkGamemode(Player player, int id)
         {
             try
@@ -3403,7 +3502,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("agm")]
+        
+        [Command("agm")] // Админское бессмертие (2 лвл)
         public static void CMD_enableGodmode(Player player)
         {
             try
@@ -3422,7 +3522,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("warn", GreedyArg = true)]
+        
+        [Command("warn", GreedyArg = true)] // Выдать варн игроку (3 лвл)
         public static void CMD_warnTarget(Player player, int id, string reason)
         {
             try
@@ -3436,7 +3537,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("asms", GreedyArg = true)]
+        
+        [Command("asms", GreedyArg = true)] // Админское сообщение игроку (1 лвл)
         public static void CMD_adminSMS(Player player, int id, string msg)
         {
             try
@@ -3450,7 +3552,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("ans", GreedyArg = true)]
+        
+        [Command("ans", GreedyArg = true)] // Ответ игроку (1 лвл)
         public static void CMD_answer(Player player, int id, string answer)
         {
             try
@@ -3465,7 +3568,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("global", GreedyArg = true)]
+        
+        [Command("global", GreedyArg = true)] // Глобальный чат (4 лвл)
         public static void CMD_adminGlobalChat(Player player, string message)
         {
             try
@@ -3474,7 +3578,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("a", GreedyArg = true)]
+        
+        [Command("a", GreedyArg = true)] // Админский чат (1 лвл)
         public static void CMD_adminChat(Player player, string message)
         {
             try
@@ -3483,7 +3588,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("setvip")]
+        
+        [Command("setvip")] // Выдать VIP игроку (6 лвл)
         public static void CMD_setVip(Player player, int id, int rank)
         {
             try
@@ -3497,7 +3603,8 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        [Command("checkmoney")]
+        
+        [Command("checkmoney")] // Проверить деньги игрока (3 лвл)
         public static void CMD_checkMoney(Player player, int id)
         {
             try
@@ -3512,6 +3619,21 @@ namespace NeptuneEvo.Core
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
         #endregion
+
+        [Command("findtrailer")]
+        public static void CMD_findTrailer(Player player)
+        {
+            try
+            {
+                if (player.HasData("TRAILER"))
+                {
+                    Vehicle trailer = player.GetData<Vehicle>("TRAILER");
+                    Trigger.ClientEvent(player, "createWaypoint", trailer.Position.X, trailer.Position.Y);
+                    Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, "Вы успешно установили маркер на карту, там находится Ваш трейлер", 5000);
+                }
+            }
+            catch { }
+        }
 
         #region VipCommands
         [Command("leave")]
@@ -3542,16 +3664,6 @@ namespace NeptuneEvo.Core
         }
         #endregion
 
-        [Command("testnotify", GreedyArg = true)]
-        public static void CMD_testnotify(Player player, int id, int sum, string reason)
-        {
-            Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Уведомление Success", 3000);
-            Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Уведомление Error", 3000);
-            Notify.Send(player, NotifyType.Alert, NotifyPosition.BottomCenter, $"Уведомление Alert", 3000);
-            Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Уведомление Info", 3000);
-            Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, $"Уведомление Info", 3000);
-        }
-
         [Command("ticket", GreedyArg = true)]
         public static void CMD_govTicket(Player player, int id, int sum, string reason)
         {
@@ -3570,16 +3682,6 @@ namespace NeptuneEvo.Core
                     return;
                 }
                 Fractions.FractionCommands.ticketToTarget(player, target, sum, reason);
-            }
-            catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
-        }
-
-        [Command("respawn")]
-        public static void CMD_respawnFracCars(Player player)
-        {
-            try
-            {
-                Fractions.FractionCommands.respawnFractionCars(player);
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
