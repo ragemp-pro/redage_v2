@@ -25,7 +25,7 @@ namespace NeptuneEvo.Jobs
                 {
                     for (int d = 0; d < MowerWays[i].Count; d++)
                     {
-                        MowerWaysCols[i].Add(d, NAPI.ColShape.CreateCylinderColShape(MowerWays[i][d], 2.5F, 2, 0));
+                        MowerWaysCols[i].Add(d, NAPI.ColShape.CreateCylinderColShape(MowerWays[i][d], 2, 2, 0));
                         MowerWaysCols[i][d].OnEntityEnterColShape += mowerCheckpointEnterWay;
                         MowerWaysCols[i][d].SetData("WAY", i);
                         MowerWaysCols[i][d].SetData("NUMBER", d);
@@ -333,7 +333,7 @@ namespace NeptuneEvo.Jobs
 
                 int way = player.GetData<int>("WORKWAY");
                 int check = NAPI.Data.GetEntityData(player, "WORKCHECK");
-                if (MowerWays[way][check].DistanceTo(player.Position) > 3) return;
+                if (MowerWays[way][check].DistanceTo(player.Position) > 5) return;
 
                 var payment = Convert.ToInt32(checkpointPayment * Group.GroupPayAdd[Main.Accounts[player].VipLvl] * Main.oldconfig.PaydayMultiplier);
                 MoneySystem.Wallet.Change(player, payment);
