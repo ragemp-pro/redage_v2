@@ -249,7 +249,7 @@ namespace NeptuneEvo.Core
             try
             {
                 if (!Main.Players.ContainsKey(player)) return;
-                if (!Group.CanUseCmd(client, "setvehdirt")) return;
+                if (!Group.CanUseCmd(player, "setvehdirt")) return;
                 if (Main.LoggedIn.ContainsKey(login))
                 {
                     if (NAPI.Player.IsPlayerConnected(Main.LoggedIn[login]))
@@ -2454,7 +2454,7 @@ namespace NeptuneEvo.Core
         [Command("pos")] // Отобразить текущие координаты (1 лвл)
         public void HandlePos(Player c)
         {
-            if (!Group.CanUseCmd(player, "a")) return;
+            if (!Group.CanUseCmd(c, "a")) return;
 
             Vector3 pos = c.Position;
             Vector3 rot = c.Rotation;
@@ -2478,14 +2478,14 @@ namespace NeptuneEvo.Core
         [Command("ped")] // ped sich selber geben / Стать хаскеном (1 лвл)
         public void HandlePad(Player c)
         {
-            if (!Group.CanUseCmd(player, "a")) return;
+            if (!Group.CanUseCmd(c, "a")) return;
             c.SetSkin(PedHash.Husky);
         }
         
         [Command("restart")] // Перезагрузить сервер (8 лвл)
         public void HandleShutDown(Player cc, int second)
         {
-            if (!Group.CanUseCmd(player, "setvehdirt")) return;
+            if (!Group.CanUseCmd(cc, "setvehdirt")) return;
 
             if (second < 5 || second > 900)
             {
@@ -2512,14 +2512,14 @@ namespace NeptuneEvo.Core
         [Command("dim")] // dimension  command / Изменить виртуальный мир (8 лвл)
         public void HandleTp(Player c, uint d)
         {
-            if (!Group.CanUseCmd(player, "setvehdirt")) return;
+            if (!Group.CanUseCmd(c, "setvehdirt")) return;
             c.Dimension = d;
         }
 
         [Command("mtp2")] // teleport zu den Kondinarten x y Z (8 лвл)
         public void HandleTp(Player c, double x, double y, double z)
         {
-            if (!Group.CanUseCmd(player, "setvehdirt")) return;
+            if (!Group.CanUseCmd(c, "setvehdirt")) return;
             c.Position = new Vector3(x, y, z);
         }
         
