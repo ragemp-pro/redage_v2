@@ -66,116 +66,117 @@ CREATE TABLE `adminaccess` (
 -- Дамп данных таблицы `adminaccess`
 --
 
-INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES
-	(8, 'createstock', 1, 1),
-	(5, 'setleader', 1, 2),
-	(7, 'guns', 1, 3),
-	(5, 'giveammo', 1, 4),
-	(8, 'givemoney', 1, 5),
-	(4, 'vehc', 1, 6),
-	(2, 'hp', 1, 7),
-	(5, 'delacars', 1, 8),
-	(8, 'givereds', 1, 9),
-	(4, 'setdim', 1, 10),
-	(5, 'createmp', 1, 11),
-	(5, 'startmp', 1, 12),
-	(5, 'stopmp', 1, 13),
-	(7, 'stt', 1, 14),
-	(6, 'setbizmafia', 1, 15),
-	(8, 'takeoffbiz', 1, 16),
-	(4, 'skick', 1, 17),
-	(6, 'setcolour', 1, 18),
-	(3, 'fixcar', 1, 19),
-	(8, 'createsafe', 1, 20),
-	(8, 'allspawncar', 1, 21),
-	(8, 'save', 1, 22),
-	(3, 'ban', 1, 23),
-	(8, 'setfracveh', 1, 24),
-	(3, 'delfrac', 1, 25),
-	(6, 'startmatwars', 1, 26),
-	(8, 'setvehdirt', 1, 27),
-	(8, 'createbusiness', 1, 28),
-	(8, 'newfracveh', 1, 29),
-	(1, 'redname', 1, 30),
-	(6, 'setadmin', 1, 31),
-	(6, 'setadminrank', 1, 32),
-	(4, 'global', 1, 33),
-	(2, 'metp', 1, 34),
-	(2, 'demorgan', 1, 35),
-	(1, 'a', 1, 36),
-	(3, 'warn', 1, 37),
-	(3, 'unwarn', 1, 38),
-	(2, 'tp', 1, 39),
-	(2, 'admins', 1, 40),
-	(2, 'gm', 1, 41),
-	(2, 'sp', 1, 42),
-	(3, 'checkmoney', 1, 43),
-	(1, 'id', 1, 44),
-	(2, 'mute', 1, 45),
-	(1, 'asms', 1, 46),
-	(1, 'ans', 1, 47),
-	(3, 'fz', 1, 48),
-	(8, 'udemorgan', 1, 49),
-	(6, 'deladmin', 1, 50),
-	(3, 'delacar', 1, 51),
-	(4, 'setskin', 1, 52),
-	(2, 'agm', 1, 53),
-	(3, 'ufz', 1, 54),
-	(3, 'offban', 1, 55),
-	(8, 'newrentveh', 1, 56),
-	(8, 'newjobveh', 1, 57),
-	(5, 'sendcreator', 1, 58),
-	(6, 'delleader', 1, 59),
-	(8, 'ar', 1, 60),
-	(8, 'st', 1, 61),
-	(2, 'unmute', 1, 62),
-	(2, 'inv', 1, 63),
-	(8, 'oguns', 1, 64),
-	(3, 'rescar', 1, 65),
-	(8, 'giveclothes', 1, 66),
-	(8, 'delhouseowner', 1, 67),
-	(3, 'checkprop', 1, 68),
-	(8, 'deletebusiness', 1, 69),
-	(2, 'afuel', 1, 70),
-	(6, 'setviplvl', 1, 71),
-	(6, 'sw', 1, 72),
-	(6, 'deljob', 1, 73),
-	(8, 'stop', 1, 74),
-	(8, 'createunloadpoint', 1, 75),
-	(8, 'pa', 1, 76),
-	(8, 'sa', 1, 77),
-	(2, 'stats', 1, 78),
-	(2, 'delad', 1, 79),
-	(3, 'offjail', 1, 80),
-	(3, 'offwarn', 1, 81),
-	(8, 'removeobj', 1, 82),
-	(6, 'giveexp', 1, 83),
-	(8, 'svh', 1, 84),
-	(7, 'expmultiplier', 1, 85),
-	(7, 'payday', 1, 86),
-	(8, 'newsimcard', 1, 87),
-	(8, 'fixgovbizprices', 1, 88),
-	(8, 'housetypeprice', 1, 89),
-	(2, 'kick', 1, 90),
-	(3, 'kill', 1, 91),
-	(8, 'svm', 1, 92),
-	(5, 'changename', 1, 93),
-	(7, 'givelic', 1, 94),
-	(2, 'tpcar', 1, 95),
-	(8, 'lsn', 1, 96),
-	(6, 'changestock', 1, 97),
-	(8, 'mtp', 1, 98),
-	(3, 'tpc', 1, 99),
-	(5, 'offdelfrac', 1, 100),
-	(8, 'removesafe', 1, 101),
-	(8, 'paydaymultiplier', 1, 102),
-	(8, 'setproductbyindex', 1, 103),
-	(8, 'deleteproducts', 1, 104),
-	(8, 'changebizprice', 1, 105),
-	(8, 'delhouseowner', 1, 106),
-	(7, 'vehhash', 1, 107),
-	(4, 'veh', 1, 108),
-	(7, 'newvnum', 1, 109);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'createstock', 1, 1);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (5, 'setleader', 1, 2);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (7, 'guns', 1, 3);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (5, 'giveammo', 1, 4);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'givemoney', 1, 5);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (4, 'vehc', 1, 6);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (2, 'hp', 1, 7);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (5, 'delacars', 1, 8);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'givereds', 1, 9);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (4, 'setdim', 1, 10);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (5, 'createmp', 1, 11);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (5, 'startmp', 1, 12);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (5, 'stopmp', 1, 13);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (7, 'stt', 1, 14);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (6, 'setbizmafia', 1, 15);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'takeoffbiz', 1, 16);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (4, 'skick', 1, 17);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (6, 'setcolour', 1, 18);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (3, 'fixcar', 1, 19);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'createsafe', 1, 20);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'allspawncar', 1, 21);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'save', 1, 22);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (3, 'ban', 1, 23);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'setfracveh', 1, 24);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (3, 'delfrac', 1, 25);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (6, 'startmatwars', 1, 26);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'setvehdirt', 1, 27);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'createbusiness', 1, 28);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'newfracveh', 1, 29);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (1, 'redname', 1, 30);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (6, 'setadmin', 1, 31);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (6, 'setadminrank', 1, 32);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (4, 'global', 1, 33);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (2, 'metp', 1, 34);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (2, 'demorgan', 1, 35);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (1, 'a', 1, 36);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (3, 'warn', 1, 37);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (3, 'unwarn', 1, 38);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (2, 'tp', 1, 39);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (2, 'admins', 1, 40);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (2, 'gm', 1, 41);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (2, 'sp', 1, 42);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (3, 'checkmoney', 1, 43);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (1, 'id', 1, 44);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (2, 'mute', 1, 45);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (1, 'asms', 1, 46);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (1, 'ans', 1, 47);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (3, 'fz', 1, 48);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'udemorgan', 1, 49);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (6, 'deladmin', 1, 50);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (3, 'delacar', 1, 51);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (4, 'setskin', 1, 52);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (2, 'agm', 1, 53);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (3, 'ufz', 1, 54);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (3, 'offban', 1, 55);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'newrentveh', 1, 56);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'newjobveh', 1, 57);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (5, 'sendcreator', 1, 58);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (6, 'delleader', 1, 59);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'ar', 1, 60);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'st', 1, 61);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (2, 'unmute', 1, 62);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (2, 'inv', 1, 63);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'oguns', 1, 64);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (3, 'rescar', 1, 65);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'giveclothes', 1, 66);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'delhouseowner', 1, 67);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (3, 'checkprop', 1, 68);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'deletebusiness', 1, 69);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (2, 'afuel', 1, 70);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (6, 'setviplvl', 1, 71);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (6, 'sw', 1, 72);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (6, 'deljob', 1, 73);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'stop', 1, 74);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'createunloadpoint', 1, 75);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'pa', 1, 76);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'sa', 1, 77);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (2, 'stats', 1, 78);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (2, 'delad', 1, 79);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (3, 'offjail', 1, 80);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (3, 'offwarn', 1, 81);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'removeobj', 1, 82);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (6, 'giveexp', 1, 83);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'svh', 1, 84);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (7, 'expmultiplier', 1, 85);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (7, 'payday', 1, 86);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'newsimcard', 1, 87);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'fixgovbizprices', 1, 88);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'housetypeprice', 1, 89);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (2, 'kick', 1, 90);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (3, 'kill', 1, 91);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'svm', 1, 92);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (5, 'changename', 1, 93);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (7, 'givelic', 1, 94);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (2, 'tpcar', 1, 95);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'lsn', 1, 96);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (6, 'changestock', 1, 97);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'mtp', 1, 98);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (3, 'tpc', 1, 99);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (5, 'offdelfrac', 1, 100);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'removesafe', 1, 101);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'paydaymultiplier', 1, 102);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'setproductbyindex', 1, 103);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'deleteproducts', 1, 104);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'changebizprice', 1, 105);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (8, 'delhouseowner', 1, 106);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (7, 'vehhash', 1, 107);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (4, 'veh', 1, 108);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (7, 'newvnum', 1, 109);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (7, 'admins', 1, 110);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (7, 'stop', 1, 111);
 
 -- --------------------------------------------------------
 
