@@ -1,4 +1,5 @@
-﻿global.menuOpened = true;
+﻿const vehicleNames = require('./RealCarNames.js');
+global.menuOpened = true;
 global.menu = null;
 
 global.menuCheck = function () {
@@ -1111,7 +1112,15 @@ mp.events.add('openAuto', (models, prices) => {
     if (global.menuCheck()) return;
     autoModels = JSON.parse(models);
 
+    // Подгружаем реальные названия авто
+    let autoNames = [];
+    autoModels.forEach(model => {
+        autoNames.push(vehicleNames.get(model) || "none")
+    });
+    //
+
     setAuto('models', models);
+    setAuto('modelsName', JSON.stringify(autoNames));
     setAuto('colors', JSON.stringify(autoColors));
     setAuto('prices', prices);
 

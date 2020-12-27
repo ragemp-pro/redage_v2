@@ -6,7 +6,7 @@ var auto = new Vue({
         bizSellPrice: 1,
         indexM: 0,
         indexC: 0,
-        models: ["Tesla Model S","Tesla Model 3","Tesla Model X"],
+        models: [],
         modelsName: [],
         colors: ["Black Briliant","Blueberry","Cold White"],
         prices: [19,199,1999],
