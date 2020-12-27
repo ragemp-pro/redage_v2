@@ -292,6 +292,8 @@ require('./cayo_perico/heistisland.js');
 
 require('./containers/containers.js');
 
+require('./bigmap.js');
+
 // // // // // // //
 
 if (mp.storage.data.friends == undefined) {
