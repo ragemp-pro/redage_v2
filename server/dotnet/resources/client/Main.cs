@@ -2837,6 +2837,22 @@ namespace NeptuneEvo
             {
                 try
                 {
+                    if (DateTime.Now.Hour == 19) //каждый день в 19 часов вечера, контейнеры будут активированы. Можете поменять тут время или добавить ещё какой-то час. Или вообще сделать, чтобы каждый час они активировались.
+                    {
+                        try
+                        {
+                            foreach (var item in Core.ContainerSystem.containers)
+                            {
+                                item.Visible(true);
+                            }
+                            NAPI.Chat.SendChatMessageToAll("!{#fc4615} [Порт]: !{#ffffff}" + "В штат привезли новую партию контейнеров!");
+                        }
+                        catch (Exception e)
+                        {
+                            Log.Write($"Ошибка контейнеров: {e.Message}", nLog.Type.Error);
+                        }
+                    }
+
                     Fractions.Cityhall.lastHourTax = 0;
                     Fractions.Ems.HumanMedkitsLefts = 100;
 
