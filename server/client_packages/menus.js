@@ -448,16 +448,16 @@ mp.events.add('menu', (action, data) => {
 // SM DATA //
 mp.events.add('policeg', () => {
     let data = [
-        "Palo",
-        "Pistola",
+        "Дубинка",
+        "Пистолет",
         "SMG",
-        "Escopeta",
+        "Дробовик",
         "Tazer",
-        "Armadura",
-        "Kit de primeros auxilios",
-        "Calibre de pistola x12",
-        "Calibre pequeño x30",
-        "Fraccion x6",
+        "Бронежилет",
+        "Аптечка",
+        "Пистолетный калибр x12",
+        "Малый калибр x30",
+        "Дробь x6",
     ];
     openSM(4, JSON.stringify(data));
 });
@@ -481,16 +481,16 @@ mp.events.add('sheriffg', () => {
 mp.events.add('fbiguns', () => {
     let data = [
         "Tazer",
-        "Pistola",
-        "Foto",
-        "Carabina",
-        "Rifle de francotirador",
-        "Armadura",
-        "Kit de primeros auxilios",
-        "Calibre de pistola x12",
-        "Calibre pequeño x30",
-        "Calibre automático x30",
-        "Calibre francotirador x5",
+        "Пистолет",
+        "ПОС",
+        "Карабин",
+        "Снайперская винтовка",
+        "Бронежилет",
+        "Аптечка",
+        "Пистолетный калибр x12",
+        "Малый калибр x30",
+        "Автоматный калибр x30",
+        "Снайперский калибр x5",
         "Бейдж",
     ];
     openSM(3, JSON.stringify(data));
@@ -498,27 +498,27 @@ mp.events.add('fbiguns', () => {
 mp.events.add('govguns', () => {
     let data = [
         "Tazer",
-        "Pistola",
+        "Пистолет",
         "Advanced Rifle",
         "Gusenberg Sweeper",
-        "Armadura",
-        "Kit de primeros auxilios",
-        "Calibre de pistola x12",
-        "Calibre pequeño x30",
-        "Calibre automático x30",
+        "Бронежилет",
+        "Аптечка",
+        "Пистолетный калибр x12",
+        "Малый калибр x30",
+        "Автоматный калибр x30",
     ];
     openSM(6, JSON.stringify(data));
 });
 mp.events.add('armyguns', () => {
     let data = [
-        "Pistola",
-        "Carabina",
-		"Боевой пулемет",
-        "Armadura",
-        "Kit de primeros auxilios",
-        "Calibre de pistola x12",
-        "Calibre automático x30",
-		"Calibre pequeño x100",
+        "Пистолет",
+        "Карабин",
+        "SMG",
+        "Бронежилет",
+        "Аптечка",
+        "Пистолетный калибр x12",
+        "Автоматный калибр x30",
+        "SMG калибр x100",
     ];
     openSM(7, JSON.stringify(data));
 });
@@ -526,10 +526,10 @@ mp.events.add('mavrshop', () => {
     let data = [
         ["Услуга по отмыву денег", ""],
         ["Дрель для взлома", "100000$"],
-        ["Selector de bloqueo", "600$"],
-        ["Llave maestra militar", "2500$"],
-        ["Soleras", "2500$"],
-        ["Bolso", "2500$"],
+        ["Отмычка для замков", "600$"],
+        ["Военная отмычка", "2500$"],
+        ["Стяжки для рук", "2500$"],
+        ["Мешок на голову", "2500$"],
         ["Понизить розыск", "3000$"]
     ];
     openSM(2, JSON.stringify(data));
