@@ -23,6 +23,20 @@ namespace NeptuneEvo.MoneySystem
             //MoneyLog.Write("Wallet", player.Name, Amount);
             return true;
         }
+        public static bool ChangeDonateBalance(Player player, int Amount)
+        {
+            if (!Main.Players.ContainsKey(player)) return false;
+            if (Main.Players[player] == null) return false;
+            int temp = Convert.ToInt32(Main.Accounts[player].RedBucks + Amount);
+            if (temp < 0)
+                return false;
+            else
+            {
+                Main.Accounts[player].RedBucks = temp;
+                MySQL.Query($"UPDATE `accounts` SET `redbucks`={temp} WHERE login='{Main.Accounts[player].Login}'");
+                return true;
+            }
+        }
         public static void Set(Player player, long Amount)
         {
             var data = Main.Players[player];

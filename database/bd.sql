@@ -5033,3 +5033,29 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+/* Система контейнеров (база данных) */
+-- ----------------------------
+-- Table structure for containers
+-- ----------------------------
+DROP TABLE IF EXISTS `containers`;
+CREATE TABLE `containers`  (
+  `id` int NOT NULL,
+  `name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `price` int NOT NULL DEFAULT 0,
+  `donate` tinyint(1) NULL DEFAULT 0,
+  `position` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `rotation` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `loot` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of containers
+-- ----------------------------
+INSERT INTO `containers` VALUES (0, 'Низкий', 2500000, 0, '{\"x\":1214,\"y\":-2970,\"z\":4.8}', '{\"x\":0,\"y\":0,\"z\":-180}', '{\"lc200\":\"40\", \"m5\":\"30\", \"m5e60\":\"15\", \"lexgs350f\":\"10\",\"m8\":\"5\"}\r\n');
+INSERT INTO `containers` VALUES (1, 'Средний', 4500000, 0, '{\"x\":1218.6,\"y\":-2970,\"z\":4.8}', '{\"x\":0,\"y\":0,\"z\":-180}', '{\"c63coupe\":\"40\", \"e63amg\":\"30\", \"2019m5\":\"15\", \"BRABUS700\":\"10\", \"mgt\":\"5\"}\r\n');
+INSERT INTO `containers` VALUES (2, 'Премиум+', 7000000, 0, '{\"x\":1214,\"y\":-2990,\"z\":4.8}', '{\"x\":0,\"y\":0,\"z\":-180}', '{\"g65\":\"40\", \"gle6c\":\"30\", \"gt63samg\":\"15\", \"gallardo\":\"10\", \"brabus850\":\"5\"}\r\n');
+INSERT INTO `containers` VALUES (3, 'VIP', 9000000, 0, '{\"x\":1218.6,\"y\":-2990,\"z\":4.8}', '{\"x\":0,\"y\":0,\"z\":-180}', '{\"e63\":\"40\", \"e63amg\":\"30\", \"g63amg6x6cop\":\"15\", \"18perfomante\":\"10\",\"g65\":\"5\"}\r\n');
+INSERT INTO `containers` VALUES (5, 'Низкий', 2500000, 0, '{\"x\":1218.6,\"y\":-3010,\"z\":4.8}', '{\"x\":0,\"y\":0,\"z\":-180}', '{\"lc200\":\"40\", \"m5\":\"30\", \"m5e60\":\"15\", \"lexgs350f\":\"10\",\"m8\":\"5\"}\r\n');
+/* */

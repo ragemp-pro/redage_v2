@@ -1874,6 +1874,9 @@ namespace NeptuneEvo
                 intid = id;
                 switch (id)
                 {
+                    case 814:
+                        Core.ContainerSystem.OpenMenuContainer(player);
+                        break;
                     case 512:
                         Realtor.OpenRealtorMenu(player);
                         return;

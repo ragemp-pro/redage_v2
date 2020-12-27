@@ -290,6 +290,8 @@ require('./radiosync.js');
 
 require('./cayo_perico/heistisland.js');
 
+require('./containers/containers.js');
+
 // // // // // // //
 
 if (mp.storage.data.friends == undefined) {
