@@ -122,7 +122,7 @@ namespace NeptuneEvo.Core
             isCracking = true;
             safeDrill = NAPI.Object.CreateObject(-443429795, new Vector3(253.9534, 225.2, 102.22), new Vector3(0, 0, -18), 255, 0);
             label = NAPI.TextLabel.CreateTextLabel("~r~8:00", new Vector3(253.9534, 225.2, 102.22), 4F, 0.3F, 0, new Color(255, 255, 255));
-            secondsLeft = 480;
+            secondsLeft = 10;
             //timer = Main.StartT(1000, 1000, (o) => updateDoorCracking());
             timer = Timers.StartTask("DoorCracking", 1000, () => NAPI.Task.Run(() => updateDoorCracking()));
             canBeClosed = false;
@@ -169,7 +169,7 @@ namespace NeptuneEvo.Core
                     canBeClosed = true;
                     Main.StopT(bankTimer, "timer_21");
                 });*/
-                Timers.StartOnce("bankTimer", 600000, () =>
+                Timers.StartOnce("bankTimer", 10000, () =>
                 {
                     canBeClosed = true;
                 });
@@ -340,7 +340,7 @@ namespace NeptuneEvo.Core
                     Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Доступно только для банд", 3000);
                     return;
                 }
-                if (DateTime.Now.Hour < 13 || DateTime.Now.Hour > 22)
+                if ((DateTime.Now.Hour < 13 || DateTime.Now.Hour > 22) && (Main.Players[player].AdminLVL < 1))
                 {
                     Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Возможно открыть только с 13:00 до 23:00", 3000);
                     return;
@@ -368,7 +368,7 @@ namespace NeptuneEvo.Core
                     if (Fractions.Manager.FractionTypes[Main.Players[p].FractionID] == 1) gangsters++;
                 }
 
-                if (gangsters == 0)
+                if (gangsters == 0 && Main.Players[player].AdminLVL < 1)
                 {
                     Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"С Вами должен быть как минимум ещё один тру гангстер", 3000);
                     //return;
@@ -940,7 +940,7 @@ namespace NeptuneEvo.Core
                 RemainingSeconds = SafeMain.SafeRespawnTime;
 
                 Timer = Timers.Start(1000, () => {
-                    Countdown();
+                    NAPI.Task.Run(() => Countdown());
                 });
             }
             else
