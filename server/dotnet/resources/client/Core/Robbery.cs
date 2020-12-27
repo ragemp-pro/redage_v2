@@ -122,7 +122,7 @@ namespace NeptuneEvo.Core
             isCracking = true;
             safeDrill = NAPI.Object.CreateObject(-443429795, new Vector3(253.9534, 225.2, 102.22), new Vector3(0, 0, -18), 255, 0);
             label = NAPI.TextLabel.CreateTextLabel("~r~8:00", new Vector3(253.9534, 225.2, 102.22), 4F, 0.3F, 0, new Color(255, 255, 255));
-            secondsLeft = 10;
+            secondsLeft = 480;
             //timer = Main.StartT(1000, 1000, (o) => updateDoorCracking());
             timer = Timers.StartTask("DoorCracking", 1000, () => NAPI.Task.Run(() => updateDoorCracking()));
             canBeClosed = false;
@@ -169,7 +169,7 @@ namespace NeptuneEvo.Core
                     canBeClosed = true;
                     Main.StopT(bankTimer, "timer_21");
                 });*/
-                Timers.StartOnce("bankTimer", 10000, () =>
+                Timers.StartOnce("bankTimer", 600000, () =>
                 {
                     canBeClosed = true;
                 });
