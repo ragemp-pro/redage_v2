@@ -294,6 +294,13 @@ require('./containers/containers.js');
 
 require('./bigmap.js');
 
+// Работа - Мусорщик (by BlackGold)
+require('./garbageWork/work');
+require('./garbageWork/colshapes');
+require('./garbageWork/peds');
+//
+
+
 // // // // // // //
 
 if (mp.storage.data.friends == undefined) {
