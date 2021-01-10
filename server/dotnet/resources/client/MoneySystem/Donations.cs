@@ -165,6 +165,176 @@ namespace NeptuneEvo.MoneySystem
             PlatinumVIP,
             Warn,
             Slot,
+            GiveBox,
+            WheelsRun,//10
+            Money1,//11
+            Money2,//12
+            Money3,//13
+            Money4,//14
+            Box1,//15
+            Box2,//16
+            Box3,//17
+            Box4,//18
+            Lic1,//19
+            Lic2,//20
+        }
+
+        private static SortedList<int, string> CarName = new SortedList<int, string>
+        {
+            {3, "g65" },
+            {4, "c63coupe" },
+            {5, "apriora" },
+            {6, "bmwe34" },
+
+        };
+        private static SortedList<int, string> CarNameS = new SortedList<int, string>
+        {
+            {1, "Neon" },
+            {2, "Sultan" },
+            {3, "nero" },
+            {4, "caracara2" },
+
+        };
+
+        [RemoteEvent("wheelAddsrv")]
+        public void wheelAdd(Player client, int id, bool add)
+        {
+            if (!Main.Accounts.ContainsKey(client)) return;
+            switch (id)
+            {
+                case 0:
+                    MoneySystem.Wallet.Change(client, 50000);
+                    Log.Write("Деньги пришли в размере 50 000", nLog.Type.Success);
+                    break;
+                case 1:
+                    MoneySystem.Wallet.Change(client, 100000);
+                    Log.Write("Деньги пришли в размере 100 000", nLog.Type.Success);
+                    break;
+                case 2:
+                    MoneySystem.Wallet.Change(client, 150000);
+                    Log.Write("Деньги пришли в размере 150 000", nLog.Type.Success);
+                    break;
+                case 3:
+                    if (add)
+                    {
+                        var vNumber = VehicleManager.Create(client.Name, CarName[id], new Color(0, 0, 0), new Color(0, 0, 0), new Color(0, 0, 0));
+                        var house = Houses.HouseManager.GetHouse(client, false);
+                        if (house != null)
+                        {
+                            if (house.GarageID != 0)
+                            {
+                                var garage = Houses.GarageManager.Garages[house.GarageID];
+                                if (VehicleManager.getAllPlayerVehicles(client.Name).Count < Houses.GarageManager.GarageTypes[garage.Type].MaxCars)
+                                {
+                                    garage.SpawnCar(vNumber);
+                                    Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, $"", 3000);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case 4:
+                    if (add)
+                    {
+                        var vNumber = VehicleManager.Create(client.Name, CarName[id], new Color(0, 0, 0), new Color(0, 0, 0), new Color(0, 0, 0));
+                        var house = Houses.HouseManager.GetHouse(client, false);
+                        if (house != null)
+                        {
+                            if (house.GarageID != 0)
+                            {
+                                var garage = Houses.GarageManager.Garages[house.GarageID];
+                                if (VehicleManager.getAllPlayerVehicles(client.Name).Count < Houses.GarageManager.GarageTypes[garage.Type].MaxCars)
+                                {
+                                    garage.SpawnCar(vNumber);
+                                    Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, $"", 3000);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case 5:
+                    if (add)
+                    {
+                        var vNumber = VehicleManager.Create(client.Name, CarName[id], new Color(0, 0, 0), new Color(0, 0, 0), new Color(0, 0, 0));
+                        var house = Houses.HouseManager.GetHouse(client, false);
+                        if (house != null)
+                        {
+                            if (house.GarageID != 0)
+                            {
+                                var garage = Houses.GarageManager.Garages[house.GarageID];
+                                if (VehicleManager.getAllPlayerVehicles(client.Name).Count < Houses.GarageManager.GarageTypes[garage.Type].MaxCars)
+                                {
+                                    garage.SpawnCar(vNumber);
+                                    Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, $"", 3000);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case 6:
+                    if (add)
+                    {
+                        var vNumber = VehicleManager.Create(client.Name, CarName[id], new Color(0, 0, 0), new Color(0, 0, 0), new Color(0, 0, 0));
+                        var house = Houses.HouseManager.GetHouse(client, false);
+                        if (house != null)
+                        {
+                            if (house.GarageID != 0)
+                            {
+                                var garage = Houses.GarageManager.Garages[house.GarageID];
+                                if (VehicleManager.getAllPlayerVehicles(client.Name).Count < Houses.GarageManager.GarageTypes[garage.Type].MaxCars)
+                                {
+                                    garage.SpawnCar(vNumber);
+                                    Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, $"", 3000);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case 7:
+                    Weapons.GiveWeapon(client, ItemType.Bat, "donatejrp");
+                    break;
+                case 8:
+                    Customization.AddClothes(client, ItemType.Mask, 159, 0);
+                    break;
+                case 9:
+                    Main.Players[client].EXP += 10;
+                    break;
+                case 10:
+                    Customization.AddClothes(client, ItemType.Top, 178, 0);
+                    Customization.AddClothes(client, ItemType.Leg, 77, 0);
+                    Customization.AddClothes(client, ItemType.Feet, 55, 0);
+                    break;
+                case 11:
+                    MoneySystem.Wallet.Change(client, 200000);
+                    Log.Write("Деньги пришли в размере 200 000", nLog.Type.Success);
+                    break;
+                case 12:
+                    MoneySystem.Wallet.Change(client, 250000);
+                    Log.Write("Деньги пришли в размере 250 000", nLog.Type.Success);
+                    break;
+                case 13:
+                    MoneySystem.Wallet.Change(client, 300000);
+                    Log.Write("Деньги пришли в размере 300 000", nLog.Type.Success);
+                    break;
+                case 14:
+                    MoneySystem.Wallet.Change(client, 350000);
+                    Log.Write("Деньги пришли в размере 350 000", nLog.Type.Success);
+                    break;
+                case 15:
+                    MoneySystem.Wallet.Change(client, 400000);
+                    Log.Write("Деньги пришли в размере 400 000", nLog.Type.Success);
+                    break;
+                case 16:
+                    MoneySystem.Wallet.Change(client, 450000);
+                    Log.Write("Деньги пришли в размере 450 000", nLog.Type.Success);
+                    break;
+                case 17:
+                    MoneySystem.Wallet.Change(client, 500000);
+                    Log.Write("Деньги пришли в размере 500 000", nLog.Type.Success);
+                    break;
+
+
+            }
         }
 
         [RemoteEvent("donate")]
@@ -179,11 +349,56 @@ namespace NeptuneEvo.MoneySystem
 
                 switch (type)
                 {
+                    case Type.WheelsRun:
+                        {
+                            if (Main.Accounts[client].RedBucks < 500)
+                            {
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно RedBucks!", 3000);
+                                return;
+                            }
+                            Main.Accounts[client].RedBucks -= 500;
+                            GameLog.Money(acc.Login, "server", 500, "donateChar");
+                            Trigger.ClientEvent(client, "WheelsRun");
+                            break;
+                        }
+
+                    case Type.GiveBox:
+                        {
+                            int amount = 0;
+                            if (!Int32.TryParse(data, out amount))
+                            {
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Возникла ошибка, попоробуйте еще раз", 3000);
+                                return;
+                            }
+                            amount = Math.Abs(amount);
+                            if (amount <= 0)
+                            {
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Введите количество, равное 1 или больше.", 3000);
+                                return;
+                            }
+                            if (Main.Accounts[client].RedBucks < amount * 100)
+                            {
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно RedBucks!", 3000);
+                                return;
+                            }
+                            var tryAdd = nInventory.TryAdd(client, new nItem(ItemType.Present, 1));
+                            if (tryAdd == -1 || tryAdd > 0)
+                            {
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно места в инвентаре", 3000);
+                                return;
+                            }
+                            Main.Accounts[client].RedBucks -= 100 * amount;
+                            GameLog.Money(acc.Login, "server", 100 * amount, "donateChar");
+                            nInventory.Add(client, new nItem(ItemType.Present, amount, ""));
+                            Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы купили {amount} кейсов", 3000);
+                            GUI.Dashboard.sendItems(client);
+                            break;
+                        }
                     case Type.Character:
                         {
                             if (acc.RedBucks < 100)
                             {
-                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно Redbucks!", 3000);
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно RedBucks!", 3000);
                                 return;
                             }
                             Main.Accounts[client].RedBucks -= 100;
@@ -195,7 +410,7 @@ namespace NeptuneEvo.MoneySystem
                         {
                             if (acc.RedBucks < 25)
                             {
-                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно Redbucks!", 3000);
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно RedBucks!", 3000);
                                 return;
                             }
 
@@ -249,19 +464,21 @@ namespace NeptuneEvo.MoneySystem
                                 return;
                             }
                             amount = Math.Abs(amount);
-                            if(amount <= 0) {
+                            if (amount <= 0)
+                            {
                                 Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Введите количество, равное 1 или больше.", 3000);
                                 return;
                             }
                             if (Main.Accounts[client].RedBucks < amount)
                             {
-                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно Redbucks!", 3000);
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно RedBucks!", 3000);
                                 return;
                             }
                             Main.Accounts[client].RedBucks -= amount;
                             GameLog.Money(acc.Login, "server", amount, "donateConvert");
                             amount = amount * 100;
                             MoneySystem.Wallet.Change(client, +amount);
+                            Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, "Вы успешно перевели RF в {amount}", 3000);
                             GameLog.Money($"donate", $"player({Main.Players[client].UUID})", amount, $"donate");
                             break;
                         }
@@ -274,7 +491,7 @@ namespace NeptuneEvo.MoneySystem
                             }
                             if (acc.RedBucks < 300)
                             {
-                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно Redbucks!", 3000);
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно RedBucks!", 3000);
                                 return;
                             }
                             Main.Accounts[client].RedBucks -= 300;
@@ -293,7 +510,7 @@ namespace NeptuneEvo.MoneySystem
                             }
                             if (acc.RedBucks < 600)
                             {
-                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно Redbucks!", 3000);
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно RedBucks!", 3000);
                                 return;
                             }
                             Main.Accounts[client].RedBucks -= 600;
@@ -312,7 +529,7 @@ namespace NeptuneEvo.MoneySystem
                             }
                             if (acc.RedBucks < 800)
                             {
-                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно Redbucks!", 3000);
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно RedBucks!", 3000);
                                 return;
                             }
                             Main.Accounts[client].RedBucks -= 800;
@@ -331,7 +548,7 @@ namespace NeptuneEvo.MoneySystem
                             }
                             if (acc.RedBucks < 1000)
                             {
-                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно Redbucks!", 3000);
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно RedBucks!", 3000);
                                 return;
                             }
                             Main.Accounts[client].RedBucks -= 1000;
@@ -350,7 +567,7 @@ namespace NeptuneEvo.MoneySystem
                             }
                             if (acc.RedBucks < 250)
                             {
-                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно Redbucks!", 3000);
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно RedBucks!", 3000);
                                 return;
                             }
                             Main.Accounts[client].RedBucks -= 250;
@@ -364,12 +581,12 @@ namespace NeptuneEvo.MoneySystem
                             Log.Debug("Unlock slot");
                             if (acc.RedBucks < 1000)
                             {
-                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно Redbucks!", 3000);
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно RedBucks!", 3000);
                                 return;
                             }
                             Main.Accounts[client].RedBucks -= 1000;
                             GameLog.Money(acc.Login, "server", 1000, "donateSlot");
-                            
+
                             if (acc.VipLvl == 0)
                             {
                                 Main.Accounts[client].VipLvl = 3;
@@ -387,8 +604,180 @@ namespace NeptuneEvo.MoneySystem
                             MySQL.Query($"update `accounts` set `redbucks`={Main.Accounts[client].RedBucks} where `login`='{Main.Accounts[client].Login}'");
                             return;
                         }
+                    case Type.Money1:
+                        {
+                            if (acc.RedBucks < 2500)
+                            {
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно RedBucks!", 3000);
+                                return;
+                            }
+                            Main.Accounts[client].RedBucks -= 2500;
+                            GameLog.Money(acc.Login, "server", 2500, "donateMoney");
+                            MoneySystem.Wallet.Change(client, 100000);
+                            Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, "Вы успешно приобрели $100 000", 3000);
+                            Dashboard.sendStats(client);
+                            break;
+                        }
+                    case Type.Money2:
+                        {
+                            if (acc.RedBucks < 2500)
+                            {
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно RedBucks!", 3000);
+                                return;
+                            }
+                            Main.Accounts[client].RedBucks -= 2500;
+                            GameLog.Money(acc.Login, "server", 2500, "donateMoney");
+                            MoneySystem.Wallet.Change(client, 300000);
+                            Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, "Вы успешно приобрели $300 000", 3000);
+                            Dashboard.sendStats(client);
+                            break;
+                        }
+                    case Type.Money3:
+                        {
+                            if (acc.RedBucks < 2500)
+                            {
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно RedBucks!", 3000);
+                                return;
+                            }
+                            Main.Accounts[client].RedBucks -= 2500;
+                            GameLog.Money(acc.Login, "server", 2500, "donateMoney");
+                            MoneySystem.Wallet.Change(client, 500000);
+                            Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, "Вы успешно приобрели $500 000", 3000);
+                            Dashboard.sendStats(client);
+                            break;
+                        }
+                    case Type.Money4:
+                        {
+                            if (acc.RedBucks < 2500)
+                            {
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно RedBucks!", 3000);
+                                return;
+                            }
+                            Main.Accounts[client].RedBucks -= 2500;
+                            GameLog.Money(acc.Login, "server", 2500, "donateMoney");
+                            MoneySystem.Wallet.Change(client, 1000000);
+                            Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, "Вы успешно приобрели $1 000 000", 3000);
+                            Dashboard.sendStats(client);
+                            break;
+                        }
+                    case Type.Box1:
+                        {
+                            if (acc.RedBucks < 500)
+                            {
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно RedBucks!", 3000);
+                                return;
+                            }
+
+
+                            Main.Accounts[client].RedBucks -= 500;
+                            GameLog.Money(acc.Login, "server", 500, "donateBox1");
+                            MoneySystem.Wallet.Change(client, 150000000);
+                            Main.Players[client].Licenses[1] = true;
+                            Main.Players[client].EXP += 10;
+                            VehicleManager.Create(client.Name, CarNameS[1], new Color(0, 0, 0), new Color(0, 0, 0), new Color(0, 0, 0));
+                            Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, "Вы успешно приобрели Старт для начала набор", 3000);
+                            Dashboard.sendStats(client);
+                            break;
+                        }
+                    case Type.Box2:
+                        {
+                            if (acc.RedBucks < 500)
+                            {
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно RedBucks!", 3000);
+                                return;
+                            }
+
+
+                            Main.Accounts[client].RedBucks -= 500;
+                            GameLog.Money(acc.Login, "server", 500, "donateBox1");
+                            MoneySystem.Wallet.Change(client, 150000000);
+                            Main.Players[client].Licenses[1] = true;
+                            Main.Players[client].EXP += 15;
+                            VehicleManager.Create(client.Name, CarNameS[2], new Color(0, 0, 0), new Color(0, 0, 0), new Color(0, 0, 0));
+                            Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, "Вы успешно приобрели Солидненько набор", 3000);
+                            Dashboard.sendStats(client);
+                            break;
+                        }
+                    case Type.Box3:
+                        {
+                            if (acc.RedBucks < 500)
+                            {
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно RedBucks!", 3000);
+                                return;
+                            }
+
+
+                            Main.Accounts[client].RedBucks -= 500;
+                            GameLog.Money(acc.Login, "server", 500, "donateBox1");
+                            MoneySystem.Wallet.Change(client, 150000000);
+                            Main.Players[client].Licenses[1] = true;
+                            Main.Players[client].EXP += 20;
+                            VehicleManager.Create(client.Name, CarNameS[3], new Color(0, 0, 0), new Color(0, 0, 0), new Color(0, 0, 0));
+                            Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, "Вы успешно приобрели Солидненько набор", 3000);
+                            Dashboard.sendStats(client);
+                            break;
+                        }
+                    case Type.Box4:
+                        {
+                            if (acc.RedBucks < 500)
+                            {
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно RedBucks!", 3000);
+                                return;
+                            }
+
+
+                            Main.Accounts[client].RedBucks -= 500;
+                            GameLog.Money(acc.Login, "server", 500, "donateBox1");
+                            MoneySystem.Wallet.Change(client, 150000000);
+                            Main.Players[client].Licenses[1] = true;
+                            Main.Players[client].EXP += 25;
+                            VehicleManager.Create(client.Name, CarNameS[4], new Color(0, 0, 0), new Color(0, 0, 0), new Color(0, 0, 0));
+                            Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, "Вы успешно приобрели Золотые запасы набор", 3000);
+                            Dashboard.sendStats(client);
+                            break;
+                        }
+                    case Type.Lic1:
+                        {
+                            if (acc.RedBucks < 500)
+                            {
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно RedBucks!", 3000);
+                                return;
+                            }
+                            if (Main.Players[client].Licenses[2])
+                            {
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, $"У Вас уже есть легковая лицензия", 3000);
+                                return;
+                            }
+
+                            Main.Accounts[client].RedBucks -= 500;
+                            GameLog.Money(acc.Login, "server", 500, "donateBox1");
+                            Main.Players[client].Licenses[1] = true;
+                            Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, "Вы успешно приобрели легковую лицензию", 3000);
+                            Dashboard.sendStats(client);
+                            break;
+                        }
+                    case Type.Lic2:
+                        {
+                            if (acc.RedBucks < 600)
+                            {
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно RedBucks!", 3000);
+                                return;
+                            }
+                            if (Main.Players[client].Licenses[2])
+                            {
+                                Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, $"У Вас уже есть грузовая лицензия", 3000);
+                                return;
+                            }
+
+                            Main.Accounts[client].RedBucks -= 600;
+                            GameLog.Money(acc.Login, "server", 600, "donateBox1");
+                            Main.Players[client].Licenses[2] = true;
+                            Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, "Вы успешно приобрели грузовую лицензию", 3000);
+                            Dashboard.sendStats(client);
+                            break;
+                        }
                 }
-                //Log.Write(Main.Players[client].Starbucks.ToString(), Logger.Type.Debug);
+                //Log.Write(Main.Players[client.Handle].Starbucks.ToString(), Logger.Type.Debug);
                 MySQL.Query($"update `accounts` set `redbucks`={Main.Accounts[client].RedBucks} where `login`='{Main.Accounts[client].Login}'");
                 Trigger.ClientEvent(client, "redset", Main.Accounts[client].RedBucks);
             }

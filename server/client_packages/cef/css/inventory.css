@@ -841,15 +841,14 @@ position: fixed;
 }
 
 .item {
-	background: #ffffff12;
+    background: #ffffff12;
     width: 7vh;
     height: 7vh;
-    border-radius: 1vh;
     display: flex;
-    margin-bottom: 2vh;
-    margin-right: 2.1vh;
+    margin-bottom: 1vh;
+    margin-right: 1.1vh;
     position: relative;
-	transition: all .98s;
+    transition: all .98s;
 }
 .item img {
    width: 3vh;

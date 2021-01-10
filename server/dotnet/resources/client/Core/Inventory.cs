@@ -2018,7 +2018,6 @@ namespace NeptuneEvo.Core
                         }
                         break;
                     case ItemType.Present:
-                        /*
                         player.Health = (player.Health + 10 > 100) ? 100 : player.Health + 10;
                         Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы открыли подарок, в нём были:", 3000);
 
@@ -2055,7 +2054,6 @@ namespace NeptuneEvo.Core
                         }
                         
                         Commands.RPChat("me", player, $"открыл(а) подарок");
-                        */
                         break;
                 }
                 nInventory.Remove(player, item.Type, 1);

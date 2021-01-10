@@ -26,7 +26,7 @@ var itemsData = {
     11: "Отмычка для замков",
     12: "Сумка с деньгами",
     13: "Материалы",
-    14: "Марихуана",
+    14: "Наркотики",
     15: "Сумка с дрелью",
     16: "Военная отмычка",
     17: "Мешок",
@@ -152,22 +152,10 @@ var itemsData = {
 	225: "Коньяк Арарат",
 	226: "Пиво разливное",
 	227: "Пиво бутылочное",
-	228: "Кальян",
-	
-	// Repair
-	250: "Рем. Комплект",
-	
-	251: "Бинт",
-	252: "Аптечка", 
-	253: "Таблетки",
-	254: "Шприц адреналина",
-	
-	//Farm
-	255: "Листья коки",
-	
-	//Diver
-	256: "Золото",
-	257: "Железяка"
+    228: "Кальян",
+    234: "Урожай",
+	235: "Семена",
+    777: "Рем.Комплект",
 }
 
 var itemsInfo = {
@@ -217,7 +205,7 @@ var itemsInfo = {
 
 Vue.component('item', {
 	template: '<div :class="test"><div class="item" v-bind:title="name" v-bind:weight="(weight*count).toFixed(2)" :fastslot="fast_slot" v-bind:class="{active: isactive}" @click.right.prevent="select"> \
-    <img :src="src"><span>{{count}}</span><p class="sub">{{subdata}}</p><p class="names">{{name}}<br><a>{{info}}</a><b>{{count}} шт.</b></p></div></div>',
+    <img :src="src"><span>{{count}}</span><!--<p class="sub">{{subdata}}</p>--><p class="names">{{name}}<br><a>{{info}}</a><b>{{count}} шт.</b></p></div></div>',
     props: ['id', 'index', 'count', 'isactive', 'type', 'subdata'],
     data: function () {
         return {
@@ -243,22 +231,30 @@ var board = new Vue({
     data: {
         active: false,
         outside: false,
-		text: ["Уровень", "Предупреждения", "Дата создания", "Номер телефона", "Номер счёта", "Номер паспорта", "Организация", "Ранг", "Работа", "Статус"],
+		zohan: ["Уровень", "Предупреждения", "Дата создания", "Номер телефона", "Номер счёта", "Номер паспорта", "Организация", "Ранг", "Работа", "Статус"],
 		outType: 0,
-        outHead: "Внешний", 
+        outHead: "Дополнительный инвентарь", 
 		//		0        1  	 2 		     3 		        4	   5            6		  7			  8				9	  10	  11        12	      13    
 		stats: ["15", "30/60", "777 777", "Администрация", "2", "A B C D", "01.05.1980", "Строитель", "CityHall", "17", "Vovan", "Putin", "333 666", "4276 7700"],
-        items: [[-6, 5, 1],[-7, 5, 1],[-8, 5, 1],[-9, 5, 1],[-11, 5, 1],[-12, 5, 1],[-13, 5, 1],[-14, 5, 1],[-1, 5, 1],[-3, 5, 1],[-4, 5, 1],[1, 5, 1],[1, 5, 1],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0], [5, 10, 0], [10, 500, 0], [11, 100, 0],[1, 5, 1],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0], [5, 10, 0], [10, 500, 0], [11, 100, 0]],
-        outitems: [[1, 5, 1],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0], [5, 10, 0], [10, 500, 0], [11, 100, 0]],
+        items: [[-6, 5, 1],[-7, 5, 1],[-8, 5, 1],[-9, 5, 1],[-11, 5, 1],[-12, 5, 1],[-13, 5, 1],[-14, 5, 1],[-1, 5, 1],[-3, 5, 1],[-4, 5, 1],[1, 5, 1],[1, 5, 1],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0], [5, 10, 0], [10, 500, 0], [1, 5, 1],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0], [5, 10, 0], [10, 500, 0], [11, 100, 0],[5, 10, 0], [5, 10, 0], [10, 500, 0], [11, 100, 0],[5, 10, 0], [5, 10, 0], [10, 500, 0], [11, 100, 0],[5, 10, 0], [5, 10, 0], [10, 500, 0], [11, 100, 0],[5, 10, 0], [5, 10, 0], [10, 500, 0], [11, 100, 0], [10, 500, 0], [11, 100, 0],[5, 10, 0], [5, 10, 0], [10, 500, 0], [11, 100, 0],[5, 10, 0], [5, 10, 0], [10, 500, 0], [11, 100, 0],[5, 10, 0], [5, 10, 0], [10, 500, 0], [11, 100, 0], [10, 500, 0], [11, 100, 0],[5, 10, 0], [5, 10, 0], [10, 500, 0], [11, 100, 0],[5, 10, 0], [5, 10, 0], [10, 500, 0], [11, 100, 0],[5, 10, 0], [5, 10, 0], [10, 500, 0], [11, 100, 0]],
+        outitems: [[1, 5, 1],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0], [5, 10, 0], [10, 500, 0], [11, 100, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0], [5, 10, 0], [10, 500, 0], [11, 100, 0],[5, 10, 0],[5, 10, 0],[5, 10, 0], [5, 10, 0], [10, 500, 0], [11, 100, 0]],
 		money: 0,
 		donate: 0,
 		bank: 0, 
 		page: 1,
+		statis: 0,
         sIndex: 0,
         sType: 0,
         sID: 0,
         key: 0,
-		arraymax: 0
+		arraymax: 0,
+        balance: 0,
+        menu: 0,
+        totrans: null,
+        aftertrans: null,
+        fname: null,
+        pause:0,
+        lname: null
     },
     methods: {
         context: function (event) {
@@ -268,6 +264,70 @@ var board = new Vue({
                 context.hide()
             }
         },
+		        close: function(){
+            this.active = false
+            this.balance = 0;
+            this.menu = 0;
+            this.totrans = null;
+            this.aftertrans = null;
+			this.fname = null;
+			this.lname = null;
+        },
+        onInputTrans: function(){
+            if(!this.check(this.totrans)){
+                this.totrans = null;
+                this.aftertrans = null;
+            } else {
+				if(Number(this.totrans) < 0) this.totrans = 0;
+                this.aftertrans = Number(this.totrans) * 1000;
+            }
+        },
+        onInputName: function(){
+            if(this.check(this.fname) || this.check(this.lname)){
+                this.fname = null;
+                this.lname = null;
+            }
+        },
+        check: function(str) {
+            return (/[^a-zA-Z]/g.test(str));
+        },
+        back: function(){
+            this.menu = 4;
+        },
+        open: function(id){
+            this.menu = id;
+        },
+		
+        wheel: function(id){
+            this.pause = new Date().getTime();
+            let data = null;
+            mp.trigger("wheel", id, data);
+        },
+        buy: function(id){
+            if (new Date().getTime() - this.pause < 5000) {
+                mp.events.call('notify', 4, 9, "Подождите 5 секунд", 3000);
+                return;
+            }
+            this.pause = new Date().getTime();
+            let data = null;
+            switch(id){
+                case 1:
+                data = this.fname+"_"+this.lname;
+                break;
+                case 2:
+                data = this.totrans;
+                break;
+                case 9:
+                    data = this.totrans;
+                    break;
+                default:
+                break;
+            }
+            mp.trigger("donbuy", id, data);
+        },
+		show: function(stars){
+			this.balance = stars;
+		},
         hide: function (event) {
             context.hide()
         },
@@ -279,6 +339,9 @@ var board = new Vue({
         },
 		pages: function(id){
             this.page = id;
+        },
+		statsid: function(id){
+            this.statis = id;
         },
 		itemsSet: function(t) {
                 this.key++, this.items = t, this.usedFastSlots = [!1, !1, !1, !1, !1];

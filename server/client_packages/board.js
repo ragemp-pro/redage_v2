@@ -19,6 +19,35 @@ mp.keys.bind(Keys.VK_ESCAPE, false, function() {
     }
 });
 
+
+var reds = 0;
+var donateOpened = false;
+mp.events.add("WheelsRun", () => {
+    board.execute(`wheelrun();`);
+});
+mp.events.add("WheelsRun", () => {
+    board.execute(`wheelrun();`);
+});
+
+mp.events.add('wheelAdd', (id, data) => {
+    mp.events.callRemote("wheelAddsrv", id, data);
+});
+mp.events.add('wheel', (id, data) => {
+    mp.events.callRemote("donate", id, data);
+});
+mp.events.add('donbuy', (id, data) => {
+	global.menuClose();
+	mp.events.call('fromBlur', 200)
+	board.execute(`board.close()`);
+    mp.events.callRemote("donate", id, data);
+});
+mp.events.add('redset', (reds_) => {
+    reds = reds_;
+    if (board != null)
+        board.execute(`board.balance=${reds}`);
+});
+
+
 function openBoard() {
 
 	if(board == null) return;
@@ -107,7 +136,6 @@ mp.events.add('boardCB', (act, type, index) => {
 		break;
 	}
 });
-// // //
 
 mp.events.add("playerQuit", (player, exitType, reason) => {
     if (board !== null) {
