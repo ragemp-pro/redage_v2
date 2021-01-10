@@ -3592,21 +3592,6 @@ CREATE TABLE `inventory` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Дамп данных таблицы `inventory`
---
-
-INSERT INTO `inventory` (`items`, `uuid`, `idkey`) VALUES
-('[{\"Data\":\"92_0_False\",\"ID\":-11,\"Type\":-11,\"Count\":1,\"IsActive\":true},{\"Data\":\"6_0_False\",\"ID\":-8,\"Type\":-8,\"Count\":1,\"IsActive\":true},{\"Data\":\"5_0_False\",\"ID\":-3,\"Type\":-3,\"Count\":1,\"IsActive\":true},{\"Data\":\"5_0_False\",\"ID\":-14,\"Type\":-14,\"Count\":1,\"IsActive\":true},{\"Data\":\"6_0_False\",\"ID\":-7,\"Type\":-7,\"Count\":1,\"IsActive\":true},{\"Data\":\"27_6_False\",\"ID\":-4,\"Type\":-4,\"Count\":1,\"IsActive\":true},{\"Data\":\"6_0_False\",\"ID\":-6,\"Type\":-6,\"Count\":1,\"IsActive\":true},{\"Data\":null,\"ID\":208,\"Type\":208,\"Count\":20,\"IsActive\":false},{\"Data\":\"201200100\",\"ID\":100,\"Type\":100,\"Count\":1,\"IsActive\":false},{\"Data\":null,\"ID\":200,\"Type\":200,\"Count\":28,\"IsActive\":false},{\"Data\":null,\"ID\":205,\"Type\":205,\"Count\":1,\"IsActive\":false},{\"Data\":null,\"ID\":218,\"Type\":218,\"Count\":1,\"IsActive\":false},{\"Data\":null,\"ID\":212,\"Type\":212,\"Count\":1,\"IsActive\":false},{\"Data\":\"J501H_0\",\"ID\":19,\"Type\":19,\"Count\":1,\"IsActive\":false},{\"Data\":\"I056G_0\",\"ID\":19,\"Type\":19,\"Count\":1,\"IsActive\":false},{\"Data\":\"K645X_0\",\"ID\":19,\"Type\":19,\"Count\":1,\"IsActive\":false}]', 333333, 1),
-('[]', 368676, 2),
-('[{\"Data\":\"13_12_False\",\"ID\":-6,\"Type\":-6,\"Count\":1,\"IsActive\":false},{\"Data\":\"92_0_False\",\"ID\":-11,\"Type\":-11,\"Count\":1,\"IsActive\":true},{\"Data\":\"0_0_False\",\"ID\":-8,\"Type\":-8,\"Count\":1,\"IsActive\":true},{\"Data\":\"6_0_False\",\"ID\":-7,\"Type\":-7,\"Count\":1,\"IsActive\":true},{\"Data\":\"2_0_False\",\"ID\":-14,\"Type\":-14,\"Count\":1,\"IsActive\":true},{\"Data\":\"5_0_False\",\"ID\":-3,\"Type\":-3,\"Count\":1,\"IsActive\":true},{\"Data\":\"27_6_False\",\"ID\":-4,\"Type\":-4,\"Count\":1,\"IsActive\":true},{\"Data\":\"6_0_False\",\"ID\":-6,\"Type\":-6,\"Count\":1,\"IsActive\":true}]', 996406, 3),
-('[{\"Data\":\"26_5_True\",\"ID\":-11,\"Type\":-11,\"Count\":1,\"IsActive\":true},{\"Data\":\"103_2_True\",\"ID\":-4,\"Type\":-4,\"Count\":1,\"IsActive\":true},{\"Data\":\"5_3_True\",\"ID\":-6,\"Type\":-6,\"Count\":1,\"IsActive\":true},{\"Data\":\"O548W_0\",\"ID\":19,\"Type\":19,\"Count\":1,\"IsActive\":false},{\"Data\":\"201300318\",\"ID\":101,\"Type\":101,\"Count\":1,\"IsActive\":false},{\"Data\":null,\"ID\":200,\"Type\":200,\"Count\":76,\"IsActive\":false}]', 3799, 4),
-('[{\"Data\":\"26_9_True\",\"ID\":-11,\"Type\":-11,\"Count\":1,\"IsActive\":true},{\"Data\":\"103_4_True\",\"ID\":-4,\"Type\":-4,\"Count\":1,\"IsActive\":true},{\"Data\":\"5_3_True\",\"ID\":-6,\"Type\":-6,\"Count\":1,\"IsActive\":true}]', 676797, 5),
-('[{\"Data\":\"26_4_True\",\"ID\":-11,\"Type\":-11,\"Count\":1,\"IsActive\":true},{\"Data\":\"103_5_True\",\"ID\":-4,\"Type\":-4,\"Count\":1,\"IsActive\":true},{\"Data\":\"5_1_True\",\"ID\":-6,\"Type\":-6,\"Count\":1,\"IsActive\":true}]', 492375, 6),
-('[{\"Data\":\"0_0_True\",\"ID\":-4,\"Type\":-4,\"Count\":1,\"IsActive\":true},{\"Data\":null,\"ID\":205,\"Type\":205,\"Count\":1,\"IsActive\":false},{\"Data\":null,\"ID\":208,\"Type\":208,\"Count\":4,\"IsActive\":false},{\"Data\":null,\"ID\":218,\"Type\":218,\"Count\":1,\"IsActive\":false}]', 113475, 7);
-
--- --------------------------------------------------------
-
---
 -- Структура таблицы `main`
 --
 
