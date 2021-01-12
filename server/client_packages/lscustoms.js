@@ -70,7 +70,8 @@ mp.events.add('tpage', (id) => {
                     localplayer.vehicle.toggleMod(18, false);
                 else if (lscPage == "lights_menu") {
                     mp.game.invoke('0xE41033B25D003A07', localplayer.vehicle.handle, 0);
-                    localplayer.vehicle.setLights(false);
+                    localplayer.vehicle.setLights(0);
+                    localplayer.vehicle.toggleMod(22, false);
                 } else if (lscPage == "wheels_menu")
                     localplayer.vehicle.setWheelType(lscSettedWheelType);
 
@@ -109,14 +110,22 @@ mp.events.add('tpage', (id) => {
                     lscNeon = localplayer.vehicle.getNeonLightsColour(1, 1, 1);
                 }
             }
-            else {
-                if (lscPage == "home") {
-                    if (id == "lights_menu") {
-                        localplayer.vehicle.setLights(true);
-                        if (id >= 0) mp.game.invoke('0xE41033B25D003A07', localplayer.vehicle.handle, lscSettedMod);
-                    } else if (id == "wheels_menu")
+            else
+            {
+                if (lscPage == "home")
+                {
+                    if (id == "lights_menu")
+                    {
+                        localplayer.vehicle.setLights(1);
+                        localplayer.vehicle.toggleMod(22, true);
+                        if (id >= 0)
+                        {
+                            mp.game.invoke('0xE41033B25D003A07', localplayer.vehicle.handle, lscSettedMod);
+                        } else if (id == "wheels_menu")
+
                         lscSettedWheelType = localplayer.vehicle.getWheelType();
-                    lscSettedMod = localplayer.vehicle.getMod(categoryModsIds[id]);
+                        lscSettedMod = localplayer.vehicle.getMod(categoryModsIds[id]);
+                    }
                 }
             }
 
@@ -281,10 +290,13 @@ mp.events.add('thov', (id) => {
     else if (lscPage == "horn_menu") {
         localplayer.vehicle.startHorn(1000, hornNames[id], false);
     }
-    else if (lscPage == "lights_menu") {
-        localplayer.vehicle.setLights(true);
-        if (id >= 0) {
+    else if (lscPage == "lights_menu")
+    {
+        localplayer.vehicle.setLights(2);
+        if (id >= 0)
+        {
             localplayer.vehicle.setMod(22, 0);
+            localplayer.vehicle.toggleMod(22, true);
             mp.game.invoke('0xE41033B25D003A07', localplayer.vehicle.handle, parseInt(id));
         } else localplayer.vehicle.setMod(22, -1);
     }
