@@ -177,7 +177,10 @@ INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (4, 
 INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (7, 'newvnum', 1, 109);
 INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (7, 'admins', 1, 110);
 INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (7, 'stop', 1, 111);
-
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (5, 'revive', 1, 112);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (3, 'getbonus', 1, 113);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (3, 'lastbonus', 1, 114);
+INSERT INTO `adminaccess` (`minrank`, `command`, `isadmin`, `idkey`) VALUES (7, 'setbonus', 1, 115);
 -- --------------------------------------------------------
 
 --
