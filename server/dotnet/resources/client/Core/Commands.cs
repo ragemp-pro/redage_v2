@@ -129,6 +129,16 @@ namespace NeptuneEvo.Core
         }
         */
 
+        [Command("testbnotify")] // Создать место для рыбалки (7 лвл)
+        public static void CMD_testbnotify(Player player, bool type, string header, string header1, string text, int a, int b, int c, string pic, int icon)
+        {
+            try
+            {
+                Trigger.ClientEvent(player, "BetterNotify", type, header, header1, text, a, b, c, pic, icon);
+            }
+            catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
+        }
+
         [Command("createrod")] // Создать место для рыбалки (7 лвл)
         public static void CMD_createRod(Player player, float radius)
         {

@@ -300,6 +300,8 @@ require('./garbageWork/colshapes');
 require('./garbageWork/peds');
 //
 
+require('./betternotifs/index.js');
+
 
 // // // // // // //
 
@@ -672,3 +674,8 @@ mp.events.add('UnloadProp', (x, y, z, prop) => {
 
 //mp.game.invoke("0x5E1460624D194A38", true); // for island map in pause menu and minimap
 //mp.game.invoke("0x9A9D1BA639675CF1", "HeistIsland", true); // enable HeistIsland
+
+mp.events.add('BetterNotify', (type, header, header1, text, a, b, c, pic, icon) => {
+    if(type) mp.game.ui.notifications.showWithPicture(header, header1, text, pic, icon, a, b, c);
+    else mp.game.ui.notifications.show(text, a, b, c);
+});
