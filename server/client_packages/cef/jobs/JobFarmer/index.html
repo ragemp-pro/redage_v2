@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Фермер - Голема</title>
+  <link rel="stylesheet" href="css/farmer.css">
+  <link rel="stylesheet" href="css/font.css">
+  <link rel="stylesheet" href="css/font-awesome.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+</head>
+
+<body>
+  <div id="app">
+    <transition name="modal">
+      <div class="container" v-if="active">
+        <header>
+          <i class="fa fa-leaf" aria-hidden="true"></i>
+          <h1>{{header}}</h1>
+          <span>
+            <i @click="closeMenu()" class="fa fa-times-circle-o" aria-hidden="true"></i>
+          </span>
+        </header>
+        <div class="main">
+          <div class="upblock">
+            <div class="avatar">
+              <img src="images/jobs/farmer/avatar.png" :alt="header">
+            </div>
+            <div class="info">
+              <h2>
+                <i class="fa fa-info-circle" aria-hidden="true"></i> Информация
+              </h2>
+              <p>
+                <i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Текущий уровень: <b>{{level}}</b>
+              </p>
+              <p>
+                <i class="fa fa-line-chart" aria-hidden="true"></i> Необходимо собрать: <b>{{exp}}</b>
+              </p>
+              <p>
+                <i class="fa fa-archive" aria-hidden="true"></i> Собрано за всё время: <b>{{allpoints}}</b>
+              </p>
+              <p>
+                <i class="fa fa-users" aria-hidden="true"></i> Фермеров работают: <b>{{farmerscount}}</b>
+              </p>
+              <p>
+                <i class="fa fa-pagelines" aria-hidden="true"></i> Семян с собой: <b>{{seedcount}}</b>
+              </p>
+            </div>
+          </div>
+          <div class="description">
+            <p>
+              На данной работе вам предстоит сажать семена, выращивать их. Затем собирать и продавать на рынке по ценам, которые имеются на тот момент.
+            </p>
+          </div>
+        </div>
+        <footer>
+          <a class="button" v-if="!onWork" @click="workState()">Начать работу</a>
+          <a class="button btnFinish" @click="workState()" v-else>Закончить работу</a>
+        </footer>
+      </div>
+    </transition>
+
+    <transition name="fade">
+      <div class="fade" v-if="active"></div>
+    </transition>
+  </div>
+  <script src="js/farmer.js"></script>
+</body>
+
+</html>

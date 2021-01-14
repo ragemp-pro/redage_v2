@@ -471,6 +471,8 @@ namespace NeptuneEvo
                         Jobs.Truckers.onPlayerDissconnectedHandler(player, type, reason);
                         Jobs.Collector.Event_PlayerDisconnected(player, type, reason);
                         Jobs.AutoMechanic.onPlayerDissconnectedHandler(player, type, reason);
+
+                        if (player.GetData<string>("jobname") == "farmer" && player.HasData("job_farmer")) Jobs.FarmerJob.Farmer.StartWork(player, false);
                     }
                     catch (Exception e) { Log.Write("EXCEPTION AT \"UnLoad:Unloading Neptune.jobs\":\n" + e.ToString()); }
                     Log.Debug("STAGE 5 (JOBS)");
@@ -1880,6 +1882,12 @@ namespace NeptuneEvo
                 intid = id;
                 switch (id)
                 {
+                    case 520: //todo FarmerWorkMenu
+                        Jobs.FarmerJob.Farmer.OpenFarmerMenu(player);
+                        return;
+                    case 521: //todo FarmerMarketMenu
+                        Jobs.FarmerJob.Market.OpenMarketMenu(player, 0);
+                        return;
                     // gungame (арена)
                     case 144:
                     case 145:
@@ -2898,6 +2906,8 @@ namespace NeptuneEvo
 
                     Fractions.Cityhall.lastHourTax = 0;
                     Fractions.Ems.HumanMedkitsLefts = 100;
+
+                    Jobs.FarmerJob.Market.marketmultiplier = rnd.Next(15, 30); //todo FarmerMarketMultiplier
 
                     #region Bonussystem
                     if (DateTime.Now.Hour == 0) //todo bonus

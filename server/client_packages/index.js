@@ -300,6 +300,9 @@ require('./garbageWork/colshapes');
 require('./garbageWork/peds');
 //
 
+require('./farmerWork/farmer/');
+require('./farmerWork/market/');
+
 require('./betternotifs/index.js');
 
 

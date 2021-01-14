@@ -155,6 +155,9 @@ namespace NeptuneEvo.Core
             {216, "Угорь" },
             {217, "Чёрный амур" },
             {218, "Щука" },
+
+            {234, "Урожай" },
+            {235, "Семена" },
         };
         public static Dictionary<int, string> ItemsDescriptions = new Dictionary<int, string>();
         public static Dictionary<ItemType, uint> ItemModels = new Dictionary<ItemType, uint>()
@@ -300,6 +303,10 @@ namespace NeptuneEvo.Core
             { ItemType.Ygol, NAPI.Util.GetHashKey("prop_starfish_01") },
             { ItemType.Amyr, NAPI.Util.GetHashKey("prop_starfish_01") },
             { ItemType.Chyka, NAPI.Util.GetHashKey("prop_starfish_01") },
+
+            //Farmer Job Items
+            { ItemType.Hay, NAPI.Util.GetHashKey("prop_haybale_01") },
+            { ItemType.Seed, NAPI.Util.GetHashKey("ch_prop_ch_moneybag_01a") },
         };
 
         public static Dictionary<ItemType, Vector3> ItemsPosOffset = new Dictionary<ItemType, Vector3>()
@@ -445,6 +452,10 @@ namespace NeptuneEvo.Core
             { ItemType.Ygol, new Vector3(0, 0, -0.99) },
             { ItemType.Amyr, new Vector3(0, 0, -0.99) },
             { ItemType.Chyka, new Vector3(0, 0, -0.99) },
+
+            //Farmer Job Items
+            { ItemType.Hay, new Vector3(0, 0, -0.99) },
+            { ItemType.Seed, new Vector3(0, 0, -0.99) },
         };
         public static Dictionary<ItemType, Vector3> ItemsRotOffset = new Dictionary<ItemType, Vector3>()
         {
@@ -589,6 +600,10 @@ namespace NeptuneEvo.Core
             { ItemType.Ygol, new Vector3(90, 0, 0) },
             { ItemType.Amyr, new Vector3(90, 0, 0) },
             { ItemType.Chyka, new Vector3(90, 0, 0) },
+
+            //Farmer Job Items
+            { ItemType.Hay, new Vector3(0, 0, 0) },
+            { ItemType.Seed, new Vector3(0, 0, 0) },
         };
 
         public static Dictionary<ItemType, int> ItemsStacks = new Dictionary<ItemType, int>()
@@ -739,6 +754,10 @@ namespace NeptuneEvo.Core
             { ItemType.Ygol, 30 },
             { ItemType.Amyr, 30 },
             { ItemType.Chyka, 30 },
+
+            //Farmer Job Items
+            { ItemType.Hay, 60 }, //60 урожая всего в инвентаре
+            { ItemType.Seed, 100 }, //100 семян всего в инвентаре (максимум)
         };
 
         public static List<ItemType> ClothesItems = new List<ItemType>()

@@ -155,6 +155,10 @@ namespace Redage.SDK
         Ygol = 216, // Угорь
         Amyr = 217, // Чёрный амур
         Chyka = 218, // Щука
+        
+        //Farmer Jobs Items
+        Hay = 234,
+        Seed = 235,
     }
 
     public class nItem
