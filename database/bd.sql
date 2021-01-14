@@ -367,6 +367,7 @@ INSERT INTO `businesses` (`id`, `owner`, `sellprice`, `type`, `products`, `enter
 
 CREATE TABLE `characters` (
   `uuid` bigint(255) NOT NULL,
+  `personid` text NOT NULL,
   `adminlvl` int(255) NOT NULL,
   `money` int(255) NOT NULL,
   `firstname` text NOT NULL,

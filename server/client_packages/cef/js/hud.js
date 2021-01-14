@@ -1,6 +1,7 @@
 ﻿var HUD = new Vue({
     el: ".inGameHud",
     data: {
+        personId: 0,
         show: false,
         ammo: 0,
         money: "117 000 000",

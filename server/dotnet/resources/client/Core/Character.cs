@@ -45,6 +45,7 @@ namespace NeptuneEvo.Core.Character
                         player.Armor = Armor;
 
                         player.SetSharedData("REMOTE_ID", player.Value);
+                        player.SetSharedData("PERSON_ID", PersonID);
 
                         Voice.Voice.PlayerJoin(player);
 
@@ -151,6 +152,7 @@ namespace NeptuneEvo.Core.Character
                     foreach (DataRow Row in result.Rows)
                     {
                         UUID = Convert.ToInt32(Row["uuid"]);
+                        PersonID = Convert.ToString(Row["personid"]);
                         FirstName = Convert.ToString(Row["firstname"]);
                         LastName = Convert.ToString(Row["lastname"]);
                         Gender = Convert.ToBoolean(Row["gender"]);
@@ -181,6 +183,9 @@ namespace NeptuneEvo.Core.Character
                         HotelLeft = Convert.ToInt32(Row["hotelleft"]);
                         Contacts = JsonConvert.DeserializeObject<Dictionary<int, string>>(Row["contacts"].ToString());
                         Achievements = JsonConvert.DeserializeObject<List<bool>>(Row["achiev"].ToString());
+
+                        if (PersonID == null || PersonID == "") PersonID = GeneratePersonID(uuid, true);
+
                         if (Achievements == null)
                         {
                             Achievements = new List<bool>();
@@ -301,7 +306,7 @@ namespace NeptuneEvo.Core.Character
 
                 Main.PlayerSlotsInfo[UUID] = new Tuple<int, int, int, long>(LVL, EXP, FractionID, Money);
 
-                await MySQL.QueryAsync($"UPDATE `characters` SET `pos`='{pos}',`gender`={Gender},`health`={Health},`armor`={Armor},`lvl`={LVL},`exp`={EXP}," +
+                await MySQL.QueryAsync($"UPDATE `characters` SET `personid`='{PersonID}', `pos`='{pos}',`gender`={Gender},`health`={Health},`armor`={Armor},`lvl`={LVL},`exp`={EXP}," +
                     $"`money`={Money},`bank`={Bank},`work`={WorkID},`fraction`={FractionID},`fractionlvl`={FractionLVL},`arrest`={ArrestTime}," +
                     $"`wanted`='{JsonConvert.SerializeObject(WantedLVL)}',`biz`='{JsonConvert.SerializeObject(BizIDs)}',`adminlvl`={AdminLVL}," +
                     $"`licenses`='{JsonConvert.SerializeObject(Licenses)}',`unwarn`='{MySQL.ConvertTime(Unwarn)}',`unmute`='{Unmute}'," +
@@ -341,6 +346,7 @@ namespace NeptuneEvo.Core.Character
                 }
 
                 UUID = GenerateUUID();
+                PersonID = GeneratePersonID();
 
                 FirstName = firstName;
                 LastName = lastName;
@@ -361,9 +367,9 @@ namespace NeptuneEvo.Core.Character
                 Main.PlayerUUIDs.Add($"{firstName}_{lastName}", UUID);
                 Main.PlayerNames.Add(UUID, $"{firstName}_{lastName}");
 
-                await MySQL.QueryAsync($"INSERT INTO `characters`(`uuid`,`firstname`,`lastname`,`gender`,`health`,`armor`,`lvl`,`exp`,`money`,`bank`,`work`,`fraction`,`fractionlvl`,`arrest`,`demorgan`,`wanted`," +
+                await MySQL.QueryAsync($"INSERT INTO `characters`(`uuid`,`personid`,`firstname`,`lastname`,`gender`,`health`,`armor`,`lvl`,`exp`,`money`,`bank`,`work`,`fraction`,`fractionlvl`,`arrest`,`demorgan`,`wanted`," +
                     $"`biz`,`adminlvl`,`licenses`,`unwarn`,`unmute`,`warns`,`lastveh`,`onduty`,`lasthour`,`hotel`,`hotelleft`,`contacts`,`achiev`,`sim`,`pos`,`createdate`,`eat`,`water`) " +
-                    $"VALUES({UUID},'{FirstName}','{LastName}',{Gender},{Health},{Armor},{LVL},{EXP},{Money},{Bank},{WorkID},{FractionID},{FractionLVL},{ArrestTime},{DemorganTime}," +
+                    $"VALUES({UUID},'{PersonID}','{FirstName}','{LastName}',{Gender},{Health},{Armor},{LVL},{EXP},{Money},{Bank},{WorkID},{FractionID},{FractionLVL},{ArrestTime},{DemorganTime}," +
                     $"'{JsonConvert.SerializeObject(WantedLVL)}','{JsonConvert.SerializeObject(BizIDs)}',{AdminLVL},'{JsonConvert.SerializeObject(Licenses)}','{MySQL.ConvertTime(Unwarn)}'," +
                     $"'{Unmute}',{Warns},'{LastVeh}',{OnDuty},{LastHourMin},{HotelID},{HotelLeft},'{JsonConvert.SerializeObject(Contacts)}','{JsonConvert.SerializeObject(Achievements)}',{Sim}," +
                     $"'{JsonConvert.SerializeObject(SpawnPos)}','{MySQL.ConvertTime(CreateDate)}','{Eat}','{Water}')");
@@ -389,7 +395,26 @@ namespace NeptuneEvo.Core.Character
             Main.UUIDs.Add(result);
             return result;
         }
-        
+
+        private string GeneratePersonID(int uuid = -1, bool save = false)
+        {
+            string result = "";
+            while (Main.PersonIDs.Contains(result))
+            {
+                result += (char)Rnd.Next(0x0030, 0x0039);
+                result += (char)Rnd.Next(0x0041, 0x005A);
+                result += (char)Rnd.Next(0x0030, 0x0039);
+                result += (char)Rnd.Next(0x0041, 0x005A);
+            }
+            Main.PersonIDs.Add(result);
+            if (save)
+            {
+                MySQL.Query($"UPDATE `characters` SET `personid`='{result}' WHERE `uuid`={uuid}");
+                Log.WriteAsync($"CID-MYSQL: UPDATE `characters` SET `personid`='{result}' WHERE `uuid`={uuid}", nLog.Type.Warn);
+            }
+            return result;
+        }
+
         public static Dictionary<string, string> toChange = new Dictionary<string, string>();
         private static MySqlCommand nameCommand;
 
