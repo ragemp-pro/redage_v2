@@ -1882,6 +1882,10 @@ namespace NeptuneEvo
                 intid = id;
                 switch (id)
                 {
+                    case 381:
+                    case 382:
+                        Jobs.DrugFarm.interactPressed(player, id);
+                        return;
                     case 520: //todo FarmerWorkMenu
                         Jobs.FarmerJob.Farmer.OpenFarmerMenu(player);
                         return;
