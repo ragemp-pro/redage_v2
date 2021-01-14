@@ -177,7 +177,7 @@ namespace NeptuneEvo.Core
         {
             if (state)
             {
-                label.Text = $"{Name} ID:~r~{ID} \nЦена: ~g~{Price}{(Donate ? "Coins" : "$")}";
+                label.Text = $"ID: {ID} \n~r~{Name} \n~s~Цена: ~g~~h~{Price}{(Donate ? "Coins" : "$")}";
                 marker.Color = new Color(21, 90, 11, 170);
             }
             else
