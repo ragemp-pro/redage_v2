@@ -272,11 +272,13 @@ mp.keys.bind(Keys.VK_J, false, function () { // belt system (J key)
 
         if (hudstatus.belt) {
             localplayer.setConfigFlag(32, true);
-            mp.events.call('notify', 0, 2, "Вы отстегнули ремень безопасности", 2000);
+            //mp.events.call('notify', 2, 2, "Вы отстегнули ремень безопасности", 2000);
+            mp.game.graphics.notify('~r~Вы отстегнули ремень безопасности');
         }
         else {
             localplayer.setConfigFlag(32, false);
-            mp.events.call('notify', 0, 2, "Вы пристегнули ремень безопасности", 2000);
+            //mp.events.call('notify', 2, 2, "Вы пристегнули ремень безопасности", 2000);
+            mp.game.graphics.notify('~g~Вы пристегнули ремень безопасности');
         }
 
         hudstatus.belt = !hudstatus.belt;
