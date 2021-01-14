@@ -265,7 +265,7 @@ mp.keys.bind(Keys.VK_F5, false, function () { // F5 key
         mp.events.call('showHUD', global.showhud);
     }
 });
-mp.keys.bind(Keys.VK_K, false, function () { // belt system
+mp.keys.bind(Keys.VK_G, false, function () { // belt system (G key)
     if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 400 || global.menuOpened) return;
     if (localplayer.isInAnyVehicle(false)) {
         lastCheck = new Date().getTime();
