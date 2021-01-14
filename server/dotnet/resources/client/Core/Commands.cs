@@ -4704,5 +4704,46 @@ namespace NeptuneEvo.Core
             playerTwo.ResetData("DICE_VALUE");
         }
         #endregion Roll command handler
+
+        // gungane (арена)
+        [Command("arena")]
+        public static void CMD_arena(Player player)
+        {
+            try
+            {
+                if (player.HasData("GanGame"))
+                {
+                    NAPI.Entity.SetEntityPosition(player, new Vector3(-1507.7751, -3001.8635, -83.32683) + new Vector3(0, 0, 0.5));
+                    NAPI.Data.ResetEntityData(player, "GanGame");
+                    NAPI.Entity.SetEntityDimension(player, 0);
+                    Trigger.ClientEvent(player, "removeAllWeapons");
+                    NAPI.Task.Run(() => { try { player.RemoveAllWeapons(); } catch { } }, 100);
+                    Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы покинули игру.", 3000);
+                    return;
+                }
+                if (player.HasData("GanGame1"))
+                {
+                    NAPI.Entity.SetEntityPosition(player, new Vector3(-1507.7751, -3001.8635, -83.32683) + new Vector3(0, 0, 0.5));
+                    NAPI.Data.ResetEntityData(player, "GanGame1");
+                    NAPI.Entity.SetEntityDimension(player, 0);
+                    Trigger.ClientEvent(player, "removeAllWeapons");
+                    NAPI.Task.Run(() => { try { player.RemoveAllWeapons(); } catch { } }, 100);
+                    Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы покинули игру.", 3000);
+                    return;
+                }
+                if (player.HasData("GanGame2"))
+                {
+                    NAPI.Entity.SetEntityPosition(player, new Vector3(-1507.7751, -3001.8635, -83.32683) + new Vector3(0, 0, 0.5));
+                    NAPI.Data.ResetEntityData(player, "GanGame2");
+                    NAPI.Entity.SetEntityDimension(player, 0);
+                    Trigger.ClientEvent(player, "removeAllWeapons");
+                    NAPI.Task.Run(() => { try { player.RemoveAllWeapons(); } catch { } }, 100);
+                    Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы покинули игру.", 3000);
+                    return;
+                }
+            }
+            catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
+        }
+        //
     }
 }

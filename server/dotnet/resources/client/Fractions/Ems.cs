@@ -278,6 +278,66 @@ namespace NeptuneEvo.Fractions
             {
                 if (!Main.Players.ContainsKey(player)) return;
 
+                // gungame (арена)
+                if (player.HasData("GanGame"))
+                {
+                    player.StopAnimation();
+                    NAPI.Entity.SetEntityPosition(player, player.Position + new Vector3(0, 0, 0.5));
+                    player.SetSharedData("InDeath", false);
+                    Trigger.ClientEvent(player, "DeathTimer", false);
+                    player.Health = 100;
+                    player.ResetData("IS_DYING");
+                    Main.Players[player].IsAlive = true;
+                    Main.OffAntiAnim(player);
+                    if (player.HasData("DYING_TIMER"))
+                    {
+                        Timers.Stop(player.GetData<string>("DYING_TIMER"));
+                        player.ResetData("DYING_TIMER");
+                    }
+                    var wHash = Weapons.GetHash(ItemType.Revolver.ToString());
+                    Trigger.ClientEvent(player, "wgive", (int)wHash, 120, false, true);
+                    return;
+                }
+                if (player.HasData("GanGame1"))
+                {
+                    player.StopAnimation();
+                    NAPI.Entity.SetEntityPosition(player, player.Position + new Vector3(0, 0, 0.5));
+                    player.SetSharedData("InDeath", false);
+                    Trigger.ClientEvent(player, "DeathTimer", false);
+                    player.Health = 100;
+                    player.ResetData("IS_DYING");
+                    Main.Players[player].IsAlive = true;
+                    Main.OffAntiAnim(player);
+                    if (player.HasData("DYING_TIMER"))
+                    {
+                        Timers.Stop(player.GetData<string>("DYING_TIMER"));
+                        player.ResetData("DYING_TIMER");
+                    }
+                    var wHash = Weapons.GetHash(ItemType.AssaultRifle.ToString());
+                    Trigger.ClientEvent(player, "wgive", (int)wHash, 250, false, true);
+                    return;
+                }
+                if (player.HasData("GanGame2"))
+                {
+                    player.StopAnimation();
+                    NAPI.Entity.SetEntityPosition(player, player.Position + new Vector3(0, 0, 0.5));
+                    player.SetSharedData("InDeath", false);
+                    Trigger.ClientEvent(player, "DeathTimer", false);
+                    player.Health = 100;
+                    player.ResetData("IS_DYING");
+                    Main.Players[player].IsAlive = true;
+                    Main.OffAntiAnim(player);
+                    if (player.HasData("DYING_TIMER"))
+                    {
+                        Timers.Stop(player.GetData<string>("DYING_TIMER"));
+                        player.ResetData("DYING_TIMER");
+                    }
+                    var wHash = Weapons.GetHash(ItemType.CombatPDW.ToString());
+                    Trigger.ClientEvent(player, "wgive", (int)wHash, 250, false, true);
+                    return;
+                }
+                //
+
                 Log.Debug($"{player.Name} is died by {weapon}");
 
                 FractionCommands.onPlayerDeathHandler(player, entityKiller, weapon);

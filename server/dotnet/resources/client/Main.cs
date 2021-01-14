@@ -1875,6 +1875,15 @@ namespace NeptuneEvo
                 intid = id;
                 switch (id)
                 {
+                    // gungame (арена)
+                    case 144:
+                    case 145:
+                    case 146:
+                    case 147:
+                    case 148:
+                        GanGame.interactPressed(player, id);
+                        return;
+                    //
                     case 814:
                         Core.ContainerSystem.OpenMenuContainer(player);
                         break;
