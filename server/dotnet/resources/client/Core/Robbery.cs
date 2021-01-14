@@ -700,6 +700,23 @@ namespace NeptuneEvo.Core
                         if (Main.Players[player].WantedLVL.Level == 0) Main.Players[player].WantedLVL = null;
                         Police.setPlayerWantedLevel(player, Main.Players[player].WantedLVL);
                         return;
+                    case 7:
+                        if (Main.Players[player].Money < 200000)
+                        {
+                            Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Хмм... У Вас недостаточно средств", 3000);
+                            return;
+                        }
+                        var aItem = nInventory.Find(Main.Players[player].UUID, ItemType.BodyArmor);
+                        if (aItem != null)
+                        {
+                            Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Хмм... У Вас уже есть бронежилет", 3000);
+                            return;
+                        }
+                        MoneySystem.Wallet.Change(player, -200000);
+                        GameLog.Money($"player({Main.Players[player].UUID})", $"server", 200000, $"buyMavr(armor)");
+                        nInventory.Add(player, new nItem(ItemType.BodyArmor, 1, 50.ToString()));
+                        Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Хмм... Вы получили бронежилет", 3000);
+                        return;
                 }
             }
             catch (Exception e) { Log.Write("mavrbuy: " + e.Message, nLog.Type.Error); }
