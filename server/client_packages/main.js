@@ -180,13 +180,72 @@ mp.keys.bind(Keys.VK_U, false, function () { // Animations selector
     OpenCircle("Категории", 0);
 });
 
-mp.keys.bind(Keys.VK_Y, false, function () { // Телепорт
+// телепорт на метку
+let waypoint;
+let lastWaypointCoords;
+
+mp.keys.bind(Keys.VK_P, false, function () { // Телепорт (P)
     if (!loggedin || chatActive || editing || global.menuCheck() || cuffed || localplayer.getVariable('InDeath') == true) return;
+    
     if (!global.localplayer.getVariable('IS_ADMIN')) return;
-    GoPosPLS();
+    if(!lastWaypointCoords){mp.game.graphics.notify(`Ошибка: ~n~~h~~r~Нет записи последнего waypoint'a.`); return;}
+    mp.events.call('tpToWaypoint');
     
     lastCheck = new Date().getTime();
 });
+
+function findZ(mp, maxAttempts, delay, wpos, oldpos) {
+    mp.players.local.position = new mp.Vector3(wpos.x, wpos.y, 0);
+    mp.players.local.freezePosition(true);
+    attempts = 1;
+    timeout = setTimeout(function getZ() {
+        wpos.z = mp.game.gameplay.getGroundZFor3dCoord(wpos.x, wpos.y, 1000, 0, false);
+        if (!wpos.z && attempts < 10){
+            attempts++;
+            mp.players.local.position = new mp.Vector3(wpos.x, wpos.y, attempts*50);
+            timeout = setTimeout(getZ, delay) 
+        } else if(!wpos.z && attempts == maxAttempts) {
+            mp.players.local.position = oldpos;
+            mp.game.graphics.notify(`Ошибка: ~n~~h~~r~Не удалось получить координату Z.`);
+            mp.players.local.freezePosition(false);
+            clearTimeout(timeout);
+        } else { //if z found - tp to wpos
+            mp.players.local.position = new mp.Vector3(wpos.x, wpos.y, wpos.z+2);
+            mp.players.local.freezePosition(false);
+            mp.events.callRemote('notifyCoords', 'Телепорт пo координатам:', wpos.x, wpos.y, wpos.z+1);
+            clearTimeout(timeout);
+        }
+    }, delay)
+}
+
+function findWP(mp){
+    let wpos = Object.assign({}, lastWaypointCoords);
+    let oldpos = mp.players.local.position;
+
+    if (wpos.z != 20) {
+        mp.players.local.position = new mp.Vector3(wpos.x, wpos.y, wpos.z+2);
+        mp.events.callRemote('notifyCoords', 'Телепорт по координатам:', wpos.x, wpos.y, wpos.z+1);
+        return;
+    }
+    findZ(mp, 10, 150, wpos, oldpos);
+}
+
+mp.events.add('tpToWaypoint', () => {
+    findWP(mp);
+});
+
+mp.events.add('render', () => {
+    if(waypoint !== mp.game.invoke('0x1DD1F58F493F1DA5')){
+        waypoint = mp.game.invoke('0x1DD1F58F493F1DA5');
+        if (waypoint) {
+            let blip = mp.game.invoke('0x1BEDE233E6CD2A1F', 8);
+            let coords = mp.game.ui.getBlipInfoIdCoord(blip);
+            lastWaypointCoords = coords;
+            //mp.events.call('tpToWaypoint');
+        }  
+    }
+});
+//
 
 mp.keys.bind(Keys.VK_E, false, function () { // E key
     if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 1000 || global.menuOpened) return;
@@ -329,27 +388,6 @@ function CheckMyWaypoint() {
 			if(foundblip) mp.events.callRemote('syncWaypoint', coord.x, coord.y);
 		}
 	} catch (e) { }
-}
-
-function GoPosPLS() {
-    try {
-        if(mp.game.invoke('0x1DD1F58F493F1DA5')) {
-            let foundblip = false;
-            let blipIterator = mp.game.invoke('0x186E5D252FA50E7D');
-            let totalBlipsFound = mp.game.invoke('0x9A3FF3DE163034E8');
-            let FirstInfoId = mp.game.invoke('0x1BEDE233E6CD2A1F', blipIterator);
-            let NextInfoId = mp.game.invoke('0x14F96AA50D6FBEA7', blipIterator);
-            for (let i = FirstInfoId, blipCount = 0; blipCount != totalBlipsFound; blipCount++, i = NextInfoId) {
-                if (mp.game.invoke('0x1FC877464A04FC4F', i) == 8) {
-                    var coord = mp.game.ui.getBlipInfoIdCoord(i);
-                    mp.game.graphics.notify("~g~Телепорт на метку");
-                    const getGroundZ = mp.game.gameplay.getGroundZFor3dCoord(coord.x, coord.y, 20, parseFloat(0), false);
-                    mp.events.callRemote('teleportWaypoint', coord.x, coord.y, getGroundZ);
-                    break;
-                }
-            }
-        }
-    } catch (e) { }
 }
 
 mp.events.add('syncWP', function (bX, bY, type) {
