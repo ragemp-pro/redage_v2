@@ -397,6 +397,8 @@ CREATE TABLE `characters` (
   `lastveh` text NOT NULL,
   `onduty` tinyint(1) NOT NULL,
   `lasthour` int(255) NOT NULL,
+  `lastbonus` int(255) NOT NULL,
+  `isbonused` int(255) NOT NULL,
   `contacts` text NOT NULL,
   `achiev` text NOT NULL,
   `createdate` datetime NOT NULL,

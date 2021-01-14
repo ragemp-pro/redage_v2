@@ -265,3 +265,49 @@
 		top: -0.6vh;
 		font-size: 1.8vh;
 	}
+
+/* Система бонусов */
+.bonus {
+    position: absolute;
+    top: 200px;
+    right: 5px;
+    z-index: 999;
+}
+.bonus-bar {
+    background: #18191D;
+    border-radius: 5px;
+    padding: 2px 5px;
+    color: gray;
+    font-size: 1.5em;
+}
+.bonus-block {
+    display: flex;
+    flex-wrap: wrap;
+    width: 300px;
+    height: auto;
+    background-color: #18191D;
+}
+.bonus-block header {
+    flex: 40%;
+    width: 100%;
+    background-color: #1D2027;
+    padding: 7px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.bonus-block header .fa-times {
+    color: #ab2b2b;
+}
+.bonus-block .main {
+    flex: 60%;
+    width: 100%;
+    padding: 10px;
+    background-color: transparent;
+}
+.bonus-block .main p {
+    padding: 10px 30px;
+    text-align: center;
+    background-color: #131316;
+    box-shadow: 0px 1px 6px -1px rgba(0, 0, 0, 1);
+}

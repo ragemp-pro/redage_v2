@@ -39,6 +39,20 @@ namespace NeptuneEvo.Core.Character
                         Trigger.ClientEvent(player, "initPhone");
                         Jobs.WorkManager.load(player);
 
+                        #region LastBonus
+                        if (IsBonused)
+                        {
+                            Trigger.ClientEvent(player, "updlastbonus", $"следующий бонус можно получить только завтра"); //todo bonus
+                        }
+                        else
+                        {
+                            DateTime date = new DateTime((new DateTime().AddMinutes(Main.oldconfig.LastBonusMin - LastBonus)).Ticks);
+                            var hour = date.Hour;
+                            var min = date.Minute;
+                            Trigger.ClientEvent(player, "updlastbonus", $"{hour}ч. {min}м."); //todo bonus
+                        }
+                        #endregion
+
                         // Skin, Health, Armor, RemoteID
                         player.SetSkin((Gender) ? PedHash.FreemodeMale01 : PedHash.FreemodeFemale01);
                         player.Health = (Health > 5) ? Health : 5;
@@ -184,6 +198,10 @@ namespace NeptuneEvo.Core.Character
                         Contacts = JsonConvert.DeserializeObject<Dictionary<int, string>>(Row["contacts"].ToString());
                         Achievements = JsonConvert.DeserializeObject<List<bool>>(Row["achiev"].ToString());
 
+                        LastBonus = Convert.ToInt32(Row["lastbonus"]); //todo bonus
+                        IsBonused = Convert.ToBoolean(Row["isbonused"]); //todo bonus
+                        IsBonused = Convert.ToBoolean(Row["isbonused"]); //todo bonus
+
                         if (PersonID == null || PersonID == "") PersonID = GeneratePersonID(uuid, true);
 
                         if (Achievements == null)
@@ -310,7 +328,7 @@ namespace NeptuneEvo.Core.Character
                     $"`money`={Money},`bank`={Bank},`work`={WorkID},`fraction`={FractionID},`fractionlvl`={FractionLVL},`arrest`={ArrestTime}," +
                     $"`wanted`='{JsonConvert.SerializeObject(WantedLVL)}',`biz`='{JsonConvert.SerializeObject(BizIDs)}',`adminlvl`={AdminLVL}," +
                     $"`licenses`='{JsonConvert.SerializeObject(Licenses)}',`unwarn`='{MySQL.ConvertTime(Unwarn)}',`unmute`='{Unmute}'," +
-                    $"`warns`={Warns},`hotel`={HotelID},`hotelleft`={HotelLeft},`lastveh`='{LastVeh}',`onduty`={OnDuty},`lasthour`={LastHourMin}," +
+                    $"`warns`={Warns},`hotel`={HotelID},`hotelleft`={HotelLeft},`lastveh`='{LastVeh}',`onduty`={OnDuty},`lasthour`={LastHourMin},`lastbonus`={LastBonus},`isbonused`={IsBonused}," +
                     $"`demorgan`={DemorganTime},`contacts`='{JsonConvert.SerializeObject(Contacts)}',`achiev`='{JsonConvert.SerializeObject(Achievements)}',`sim`={Sim},`PetName`='{PetName}',`eat`='{Eat}',`water`='{Water}' WHERE `uuid`={UUID}");
 
                 MoneySystem.Bank.Save(Bank);
@@ -368,10 +386,10 @@ namespace NeptuneEvo.Core.Character
                 Main.PlayerNames.Add(UUID, $"{firstName}_{lastName}");
 
                 await MySQL.QueryAsync($"INSERT INTO `characters`(`uuid`,`personid`,`firstname`,`lastname`,`gender`,`health`,`armor`,`lvl`,`exp`,`money`,`bank`,`work`,`fraction`,`fractionlvl`,`arrest`,`demorgan`,`wanted`," +
-                    $"`biz`,`adminlvl`,`licenses`,`unwarn`,`unmute`,`warns`,`lastveh`,`onduty`,`lasthour`,`hotel`,`hotelleft`,`contacts`,`achiev`,`sim`,`pos`,`createdate`,`eat`,`water`) " +
+                    $"`biz`,`adminlvl`,`licenses`,`unwarn`,`unmute`,`warns`,`lastveh`,`onduty`,`lasthour`,`lastbonus`,`isbonused`,`hotel`,`hotelleft`,`contacts`,`achiev`,`sim`,`pos`,`createdate`,`eat`,`water`) " +
                     $"VALUES({UUID},'{PersonID}','{FirstName}','{LastName}',{Gender},{Health},{Armor},{LVL},{EXP},{Money},{Bank},{WorkID},{FractionID},{FractionLVL},{ArrestTime},{DemorganTime}," +
                     $"'{JsonConvert.SerializeObject(WantedLVL)}','{JsonConvert.SerializeObject(BizIDs)}',{AdminLVL},'{JsonConvert.SerializeObject(Licenses)}','{MySQL.ConvertTime(Unwarn)}'," +
-                    $"'{Unmute}',{Warns},'{LastVeh}',{OnDuty},{LastHourMin},{HotelID},{HotelLeft},'{JsonConvert.SerializeObject(Contacts)}','{JsonConvert.SerializeObject(Achievements)}',{Sim}," +
+                    $"'{Unmute}',{Warns},'{LastVeh}',{OnDuty},{LastHourMin},{LastBonus},{IsBonused},{HotelID},{HotelLeft},'{JsonConvert.SerializeObject(Contacts)}','{JsonConvert.SerializeObject(Achievements)}',{Sim}," +
                     $"'{JsonConvert.SerializeObject(SpawnPos)}','{MySQL.ConvertTime(CreateDate)}','{Eat}','{Water}')");
                 NAPI.Task.Run(() => { player.Name = FirstName + "_" + LastName; });
                 nInventory.Check(UUID);

@@ -44,6 +44,9 @@ namespace Redage.SDK
         public Dictionary<int, string> Contacts = new Dictionary<int, string>();
         public List<bool> Achievements = new List<bool>();
 
+        public int LastBonus { get; set; } = 0; //todo lastbonus
+        public bool IsBonused { get; set; } = false; //todo lastbonus
+
         public bool VoiceMuted = false;
 
         // temperory data

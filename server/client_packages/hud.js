@@ -523,3 +523,7 @@ mp.events.add('UpdateEat', function (temp, amount) {
 mp.events.add('UpdateWater', function (temp, amount) {
     mp.gui.execute(`HUD.water=${temp}`);
 });
+
+mp.events.add('updlastbonus', function (bonus) {
+    mp.gui.execute(`HUD.lastbonus="${bonus}"`);
+});

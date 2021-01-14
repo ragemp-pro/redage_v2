@@ -21,12 +21,18 @@
         speed: 0,
         fuel: 0,
         hp: 0,
+
+        bonusblock: true,
+		lastbonus: null,
     },
     methods: {
         setTime: (time, date) => {
             this.time = time;
             this.date = date;
-        }, 
+        },
+        showbonus(){
+			this.bonusblock = !this.bonusblock;
+		},
 	updateSpeed(currentspeed, maxspeed = 200)
         {
             this.speed = currentspeed;

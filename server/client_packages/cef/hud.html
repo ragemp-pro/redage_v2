@@ -30,7 +30,23 @@
 				<img src="hud/star.png" class="ico">
 				<img src="hud/star.png" class="ico">
 			</div>
-			
+            
+            <div class="bonus">
+				<div class="bonus-bar" v-if="!bonusblock">
+					<i @click="showbonus()" class="fa fa-gift" aria-hidden="true"></i>
+				</div>
+				<div class="bonus-block" v-else>
+					<header>
+						<span>Вы получите бонус через:</span>
+						<i @click="showbonus()" aria-hidden="true" class="fa fa-times"></i>
+					</header>
+					<div class="main">
+						<p>
+							{{lastbonus}}
+						</p>
+					</div>
+				</div>
+			</div>
 			
 			<div class="speedometer_hud" :style="{ opacity: inVeh ? 1 : 0 }">
 				<div class="speedcount" v-if="speed < 100"><a class="count">{{speed}}</a><p>км/ч</p></div>
