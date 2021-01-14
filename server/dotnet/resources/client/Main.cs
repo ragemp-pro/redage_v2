@@ -198,6 +198,14 @@ namespace NeptuneEvo
         {
             try
             {
+                // forbes
+                NAPI.TextLabel.CreateTextLabel("~g~Bony", new Vector3(3367.203, 5185.236, 2.8402408), 5f, 0.3f, 0, new Color(255, 255, 255), true, 0);
+                NAPI.TextLabel.CreateTextLabel("~g~Emma", new Vector3(3313.938, 5179.962, 20.81486), 5f, 0.3f, 0, new Color(255, 255, 255), true, 0);
+                NAPI.TextLabel.CreateTextLabel("~g~Frank", new Vector3(1925.005, 4922.076, 49.27858), 5f, 0.3f, 0, new Color(255, 255, 255), true, 0);
+
+                Timers.StartOnceTask(10000, () => Forbes.SyncMajors()); // Вот эта строчка
+                //
+
                 //NAPI.TextLabel.CreateTextLabel("~r~Мутный Тип", new Vector3(-875.41, -848.00, 20.40), 7f, 0.3f, 0, new Color(255, 255, 255), true, 0);
                 //NAPI.TextLabel.CreateTextLabel("~y~Барыга", new Vector3(1134.20, -878.71, 55.03), 7f, 0.3f, 0, new Color(255, 255, 255), true, 0);
 
@@ -2837,6 +2845,8 @@ namespace NeptuneEvo
             {
                 try
                 {
+                    Forbes.SyncMajors(); // forbes
+
                     if (DateTime.Now.Hour == 19) //каждый день в 19 часов вечера, контейнеры будут активированы. Можете поменять тут время или добавить ещё какой-то час. Или вообще сделать, чтобы каждый час они активировались.
                     {
                         try
@@ -3486,6 +3496,12 @@ namespace NeptuneEvo
             menuItem.Text = "Меню";
             menu.Add(menuItem);
 
+            // forbes
+            menuItem = new Menu.Item("forb", Menu.MenuItem.Button);
+            menuItem.Text = "Forbes";
+            menu.Add(menuItem);
+            //
+
             if (oldconfig.VoIPEnabled)
             {
                 Voice.VoicePhoneMetaData vpmd = player.GetData<VoicePhoneMetaData>("PhoneVoip");
@@ -3596,6 +3612,9 @@ namespace NeptuneEvo
             MenuManager.Close(player);
             switch (item.ID)
             {
+                case "forb":
+                    Forbes.OpenForbes(player);
+                    return;
                 case "gps":
                     OpenGPSMenu(player, "Категории");
                     return;
