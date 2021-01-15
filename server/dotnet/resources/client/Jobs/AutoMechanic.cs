@@ -1,6 +1,5 @@
 ﻿using GTANetworkAPI;
 using System.Collections.Generic;
-using NeptuneEvo.GUI;
 using System;
 using NeptuneEvo.Core;
 using Redage.SDK;
@@ -64,11 +63,11 @@ namespace NeptuneEvo.Jobs
                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"У игрока недостаточно денег", 3000);
                 return;
             }
-            
+
             target.SetData("MECHANIC", player);
             target.SetData("MECHANIC_PRICE", price);
             Trigger.ClientEvent(target, "openDialog", "REPAIR_CAR", $"Игрок ({player.Value}) предложил отремонтировать Ваш транспорт за ${price}");
-            
+
             Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Вы предложили игроку ({target.Value}) отремонтировать транспорт за {price}$", 3000);
         }
 
@@ -275,7 +274,8 @@ namespace NeptuneEvo.Jobs
         {
             NAPI.Task.Run(() =>
             {
-                try {
+                try
+                {
                     if (!player.HasData("WORK_CAR_EXIT_TIMER")) return;
                     if (NAPI.Data.GetEntityData(player, "IN_WORK_CAR"))
                     {
@@ -288,8 +288,8 @@ namespace NeptuneEvo.Jobs
                     {
                         Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Вы закончили рабочий день", 3000);
                         respawnCar(vehicle);
-                        player.SetData<bool>("ON_WORK", false);
-                        player.SetData<Vehicle>("WORK", null);
+                        player.SetData("ON_WORK", false);
+                        player.SetData<string>("WORK", null);
                         //Main.StopT(NAPI.Data.GetEntityData(player, "WORK_CAR_EXIT_TIMER"), "timer_3");
                         Timers.Stop(NAPI.Data.GetEntityData(player, "WORK_CAR_EXIT_TIMER"));
                         NAPI.Data.ResetEntityData(player, "WORK_CAR_EXIT_TIMER");
@@ -311,7 +311,8 @@ namespace NeptuneEvo.Jobs
                     }
                     NAPI.Data.SetEntityData(player, "CAR_EXIT_TIMER_COUNT", NAPI.Data.GetEntityData(player, "CAR_EXIT_TIMER_COUNT") + 1);
 
-                } catch(Exception e)
+                }
+                catch (Exception e)
                 {
                     Log.Write("Timer_PlayerExitWorkVehicle:\n" + e.ToString(), nLog.Type.Error);
                 }
@@ -486,12 +487,12 @@ namespace NeptuneEvo.Jobs
                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"У игрока недостаточно денег", 3000);
                 return;
             }
-            
+
             target.SetData("MECHANIC", player);
             target.SetData("MECHANIC_PRICE", pricePerLitr);
             target.SetData("MECHANIC_FEUL", fuel);
             Trigger.ClientEvent(target, "openDialog", "FUEL_CAR", $"Игрок ({player.Value}) предложил заправить Ваш транспорт на {fuel}л за ${fuel * pricePerLitr}");
-            
+
             Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Вы предложили игроку ({target.Value}) заправить транспорт на {fuel}л за {fuel * pricePerLitr}$.", 3000);
         }
 
@@ -519,7 +520,7 @@ namespace NeptuneEvo.Jobs
                 return;
             }
 
-            if (driver.Vehicle.GetSharedData<object>("FUELTANK") < fuel)
+            if (driver.Vehicle.GetSharedData<int>("FUELTANK") < fuel)
             {
                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"У механика недостаточно топлива, чтобы заправить Вас", 3000);
                 return;
@@ -532,9 +533,9 @@ namespace NeptuneEvo.Jobs
             Notify.Send(driver, NotifyType.Info, NotifyPosition.BottomCenter, $"Игрок ({player.Value}) оплатил заправку транспорта", 3000);
             Commands.RPChat("me", driver, $"заправил транспортное средство");
 
-            var carFuel = (player.Vehicle.GetSharedData<object>("PETROL") + fuel > player.Vehicle.GetSharedData<object>("MAXPETROL")) ? player.Vehicle.GetSharedData<object>("MAXPETROL") : player.Vehicle.GetSharedData<object>("PETROL") + fuel;
+            var carFuel = (player.Vehicle.GetSharedData<int>("PETROL") + fuel > player.Vehicle.GetSharedData<int>("MAXPETROL")) ? player.Vehicle.GetSharedData<int>("MAXPETROL") : player.Vehicle.GetSharedData<int>("PETROL") + fuel;
             player.Vehicle.SetSharedData("PETROL", carFuel);
-            driver.Vehicle.SetSharedData("FUELTANK", driver.Vehicle.GetSharedData<object>("FUELTANK") - fuel);
+            driver.Vehicle.SetSharedData("FUELTANK", driver.Vehicle.GetSharedData<int>("FUELTANK") - fuel);
             player.ResetData("MECHANIC_DRIVER");
             driver.ResetData("MECHANIC_CLIENT");
             try
