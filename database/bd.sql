@@ -5050,3 +5050,12 @@ INSERT INTO `containers` VALUES (2, 'Premium+', 7000000, 0, '{\"x\":1214,\"y\":-
 INSERT INTO `containers` VALUES (3, 'VIP', 9000000, 0, '{\"x\":1218.6,\"y\":-2990,\"z\":4.8}', '{\"x\":0,\"y\":0,\"z\":-180}', '{\"e63\":\"40\", \"e63amg\":\"30\", \"g63amg6x6cop\":\"15\", \"18perfomante\":\"10\",\"g65\":\"5\"}\r\n');
 INSERT INTO `containers` VALUES (5, 'Low', 2500000, 0, '{\"x\":1218.6,\"y\":-3010,\"z\":4.8}', '{\"x\":0,\"y\":0,\"z\":-180}', '{\"lc200\":\"40\", \"m5\":\"30\", \"m5e60\":\"15\", \"lexgs350f\":\"10\",\"m8\":\"5\"}\r\n');
 /* */
+
+/* Farmer Job */
+CREATE TABLE IF NOT EXISTS `farmer` (
+  `uuid` int(11) NOT NULL,
+  `level` int(11) DEFAULT NULL,
+  `exp` int(11) DEFAULT NULL,
+  `allpoints` int(11) DEFAULT NULL,
+  PRIMARY KEY (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
