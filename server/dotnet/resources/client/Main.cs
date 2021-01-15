@@ -590,16 +590,18 @@ namespace NeptuneEvo
             catch (Exception e) { Log.Write("deletearmor: " + e.Message, nLog.Type.Error); }
         }
         [RemoteEvent("syncWaypoint")]
-        public void ClientEvent_SyncWP(Player player, float X, float Y) {
-            try {
-                if(player.Vehicle == null) return;
+        public void ClientEvent_SyncWP(Player player, float X, float Y)
+        {
+            try
+            {
+                if (player.Vehicle == null) return;
                 var tempDriver = NAPI.Vehicle.GetVehicleDriver(player.Vehicle);
                 var driver = NAPI.Player.GetPlayerFromHandle(tempDriver);
                 if (driver == player || driver == null) return;
                 Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, "Вы передали водителю данные о своём маршруте!", 3000);
                 Trigger.ClientEvent(driver, "syncWP", X, Y);
-            } catch {
             }
+            catch (Exception e) { Log.Write("syncWaypoint: " + e.Message, nLog.Type.Error); }
         }
 
         [RemoteEvent("spawn")]

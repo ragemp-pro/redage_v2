@@ -361,12 +361,9 @@ mp.keys.bind(Keys.VK_X, false, function () { // X key
 
 mp.keys.bind(Keys.VK_Z, false, function () { // Z key
     if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 1000 || global.menuOpened) return;
-	if(localplayer.vehicle) {
-		if(localplayer.vehicle.getPedInSeat(0) != localplayer.handle) CheckMyWaypoint();
-		else {
-			if (localplayer.vehicle.getClass() == 18) mp.events.callRemote('syncSirenSound', localplayer.vehicle);
-		}
-	} else mp.events.callRemote('playerPressFollowBut');
+    if (localplayer.isInAnyVehicle(false)) {
+        CheckMyWaypoint();
+    } else mp.events.callRemote('playerPressFollowBut');
     lastCheck = new Date().getTime();
 });
 
