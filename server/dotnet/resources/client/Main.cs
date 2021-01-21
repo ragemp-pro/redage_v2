@@ -1884,6 +1884,9 @@ namespace NeptuneEvo
                 intid = id;
                 switch (id)
                 {
+                    case 888:
+                        Trigger.ClientEvent(player, "garbageMenuOpen");
+                        return;
                     case 381:
                     case 382:
                         Jobs.DrugFarm.interactPressed(player, id);
