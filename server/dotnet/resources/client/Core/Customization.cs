@@ -1279,6 +1279,16 @@ namespace NeptuneEvo.Core
                 { 29, new Underwear(128, 2500, new Dictionary<int, int>(){ }, new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 }) },
                 { 30, new Underwear(135, 4000, new Dictionary<int, int>(){ }, new List<int>() { 0, 1, 2, 3, 4, 5, 6 }) },
                 { 31, new Underwear(144, 7000, new Dictionary<int, int>(){ }, new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 }) },
+                { 32, new Underwear(18, 3600, new Dictionary<int, int>(){ { 0, 19 } }, new List<int>() { 0, 1, 2, 3 }) },
+                { 33, new Underwear(42, 4400, new Dictionary<int, int>(){ { 0, 45 } }, new List<int>() { 0 }) },
+                { 34, new Underwear(43, 4400, new Dictionary<int, int>(){ { 0, 46 } }, new List<int>() { 0 }) },
+                { 35, new Underwear(139, 4000, new Dictionary<int, int>(){ { 0, 75 } }, new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7 }) },
+                { 36, new Underwear(226, 2400, new Dictionary<int, int>(){ { 0, 106 } }, new List<int>() { 0 }) },
+                { 37, new Underwear(235, 3600, new Dictionary<int, int>(){ { 0, 109 } }, new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }) },
+                { 38, new Underwear(236, 3600, new Dictionary<int, int>(){ { 0, 110 } }, new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }) },
+                { 39, new Underwear(237, 2400, new Dictionary<int, int>(){ { 0, 111 } }, new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25 }) },
+                { 40, new Underwear(238, 2400, new Dictionary<int, int>(){ { 0, 115 } }, new List<int>() { 0, 1, 2, 3, 4, 5 }) },
+                { 41, new Underwear(239, 2200, new Dictionary<int, int>(){ { 0, 120 } }, new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }) },
 
             }},
             { false, new Dictionary<int, Underwear>(){
@@ -1309,10 +1319,16 @@ namespace NeptuneEvo.Core
                 { 24, new Underwear(141, 300, new Dictionary<int, int>() { { 0, 80 }, { 1, 80 } }, new List<int>() { 0, 1, 2, 3, 4, 5}) },
                 { 25, new Underwear(149, 300, new Dictionary<int, int>() { { 0, 82 }, { 1, 83 } }, new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}) },
                 { 26, new Underwear(208, 2000, new Dictionary<int, int>() { { 0, 111 }, { 1, 108 } }, new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}) },
-                { 27, new Underwear(9, 2000, new Dictionary<int, int>() { }, new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 }) },
-                { 28, new Underwear(83, 4000, new Dictionary<int, int>() { }, new List<int>() { 0, 1, 2, 3, 4, 5, 6 }) },
-                { 29, new Underwear(142, 7000, new Dictionary<int, int>() { }, new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 }) },
-                { 30, new Underwear(171, 2500, new Dictionary<int, int>() { }, new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7 }) },
+                { 27, new Underwear(4, 2000, new Dictionary<int, int>() { { 0, 4 } }, new List<int>() { 13, 14}) },
+                { 28, new Underwear(12, 2000, new Dictionary<int, int>() { { 0, 12 } }, new List<int>() { 7, 8, 9}) },
+                { 29, new Underwear(19, 3000, new Dictionary<int, int>() { { 0, 18 } }, new List<int>() { 0, 1, 2, 3}) },
+                { 30, new Underwear(212, 3000, new Dictionary<int, int>() { { 0, 123 } }, new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23}) },
+                { 31, new Underwear(247, 3000, new Dictionary<int, int>() { { 0, 151 } }, new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25}) },
+                // trash
+                //{ 27, new Underwear(9, 2000, new Dictionary<int, int>() { }, new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 }) },
+                //{ 28, new Underwear(83, 4000, new Dictionary<int, int>() { }, new List<int>() { 0, 1, 2, 3, 4, 5, 6 }) },
+                //{ 29, new Underwear(142, 7000, new Dictionary<int, int>() { }, new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 }) },
+                //{ 30, new Underwear(171, 2500, new Dictionary<int, int>() { }, new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7 }) },
             }},
         };
 
