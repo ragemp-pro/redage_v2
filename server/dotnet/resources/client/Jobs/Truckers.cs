@@ -342,12 +342,14 @@ namespace NeptuneEvo.Jobs
                     }
                     if (Main.Players[player].WorkID == 6)
                     {
+                        /*
                         if (Main.Players[player].BizIDs.Count > 0)
                         {
                             Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Вы не можете начать работу", 3000);
                             VehicleManager.WarpPlayerOutOfVehicle(player);
                             return;
                         }
+                        */
                         if (!NAPI.Data.GetEntityData(vehicle, "ON_WORK"))
                         {
                             if (NAPI.Data.GetEntityData(player, "WORK") == null)
@@ -508,7 +510,7 @@ namespace NeptuneEvo.Jobs
                     Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Трейлер должен находиться по-близости", 3000);
                     return;
                 }
-                var payment = Convert.ToInt32(order.Amount * BusinessManager.ProductsOrderPrice[order.Name] * 0.1 * Main.oldconfig.PaydayMultiplier);
+                var payment = Convert.ToInt32(order.Amount * BusinessManager.ProductsOrderPrice[order.Name] * 2 * Main.oldconfig.PaydayMultiplier);
                 var max = Convert.ToInt32(2000 * Group.GroupPayAdd[Main.Accounts[player].VipLvl] * Main.oldconfig.PaydayMultiplier);
                 var min = Convert.ToInt32(500 * Group.GroupPayAdd[Main.Accounts[player].VipLvl] * Main.oldconfig.PaydayMultiplier);
                 if (payment > max) payment = max;

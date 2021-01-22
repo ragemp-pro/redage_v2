@@ -440,7 +440,7 @@ namespace NeptuneEvo.Jobs
             menuItem.Text = $"Продукт: {order.Name}";
             menu.Add(menuItem);
 
-            var youGet = Convert.ToInt32(order.Amount * BusinessManager.ProductsOrderPrice[order.Name] * 0.1);
+            var youGet = Convert.ToInt32(order.Amount * BusinessManager.ProductsOrderPrice[order.Name] * 2);
             var max = Convert.ToInt32(2000 * Group.GroupPayAdd[Main.Accounts[player].VipLvl]);
             var min = Convert.ToInt32(500 * Group.GroupPayAdd[Main.Accounts[player].VipLvl]);
             if (youGet > max) youGet = max;
@@ -496,7 +496,7 @@ namespace NeptuneEvo.Jobs
                         menu.Items[2].Text = $"Продукт: {order.Name}";
                         menu.Change(client, 2, menu.Items[2]);
 
-                        var youGet = Convert.ToInt32(order.Amount * BusinessManager.ProductsOrderPrice[order.Name] * 0.1);
+                        var youGet = Convert.ToInt32(order.Amount * BusinessManager.ProductsOrderPrice[order.Name] * 2);
                         var max = Convert.ToInt32(2000 * Group.GroupPayAdd[Main.Accounts[client].VipLvl]);
                         var min = Convert.ToInt32(500 * Group.GroupPayAdd[Main.Accounts[client].VipLvl]);
                         if (youGet > max) youGet = max;
