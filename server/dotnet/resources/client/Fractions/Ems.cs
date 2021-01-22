@@ -352,7 +352,8 @@ namespace NeptuneEvo.Fractions
 
                 if (player.HasData("job_farmer")) Jobs.FarmerJob.Farmer.StartWork(player, false); //todo Farmer
 
-                VehicleManager.WarpPlayerOutOfVehicle(player);
+                // Фикс краша при взрыве авто (видимо баг рейджа что нельзя выкинуть из сгоревшего авто игрока, но оно по сути и не надо, так как все игроки внутри должны взроваться)
+                //VehicleManager.WarpPlayerOutOfVehicle(player);
                 Main.Players[player].IsAlive = false;
                 if (player.HasData("AdminSkin"))
                 {

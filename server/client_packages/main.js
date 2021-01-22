@@ -77,14 +77,6 @@ mp.events.add('carRoom', function () {
     mp.game.cam.renderScriptCams(true, false, 0, true, false);
 });
 
-mp.events.add('screenFadeOut', function (duration) {
-    mp.game.cam.doScreenFadeOut(duration);
-});
-
-mp.events.add('screenFadeIn', function (duration) {
-    mp.game.cam.doScreenFadeIn(duration);
-});
-
 var lastScreenEffect = "";
 mp.events.add('startScreenEffect', function (effectName, duration, looped) {
 	try {
@@ -368,23 +360,26 @@ mp.keys.bind(Keys.VK_Z, false, function () { // Z key
 });
 
 function CheckMyWaypoint() {
-	try {
-		if(mp.game.invoke('0x1DD1F58F493F1DA5')) {
-			let foundblip = false;
-			let blipIterator = mp.game.invoke('0x186E5D252FA50E7D');
-			let totalBlipsFound = mp.game.invoke('0x9A3FF3DE163034E8');
-			let FirstInfoId = mp.game.invoke('0x1BEDE233E6CD2A1F', blipIterator);
-			let NextInfoId = mp.game.invoke('0x14F96AA50D6FBEA7', blipIterator);
-			for (let i = FirstInfoId, blipCount = 0; blipCount != totalBlipsFound; blipCount++, i = NextInfoId) {
-				if (mp.game.invoke('0x1FC877464A04FC4F', i) == 8) {
-					var coord = mp.game.ui.getBlipInfoIdCoord(i);
-					foundblip = true;
-					break;
-				}
-			}
-			if(foundblip) mp.events.callRemote('syncWaypoint', coord.x, coord.y);
-		}
-	} catch (e) { }
+    try {
+        if(mp.game.invoke('0x1DD1F58F493F1DA5')) {
+            let foundblip = false;
+            let blipIterator = mp.game.invoke('0x186E5D252FA50E7D');
+            let totalBlipsFound = mp.game.invoke('0x9A3FF3DE163034E8');
+            let FirstInfoId = mp.game.invoke('0x1BEDE233E6CD2A1F', blipIterator);
+            let NextInfoId = mp.game.invoke('0x14F96AA50D6FBEA7', blipIterator);
+            for (let i = FirstInfoId, blipCount = 0; blipCount != totalBlipsFound; blipCount++, i = NextInfoId) {
+                if (mp.game.invoke('0x1FC877464A04FC4F', i) == 8) {
+                    var coord = mp.game.ui.getBlipInfoIdCoord(i);
+                    foundblip = true;
+                    break;
+                }
+            }
+            if(foundblip)
+            {
+                mp.events.callRemote('syncWaypoint', coord.x, coord.y);
+            }
+        }
+    } catch (e) { }
 }
 
 mp.events.add('syncWP', function (bX, bY, type) {
