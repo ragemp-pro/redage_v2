@@ -826,11 +826,15 @@ namespace NeptuneEvo.Fractions
                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Рядом нет машин", 3000);
                 return;
             }
+
+            // Для удобства убираем проверку на водителя при посадке в авто
+            /*
             if (player.VehicleSeat != 0)
             {
                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы должны быть на водительском месте", 3000);
                 return;
             }
+            */
             if (player.Position.DistanceTo(target.Position) > 5)
             {
                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Игрок слишком далеко", 3000);
