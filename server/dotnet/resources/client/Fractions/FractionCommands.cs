@@ -469,9 +469,9 @@ namespace NeptuneEvo.Fractions
         public static void ticketToTarget(Player player, Player target, int sum, string reason)
         {
             if (!Manager.canUseCommand(player, "ticket")) return;
-            if (sum > 7000)
+            if (sum > 7000 || sum < 1)
             {
-                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Ограничение по штрафу 7000$", 3000);
+                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Ограничение по штрафу от 1$ до 7000$", 3000);
                 return;
             }
             if (reason.Length > 100)
