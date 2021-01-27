@@ -307,10 +307,16 @@ namespace NeptuneEvo.Jobs
                 if (NAPI.Data.GetEntityData(player, "WORK") != null)
                 {
                     if (!target.IsInVehicle || player.Position.DistanceTo(target.Position) > 2) return;
-                    if (!NAPI.Player.IsPlayerInAnyVehicle(player) || player.VehicleSeat != 0 || player.Vehicle != player.GetData<Player>("WORK") || player.Vehicle != target.Vehicle) return;
+                    if (!NAPI.Player.IsPlayerInAnyVehicle(player) || player.VehicleSeat != 0 || player.Vehicle != player.GetData<Vehicle>("WORK") || player.Vehicle != target.Vehicle) return;
                     var vehicle = player.Vehicle;
                     if (NAPI.Data.GetEntityData(vehicle, "TYPE") == "TAXI")
                     {
+                        if (player == target)
+                        {
+                            Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы не можете установить цену за поездку самому себе.", 3000);
+                            return;
+                        }
+
                         if (price > 200 || price < 20)
                         {
                             Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы не можете установить цену выше 200$ или ниже 20$", 3000);
