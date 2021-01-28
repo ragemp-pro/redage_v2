@@ -416,9 +416,10 @@ namespace NeptuneEvo.Core.Character
 
         private string GeneratePersonID(int uuid = -1, bool save = false)
         {
-            string result = "AAAA";
+            string result = "0A0A";
             while (Main.PersonIDs.Contains(result))
             {
+                result = "";
                 result += (char)Rnd.Next(0x0030, 0x0039);
                 result += (char)Rnd.Next(0x0041, 0x005A);
                 result += (char)Rnd.Next(0x0030, 0x0039);
