@@ -121,10 +121,6 @@ namespace NeptuneEvo.Fractions
             {
                 "MicroSMG",
             },
-            new List<string>
-            {
-                "BodyArmor",
-            },
             new List<string>(),
         };
         private static List<List<string>> mafiaGuns = new List<List<string>>
