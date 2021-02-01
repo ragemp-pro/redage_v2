@@ -147,7 +147,7 @@ namespace NeptuneEvo.Jobs
                     {
                         Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, "Если Вы хотите передать свой маршрут водителю, то поставьте метку на карте и нажмите Z.", 5000);
                         var driver = NAPI.Data.GetEntityData(vehicle, "DRIVER");
-                        if (driver.HasData("PASSAGER") && driver.GetData("PASSAGER") == player)
+                        if (driver.HasData("PASSAGER") && driver.GetData<Player>("PASSAGER") == player)
                         {
                             driver.ResetData("PASSAGER");
                             player.SetData("IS_CALL_TAXI", false);
