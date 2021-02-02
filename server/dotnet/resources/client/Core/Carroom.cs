@@ -22,15 +22,19 @@ namespace NeptuneEvo.Core
         {
             try
             {
-                if (!player.HasData("CARROOMTEST")) return;
+                if (NAPI.Player.IsPlayerInAnyVehicle(player))
+                {
+                    Vehicle veh = player.GetData<Vehicle>("CARROOMTEST");
+                    if (veh == player.Vehicle)
+                    {
+                        veh.Delete();
 
-                var veh = player.GetData<Vehicle>("CARROOMTEST");
-                veh.Delete();
+                        player.SetData("CARROOMDISCONNECT", true);
+                    }
+                }
 
                 RemoteEvent_carroomCancel(player);
-
                 player.ResetData("CARROOMTEST");
-
             }
             catch (Exception e) { Log.Write("PlayerDisconnected: " + e.Message, nLog.Type.Error); }
         }
@@ -52,19 +56,24 @@ namespace NeptuneEvo.Core
         }
 
 
-        [ServerEvent(Event.PlayerExitVehicleAttempt)]
-        public void Event_OnPlayerExitVehicleAttempt(Player player, Vehicle vehicle)
+        [ServerEvent(Event.PlayerExitVehicle)]
+        public void Event_OnPlayerExitVehicle(Player player, Vehicle vehicle)
         {
             try
             {
-                if (!player.HasData("CARROOMTEST")) return;
+                if(player.HasData("CARROOMDISCONNECT"))
+                {
+                    Vehicle veh = player.GetData<Vehicle>("CARROOMTEST");
+                    if (veh == player.Vehicle)
+                    {
+                        veh.Delete();
 
-                var veh = player.GetData<Vehicle>("CARROOMTEST");
-                veh.Delete();
+                        RemoteEvent_carroomCancel(player);
 
-                RemoteEvent_carroomCancel(player);
-
-                player.ResetData("CARROOMTEST");
+                        player.ResetData("CARROOMDISCONNECT");
+                        player.ResetData("CARROOMTEST");
+                    }
+                }
             }
             catch (Exception e)
             {
