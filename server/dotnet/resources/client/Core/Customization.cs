@@ -2516,9 +2516,8 @@ namespace NeptuneEvo.Core
             player.ResetData("inCreator");
             player.ResetData("Creator_PrevPos");
 
-            Vector3 pos = new Vector3(-408.863953, -207.63353, 37.2016068);
+            NAPI.Entity.SetEntityPosition(player, Main.Players[player].SpawnPos);
             NAPI.Entity.SetEntityDimension(player, 0);
-            NAPI.Entity.SetEntityPosition(player, pos);
 
             player.SetSkin((Main.Players[player].Gender) ? PedHash.FreemodeMale01 : PedHash.FreemodeFemale01);
 

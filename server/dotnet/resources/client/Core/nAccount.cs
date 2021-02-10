@@ -46,9 +46,9 @@ namespace NeptuneEvo.Core.nAccount
                 Characters = new List<int>() { -1, -1, -2 }; // -1 - empty slot, -2 - non-purchased slot
 
                 HWID = client.Serial;
-                if(client.Address.Equals("80.235.53.64")) IP = "31.13.190.88";
-                else IP = client.Address;
+                IP = client.Address;
                 SocialClub = client.SocialClubName;
+
                 await MySQL.QueryAsync($"INSERT INTO `accounts` (`login`,`email`,`password`,`hwid`,`ip`,`socialclub`,`redbucks`,`viplvl`,`vipdate`,`promocodes`,`character1`,`character2`,`character3`) " +
                     $"VALUES ('{Login}','{Email}','{Password}','{HWID}','{IP}','{SocialClub}',0,{VipLvl},'{MySQL.ConvertTime(VipDate)}','{JsonConvert.SerializeObject(PromoCodes)}',-1,-1,-2)");
                 Main.SocialClubs.Add(SocialClub);
@@ -217,7 +217,6 @@ namespace NeptuneEvo.Core.nAccount
 
             Characters[slot - 1] = result;
             await MySQL.QueryAsync($"UPDATE `accounts` SET `character{slot}`={result} WHERE `login`='{Login}'");
-
             Main.Players[player].Spawn(player);
         }
         public async Task DeleteCharacter(Player player, int slot, string firstName_, string lastName_, string password_)

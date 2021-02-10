@@ -92,7 +92,7 @@ namespace NeptuneEvo.Core
         {
             if (thread == null || OnlineQueue.ContainsKey(Uuid)) return;
             DateTime now = DateTime.Now;
-            if(ip.Equals("80.235.53.64")) ip = "31.13.190.88";
+
             queue.Enqueue(string.Format(
                 insert, "connlog", "`in`,`out`,`uuid`,`sclub`,`hwid`,`ip`", $"'{now.ToString("s")}',null,'{Uuid}','{SClub}','{Hwid}','{ip}'"));
             queue.Enqueue(string.Format(

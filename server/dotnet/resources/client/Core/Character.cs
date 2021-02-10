@@ -26,6 +26,9 @@ namespace NeptuneEvo.Core.Character
                 {
                     try
                     {
+                        Main.Players[player].IsSpawned = true;
+                        Main.Players[player].IsAlive = true;
+
                         player.SetSharedData("IS_MASK", false);
 
                         // Logged in state, money, phone init
@@ -218,7 +221,7 @@ namespace NeptuneEvo.Core.Character
                         {
                             Log.Debug("Detected wrong coordinates!", nLog.Type.Warn);
                             if (LVL <= 1) SpawnPos = new Vector3(-1036.3226, -2732.918, 12.766636); // На спавне новичков
-                            else SpawnPos = new Vector3(-1036.3226, -2732.918, 12.766636); //На спавне новичков у мэрии 
+                            else SpawnPos = new Vector3(-388.5015, -190.0172, 36.19771); // У мэрии
                         }
                     }
                     player.Name = FirstName + "_" + LastName;
