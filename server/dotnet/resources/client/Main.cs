@@ -206,10 +206,6 @@ namespace NeptuneEvo
                 NAPI.TextLabel.CreateTextLabel("~g~Подробная информация - F10", new Vector3(-1028.4111, -2731.3354, 13.545905), 20f, 0.3f, 0, new Color(255, 255, 255), true, NAPI.GlobalDimension);
 
                 // forbes
-                NAPI.TextLabel.CreateTextLabel("~g~Bony", new Vector3(3367.203, 5185.236, 2.8402408), 5f, 0.3f, 0, new Color(255, 255, 255), true, 0);
-                NAPI.TextLabel.CreateTextLabel("~g~Emma", new Vector3(3313.938, 5179.962, 20.81486), 5f, 0.3f, 0, new Color(255, 255, 255), true, 0);
-                NAPI.TextLabel.CreateTextLabel("~g~Frank", new Vector3(1925.005, 4922.076, 49.27858), 5f, 0.3f, 0, new Color(255, 255, 255), true, 0);
-
                 Timers.StartOnceTask(10000, () => Forbes.SyncMajors()); // Вот эта строчка
                 //
 

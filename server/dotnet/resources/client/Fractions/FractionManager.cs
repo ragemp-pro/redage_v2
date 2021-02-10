@@ -38,7 +38,6 @@ namespace NeptuneEvo.Fractions
                 NAPI.Blip.CreateBlip(78, Manager.FractionSpawns[12], 1, 76, Main.StringToU16("Якудза"), 255, 0, true, 0, 0);
                 NAPI.Blip.CreateBlip(78, Manager.FractionSpawns[13], 1, 40, Main.StringToU16("Армянская мафия"), 255, 0, true, 0, 0);
 
-                NAPI.Blip.CreateBlip(668, new Vector3(-1123.202, 4929.628, 217.7096), 1, 75, Main.StringToU16("Redneck"), 255, 0, true, 0);
                 NAPI.Blip.CreateBlip(197, new Vector3(-1036.3226, -2732.918, 12.636636), 1, 26, Main.StringToU16("Спавн новичков"), 255, 0, true, 0);
 
                 var result = MySQL.QueryRead("SELECT `uuid`,`firstname`,`lastname`,`fraction`,`fractionlvl` FROM `characters`");
