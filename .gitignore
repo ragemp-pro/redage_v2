@@ -10,6 +10,7 @@ server/client_packages/game_resources/dlcpacks
 server/Settings.db
 server/coords.txt
 launchSettings.json
+*.listcache
 
 # User-specific files
 *.rsuser
