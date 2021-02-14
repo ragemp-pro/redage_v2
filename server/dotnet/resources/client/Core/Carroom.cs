@@ -18,27 +18,6 @@ namespace NeptuneEvo.Core
         public static Vector3 CarSpawnPos = new Vector3(-42.79771, -1095.676, 26.0117); // Место для спавна машины в автосалоне
         public static Vector3 CarSpawnRot = new Vector3(0, 0, -136.246); // Rotation для спавна машины в автосалоне
 
-        public static void onPlayerDissonnectedHandler(Player player, DisconnectionType type, string reason)
-        {
-            try
-            {
-                if (NAPI.Player.IsPlayerInAnyVehicle(player))
-                {
-                    Vehicle veh = player.GetData<Vehicle>("CARROOMTEST");
-                    if (veh == player.Vehicle)
-                    {
-                        veh.Delete();
-
-                        player.SetData("CARROOMDISCONNECT", true);
-                    }
-                }
-
-                RemoteEvent_carroomCancel(player);
-                player.ResetData("CARROOMTEST");
-            }
-            catch (Exception e) { Log.Write("PlayerDisconnected: " + e.Message, nLog.Type.Error); }
-        }
-
         public static void enterCarroom(Player player, string name)
         {
             if (NAPI.Player.IsPlayerInAnyVehicle(player)) return;
@@ -61,7 +40,16 @@ namespace NeptuneEvo.Core
         {
             try
             {
-                if(player.HasData("CARROOMDISCONNECT"))
+                if (!player.HasData("CARROOMTEST")) return;
+
+                Entity veh = player.GetData<Entity>("CARROOMTEST");
+                veh.Delete();
+
+                RemoteEvent_carroomCancel(player);
+                player.ResetData("CARROOMTEST");
+
+                /*
+                if (!player.HasData("CARROOMDISCONNECT"))
                 {
                     Vehicle veh = player.GetData<Vehicle>("CARROOMTEST");
                     if (veh == player.Vehicle)
@@ -74,6 +62,7 @@ namespace NeptuneEvo.Core
                         player.ResetData("CARROOMTEST");
                     }
                 }
+                */
             }
             catch (Exception e)
             {

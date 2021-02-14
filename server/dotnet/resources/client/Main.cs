@@ -457,7 +457,6 @@ namespace NeptuneEvo
                     {
                         SafeMain.SafeCracker_Disconnect(player, type, reason);
                         VehicleManager.API_onPlayerDisconnected(player, type, reason);
-                        CarRoom.onPlayerDissonnectedHandler(player, type, reason);
                         DrivingSchool.onPlayerDisconnected(player, type, reason);
                         Rentcar.Event_OnPlayerDisconnected(player);
                     }
