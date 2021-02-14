@@ -331,7 +331,7 @@ INSERT INTO `businesses` (`id`, `owner`, `sellprice`, `type`, `products`, `enter
 	(104, 'Государство', '250000', '11', '[{"Price":100,"Lefts":47,"Autosell":0,"Name":"Маски","Ordered":false}]', '{"x":-1483.1567,"y":-226.71503,"z":48.879322}', '{"x":0.0,"y":0.0,"z":0.0}', '202414', '-1', '[]'),
 	(105, 'Государство', '250000', '15', '[{"Price":1200,"Lefts":996,"Autosell":1,"Name":"Удочка","Ordered":false},{"Price":110,"Lefts":941,"Autosell":1,"Name":"Наживка","Ordered":false}]', '{"x":-1654.8417,"y":-1036.9357,"z":12.032769}', '{"x":314.557373,"y":-1151.36816,"z":29.2919159}', '769338', '11', '[]'),
 	(106, 'Государство', '5000000', '16', '[{"Price":13,"Lefts":0,"Autosell":1,"Name":"Корюшка","Ordered":false},{"Price":16,"Lefts":0,"Autosell":1,"Name":"Кунджа","Ordered":false},{"Price":10,"Lefts":0,"Autosell":1,"Name":"Лосось","Ordered":false},{"Price":4,"Lefts":0,"Autosell":1,"Name":"Окунь","Ordered":false},{"Price":5,"Lefts":0,"Autosell":1,"Name":"Осётр","Ordered":false},{"Price":12,"Lefts":0,"Autosell":1,"Name":"Скат","Ordered":false},{"Price":18,"Lefts":0,"Autosell":1,"Name":"Тунец","Ordered":false},{"Price":5,"Lefts":0,"Autosell":1,"Name":"Угорь","Ordered":false},{"Price":15,"Lefts":0,"Autosell":1,"Name":"Чёрный амур","Ordered":false},{"Price":6,"Lefts":0,"Autosell":1,"Name":"Щука","Ordered":false}]', '{"x":1953.49231,"y":3842.458,"z":31.061697}', '{"x":0.0,"y":0.0,"z":0.0}', '815214', '-1', '[]'),
-	(107, 'Государство', '100000000', '17', '[{"Price":300,"Lefts":9999,"Autosell":0,"Name":"deluxo","Ordered":false}]', '{"x":-177.17743,"y":-1158.7092,"z":22.693691}', '{"x":-177.17743,"y":-1158.7092,"z":22.693691}', '0', '-1', '[]'),
+	(107, 'Государство', '100000000', '17', '[{"Price":300,"Lefts":9999,"Autosell":0,"Name":"deluxo","Ordered":false}]', '{"x":-177.17743,"y":-1158.7092,"z":22.693691}', '{"x":-177.17743,"y":-1158.7092,"z":22.693691}', '579845', '-1', '[]'),
 	(108, 'Государство', '4350000', '17', '[]', '{"x":624.62714,"y":235.42197,"z":99.57348}', '{"x":0.0,"y":0.0,"z":0.0}', '571387', '-1', '[]'),
 	(109, 'Государство', '4350000', '6', '[{"Price":720,"Lefts":0,"Autosell":5,"Name":"Pistol","Ordered":false},{"Price":900,"Lefts":0,"Autosell":5,"Name":"CombatPistol","Ordered":false},{"Price":12800,"Lefts":0,"Autosell":5,"Name":"Revolver","Ordered":false},{"Price":1440,"Lefts":0,"Autosell":5,"Name":"HeavyPistol","Ordered":false},{"Price":2880,"Lefts":0,"Autosell":5,"Name":"BullpupShotgun","Ordered":false},{"Price":3600,"Lefts":0,"Autosell":5,"Name":"CombatPDW","Ordered":false},{"Price":2160,"Lefts":0,"Autosell":5,"Name":"MachinePistol","Ordered":false},{"Price":4,"Lefts":0,"Autosell":5,"Name":"Патроны","Ordered":false}]', '{"x":624.62714,"y":235.42197,"z":99.57348}', '{"x":0.0,"y":0.0,"z":0.0}', '161494', '-1', '[]');
 /*!40000 ALTER TABLE `businesses` ENABLE KEYS */;
@@ -4000,6 +4000,7 @@ INSERT INTO `money` (`id`, `holder`, `balance`, `type`) VALUES
 	('572212', '', '0', '2'),
 	('578341', '', '0', '2'),
 	('579844', '', '0', '3'),
+	('579845', '', '0', '3'),
 	('580401', '', '0', '2'),
 	('580888', '', '0', '2'),
 	('586110', '', '0', '2'),
