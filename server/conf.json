@@ -1,11 +1,13 @@
 {
-	"maxplayers" : 100,
-	"name" : "RAGEMP.PRO (redage_v2)", 
-	"gamemode" : "freeroam", 
-	"stream-distance" : 500.0,
+	"name" : "RAGEMP.PRO (redage_v2)",
+	"url" : "https://ragemp.pro",
+	"voice-chat" : true,
+	"voice-chat-sample-rate": 48000,
+	"language": "ru",
+	"gamemode" : "roleplay", 
 	"announce" : false,
 	"csharp" : "enabled",
 	"port": 22005,
-	"voice-chat": true,
-	"voice-chat-sample-rate": 48000
+	"stream-distance" : 250.0,
+	"maxplayers" : 100
 }
