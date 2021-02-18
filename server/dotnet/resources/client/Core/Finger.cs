@@ -8,15 +8,9 @@ namespace NeptuneEvo.Core
     class Fingerpointing : Script
     {
         [RemoteEvent("fpsync.update")]
-        public void FingerSyncUpdate(Player client, float camPitch, float camHeading)
+        public static void FingerPoint(Player sender, float camPitch, float camHeading)
         {
-            NAPI.ClientEvent.TriggerClientEventInRange(client.Position, 100f, "fpsync.update", client.Value, camPitch, camHeading);
-        }
-        [RemoteEvent("pointingStop")]
-        public void FingerStop(Player client)
-        {
-            client.StopAnimation();
-            client.StopAnimation();
+            NAPI.ClientEvent.TriggerClientEventInRange(sender.Position, 100, "fpsync.update", sender.Handle, camPitch, camHeading);
         }
     }
 }
