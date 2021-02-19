@@ -170,7 +170,7 @@
 .donate .menuGood .btnbuy {
     position: relative;
     top: -3%;
-    left: 59%;
+    left: 45%;
     width: 18vh;
     height: 6vh;
     align-items: center;
@@ -262,7 +262,7 @@
 .donate .menuMoney .btnbuy {
     position: relative;
     top: -31%;
-    left: 59%;
+    left: 45%;
     width: 18vh;
     height: 6vh;
     align-items: center;
@@ -351,7 +351,7 @@
 .donate .menuVip .btnbuy {
     position: relative;
     top: -31%;
-    left: 59%;
+    left: 45%;
     width: 18vh;
     height: 6vh;
     align-items: center;
@@ -442,7 +442,7 @@
 .donate .menuOther .btnbuy {
     position: relative;
     top: -31%;
-    left: 59%;
+    left: 45%;
     width: 18vh;
     height: 6vh;
     align-items: center;
