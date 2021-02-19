@@ -1,13 +1,11 @@
 .auto{
     color: white;
     width: 300px;
-    height: 650px;
     text-align: center;
     position: absolute;
     right: 30px;
     top: 15px;
     background: #2f2f37;
-    /* border-radius: 10px; */
     overflow: hidden;
     display: -webkit-box;
     display: -webkit-flex;
@@ -53,7 +51,6 @@
 .auto .list div{
     width: 200px;
     padding: 10px;
-    /* margin-bottom: 10px; */
     margin-left: -1px;
     border-radius: 5px;
     font-weight: 700;
@@ -68,7 +65,6 @@
     margin-bottom: 5px;
     border-radius: 5px;
     position: relative;
-    /* height: 54px; */
     left: 2px;
     font-weight: 700;
     font-size: 14px;
@@ -82,10 +78,8 @@
     padding: 15px;
     width: 300px;
     font-size: 16pt;
-    /* background-color: #bf00005e; */
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    /* display: none; */
 }
 .auto .left-arrow{
     float: left;
@@ -114,7 +108,6 @@
 .auto .list1 span {
 	color: #fff;
 	width: 14px;
-	/* margin-left: 6px; */
 }
 .auto .items p {
     margin: 0;
@@ -136,14 +129,11 @@
 	color: white;
 	height: 383px;
 	width: 100%;
-	/* padding-top: 30px; */
 }
 .auto .btns{
     height: 120px;
-    padding-left: 20px;
-    display: contents;
+    display: inline-table;
     padding-right: 20px;
-    /* font-family: 'VinnytsiaSansReg'; */
     width: 100%;
 }
 .auto .btn{
@@ -154,16 +144,25 @@
     cursor: pointer;
 }
 .auto .buy{
-    border-color: #1e1e1e00;
+    margin: 0 auto;
+    border-color: #64c441;
     margin-bottom: 10px;
-    width: 120px;
+    width: 250px;
     font-size: 20px;
     background: #414352;
-    /* margin-left: 70px; */
+    position: relative;
+    color: #fff
+}
+.auto .exit{
+    margin: 0 auto;
+    border-color: #d9323d;
+    margin-bottom: 10px;
+    width: 250px;
+    font-size: 20px;
+    background: #414352;
     position: relative;
     color: #fff;
 }
-.auto .exit{border-color: #1e1e1e00;margin-bottom: 10px;width: 130px;font-size: 20px;background: #414352;position: relative;color: #fff;}
 .auto .buy:hover{background: #64c441;color:#fff;border-color:#ffffff00}
 .auto .exit:hover{background: #d9323d;color: #fff;border-color: #ffffff00;}
 
@@ -171,9 +170,7 @@
     height: 260px;
     margin: 0;
     padding: 0;
-    /* margin-left: -10px; */
     overflow-y: scroll;
-    /* background: rgb(166, 166, 166,0.1); */
     color: #333333;
     width: 300px;
     list-style-type: none;
@@ -181,7 +178,6 @@
 
 .auto ul li {
     padding: 0;
-    /* border-radius: 5px; */
     margin: 0;
     width: 100%;
 }
@@ -332,4 +328,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#30ff90', end
     margin-top: 10px;
     display: block;
 }
-.auto .testdrive { border-color: #ffdb00; margin-bottom: 10px; } .auto .testdrive:hover { background-color: #ffce00; }
+.auto .testdrive {
+    margin: 0 auto;
+    font-size: 20px;
+    border-color: #ffdb00;
+    margin-bottom: 10px;
+    width: 250px;
+ }
+ .auto .testdrive:hover{background: #ffdb00;color: #fff;border-color: #ffffff00;}
