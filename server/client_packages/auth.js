@@ -171,15 +171,6 @@ mp.events.add('spawn', function (data) {
     }
 });
 
-mp.events.add('buyNewSlot', function (data) {
-    if (new Date().getTime() - lastButSlots < 3000) {
-        mp.events.call('notify', 4, 9, "Слишком быстро", 3000);
-        return;
-    }
-	lastButSlots = new Date().getTime();
-	mp.events.callRemote('donate', 8, data);
-});
-
 // events from server
 mp.events.add('delCharSuccess', function (data) {
     auth.execute(`delchar(${data})`);

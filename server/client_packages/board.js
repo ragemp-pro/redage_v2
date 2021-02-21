@@ -20,8 +20,25 @@ mp.keys.bind(Keys.VK_ESCAPE, false, function() {
 });
 
 
+// DONATE //
 var reds = 0;
 var donateOpened = false;
+mp.keys.bind(0x78, false, function () { // F9
+    if (!global.loggedin) return;
+
+    if (global.menuCheck()) {
+        if (donateOpened) {
+            global.menuClose();
+            menu.execute(`donate.close()`);
+            donateOpened = false;
+        }
+	} else {
+        global.menuOpen();
+        donateOpened = true;
+        menu.execute(`donate.show(${reds})`);
+	}
+});
+
 mp.events.add("WheelsRun", () => {
     board.execute(`wheelrun();`);
 });

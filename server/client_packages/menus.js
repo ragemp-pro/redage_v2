@@ -1769,34 +1769,6 @@ mp.events.add('ib-open', (head, id) => {
 
     menu.execute(`infobox.set('${head}',${id})`);
 })
-// DONATE //
-var reds = 0;
-var donateOpened = false;
-mp.keys.bind(0x78, false, function () { // F9
-    if (!global.loggedin) return;
-
-    if (global.menuCheck()) {
-        if (donateOpened) {
-            global.menuClose();
-            menu.execute(`donate.close()`);
-            donateOpened = false;
-        }
-	} else {
-        global.menuOpen();
-        donateOpened = true;
-        menu.execute(`donate.show(${reds})`);
-	}
-});
-mp.events.add('donbuy', (id, data) => {
-	global.menuClose();
-	menu.execute(`donate.close()`);
-    mp.events.callRemote("donate", id, data);
-});
-mp.events.add('redset', (reds_) => {
-    reds = reds_;
-    if (menu != null)
-        menu.execute(`donate.balance=${reds}`);
-});
 // Help Menu //
 var helpMenuState = false;
 mp.keys.bind(0x79, false, function () { // F10
