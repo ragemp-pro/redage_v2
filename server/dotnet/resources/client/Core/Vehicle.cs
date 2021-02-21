@@ -355,8 +355,8 @@ namespace NeptuneEvo.Core
 
             string Number = GenerateNumber();
             Vehicles.Add(Number, data);
-            MySQL.Query("INSERT INTO `vehicles`(`number`, `holder`, `model`, `health`, `fuel`, `price`, `components`, `items`)" +
-                $" VALUES ('{Number}','{Holder}','{Model}',{Health},{Fuel},{Price},'{JsonConvert.SerializeObject(data.Components)}','{JsonConvert.SerializeObject(data.Items)}')");
+            MySQL.Query("INSERT INTO `vehicles`(`number`, `holder`, `model`, `health`, `fuel`, `price`, `components`, `items`, `keynum`, `dirt`)" +
+                $" VALUES ('{Number}','{Holder}','{Model}',{Health},{Fuel},{Price},'{JsonConvert.SerializeObject(data.Components)}','{JsonConvert.SerializeObject(data.Items)}',{data.KeyNum},{(byte)data.Dirt})");
             Log.Write("Created new vehicle with number: " + Number);
             return Number;
         }
