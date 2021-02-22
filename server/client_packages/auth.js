@@ -3,7 +3,7 @@ cam.pointAtCoord(-95, 19, 0);
 cam.setActive(true);
 mp.game.cam.renderScriptCams(true, false, 0, true, false);
 
-var respawn = mp.browsers["new"]('package://cef/respawn.html');
+var respawn;
 var auth = mp.browsers["new"]('package://cef/auth.html');
 auth.execute(`slots.server=${serverid};`);
 mp.gui.cursor.visible = true;
@@ -192,6 +192,7 @@ mp.events.add('spawnShow', function (data) {
         }
     }
     else {
+        respawn = mp.browsers["new"]('package://cef/respawn.html');
         respawn.execute(`set('${data}')`);
     }
 

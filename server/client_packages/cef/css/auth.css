@@ -82,7 +82,7 @@
 		position: absolute;
 		background: url('../img/bgshow.png');
 		box-shadow: inset 0 0 678px 586px rgba(29, 27, 40, 0.91);
-		background-size: 100% 100%;
+		background-size: cover;
 		width: 100%;
 		height: 100%;
 		top: 0;

@@ -1,135 +1,159 @@
-﻿* {
-    margin: 0;
+﻿@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
+*, *::before, *::after {
     padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
-.wraper {
+html, body {
+    height: 100%;
+}
+
+body { 
+    margin: 0;
+    line-height: 1; 
+    font-family: 'Montserrat', sans-serif;
+    background-image: url(../images/respawn/main-bg.png);
+    background-size: cover;
+    box-shadow: inset 0 0 678px 586px rgba(29, 27, 40, 0.91);
+}
+
+.bold {
+    font-weight: 700;
+}
+
+.flex-item:nth-child(2n) {
+    box-sizing: border-box;
+    margin: 0 75px;
+    margin-top: 50px;
+}
+
+#spawn-select {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
     display: flex;
-    min-height: -webkit-fill-available;
-}
-
-.box1, .box2, .box3 {
-    display: none;
+    align-items: center;
     justify-content: center;
-    align-items: center;
-    width: 100%;
 }
 
-.box1 {
-    background-image: url(../images/1st.png);
-    background-size: 100% 100%;
-}
-
-.box2 {
-    background-image: url(../images/2nd.png);
-    background-size: 100% 100%;
-    margin: 0 1px;
-}
-
-.box3 {
-    background-image: url(../images/3th.png);
-    background-size: 100% 100%;
-}
-
-.respawnOnExit, .respawnFraction, .respawnHome {
-    display: flex;
-    flex-direction: column;
-    /*justify-content: center;*/
-    align-items: center;
-    width: 81.75%;
-    height: 49.6%;
+.select-block {
+    width: 350px;
+    height: 600px;
+    background: #000;
     position: relative;
+    z-index: 2;
 }
 
-.text {
-    margin-top: 4.75%;
-    font-family: "UniNeueBook";
-    color: #ffffff;
-    font-size: 2.6vw;
-    line-height: 5.6vh;
-    text-align: center;
-}
-
-.respawnOnExit p span, .respawnFraction p span, .respawnHome p span {
-    font-family: "UniNeueBold";
-}
-
-.logoImages {
-    display: block;
-    width: 27.42%;
-}
-
-.textDescription {
-    font-family: "UniNeueRegular";
-    font-size: 1vw;
-    color: #ffffff;
-    margin-top: 4.7%;
-    text-align: center;
-}
-
-.button {
-    width: 71.5%;
-    height: 13.33%;
-    font-family: "UniNeueRegular";
-    font-size: 1vw;
-    color: #ffffff;
-    border: 2px solid #ffffff;
-    border-radius: 35px;
-    background: none;
-    margin-top: 60px;
-    transition: 0.5s;
-}
-
-    .button:hover {
-        box-shadow: 0 19px 50px rgba(134, 2, 2, 0.73);
-        background-color: #f13939;
-        border: 2px solid #f13939;
-    }
-
-.noBox2 {
-    /*display: flex;*/
-    display: none;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    background-image: url(../images/no2nd.png);
-    background-size: 100% 100%;
-    margin: 0 1px;
-}
-
-.noHome, .noFraction {
-    width: 81.75%;
-    height: 35.18%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-}
-
-.notext {
-    font-family: "UniNeueBook";
-    color: #c4c4c4;
-    font-size: 2vw;
-    line-height: 4vh;
-    text-align: center;
-}
-
-.noBox3 {
-    /*display: flex;*/
-    display: none;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    background-image: url(../images/no3th.png);
-    background-size: 100% 100%;
-}
-
-.noText span {
-    font-family: "UniNeueBold";
-}
-
-.lockImg {
-    height: 39.14%;
+.select-block::after {
+    content: "";
+    border-bottom: 5px solid #f13939;
+    width: 390px;
     position: absolute;
-    bottom: 0px;
+    bottom: -20px;
+    left: -20px;
+    -webkit-box-shadow: 0px 0px 17px 7px #860202ba;
+    -moz-box-shadow: 0px 0px 17px 7px #860202ba;
+    box-shadow: 0px 0px 17px 7px #860202ba;
+}
+
+.last {
+    background-image: url(../images/respawn/last-spawn.png);
+    background-position: center center;
+}
+
+.home {
+    background-image: url(../images/respawn/home-spawn.png);
+    background-position: center center;
+}
+
+.org {
+    background-image: url(../images/respawn/org-spawn.png);
+    background-position: center center;
+}
+
+.title-block {
+    background-color: #f13939;
+    padding: 20px 0;
+    position: absolute;
+    top: 40%;
+    left: 5%;
+    width: 90%;
+    transform: rotate(356deg);
+}
+
+.title-block .title-text > span {
+    display: block;
+    text-align: center;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+
+.title-block .title-text > span:first-child {
+    font-size: 32px;
+    font-family: 'Russo One', sans-serif;
+}
+
+.button-block {
+    position: absolute;
+    bottom: 10%;
+    width: 100%;
+    text-align: center;
+}
+
+.button-block button {
+	font-family: 'Montserrat', sans-serif;
+    border: 0;
+    padding: 10px 55px;
+    color: #fff;
+    border-radius: 5px;
+    background: #f13939;
+    text-transform: uppercase;
+    -webkit-box-shadow: 0px 0px 17px 7px #860202ba;
+    -moz-box-shadow: 0px 0px 17px 7px #860202ba;
+    box-shadow: 0px 0px 17px 7px #860202ba;
+}
+
+.button-block button:hover {
+    color: #FFF;
+    background: rgba(149, 150, 153, 0.6);
+    -webkit-box-shadow: 0px 0px 17px 7px rgba(160, 153, 147, 0.5);
+    -moz-box-shadow: 0px 0px 17px 7px rgba(160, 153, 147, 0.5);
+    box-shadow: 0px 0px 17px 7px rgba(160, 153, 147, 0.5);
+}
+
+.button-block button[disabled]:active,
+.button-block button[disabled]:hover,
+.button-block button[disabled]{
+	cursor: not-allowed;
+	pointer-events: none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	color: #ffffff;
+
+}
+
+.disabled {
+	filter: grayscale(100%);
+}
+
+#footer {
+    opacity: 0.5;
+    text-align: center;
+    position: fixed;
+    left: 0; bottom: 0;
+    padding: 10px;
+    color: #fff;
+    width: 100%;
 }
