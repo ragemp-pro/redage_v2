@@ -64,16 +64,15 @@ function wheelrun(){
 						setTimeout(function(){
                             $("body").find('.prize').fadeIn();
 						},12000);
-                        $("body").one("click", ".yes", () => {
-							
+                        $( ".yes" ).click(function() {
                             $("body").find('.prize').remove();
                             $("body").find('.content').children().removeClass('animate');
                             $("body").find('.content').children().addClass('animate1');
                             $("body").find('.modal-wrap').fadeOut();
-                            mp.trigger("wheelAdd", index,true);
+							mp.trigger("wheelAdd", index,true);
 
                         });
-                        $("body").one("click", ".send", () => {
+                        $( ".send" ).click(function() {
                             $("body").find('.content').children().removeClass('animate');
                             $("body").find('.content').children().addClass('animate1');
                             $("body").find('.modal-wrap').fadeOut();
