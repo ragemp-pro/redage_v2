@@ -427,7 +427,7 @@ var categoryPositions = [
 ];
 var categoryIds = {
     "muffler_menu": 0,
-    "sideskirt_menu": 1,
+    "sides_menu": 1,
     "hood_menu": 2,
     "spoiler_menu": 3,
     "lattice_menu": 4,
@@ -450,7 +450,7 @@ var categoryIds = {
 };
 var categoryModsIds = {
     "muffler_menu": 4,
-    "sideskirt_menu": 3,
+    "sides_menu": 3,
     "hood_menu": 7,
     "spoiler_menu": 0,
     "lattice_menu": 6,
@@ -470,7 +470,7 @@ var categoryModsIds = {
 };
 var categoryMods = [
     { Name: "muffler_menu", Index: 4 },
-    { Name: "sideskirt_menu", Index: 3 },
+    { Name: "sides_menu", Index: 3 },
     { Name: "hood_menu", Index: 7 },
     { Name: "spoiler_menu", Index: 0 },
     { Name: "lattice_menu", Index: 6 },
@@ -511,7 +511,7 @@ mp.events.add('openTun', (priceModief, carModel, modelPriceModief, components, v
 
     if (vehclass == 8) {
         isBike = true;
-        toDisable = ["armor_menu", "protection_menu", "muffler_menu", "sideskirt_menu", "hood_menu", "spoiler_menu", "lattice_menu", "wings_menu", "roof_menu", "flame_menu", "bamper_menu", "turbo_menu", "transmission_menu", "suspention_menu", "horn_menu", "wheels_menu", "glasses_menu", "paint_menu_three"];
+        toDisable = ["armor_menu", "protection_menu", "muffler_menu", "sides_menu", "hood_menu", "spoiler_menu", "lattice_menu", "wings_menu", "roof_menu", "flame_menu", "bamper_menu", "turbo_menu", "transmission_menu", "suspention_menu", "horn_menu", "wheels_menu", "glasses_menu", "paint_menu_three"];
     }
 
     lsc.execute(`disable(${JSON.stringify(toDisable)});`);
