@@ -3799,6 +3799,16 @@ namespace NeptuneEvo.Core
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
 
+        [Command("respawn")]
+        public static void CMD_respawnFracCars(Player player)
+        {
+            try
+            {
+                Fractions.FractionCommands.respawnFractionCars(player);
+            }
+            catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
+        }
+
         [Command("givemedlic")]
         public static void CMD_givemedlic(Player player, int id)
         {
