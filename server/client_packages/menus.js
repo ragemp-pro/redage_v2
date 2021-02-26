@@ -520,6 +520,7 @@ mp.events.add('armyguns', () => {
         "Пистолетный калибр x12",
         "Автоматный калибр x30",
         "SMG калибр x100",
+        "Сух.паёк (MRE)",
     ];
     openSM(7, JSON.stringify(data));
 });

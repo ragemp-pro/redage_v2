@@ -159,6 +159,8 @@ namespace Redage.SDK
         //Farmer Jobs Items
         Hay = 234,
         Seed = 235,
+
+        Payek = 556, // Сух.Паек
     }
 
     public class nItem

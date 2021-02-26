@@ -132,6 +132,22 @@ namespace NeptuneEvo.Fractions
                         if (!Manager.canGetWeapon(client, "SMGAmmo")) return;
                         Fractions.Manager.giveAmmo(client, ItemType.SMGAmmo, 100);
                         return;
+                    case 8: //Payek
+                        var tryAdd = nInventory.TryAdd(client, new nItem(ItemType.Payek));
+                        if (tryAdd == 2 || tryAdd > 0)
+                        {
+                            Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "У Вас уже есть 2 Сух.Пайка", 3000);
+                            return;
+                        }
+                        if (Fractions.Stocks.fracStocks[14].Materials > Fractions.Manager.matsForPayek)
+                        {
+                            nInventory.Add(client, new nItem(ItemType.Payek));
+                            Fractions.Stocks.fracStocks[14].Materials -= Fractions.Manager.matsForPayek;
+                            Fractions.Stocks.fracStocks[14].UpdateLabel();
+                            GameLog.Stock(Main.Players[client].FractionID, Main.Players[client].UUID, "payek", 1, false);
+                            Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы получили Армейский Сух.Паёк", 3000);
+                        }
+                        return;
                 }
             }
             catch (Exception e) { Log.Write("ArmyGun: " + e.Message, nLog.Type.Error); }

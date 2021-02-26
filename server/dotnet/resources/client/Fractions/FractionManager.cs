@@ -104,6 +104,7 @@ namespace NeptuneEvo.Fractions
 
         };
         public static int matsForArmor = 250;
+        public static int matsForPayek = 50;
         private static List<List<string>> gangGuns = new List<List<string>>
         {
             new List<string>

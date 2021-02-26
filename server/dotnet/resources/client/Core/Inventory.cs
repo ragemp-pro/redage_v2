@@ -158,6 +158,8 @@ namespace NeptuneEvo.Core
 
             {234, "Урожай" },
             {235, "Семена" },
+
+            {556, "Сух.Паёк" },
         };
         public static Dictionary<int, string> ItemsDescriptions = new Dictionary<int, string>();
         public static Dictionary<ItemType, uint> ItemModels = new Dictionary<ItemType, uint>()
@@ -307,6 +309,8 @@ namespace NeptuneEvo.Core
             //Farmer Job Items
             { ItemType.Hay, NAPI.Util.GetHashKey("prop_haybale_01") },
             { ItemType.Seed, NAPI.Util.GetHashKey("ch_prop_ch_moneybag_01a") },
+
+            { ItemType.Payek, NAPI.Util.GetHashKey("prop_ff_noodle_02") },
         };
 
         public static Dictionary<ItemType, Vector3> ItemsPosOffset = new Dictionary<ItemType, Vector3>()
@@ -456,6 +460,8 @@ namespace NeptuneEvo.Core
             //Farmer Job Items
             { ItemType.Hay, new Vector3(0, 0, -0.99) },
             { ItemType.Seed, new Vector3(0, 0, -0.99) },
+
+            { ItemType.Payek, new Vector3(0, 0, -1) },
         };
         public static Dictionary<ItemType, Vector3> ItemsRotOffset = new Dictionary<ItemType, Vector3>()
         {
@@ -604,6 +610,8 @@ namespace NeptuneEvo.Core
             //Farmer Job Items
             { ItemType.Hay, new Vector3(0, 0, 0) },
             { ItemType.Seed, new Vector3(0, 0, 0) },
+
+            { ItemType.Payek, new Vector3() },
         };
 
         public static Dictionary<ItemType, int> ItemsStacks = new Dictionary<ItemType, int>()
@@ -758,6 +766,8 @@ namespace NeptuneEvo.Core
             //Farmer Job Items
             { ItemType.Hay, 60 }, //60 урожая всего в инвентаре
             { ItemType.Seed, 100 }, //100 семян всего в инвентаре (максимум)
+
+            { ItemType.Payek, 2 },
         };
 
         public static List<ItemType> ClothesItems = new List<ItemType>()
@@ -2089,6 +2099,33 @@ namespace NeptuneEvo.Core
                         }
 
                         Commands.RPChat("me", player, $"открыл(а) подарок {types.Item1} + {types.Item2}");
+                        break;
+                    case ItemType.Payek:
+                        if (player.VehicleSeat == 0)
+                        {
+                            Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы не можете сьесть Сух.Паёк находясь за рулем.", 3000);
+                            return;
+                        }
+                        if (!player.HasData("USE_MEDKIT") || DateTime.Now > player.GetData<DateTime>("USE_MEDKIT"))
+                        {
+                            EatManager.SetEat(player, 100);
+                            EatManager.SetWater(player, 100);
+                            NAPI.Task.Run(() => {
+                                try
+                                {
+                                    if (player == null) return;
+                                    else player.SetData("ToResetAnimPhone", true);
+                                    Trigger.ClientEvent(player, "stopScreenEffect", "PPFilter");
+                                }
+                                catch { }
+                            }, 5000);
+                            Commands.RPChat("me", player, $"сьел(а) Сух.Паёк");
+                        }
+                        else
+                        {
+                            Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Попробуйте использовать позже", 3000);
+                            return;
+                        }
                         break;
                 }
                 nInventory.Remove(player, item.Type, 1);
