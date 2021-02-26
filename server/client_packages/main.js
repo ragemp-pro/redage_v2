@@ -434,14 +434,18 @@ mp.events.add('render', () => {
 
     if (deathTimerOn) {
         var secondsLeft = Math.trunc((deathTimer - new Date().getTime()) / 1000);
-        var minutes = Math.trunc(secondsLeft / 60);
-        var seconds = secondsLeft % 60;
-        mp.game.graphics.drawText(`До смерти осталось ${minutes}:${seconds}`, [0.5, 0.8], {
-            font: 0,
-            color: [255, 255, 255, 200],
-            scale: [0.35, 0.35],
-            outline: true
-        });
+        if(secondsLeft)
+        {
+            var minutes = Math.trunc(secondsLeft / 60);
+            var seconds = secondsLeft % 60;
+            mp.game.graphics.drawText(`До смерти осталось ${('0'+minutes).slice(-2)}:${('0'+seconds).slice(-2)}`, [0.5, 0.8], {
+                font: 0,
+                color: [255, 255, 255, 200],
+                scale: [0.35, 0.35],
+                outline: true
+            });
+        }
+        else deathTimerOn = false;
     }
 
     if (mp.game.controls.isControlPressed(0, 32) || 
