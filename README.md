@@ -3,7 +3,7 @@
 
 ![Логотип](https://ragemp.pro/data/covers/resource/l/0/112.jpg?1612368792)
 
-Сборка на основе оригинального NeptuneEvo. Версия RAGE Multiuplayer 1.1.
+Сборка на основе оригинального NeptuneEvo. Версия RAGE Multiuplayer 1.1.  
 Продолжение работы над слитой сборкой - [RAGEMP.PRO V2.3.4 (RAGE:MP 1.1)](https://ragemp.pro/resources/gotovaja-sborka-redage-rp-v2-0-rage-mp-1-1.63/)
 
 [Посмотреть историю обновлений](https://ragemp.pro/resources/mesjachnaja-podderzhka-obnovlenija-dlja-sborki-redage-rp-v2-0-rage-mp-1-1-30-dnej.112/updates)
