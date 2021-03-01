@@ -26,8 +26,8 @@ namespace NeptuneEvo
     public class Main : Script
     { 
         public static string Codename { get; } = "redage_v2";
-        public static string Version { get; } = "2.4.2";
-        public static string Build { get; } = "1080";
+        public static string Version { get; } = "2.4.3";
+        public static string Build { get; } = "2103";
         // // // //
         public static string Full { get; } = $"{Codename} {Version} {Build}";
         public static DateTime StartDate { get; } = DateTime.Now;
@@ -2056,12 +2056,15 @@ namespace NeptuneEvo
                     case 81:
                         Fractions.LSNews.interactPressed(player, id);
                         return;
+                    #region MerryWeather
                     case 82:
-                    case 83:
-                    case 84:
                     case 85:
+                    case 105:
+                    case 106:
+                    case 107:
                         Fractions.Merryweather.interactPressed(player, id);
                         return;
+                    #endregion
                     case 500:
                         if(!Players[player].Achievements[0]) {
                             Players[player].Achievements[0] = true;
