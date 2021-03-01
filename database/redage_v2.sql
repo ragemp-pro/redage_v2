@@ -534,7 +534,7 @@ CREATE TABLE IF NOT EXISTS `fractionranks` (
   `clothesm` text NOT NULL,
   `clothesf` text NOT NULL,
   PRIMARY KEY (`idkey`)
-) ENGINE=InnoDB AUTO_INCREMENT=327 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=326 DEFAULT CHARSET=utf8mb4;
 
 -- Дамп данных таблицы redage_v2.fractionranks: ~242 rows (приблизительно)
 /*!40000 ALTER TABLE `fractionranks` DISABLE KEYS */;
@@ -749,38 +749,37 @@ INSERT INTO `fractionranks` (`idkey`, `fraction`, `rank`, `payday`, `name`, `clo
 	(292, 16, 15, 1500, 'rank_15', 'police_1', 'police_1'),
 	(293, 16, 16, 1600, 'rank_16', 'police_1', 'police_1'),
 	(294, 16, 17, 1700, 'rank_17', 'police_1', 'police_1'),
-	(295, 17, 0, 0, 'rank_0', 'police_1', 'police_1'),
-	(296, 17, 1, 100, 'rank_1', 'police_1', 'police_1'),
-	(297, 17, 2, 200, 'rank_2', 'police_1', 'police_1'),
-	(298, 17, 3, 300, 'rank_3', 'police_1', 'police_1'),
-	(299, 17, 4, 400, 'rank_4', 'police_1', 'police_1'),
-	(300, 17, 5, 500, 'rank_5', 'police_1', 'police_1'),
-	(301, 17, 6, 600, 'rank_6', 'police_1', 'police_1'),
-	(302, 17, 7, 700, 'rank_7', 'police_1', 'police_1'),
-	(303, 17, 8, 800, 'rank_8', 'police_1', 'police_1'),
-	(304, 17, 9, 900, 'rank_9', 'police_1', 'police_1'),
-	(305, 17, 10, 1000, 'rank_10', 'police_1', 'police_1'),
-	(306, 17, 11, 1100, 'rank_11', 'police_1', 'police_1'),
-	(307, 17, 12, 1200, 'rank_12', 'police_1', 'police_1'),
-	(308, 17, 13, 1300, 'rank_13', 'police_1', 'police_1'),
-	(309, 17, 14, 1400, 'rank_14', 'police_1', 'police_1'),
-	(310, 17, 15, 1500, 'rank_15', 'police_1', 'police_1'),
-	(311, 17, 16, 1600, 'rank_16', 'police_1', 'police_1'),
-	(312, 17, 17, 1700, 'rank_17', 'police_1', 'police_1'),
-	(313, 18, 1, 300, 'Кадет', 'sheriff_1', 'sheriff_1'),
-	(314, 18, 2, 400, 'Стёпка 2 уровня', 'sheriff_1', 'sheriff_1'),
-	(315, 18, 3, 500, 'Стёпка 3 уровня', 'sheriff_2', 'sheriff_2'),
-	(316, 18, 4, 600, 'Стёпка 4 уровня', 'sheriff_2', 'sheriff_2'),
-	(317, 18, 5, 700, 'Стёпка 5 уровня', 'sheriff_3', 'sheriff_3'),
-	(318, 18, 6, 800, 'Стёпка 6 уровня', 'sheriff_4', 'sheriff_4'),
-	(319, 18, 7, 900, 'Стёпка 7 уровня', 'sheriff_4', 'sheriff_4'),
-	(320, 18, 8, 1000, 'Стёпка 8 уровня', 'sheriff_4', 'sheriff_4'),
-	(321, 18, 9, 1100, 'Стёпка 9 уровня', 'sheriff_5', 'sheriff_5'),
-	(322, 18, 10, 1200, 'Стёпка 10 уровня', 'sheriff_6', 'sheriff_6'),
-	(323, 18, 11, 1300, 'Стёпка 11 уровня', 'sheriff_7', 'sheriff_7'),
-	(324, 18, 12, 1500, 'Стёпка 12 уровня', 'sheriff_8', 'sheriff_8'),
-	(325, 18, 13, 3000, 'Стёпка 13 уровня', 'sheriff_8', 'sheriff_8'),
-	(326, 18, 14, 6600, 'Стёпка 14 уровня', 'sheriff_8', 'sheriff_8');
+	(295, 17, 1, 500, 'Grunt', 'police_1', 'police_1'),
+	(296, 17, 2, 700, 'Snuffy', 'police_1', 'police_1'),
+	(297, 17, 3, 900, 'Intern', 'police_1', 'police_1'),
+	(298, 17, 4, 1100, 'Employee', 'police_1', 'police_1'),
+	(299, 5, 1300, 'Junior Operative', 'police_1', 'police_1'),
+	(300, 6, 1500, 'Operative', 'police_1', 'police_1'),
+	(301, 17, 7, 1700, 'Senior Operative', 'police_1', 'police_1'),
+	(302, 17, 8, 1900, 'Deputy Skipper ', 'police_1', 'police_1'),
+	(303, 17, 9, 2100, 'Skipper ', 'police_1', 'police_1'),
+	(304, 17, 10, 2300, 'Junior Specialist', 'police_1', 'police_1'),
+	(305, 17, 11, 2500, 'Specialist', 'police_1', 'police_1'),
+	(306, 17, 12, 2700, 'Sigma Commander', 'police_1', 'police_1'),
+	(307, 17, 13, 2900, 'Delta Commander', 'police_1', 'police_1'),
+	(308, 17, 14, 3100, 'Deputy Head', 'police_1', 'police_1'),
+	(309, 17, 15, 3300, 'Department Head', 'police_1', 'police_1'),
+	(310, 17, 16, 3500, 'Deputy Director', 'police_1', 'police_1'),
+	(311, 17, 17, 3700, 'Director', 'police_1', 'police_1'),
+	(312, 18, 1, 300, 'Кадет', 'sheriff_1', 'sheriff_1'),
+	(313, 18, 2, 400, 'Стёпка 2 уровня', 'sheriff_1', 'sheriff_1'),
+	(314, 18, 3, 500, 'Стёпка 3 уровня', 'sheriff_2', 'sheriff_2'),
+	(315, 18, 4, 600, 'Стёпка 4 уровня', 'sheriff_2', 'sheriff_2'),
+	(316, 18, 5, 700, 'Стёпка 5 уровня', 'sheriff_3', 'sheriff_3'),
+	(317, 18, 6, 800, 'Стёпка 6 уровня', 'sheriff_4', 'sheriff_4'),
+	(318, 18, 7, 900, 'Стёпка 7 уровня', 'sheriff_4', 'sheriff_4'),
+	(319, 18, 8, 1000, 'Стёпка 8 уровня', 'sheriff_4', 'sheriff_4'),
+	(320, 18, 9, 1100, 'Стёпка 9 уровня', 'sheriff_5', 'sheriff_5'),
+	(321, 18, 10, 1200, 'Стёпка 10 уровня', 'sheriff_6', 'sheriff_6'),
+	(322, 18, 11, 1300, 'Стёпка 11 уровня', 'sheriff_7', 'sheriff_7'),
+	(323, 18, 12, 1500, 'Стёпка 12 уровня', 'sheriff_8', 'sheriff_8'),
+	(324, 18, 13, 3000, 'Стёпка 13 уровня', 'sheriff_8', 'sheriff_8'),
+	(325, 18, 14, 6600, 'Стёпка 14 уровня', 'sheriff_8', 'sheriff_8');
 /*!40000 ALTER TABLE `fractionranks` ENABLE KEYS */;
 
 -- Дамп структуры для таблица redage_v2.fractions
@@ -817,7 +816,7 @@ INSERT INTO `fractions` (`id`, `drugs`, `money`, `mats`, `medkits`, `lastserial`
 	(14, 0, 1, 97494, 0, '162', '[]', 1, 10000, 10000),
 	(15, 0, 1, 1, 100, '4', '[{"Data":null,"ID":0,"Type":0,"Count":0,"IsActive":false}]', 1, 1000, 0),
 	(16, 0, 1, 1, 10, '4', '[{"Data":null,"ID":0,"Type":0,"Count":0,"IsActive":false}]', 1, 0, 0),
-	(17, 0, 1, 1, 100, '4', '[{"Data":null,"ID":0,"Type":0,"Count":0,"IsActive":false}]', 1, 0, 0),
+	(17, 0, 1, 10000, 100, '4', '[{"Data":null,"ID":0,"Type":0,"Count":0,"IsActive":false}]', 1, 0, 0),
 	(18, 0, 0, 10000, 0, '18', '[]', 1, 200, 200);
 /*!40000 ALTER TABLE `fractions` ENABLE KEYS */;
 

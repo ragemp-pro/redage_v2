@@ -154,6 +154,17 @@ function openArmygun(data) {
     });
     menu.self.children('.buttons').children('#btn3').css('display', 'inline-block');
 }
+function openMWgun(data) {
+    menu.reset();
+    menu.self.attr('id', 'mw');
+    menu.self.children('h1').html("Выдача оружия");
+    var json = JSON.parse(data);
+    json.forEach(function (item, i, arr) {
+        // name, additional
+        menu.add(i, 2, item);
+    });
+    menu.self.children('.buttons').children('#btn3').css('display', 'inline-block');
+}
 function openGov(data) {
     menu.reset();
     menu.self.attr('id', 'gov');

@@ -392,6 +392,7 @@ function openSM(type, data) {
         case 9: menu.execute(`openMafia('${data}');`); break;
         case 10: menu.execute(`openFishShop('${data}');`); break;
         case 11: menu.execute(`openSheriff('${data}');`); break;
+        case 12: menu.execute(`openMWgun('${data}');`); break;
     }
     global.menuOpen()
 }
@@ -443,6 +444,9 @@ mp.events.add('menu', (action, data) => {
             break;
         case "sheriff":
             mp.events.callRemote('sheriffgun', data);
+           break;
+        case "mw":
+            mp.events.callRemote('merygun', data);
            break;
     }
 });
@@ -523,6 +527,14 @@ mp.events.add('armyguns', () => {
         "Сух.паёк (MRE)",
     ];
     openSM(7, JSON.stringify(data));
+});
+mp.events.add('meryg', () => {
+    let data = [
+        "Дубинка",
+        "Пистолет",
+        "Снайперская винтовка",
+    ];
+    openSM(12, JSON.stringify(data));
 });
 mp.events.add('mavrshop', () => {
     let data = [
