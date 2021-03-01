@@ -160,7 +160,7 @@ namespace NeptuneEvo.Core
                 cmd.Parameters.AddWithValue("@pn", player.Name);
                 cmd.Parameters.AddWithValue("@q", question);
                 cmd.Parameters.AddWithValue("@time", MySQL.ConvertTime(DateTime.Now));
-                cmd.Parameters.AddWithValue("@ntime",MySQL.ConvertTime(DateTime.MinValue));
+                cmd.Parameters.AddWithValue("@ntime", MySQL.ConvertTime(DateTime.MinValue));
 
                 DataTable dt = MySQL.QueryRead(cmd);
 
@@ -178,6 +178,11 @@ namespace NeptuneEvo.Core
                 };
                 report.Send();
                 Reports.Add(id, report);
+                foreach (Player p in Main.Players.Keys.ToList())
+                {
+                    if (!Main.Players.ContainsKey(p)) continue;
+                    if (Main.Players[p].AdminLVL >= 1) p.SendChatMessage($"~r~Репорт от {player.Name.Replace('_', ' ')} (ID {player.Value}): {question}");
+                }
             }
             catch (Exception e)
             {
