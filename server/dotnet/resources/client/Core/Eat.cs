@@ -32,6 +32,10 @@ namespace NeptuneEvo.Core
             {
                 Main.Players[player].Eat = 100;
             }
+            else if(Main.Players[player].Eat + change < 0)
+            {
+                Main.Players[player].Eat = 0;
+            }
             else
             {
                 Main.Players[player].Eat += change;
@@ -52,6 +56,10 @@ namespace NeptuneEvo.Core
             if (Main.Players[player].Water + change > 100)
             {
                 Main.Players[player].Water = 100;
+            }
+            else if (Main.Players[player].Water + change < 0)
+            {
+                Main.Players[player].Water = 0;
             }
             else
             {
