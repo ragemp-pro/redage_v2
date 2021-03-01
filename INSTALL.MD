@@ -16,3 +16,6 @@
 Скомпилированные файлы сервера находятся тут - **redage_v2\server\dotnet\resources\client\bin\x64\Debug\netcoreapp3.1**  
 Архив dlcpacks - https://drive.google.com/file/d/1vavjgG_jBOrtkOZ0yiiDQxJH46V8HOCH/view?usp=sharing  
 (содержимое скопировать по пути - **redage_v2\server\client_packages\game_resources\dlcpacks**)
+
+Видео:  
+[![REDAGE V2.4 INSTALL](https://img.youtube.com/vi/RPsyAkdOMvg/0.jpg)](https://www.youtube.com/watch?v=RPsyAkdOMvg)
