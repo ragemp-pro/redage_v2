@@ -2706,6 +2706,7 @@ namespace NeptuneEvo
             foreach (Player p in Players.Keys.ToList())
             {
                 if (!Players.ContainsKey(p)) continue;
+                if (!LoggedIn.ContainsKey(Accounts[p].Login)) continue;
 
                 NAPI.Task.Run(() =>
                 {
