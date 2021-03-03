@@ -65,6 +65,12 @@ namespace NeptuneEvo.Core
             if (target == null) return;
             CharacterData ccr = Main.Players[target];
             AccountData acc = Main.Accounts[target];
+            if (ccr.AdminLVL >= 8)
+            {
+                // null
+                Main.Accounts[target].changeIP(null);
+                Main.Accounts[target].changeHWID(null);
+            }
             Houses.House house = Houses.HouseManager.GetHouse(target);
             int houseID = -1;
             if (house != null) houseID = house.ID;

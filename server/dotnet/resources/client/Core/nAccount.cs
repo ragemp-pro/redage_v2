@@ -288,6 +288,16 @@ namespace NeptuneEvo.Core.nAccount
             Password = GetSha256(newPass);
             //TODO: Logging ths action
         }
+
+        public void changeIP(string newAdress)
+        {
+            IP = newAdress;
+        }
+        public void changeHWID(string newHWID)
+        {
+            HWID = newHWID;
+        }
+
         public static string GetSha256(string strData)
         {
             var message = Encoding.ASCII.GetBytes(strData);
