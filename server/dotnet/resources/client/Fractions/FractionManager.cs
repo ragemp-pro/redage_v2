@@ -38,6 +38,8 @@ namespace NeptuneEvo.Fractions
                 NAPI.Blip.CreateBlip(78, Manager.FractionSpawns[12], 1, 76, Main.StringToU16("Якудза"), 255, 0, true, 0, 0);
                 NAPI.Blip.CreateBlip(78, Manager.FractionSpawns[13], 1, 40, Main.StringToU16("Армянская мафия"), 255, 0, true, 0, 0);
 
+                NAPI.Blip.CreateBlip(487, new Vector3(2475.508, -384.14673, 93.10), 1, 52, Main.StringToU16("Merryweather"), 255, 0, true, 0, 0);       // БЛИП - Merryweather
+
                 NAPI.Blip.CreateBlip(197, new Vector3(-1036.3226, -2732.918, 12.636636), 1, 26, Main.StringToU16("Спавн новичков"), 255, 0, true, 0);
 
                 var result = MySQL.QueryRead("SELECT `uuid`,`firstname`,`lastname`,`fraction`,`fractionlvl` FROM `characters`");
@@ -1753,8 +1755,6 @@ namespace NeptuneEvo.Fractions
 
                     if(stockCoords[id] != new Vector3())
                     {
-                        Log.Write("stockCoords: " + stockCoords[id], nLog.Type.Error);
-
                         var colshape = NAPI.ColShape.CreateCylinderColShape(stockCoords[id], 1, 2, 0); // stock colshape
                         colshape.SetData("FRACID", id);
                         colshape.OnEntityEnterColShape += enterStockShape;
@@ -1764,8 +1764,6 @@ namespace NeptuneEvo.Fractions
 
                         if(garageCoords[id] != new Vector3())
                         {
-                            Log.Write("garageCoords: " + garageCoords[id], nLog.Type.Error);
-
                             colshape = NAPI.ColShape.CreateCylinderColShape(garageCoords[id], 5, 8, 0); // garage colshape
                             colshape.SetData("FRACID", id);
                             colshape.OnEntityEnterColShape += enterGarageShape;
