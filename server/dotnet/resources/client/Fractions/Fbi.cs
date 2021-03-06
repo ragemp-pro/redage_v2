@@ -22,7 +22,7 @@ namespace NeptuneEvo.Fractions
             new Vector3(-1561.171, -568.5499, 113.3084), // roof          4
             new Vector3(118.9617, -729.1614, 241.152), // gun menu           5
             new Vector3(136.0578, -761.8408, 44.75204), // 1 floor        6
-            new Vector3(-1538.791, -576.0259, 24.66784), // garage       7
+            new Vector3(134.48962, -697.6634, 32.085087), // garage       7
             new Vector3(120.0081, -726.7838, 241.032),  // warg mode    8
             new Vector3(151.8786, -736.7075, 241.032), // fbi stock     9
         };
