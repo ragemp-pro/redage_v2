@@ -1699,7 +1699,7 @@ namespace NeptuneEvo.Fractions
             { 14, new Vector3(-2455.718, 2984.414, 31.81033)},
             { 15, new Vector3()},
             { 16, new Vector3()},
-            { 17, new Vector3()}, // TODO:
+            { 17, new Vector3(2496.192, -325.92456, 91.87281)},
             { 18, new Vector3(-447.6798, 5993.688, 29.22054)}, // Sheriff 
         };
         public static Dictionary<string, int> maxMats = new Dictionary<string, int>()
@@ -1739,27 +1739,40 @@ namespace NeptuneEvo.Fractions
                     #region label Creating
                     if (garageCoords.ContainsKey(id))
                     {
-                        data.label = NAPI.TextLabel.CreateTextLabel("~b~", garageCoords[id] + new Vector3(0, 0, 1.5), 10f, 0.4f, 0, new Color(255, 255, 255), true);
-                        if (id == 14) data.maxMats = 250000;
-                        else data.maxMats = 50000;
-                        data.UpdateLabel();
+                        if (garageCoords[id] != new Vector3())
+                        {
+                            data.label = NAPI.TextLabel.CreateTextLabel("~b~", garageCoords[id] + new Vector3(0, 0, 1.5), 10f, 0.4f, 0, new Color(255, 255, 255), true);
+                            if (id == 14) data.maxMats = 250000;
+                            else data.maxMats = 50000;
+                            data.UpdateLabel();
+                        }
                     }
-
                     #endregion
+
                     fracStocks.Add(id, data);
 
-                    var colshape = NAPI.ColShape.CreateCylinderColShape(stockCoords[id], 1, 2, 0); // stock colshape
-                    colshape.SetData("FRACID", id);
-                    colshape.OnEntityEnterColShape += enterStockShape;
-                    colshape.OnEntityExitColShape += exitStockShape;
-                    NAPI.Marker.CreateMarker(1, stockCoords[id] - new Vector3(0, 0, 0.7), new Vector3(), new Vector3(), 1f, new Color(227, 252, 252, 220));
-                    NAPI.TextLabel.CreateTextLabel(Main.StringToU16($"~b~Склад {Manager.getName(id)}"), new Vector3(stockCoords[id].X, stockCoords[id].Y, stockCoords[id].Z + 0.6), 5F, 0.5F, 0, new Color(227, 252, 252));
+                    if(stockCoords[id] != new Vector3())
+                    {
+                        Log.Write("stockCoords: " + stockCoords[id], nLog.Type.Error);
 
-                    colshape = NAPI.ColShape.CreateCylinderColShape(garageCoords[id], 5, 8, 0); // garage colshape
-                    colshape.SetData("FRACID", id);
-                    colshape.OnEntityEnterColShape += enterGarageShape;
-                    colshape.OnEntityExitColShape += exitGarageShape;
-                    NAPI.Marker.CreateMarker(1, garageCoords[id], new Vector3(), new Vector3(), 3f, new Color(227, 252, 252));
+                        var colshape = NAPI.ColShape.CreateCylinderColShape(stockCoords[id], 1, 2, 0); // stock colshape
+                        colshape.SetData("FRACID", id);
+                        colshape.OnEntityEnterColShape += enterStockShape;
+                        colshape.OnEntityExitColShape += exitStockShape;
+                        NAPI.Marker.CreateMarker(1, stockCoords[id] - new Vector3(0, 0, 0.7), new Vector3(), new Vector3(), 1f, new Color(227, 252, 252, 220));
+                        NAPI.TextLabel.CreateTextLabel(Main.StringToU16($"~b~Склад {Manager.getName(id)}"), new Vector3(stockCoords[id].X, stockCoords[id].Y, stockCoords[id].Z + 0.6), 5F, 0.5F, 0, new Color(227, 252, 252));
+
+                        if(garageCoords[id] != new Vector3())
+                        {
+                            Log.Write("garageCoords: " + garageCoords[id], nLog.Type.Error);
+
+                            colshape = NAPI.ColShape.CreateCylinderColShape(garageCoords[id], 5, 8, 0); // garage colshape
+                            colshape.SetData("FRACID", id);
+                            colshape.OnEntityEnterColShape += enterGarageShape;
+                            colshape.OnEntityExitColShape += exitGarageShape;
+                            NAPI.Marker.CreateMarker(1, garageCoords[id], new Vector3(), new Vector3(), 3f, new Color(227, 252, 252));
+                        }
+                    }
                 }
             }
             catch (Exception e) { Log.Write("ResourceStart: " + e.Message, nLog.Type.Error); }
