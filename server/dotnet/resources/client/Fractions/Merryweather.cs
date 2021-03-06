@@ -255,7 +255,7 @@ namespace NeptuneEvo.Fractions
                 OpenMeryClothesMenu(client);
                 return;
             }
-            if (Main.Players[client].FractionID != 17)
+            if (Main.Players[client].FractionID != 17 && Main.Players[client].FractionID != 9)
             {
                 Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы не состоите в Merryweather", 3000);
                 return;
