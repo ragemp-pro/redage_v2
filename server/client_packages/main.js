@@ -338,6 +338,17 @@ mp.keys.bind(Keys.VK_M, false, function () {
         global.phoneOpen = 1;
     }
 });
+setInterval(function () {
+    var MobileObject = mp.game.invoke ('0x2AFE52F782F25775', mp.players.local.handle);
+    //mp.gui.chat.push(`render: MobileObject: ${MobileObject}, global.menuOpened: ${global.menuOpened}, Cursor: ${mp.gui.cursor.visible}, Phone: ${global.phoneOpen}`);
+    if(MobileObject && !mp.gui.cursor.visible)
+    {
+        mp.game.invoke ('0x3BC861DF703E5097', mp.players.local.handle, true);
+        global.phoneOpen = 0;
+
+        mp.events.callRemote("closePlayerMenu");
+    }
+}, 1000);
 
 mp.keys.bind(0x77, true, function () {  //F8-Key
     var date = new Date();
