@@ -1741,8 +1741,6 @@ namespace NeptuneEvo.Fractions
                     #region label Creating
                     if (garageCoords.ContainsKey(id) && garageCoords[id] != new Vector3())
                     {
-                        Log.Write($"garage label Creating: {id}: {garageCoords[id]}", nLog.Type.Error);
-
                         data.label = NAPI.TextLabel.CreateTextLabel("~b~", garageCoords[id] + new Vector3(0, 0, 1.5), 10f, 0.4f, 0, new Color(255, 255, 255), true);
                         if (id == 14) data.maxMats = 250000;
                         else data.maxMats = 50000;
