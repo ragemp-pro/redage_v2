@@ -1739,21 +1739,20 @@ namespace NeptuneEvo.Fractions
                     Weapons.FractionsLastSerial[id] = Convert.ToInt32(Row["lastserial"]);
 
                     #region label Creating
-                    if (garageCoords.ContainsKey(id))
+                    if (garageCoords.ContainsKey(id) && garageCoords[id] != new Vector3())
                     {
-                        if (garageCoords[id] != new Vector3())
-                        {
-                            data.label = NAPI.TextLabel.CreateTextLabel("~b~", garageCoords[id] + new Vector3(0, 0, 1.5), 10f, 0.4f, 0, new Color(255, 255, 255), true);
-                            if (id == 14) data.maxMats = 250000;
-                            else data.maxMats = 50000;
-                            data.UpdateLabel();
-                        }
+                        Log.Write($"garage label Creating: {id}: {garageCoords[id]}", nLog.Type.Error);
+
+                        data.label = NAPI.TextLabel.CreateTextLabel("~b~", garageCoords[id] + new Vector3(0, 0, 1.5), 10f, 0.4f, 0, new Color(255, 255, 255), true);
+                        if (id == 14) data.maxMats = 250000;
+                        else data.maxMats = 50000;
+                        data.UpdateLabel();
                     }
                     #endregion
 
                     fracStocks.Add(id, data);
 
-                    if(stockCoords[id] != new Vector3())
+                    if (stockCoords.ContainsKey(id) && stockCoords[id] != new Vector3())
                     {
                         var colshape = NAPI.ColShape.CreateCylinderColShape(stockCoords[id], 1, 2, 0); // stock colshape
                         colshape.SetData("FRACID", id);
@@ -1761,16 +1760,18 @@ namespace NeptuneEvo.Fractions
                         colshape.OnEntityExitColShape += exitStockShape;
                         NAPI.Marker.CreateMarker(1, stockCoords[id] - new Vector3(0, 0, 0.7), new Vector3(), new Vector3(), 1f, new Color(227, 252, 252, 220));
                         NAPI.TextLabel.CreateTextLabel(Main.StringToU16($"~b~Склад {Manager.getName(id)}"), new Vector3(stockCoords[id].X, stockCoords[id].Y, stockCoords[id].Z + 0.6), 5F, 0.5F, 0, new Color(227, 252, 252));
-
-                        if(garageCoords[id] != new Vector3())
-                        {
-                            colshape = NAPI.ColShape.CreateCylinderColShape(garageCoords[id], 5, 8, 0); // garage colshape
-                            colshape.SetData("FRACID", id);
-                            colshape.OnEntityEnterColShape += enterGarageShape;
-                            colshape.OnEntityExitColShape += exitGarageShape;
-                            NAPI.Marker.CreateMarker(1, garageCoords[id], new Vector3(), new Vector3(), 3f, new Color(227, 252, 252));
-                        }
                     }
+
+                    #region garage colshape Creating
+                    if (garageCoords.ContainsKey(id) && garageCoords[id] != new Vector3())
+                    {
+                        var gcolshape = NAPI.ColShape.CreateCylinderColShape(garageCoords[id], 5, 8, 0); // garage colshape
+                        gcolshape.SetData("FRACID", id);
+                        gcolshape.OnEntityEnterColShape += enterGarageShape;
+                        gcolshape.OnEntityExitColShape += exitGarageShape;
+                        NAPI.Marker.CreateMarker(1, garageCoords[id], new Vector3(), new Vector3(), 3f, new Color(227, 252, 252));
+                    }
+                    #endregion
                 }
             }
             catch (Exception e) { Log.Write("ResourceStart: " + e.Message, nLog.Type.Error); }
