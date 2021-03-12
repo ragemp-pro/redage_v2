@@ -38,5 +38,29 @@ namespace NeptuneEvo.Core
             CreateSafeZone(new Vector3(240.7599, -1379.576, 32.74176), 70, 70); // ems safe zone
             //CreateSafeZone(new Vector3(-712.2147, -1298.926, 4.101922), 70, 70); // driving school safe zone
         }
+
+        [ServerEvent(Event.PlayerEnterColshape)]
+        public static void SetEnterInteractionCheck(ColShape shape, Player player)
+        {
+            if (!Main.Players.ContainsKey(player)) return;
+            if (player.HasData("INTERACTIONCHECK") && player.GetData<int>("INTERACTIONCHECK") <= 0) return;
+            if (player.HasData("CUFFED") && player.GetData<bool>("CUFFED")) return;
+            if (player.HasData("IS_DYING") || player.HasData("FOLLOWING")) return;
+
+            if (player.HasData("GARAGEID"))
+            {
+                Houses.House house = Houses.HouseManager.GetHouse(player);
+                if (house == null) return;
+                if (player.GetData<int>("GARAGEID") != house.GarageID) return;
+            }
+            Trigger.ClientEvent(player, "playerInteractionCheck", true);
+        }
+
+        [ServerEvent(Event.PlayerExitColshape)]
+        public static void SetExitInteractionCheck(ColShape shape, Player player)
+        {
+            if (!Main.Players.ContainsKey(player)) return;
+            Trigger.ClientEvent(player, "playerInteractionCheck", false);
+        }
     }
 }
