@@ -255,7 +255,7 @@ mp.keys.bind(Keys.VK_L, false, function () { // L key
 mp.keys.bind(Keys.VK_LEFT, true, () => {
 	if(mp.gui.cursor.visible || !loggedin) return;
 	if(localplayer.vehicle) {
-		if(localplayer.vehicle.getPedInSeat(0) != localplayer.handle) return;
+		if(localplayer.vehicle.getPedInSeat(-1) != localplayer.handle) return;
 		if(new Date().getTime() - lastCheck > 500) {
 			lastCheck = new Date().getTime();
 			if(localplayer.vehicle.getVariable('leftlight') == true) mp.events.callRemote("VehStream_SetIndicatorLightsData", localplayer.vehicle, 0, 0);
@@ -267,7 +267,7 @@ mp.keys.bind(Keys.VK_LEFT, true, () => {
 mp.keys.bind(Keys.VK_RIGHT, true, () => {
 	if(mp.gui.cursor.visible || !loggedin) return;
 	if(localplayer.vehicle) {
-		if(localplayer.vehicle.getPedInSeat(0) != localplayer.handle) return;
+		if(localplayer.vehicle.getPedInSeat(-1) != localplayer.handle) return;
 		if(new Date().getTime() - lastCheck > 500) {
 			lastCheck = new Date().getTime();
 			if(localplayer.vehicle.getVariable('rightlight') == true) mp.events.callRemote("VehStream_SetIndicatorLightsData", localplayer.vehicle, 0, 0);
