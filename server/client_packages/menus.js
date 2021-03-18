@@ -1867,7 +1867,6 @@ mp.events.add('enableadvert', (toggle) => {
 mp.events.add('addadvert', (id_, author_, quest_) => {
 	try {
 		if(adverts != null) adverts.execute(`addAdvert(${id_},'${author_}','${quest_}', false, '')`);
-		mp.events.call('notify', 0, 2, "Пришло новое объявление!", 3000);
 	} catch(e) {
 	}
 })
