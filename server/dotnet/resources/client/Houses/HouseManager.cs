@@ -852,7 +852,7 @@ namespace NeptuneEvo.Houses
                     break;
             }
             MoneySystem.Wallet.Change(player, price);
-            GameLog.Money($"server", $"player({Main.Players[player].UUID})", Convert.ToInt32(house.Price * 0.6), $"houseSell({house.ID})");
+            GameLog.Money($"server", $"player({Main.Players[player].UUID})", price, $"houseSell({house.ID})");
             Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы продали свой дом государству за {price}$", 3000);
         }
 
