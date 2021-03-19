@@ -9,11 +9,57 @@ namespace NeptuneEvo.MoneySystem
         private static nLog Log = new nLog("Casino");
         private static Random Rnd = new Random();
 
+        private static Vector3 enterPos = new Vector3(935.7294, 46.61844, 81.2);
+        private static Vector3 exitPos = new Vector3(1089.695, 206.015, -49);
+
+        private static uint exitDim = 1; // Виртуальный мир для казино
+
         [ServerEvent(Event.ResourceStart)]
         public void onResourceStart()
         {
             try
             {
+                // Вход - выход + маркер
+                var colShapeEnter = NAPI.ColShape.CreateCylinderColShape(enterPos, 1f, 2, 0);
+                var colShapeExit = NAPI.ColShape.CreateCylinderColShape(exitPos, 1f, 2, exitDim);
+
+                NAPI.Marker.CreateMarker(1, enterPos - new Vector3(0, 0, 1.5), new Vector3(), new Vector3(), 1, new Color(0, 255, 255), false, 0);
+                NAPI.Marker.CreateMarker(1, exitPos - new Vector3(0, 0, 1.5), new Vector3(), new Vector3(), 1, new Color(0, 255, 255), false, exitDim);
+
+                //
+                colShapeEnter.OnEntityEnterColShape += (s, e) =>
+                {
+                    try
+                    {
+                        if (!e.IsInVehicle)
+                        {
+                            NAPI.Data.SetEntityData(e, "INTERACTIONCHECK", 777);
+                            NAPI.Data.SetEntityData(e, "CASINO_SHAPE", "ENTER");
+                        }
+                    }
+                    catch (Exception ex) { Log.Write("CASINO_SHAPE_OnEntityEnterColShape: " + ex.Message, nLog.Type.Error); }
+                };
+                colShapeEnter.OnEntityExitColShape += OnEntityExitCasinoMainShape;
+
+                colShapeExit.OnEntityEnterColShape += (s, e) =>
+                {
+                    try
+                    {
+                        if (!e.IsInVehicle)
+                        {
+                            NAPI.Data.SetEntityData(e, "INTERACTIONCHECK", 777);
+                            NAPI.Data.SetEntityData(e, "CASINO_SHAPE", "EXIT");
+                        }
+                    }
+                    catch (Exception ex) { Log.Write("CASINO_SHAPE_OnEntityEnterColShape: " + ex.Message, nLog.Type.Error); }
+                };
+                colShapeExit.OnEntityExitColShape += OnEntityExitCasinoMainShape;
+                //
+
+                NAPI.Blip.CreateBlip(679, enterPos, 1, 0, "Diamond Casino", 255, 0, true);
+
+                //
+
                 ColShape shape = NAPI.ColShape.CreateCylinderColShape(new Vector3(1111.05, 229.81, -49.15), 2f, 2f, 1);
 
                 shape.OnEntityEnterColShape += (s, entity) =>
@@ -35,6 +81,32 @@ namespace NeptuneEvo.MoneySystem
 
             }
             catch (Exception e) { Log.Write("ResourceStart: " + e.Message, nLog.Type.Error); }
+        }
+        public static void OnEntityExitCasinoMainShape(ColShape shape, Player player)
+        {
+            NAPI.Data.SetEntityData(player, "INTERACTIONCHECK", 0);
+            NAPI.Data.ResetEntityData(player, "CASINO_SHAPE");
+        }
+        public static void CallBackShape(Player player)
+        {
+            if (!player.HasData("CASINO_SHAPE")) return;
+            string data = player.GetData<string>("CASINO_SHAPE");
+            
+            switch(data)
+            {
+                case "ENTER":
+                    NAPI.Entity.SetEntityPosition(player, exitPos);
+                    NAPI.Entity.SetEntityRotation(player, new Vector3(0, 0, -27.5));
+
+                    NAPI.Entity.SetEntityDimension(player, 1);
+                    return;
+                case "EXIT":
+                    NAPI.Entity.SetEntityPosition(player, enterPos);
+                    NAPI.Entity.SetEntityRotation(player, new Vector3(0, 0, 113.5));
+
+                    NAPI.Entity.SetEntityDimension(player, NAPI.GlobalDimension);
+                    return;
+            }
         }
 
         [RemoteEvent("casino.luckywheel.roll")]

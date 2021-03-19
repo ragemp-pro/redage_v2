@@ -1884,6 +1884,9 @@ namespace NeptuneEvo
                 intid = id;
                 switch (id)
                 {
+                    case 777:
+                        MoneySystem.Casino.CallBackShape(player);
+                        return;
                     case 888:
                         Trigger.ClientEvent(player, "garbageMenuOpen");
                         return;
