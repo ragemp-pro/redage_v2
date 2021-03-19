@@ -168,7 +168,7 @@ namespace NeptuneEvo.Jobs.FarmerJob
                 int lvl = jobinfo[0], exp = jobinfo[1], allpoints = jobinfo[2], sec = Convert.ToInt32(rnd.Next(minsec, maxsec) - lvl * 2);
                 if (player.HasData($"regenplant{colID}")) 
                 {
-                    Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, $"{player.GetData<string>($"regenplant{colID}")}", 2000);
+                    Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, $"{player.GetData<int>($"regenplant{colID}")}", 2000);
                     return;
                 }
                 var item = nInventory.Find(Main.Players[player].UUID, ItemType.Seed);
