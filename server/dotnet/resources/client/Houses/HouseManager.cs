@@ -204,7 +204,7 @@ namespace NeptuneEvo.Houses
             if (string.IsNullOrEmpty(Owner))
             {
                 blip.Sprite = 40;
-                blip.Color = 5;
+                blip.Color = 2;
             }
             else
             {
