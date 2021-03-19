@@ -3521,20 +3521,21 @@ namespace NeptuneEvo.Core
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
         
-        [Command("vmute", GreedyArg = true)] // Замутить игрока в войс-чате (2 лвл)
+        [Command("vmute")] // Замутить игрока в войс-чате (2 лвл)
         public static void CMD_voiceMuteTarget(Player player, int id)
         {
             try
             {
-                if (Main.GetPlayerByID(id) == null)
+                var target = Main.GetPlayerByID(id);
+                if (target == null)
                 {
                     Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Игрок с таким ID не найден", 3000);
                     return;
                 }
 
                 if (!Group.CanUseCmd(player, "mute")) return;
-                player.SetSharedData("voice.muted", true);
-                Trigger.ClientEvent(player, "voice.mute");
+                target.SetSharedData("voice.muted", true);
+                Trigger.ClientEvent(target, "voice.mute");
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
@@ -3544,14 +3545,15 @@ namespace NeptuneEvo.Core
         {
             try
             {
-                if (Main.GetPlayerByID(id) == null)
+                var target = Main.GetPlayerByID(id);
+                if (target == null)
                 {
                     Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Игрок с таким ID не найден", 3000);
                     return;
                 }
 
-                if (!Group.CanUseCmd(player, "unmute")) return;
-                player.SetSharedData("voice.muted", false);
+                if (!Group.CanUseCmd(target, "unmute")) return;
+                target.SetSharedData("voice.muted", false);
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
