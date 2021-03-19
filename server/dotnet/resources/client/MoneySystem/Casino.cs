@@ -104,7 +104,7 @@ namespace NeptuneEvo.MoneySystem
                     NAPI.Entity.SetEntityPosition(player, enterPos);
                     NAPI.Entity.SetEntityRotation(player, new Vector3(0, 0, 113.5));
 
-                    NAPI.Entity.SetEntityDimension(player, NAPI.GlobalDimension);
+                    NAPI.Entity.SetEntityDimension(player, 0);
                     return;
             }
         }
