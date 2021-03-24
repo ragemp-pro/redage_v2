@@ -141,6 +141,9 @@ mp.events.add('showHUD', (show) => {
 
     var screen = mp.game.graphics.getScreenActiveResolution(0,0);
     mp.gui.execute(`updateSafeZoneSize(${screen.x},${screen.y},${hudstatus.safezone})`);
+
+    var minimap = getMinimapAnchor();
+    mp.gui.execute(`HUD.minimapFix=${minimap.rightX * 100}`);
 	
     var playerId = localplayer.getVariable('REMOTE_ID');
     
