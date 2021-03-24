@@ -360,6 +360,28 @@ $(document).ready(() => {
         return false;
     });
 
+	// Подтверждение удаления персонажа (отдельно на каждый слот)
+    $('.js-delete-person-submit-1').on('click', () => {
+        let data = $('#delete-person-1').toJSON();
+        data = JSON.parse(data);
+        mp.trigger('delChar', 1, data["delete-person-1__name"], data["delete-person-1__sername"], data["delete-person-1__pw"]);
+        return false;
+    });
+
+    $('.js-delete-person-submit-2').on('click', () => {
+        let data = $('#delete-person-2').toJSON();
+        data = JSON.parse(data);
+        mp.trigger('delChar', 2, data["delete-person-2__name"], data["delete-person-2__sername"], data["delete-person-2__pw"]);
+        return false;
+    });
+
+    $('.js-delete-person-submit-3').on('click', () => {
+        let data = $('#delete-person-3').toJSON();
+        data = JSON.parse(data);
+        mp.trigger('delChar', 3, data["delete-person-3__name"], data["delete-person-3__sername"], data["delete-person-3__pw"]);
+        return false;
+    });
+
     // Кнопка "Удалить персонажа" (отдельно на каждый слот)
     $('.js-btn-delete-1').on('click', (e) => {
         e.preventDefault();
