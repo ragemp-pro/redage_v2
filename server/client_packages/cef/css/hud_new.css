@@ -179,7 +179,7 @@
 	.inGameHud .steet_block{
 		position: absolute;
 		bottom: 1%;
-		left: 16%;
+		/*left: 16%;*/
 		width: 150px;	
 	}
 	.inGameHud .steet_block .crossingroad{

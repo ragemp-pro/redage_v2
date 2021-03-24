@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/noty.css" />
     <link rel="stylesheet" href="css/theme.css" />
 </head>
-<body style="background:">
+<body>
 
     <div id="safezone">
         <div class="inGameHud" v-if="show">
@@ -64,7 +64,7 @@
 				</div>
 			</div>
 			
-			<div class="steet_block">
+			<div class="steet_block" :style="{left: 'calc(' + minimapFix + '% + ' + '20px)'}">
 				<div class="crossingroad">{{crossingRoad}}</div>
 				<div class="street"><img src="hud/marker.png" class="marker">{{street}}</div>
 				

@@ -21,6 +21,8 @@
         speed: 0,
         fuel: 0,
         hp: 0,
+        inSafeZone: false,
+        minimapFix: 0,
 
         bonusblock: true,
 		lastbonus: null,
