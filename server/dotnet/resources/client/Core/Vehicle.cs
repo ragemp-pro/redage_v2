@@ -220,10 +220,10 @@ namespace NeptuneEvo.Core
                             {
                                 if (DateTime.Now.Hour < 10)
                                 {
-                                    Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Невозможно сесть в машину с 00:00 до 10:00", 3000);
+                                    Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Нелегальные организации не могут сесть в машину с 00:00 до 10:00", 3000);
                                     return;
                                 }
-                                Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Чтобы завести двигатель, нажмите B", 3000);
+                                Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Чтобы завести двигатель, используйте военную отмычку", 3000);
                                 return;
                             }
                             else if (fracid == 14)
@@ -231,21 +231,24 @@ namespace NeptuneEvo.Core
                                 if (Main.Players[player].FractionLVL < NAPI.Data.GetEntityData(vehicle, "MINRANK"))
                                 {
                                     Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы не имеете доступа к этому транспорту", 3000);
-                                    VehicleManager.WarpPlayerOutOfVehicle(player);
+                                    WarpPlayerOutOfVehicle(player);
                                     return;
                                 }
                                 Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Чтобы завести двигатель, нажмите B", 3000);
                                 return;
                             }
                             else
-                                VehicleManager.WarpPlayerOutOfVehicle(player);
+                            {
+                                WarpPlayerOutOfVehicle(player);
+                                return;
+                            }
                         }
                         if (NAPI.Data.GetEntityData(vehicle, "FRACTION") == Main.Players[player].FractionID)
                         {
                             if (Main.Players[player].FractionLVL < NAPI.Data.GetEntityData(vehicle, "MINRANK"))
                             {
                                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы не имеете доступа к этому транспорту", 3000);
-                                VehicleManager.WarpPlayerOutOfVehicle(player);
+                                WarpPlayerOutOfVehicle(player);
                                 return;
                             }
                             Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Чтобы завести двигатель, нажмите B", 3000);
@@ -253,7 +256,7 @@ namespace NeptuneEvo.Core
                         else
                         {
                             Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы не имеете доступа к этому транспорту", 3000);
-                            VehicleManager.WarpPlayerOutOfVehicle(player);
+                            WarpPlayerOutOfVehicle(player);
                             return;
                         }
                     }

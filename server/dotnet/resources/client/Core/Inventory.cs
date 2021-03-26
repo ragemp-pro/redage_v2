@@ -2042,14 +2042,14 @@ namespace NeptuneEvo.Core
                         Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Вы начали взламывать дверь", 3000);
                         break;
                     case ItemType.ArmyLockpick:
-                        if (!player.IsInVehicle || player.Vehicle.DisplayName != "Barracks")
+                        if (!player.IsInVehicle || player.Vehicle.DisplayName != "BARRACKS")
                         {
                             Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы должны находиться в военном перевозчике материалов", 3000);
                             return;
                         }
                         if (VehicleStreaming.GetEngineState(player.Vehicle))
                         {
-                            Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Машину уже заведена", 3000);
+                            Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Машина уже заведена", 3000);
                             return;
                         }
                         var lucky = new Random().Next(0, 5);
