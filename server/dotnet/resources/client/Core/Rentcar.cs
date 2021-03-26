@@ -21,6 +21,9 @@ namespace NeptuneEvo.Core
             // Newbie respawn
             new Tuple<string, Vector3>("Авто", new Vector3(-989.4564, -2696.0186, 12.71069)),
             new Tuple<string, Vector3>("Скутеры", new Vector3(-1029.6763, -2672.7966, 12.7107525)),
+
+            new Tuple<string, Vector3>("Авто", new Vector3(2493.2422, 4115.2075, 37.17832)),
+            new Tuple<string, Vector3>("Скутеры", new Vector3(-269.83328, 6059.1196, 30.344475)),
         };
 
         [ServerEvent(Event.ResourceStart)]
@@ -114,7 +117,7 @@ namespace NeptuneEvo.Core
                     }
 
                     //
-                    if (CarInfos[number].Model == VehicleHash.Faggio && Main.Players[player].LVL >= 2)
+                    if ((CarInfos[number].Model == VehicleHash.Faggio || CarInfos[number].Model == VehicleHash.Faggio3) && Main.Players[player].LVL >= 2)
                     {
                         Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Этот транспорт предназначен только для новичков!", 3000);
                         VehicleManager.WarpPlayerOutOfVehicle(player);
