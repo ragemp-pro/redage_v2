@@ -12,39 +12,59 @@ namespace NeptuneEvo.Core
         private static nLog Log = new nLog("Rentcar");
         public static List<CarInfo> CarInfos = new List<CarInfo>();
 
-        private static List<Vector3> RentAreas = new List<Vector3>()
+        private static List<Tuple<string, Vector3>> RentAreasTypes = new List<Tuple<string, Vector3>>()
         {
-            new Vector3(-80.102, 6344.091, 31.48188),
-            new Vector3(1691.532, 4778.648, 41.91788),
-            new Vector3(2779.626, 3482.937, 55.25394),
-            new Vector3(572.2574, 2721.229, 42.05919),
-            new Vector3(-2194.362, 4267.641, 48.60411),
-            new Vector3(-3146.301, 1106.419, 20.77486),
-            new Vector3(-2145.544, -379.614, 13.24884),
-            new Vector3(-1401.284, 36.33679, 53.16653),
-            new Vector3(-581.241, -244.2824, 36.00377),
-            new Vector3(393.4708, -644.4418, 28.56614),
+            new Tuple<string, Vector3>("Авто", new Vector3(-526.91406, 61.327232, 51.459885)),
+            new Tuple<string, Vector3>("Скутеры", new Vector3(285.24445, -349.28256, 43.871384)),
+            new Tuple<string, Vector3>("Лодки", new Vector3(-853.62213, -1327.3962, 0.9336101)),
+            
+            // Newbie respawn
+            new Tuple<string, Vector3>("Авто", new Vector3(-989.4564, -2696.0186, 12.71069)),
+            new Tuple<string, Vector3>("Скутеры", new Vector3(-1029.6763, -2672.7966, 12.7107525)),
         };
+
+        [ServerEvent(Event.ResourceStart)]
+        public void onResourceStart()
+        {
+            try
+            {
+                foreach (var v in RentAreasTypes)
+                {
+                    var blipIcon = 0;
+                    switch (v.Item1)
+                    {
+                        case "Авто": blipIcon = 225;
+                            break;
+                        case "Лодки": blipIcon = 404;
+                            break;
+                        case "Скутеры": blipIcon = 661;
+                            break;
+                    }
+
+                    NAPI.Blip.CreateBlip(blipIcon, v.Item2, 0.8f, 1, Main.StringToU16($"Аренда транспорта ({v.Item1})"), 255, 0, true, 0, 0);
+                }
+            }
+            catch (Exception e) { Log.Write("ResourceStart: " + e.Message, nLog.Type.Error); }
+        }
 
         public static Vector3 GetNearestRentArea(Vector3 position)
         {
-            Vector3 nearesetArea = RentAreas[0];
-            foreach (var v in RentAreas)
+            Vector3 nearesetArea = RentAreasTypes[0].Item2;
+
+            foreach (var v in RentAreasTypes)
             {
-                if (v == new Vector3(237.3785, 217.7914, 106.2868)) continue;
-                if (position.DistanceTo(v) < position.DistanceTo(nearesetArea))
-                    nearesetArea = v;
+                if (position.DistanceTo(v.Item2) > position.DistanceTo(nearesetArea)) continue;
+                nearesetArea = v.Item2;
             }
             return nearesetArea;
         }
         
         public static void rentCarsSpawner()
         {
-            var random = new Random();
             var i = 0;
             foreach (var c in CarInfos)
             {
-                var veh = NAPI.Vehicle.CreateVehicle(c.Model, c.Position, c.Rotation, random.Next(0, 130), random.Next(0, 130));
+                var veh = NAPI.Vehicle.CreateVehicle(c.Model, c.Position, c.Rotation, c.Color1, c.Color2);
                 NAPI.Data.SetEntityData(veh, "ACCESS", "RENT");
                 NAPI.Data.SetEntityData(veh, "NUMBER", i);
                 NAPI.Data.SetEntityData(veh, "DRIVER", null);
@@ -53,8 +73,6 @@ namespace NeptuneEvo.Core
                 i++;
             }
         }
-
-
 
         public static void RespawnCar(Vehicle vehicle)
         {
@@ -80,7 +98,7 @@ namespace NeptuneEvo.Core
                 if (!vehicle.HasData("ACCESS") || vehicle.GetData<string>("ACCESS") != "RENT" || seatid != 0) return;///seatid != -1
                 if (vehicle.GetData<Player>("DRIVER") != null && vehicle.GetData<Player>("DRIVER") != player)
                 {
-                    Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Этот транспорт уже арендован", 3000);
+                    Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Этот транспорт уже арендован другим игроком!", 3000);
                     VehicleManager.WarpPlayerOutOfVehicle(player);
                     return;
                 }
@@ -90,15 +108,27 @@ namespace NeptuneEvo.Core
                 {
                     if (player.HasData("RENTED_CAR"))
                     {
-                        Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "У Вас уже оплачена аренда другого транспорта", 3000);
+                        Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "У Вас уже оплачена аренда другого транспорта!", 3000);
                         VehicleManager.WarpPlayerOutOfVehicle(player);
                         return;
                     }
-                    if(CarInfos[number].Model == VehicleHash.Cruiser && Main.Players[player].LVL >= 2) {
-                        Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Эти велосипеды предназначены только для новичков", 3000);
+
+                    //
+                    if (CarInfos[number].Model == VehicleHash.Faggio && Main.Players[player].LVL >= 2)
+                    {
+                        Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Этот транспорт предназначен только для новичков!", 3000);
                         VehicleManager.WarpPlayerOutOfVehicle(player);
                         return;
                     }
+
+                    if (CarInfos[number].Model == VehicleHash.Suntrap && !Main.Players[player].Licenses[3])
+                    {
+                        Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "У вас нет лицензии на водный транспорт для заключения договора аренды!", 3000);
+                        VehicleManager.WarpPlayerOutOfVehicle(player);
+                        return;
+                    }
+                    //
+
                     int price = CarInfos[number].Price;
                     switch(Main.Accounts[player].VipLvl) {
                         case 0: 
@@ -135,12 +165,11 @@ namespace NeptuneEvo.Core
         {
             try
             {
-                if (!player.HasData("CARROOMID")) return;
                 if (!vehicle.HasData("ACCESS") || vehicle.GetData<string>("ACCESS") != "RENT" || vehicle.GetData<Player>("DRIVER") != player) return;
-                Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, $"Через 3 минуты аренда транспорта закончится, если вы снова не сядете в т/с", 3000);
+                Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, $"Через 3 минуты аренда транспорта закончится, если вы снова не сядете в т/с.", 3000);
+
                 NAPI.Data.SetEntityData(player, "IN_RENT_CAR", false);
                 NAPI.Data.SetEntityData(player, "RENT_EXIT_TIMER_COUNT", 0);
-                //NAPI.Data.SetEntityData(player, "RENT_CAR_EXIT_TIMER", Main.StartT(1000, 1000, (o) => timer_playerExitRentVehicle(player, vehicle), "RENT_CAR_TIMER"));
                 NAPI.Data.SetEntityData(player, "RENT_CAR_EXIT_TIMER", Timers.Start(1000, () => timer_playerExitRentVehicle(player, vehicle)));
             }
             catch (Exception e) { Log.Write("PlayerExitVehicle: " + e.Message, nLog.Type.Error); }
@@ -155,17 +184,16 @@ namespace NeptuneEvo.Core
                     if (!player.HasData("RENT_CAR_EXIT_TIMER")) return;
                     if (NAPI.Data.GetEntityData(player, "IN_RENT_CAR"))
                     {
-                        //                    Main.StopT(NAPI.Data.GetEntityData(player, "RENT_CAR_EXIT_TIMER"), "timer_28");
                         Timers.Stop(NAPI.Data.GetEntityData(player, "RENT_CAR_EXIT_TIMER"));
                         NAPI.Data.ResetEntityData(player, "RENT_CAR_EXIT_TIMER");
                         return;
                     }
-                    if (NAPI.Data.GetEntityData(player, "RENT_EXIT_TIMER_COUNT") > 1800)
+                    if (NAPI.Data.GetEntityData(player, "RENT_EXIT_TIMER_COUNT") > 180)
                     {
-                        Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Срок аренды автомобиля закончился", 3000);
+                        Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Срок аренды закончился. Транспорт был отбуксирован на место стоянки.", 3000);
                         RespawnCar(vehicle);
                         player.ResetData("RENTED_CAR");
-                        //                        Main.StopT(NAPI.Data.GetEntityData(player, "RENT_CAR_EXIT_TIMER"), "timer_30");
+
                         Timers.Stop(NAPI.Data.GetEntityData(player, "RENT_CAR_EXIT_TIMER"));
                         NAPI.Data.ResetEntityData(player, "RENT_CAR_EXIT_TIMER");
                         return;
@@ -227,6 +255,8 @@ namespace NeptuneEvo.Core
             player.SetData("IN_RENT_CAR", true);
             MoneySystem.Wallet.Change(player, -price);
             GameLog.Money($"player({Main.Players[player].UUID})", $"server", price, $"rentCar");
+
+            Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, "Вы успешно арендовали транспорт (аренда транспорта закончится, если вы снова не сядете в т/с в течении 3 мин.)", 3000);
         }
     }
 }

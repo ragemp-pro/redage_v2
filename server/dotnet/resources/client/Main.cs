@@ -3815,7 +3815,7 @@ namespace NeptuneEvo
                 "Ближайший банкомат",
                 "Ближайшая заправка",
                 "Ближайший 24/7",
-                "Ближайшая аренда авто",
+                "Ближайшая аренда т/с",
                 "Ближайшая остановка",
             }},
         };
@@ -3915,7 +3915,7 @@ namespace NeptuneEvo
                     waypoint = BusinessManager.getNearestBiz(player, 0);
                     Trigger.ClientEvent(player, "createWaypoint", waypoint.X, waypoint.Y);
                     return;
-                case "Ближайшая аренда авто":
+                case "Ближайшая аренда т/с":
                     waypoint = Rentcar.GetNearestRentArea(player.Position);
                     Trigger.ClientEvent(player, "createWaypoint", waypoint.X, waypoint.Y);
                     return;

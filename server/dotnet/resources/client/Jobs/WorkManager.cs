@@ -60,10 +60,6 @@ namespace NeptuneEvo.Jobs
                 NAPI.Blip.CreateBlip(67, new Vector3(-144.374817, 6354.90869, 30.3706112), 1, 25, Main.StringToU16("Инкассаторы"), 255, 0, true, 0, 0);
                 NAPI.Blip.CreateBlip(544, new Vector3(473.9508, -1275.597, 29.60513), 1, 40, Main.StringToU16("Автомеханики"), 255, 0, true, 0, 0);
 
-                NAPI.Blip.CreateBlip(225, new Vector3(-530.78833, 59.4290543, 52.57218), 1, 1, Main.StringToU16("Аренда машин"), 255, 0, true, 0, 0);
-                //NAPI.Blip.CreateBlip(495, new Vector3(-1108.662, -1690.129, 3.254202), 1, 84, Main.StringToU16("Rent-a-Cycle"), 255, 0, true, 0, 0);
-                // NAPI.Blip.CreateBlip(471, new Vector3(-1625.545, -1164.137, 0.2994334), 1, 38, Main.StringToU16("Rent-a-Boat"), 255, 0, true, 0, 0);
-
                 NAPI.Blip.CreateBlip(478, Truckers.getProduct[0], 1, 84, Main.StringToU16("Склад продуктов"), 255, 0, true, 0, 0);
                 NAPI.Blip.CreateBlip(478, Truckers.getProduct[1], 1, 36, Main.StringToU16("Склад бензина"), 255, 0, true, 0, 0);
                 NAPI.Blip.CreateBlip(478, Truckers.getProduct[2], 1, 15, Main.StringToU16("Автосклад"), 255, 0, true, 0, 0);
