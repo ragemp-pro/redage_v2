@@ -29,7 +29,7 @@ namespace Redage.SDK
         public int DemorganTime { get; set; } = 0;
         public WantedLevel WantedLVL { get; set; } = null;
         public List<int> BizIDs { get; set; } = new List<int>();
-        public int AdminLVL { get; set; } = 7;
+        public int AdminLVL { get; set; } = 0;
         public List<bool> Licenses { get; set; } = new List<bool>();
         public DateTime Unwarn { get; set; } = DateTime.Now;
         public int Unmute { get; set; } = 0;

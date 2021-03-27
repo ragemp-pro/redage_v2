@@ -41,7 +41,7 @@ mp.events.add('ChatPyBed', (id, variation) => {
 				global.pedsaying = needped[id]; // Пед который будет разговаривать
 				NPCTalkAnim(global.pedsaying, true);
 
-				mp.gui.chat.push("(( Арендуйте мопед и доберитесь до здания правительства. Точка отмечена на карте. ))");
+				mp.gui.chat.push("(( Арендуйте мопед и доберитесь до здания правительства. Точка отмечена на карте.");
 
 				var position = needped[1].position;
 				mp.events.call("createWaypoint", position.x, position.y);
@@ -53,7 +53,7 @@ mp.events.add('ChatPyBed', (id, variation) => {
 				{
 					global.pedtext2 = "Зайди в мэрию и ознакомься со списком работ.";
 
-					mp.gui.chat.push("(( Ознакомьтесь со списком официальных работ в мэрии. Точка отмечена на карте. ))");
+					mp.gui.chat.push("(( Ознакомьтесь со списком официальных работ в мэрии. Точка отмечена на карте.");
 
 					mp.events.call("createWaypoint", -544.827, -204.47627); // около входа в мэрию
 				}
@@ -62,7 +62,7 @@ mp.events.add('ChatPyBed', (id, variation) => {
 					global.pedtext2 = "Для начала работы тебе нужно иметь телефон и сим-карту.";
 					global.pedtext3 = "Езжай в наш местный магазин 24/7, купи все что нужно.";
 
-					mp.gui.chat.push("(( Доберитесь до магазина, приобретите сим-карту и возвращайтесь. Точка отмечена на карте. ))");
+					mp.gui.chat.push("(( Доберитесь до магазина, приобретите сим-карту и возвращайтесь. Точка отмечена на карте.");
 
 					mp.events.call("createWaypoint", 82.05307, -219.78958); // ближайший магазин 24-7
 				}
