@@ -156,24 +156,6 @@ mp.events.add('render', () => {
 				outline: true
 			});
 		}
-		if(pedsaying != null) {
-			let pos = pedsaying.getBoneCoords(12844, 0.5, 0, 0);
-			mp.game.graphics.drawText(pedtext, [pos.x, pos.y, pos.z+0.1], {
-				font: 0,
-				color: [255, 255, 255, 185],
-				scale: [0.35, 0.35],
-				outline: true
-			});
-			if(pedtext2 != null) {
-				let pos = pedsaying.getBoneCoords(12844, 0.5, 0, 0);
-				mp.game.graphics.drawText(pedtext2, [pos.x, pos.y, pos.z+0.017], {
-					font: 0,
-					color: [255, 255, 255, 185],
-					scale: [0.35, 0.35],
-					outline: true
-				});
-			}
-		}
 		if (!admingm) localplayer.setInvincible(false);
         if (localplayer.isSprinting() || localplayer.isOnAnyBike()) mp.game.player.restoreStamina(100);
         mp.game.player.setLockonRangeOverride(1.5);

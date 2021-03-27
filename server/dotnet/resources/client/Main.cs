@@ -63,19 +63,6 @@ namespace NeptuneEvo
         public static Dictionary<Player, Account> Accounts = new Dictionary<Player, Account>(); // client's accounts
         public static Dictionary<Player, Tuple<int, string, string, string>> RestorePass = new Dictionary<Player, Tuple<int, string, string, string>>(); // int code, string Login, string SocialClub, string Email
 
-        public ColShape BonyCS = NAPI.ColShape.CreateSphereColShape(new Vector3(3367.203, 5185.236, 1.3402408), 3f, 0);
-        public ColShape EmmaCS = NAPI.ColShape.CreateSphereColShape(new Vector3(3313.938, 5179.962, 18.91486), 3f, 0);
-        public ColShape FrankCS = NAPI.ColShape.CreateSphereColShape(new Vector3(1924.431, 4922.007, 47.70858), 2f, 0);
-        public ColShape FrankQuest0 = NAPI.ColShape.CreateSphereColShape(new Vector3(2043.343, 4853.748, 43.09409), 1.5f, 0);
-        public ColShape FrankQuest1 = NAPI.ColShape.CreateSphereColShape(new Vector3(1924.578, 4921.459, 46.576), 290f, 0); // Зона, из которой нельзя выгнать трактор.
-        public ColShape FrankQuest1_1 = NAPI.ColShape.CreateSphereColShape(new Vector3(1905.151, 4925.571, 49.52416), 4f, 0); // Зона, куда должен приехать трактор
-
-        public Vehicle FrankQuest1Trac0 = NAPI.Vehicle.CreateVehicle(VehicleHash.Tractor2, new Vector3(1981.87, 5174.382, 48.26282), new Vector3(0.1017629, -0.1177645, 129.811), 70, 70, "Frank0");
-        public Vehicle FrankQuest1Trac1 = NAPI.Vehicle.CreateVehicle(VehicleHash.Tractor2, new Vector3(1974.506, 5168.247, 48.2662), new Vector3(0.07581472, -0.08908347, 129.8487), 70, 70, "Frank1");
-
-        public ColShape Zone0 = NAPI.ColShape.CreateCylinderColShape(new Vector3(3282.16, 5186.997, 17.41686), 2f, 3f, 0);
-        public ColShape Zone1 = NAPI.ColShape.CreateCylinderColShape(new Vector3(3289.234, 5182.008, 17.42562), 2f, 3f, 0);
-
         public static char[] stringBlock = { '\'', '@', '[', ']', ':', '"', '[', ']', '{', '}', '|', '`', '%',  '\\' };
 
         public static string BlockSymbols(string check) {
@@ -124,76 +111,6 @@ namespace NeptuneEvo
         //private static Timer timer_payDay;
         //private static Timer saveDBtimer;
         private static nLog Log = new nLog("GM");
-
-        [ServerEvent(Event.PlayerEnterVehicle)]
-        public void onPlayerEnterVehicleHandler(Player player, Vehicle vehicle, sbyte seatid)
-        {
-            if(vehicle == FrankQuest1Trac0 || vehicle == FrankQuest1Trac1) {
-                if(!Players[player].Achievements[8] || Players[player].Achievements[9]) player.WarpOutOfVehicle();
-                else {
-                    Trigger.ClientEvent(player, "createWaypoint", 1905.1f, 4925.5f);
-                    vehicle.SetSharedData("PETROL", VehicleManager.VehicleTank[vehicle.Class]);
-                    vehicle.SetData("ACCESS", "QUEST");
-                }
-            }
-        }
-
-        [ServerEvent(Event.PlayerEnterColshape)]
-        public void EnterColshape(ColShape colshape, Player player) {
-            if(colshape == FrankQuest1) return;
-            if(colshape == BonyCS) {
-                player.SetData("INTERACTIONCHECK", 500);
-                Trigger.ClientEvent(player, "PressE", true); 
-            }
-            else if(colshape == EmmaCS) {
-                player.SetData("INTERACTIONCHECK", 501);
-                Trigger.ClientEvent(player, "PressE", true); 
-            }
-            else if(colshape == FrankCS) {
-                player.SetData("INTERACTIONCHECK", 503);
-                Trigger.ClientEvent(player, "PressE", true); 
-            }
-            else if(colshape == Zone0 || colshape == Zone1) {
-                player.SetData("INTERACTIONCHECK", 502);
-                Trigger.ClientEvent(player, "PressE", true); 
-            }
-            else if(colshape == FrankQuest0) {
-                player.SetData("INTERACTIONCHECK", 504);
-                Trigger.ClientEvent(player, "PressE", true); 
-            }
-            else if(colshape == FrankQuest1_1) {
-                player.SetData("INTERACTIONCHECK", 505);
-                Trigger.ClientEvent(player, "PressE", true); 
-            }
-        }
-
-        [ServerEvent(Event.PlayerExitColshape)]
-        public void ExitColshape(ColShape colshape, Player player) {
-            if(colshape == FrankQuest1) { // Ливнул из зоны тракторов
-                if(player.Vehicle == FrankQuest1Trac0 || player.Vehicle == FrankQuest1Trac1) {
-                    if(Players[player].Achievements[8] && !Players[player].Achievements[9]) {
-                        Vehicle trac = player.Vehicle;
-                        player.WarpOutOfVehicle();
-                        NAPI.Task.Run(() => {
-                            if(trac == FrankQuest1Trac0) {
-                                trac.Position = new Vector3(1981.87, 5174.382, 48.26282);
-                                trac.Rotation = new Vector3(0.1017629, -0.1177645, 129.811);
-                            } else {
-                                trac.Position = new Vector3(1974.506, 5168.247, 48.2662);
-                                trac.Rotation = new Vector3(0.07581472, -0.08908347, 129.8487);
-                            }
-                        }, 500);
-                        player.SendChatMessage("Ну и зачем мне было пытаться увезти этот трактор, не пойму...");
-                    }
-                }
-                return;
-            }
-            Trigger.ClientEvent(player, "PressE", false); 
-            if(colshape == BonyCS || colshape == EmmaCS || colshape == Zone0 || colshape == Zone1 || colshape == FrankCS || colshape == FrankQuest0 || colshape == FrankQuest1_1) {
-                player.SetData("INTERACTIONCHECK", 0);
-                Trigger.ClientEvent(player, "PressE", false); 
-            }
-        }
 
         [ServerEvent(Event.ResourceStart)]
         public void onResourceStart()
@@ -1884,6 +1801,10 @@ namespace NeptuneEvo
                 intid = id;
                 switch (id)
                 {
+                    case 500:
+                    case 501:
+                        Quests.InteractNPC(player, id);
+                        return;
                     case 777:
                         MoneySystem.Casino.CallBackShape(player);
                         return;
@@ -2068,126 +1989,6 @@ namespace NeptuneEvo
                         Fractions.Merryweather.interactPressed(player, id);
                         return;
                     #endregion
-                    case 500:
-                        if(!Players[player].Achievements[0]) {
-                            Players[player].Achievements[0] = true;
-                            Trigger.ClientEvent(player, "ChatPyBed", 0, 0);
-                        } else if(!Players[player].Achievements[1]) Trigger.ClientEvent(player, "ChatPyBed", 1, 0);
-                        else if(Players[player].Achievements[2]) {
-                            if(!Players[player].Achievements[3]) {
-                                Players[player].Achievements[3] = true;
-                                MoneySystem.Wallet.Change(player, 500);
-                                Trigger.ClientEvent(player, "ChatPyBed", 9, 0);
-                            }
-                        }
-                        return;
-                    case 501:
-                        if(Players[player].Achievements[0]) {
-                            if(!Players[player].Achievements[1]) {
-                                player.SetData("CollectThings", 0);
-                                Players[player].Achievements[1] = true;
-                                if(Players[player].Gender) Trigger.ClientEvent(player, "ChatPyBed", 2, 0);
-                                else Trigger.ClientEvent(player, "ChatPyBed", 3, 0);
-                            } else if(!Players[player].Achievements[2]) {
-                                if(player.HasData("CollectThings") && player.GetData<int>("CollectThings") >= 4) {
-                                    Players[player].Achievements[2] = true;
-                                    MoneySystem.Wallet.Change(player, 500);
-                                    Trigger.ClientEvent(player, "ChatPyBed", 7, 0);
-                                } else { 
-                                    if(Players[player].Gender) Trigger.ClientEvent(player, "ChatPyBed", 4, 0);
-                                    else Trigger.ClientEvent(player, "ChatPyBed", 5);
-                                }
-                            }
-                        }
-                        return;
-                    case 502:
-                        if(Players[player].Achievements[1]) {
-                            if(player.HasData("CollectThings")) {
-                                if(player.GetData<int>("CollectThings") < 4) {
-                                    if(!player.HasData("AntiAnimDown")) {
-                                        if(Players[player].Gender) {
-                                            if(!NAPI.ColShape.IsPointWithinColshape(Zone0, player.Position)) return;
-                                        } else {
-                                            if(!NAPI.ColShape.IsPointWithinColshape(Zone1, player.Position)) return;
-                                        }
-                                        OnAntiAnim(player);
-                                        player.PlayAnimation("anim@mp_snowball", "pickup_snowball", 39);
-                                        NAPI.Task.Run(() => {
-                                            if (player != null && Main.Players.ContainsKey(player))
-                                            {
-                                                player.StopAnimation();
-                                                OffAntiAnim(player);
-                                                player.SetData("CollectThings", player.GetData<int>("CollectThings") + 1);
-                                            }
-                                        }, 1300);
-                                    }
-                                } else Trigger.ClientEvent(player, "ChatPyBed", 6, 0);
-                            }
-                        }
-                        return;
-                    case 503:
-                        if(!Players[player].Achievements[4] && !Players[player].Achievements[5]) { // Первый подход к Frank'у
-                            if(Players[player].Achievements[2]) { //TODO: ветка, если игроку дали рекомендацию пойти к Фрэнку, Эмма порекомендовала игрока
-                                if(Env_lastWeather.Equals("RAIN") || Env_lastWeather.Equals("THUNDER")) {
-                                    Players[player].Achievements[4] = true;
-                                    MoneySystem.Wallet.Change(player, 250);
-                                    Trigger.ClientEvent(player, "ChatPyBed", 10, 0);
-                                } else {
-                                    Players[player].Achievements[5] = true;
-                                    Trigger.ClientEvent(player, "ChatPyBed", 10, 1);
-                                }
-                            } else { //TODO: ветка, если игроку не давали рекомендацию, Фрэнк не слышал об игроке
-                            }
-                        } else if(Players[player].Achievements[6] && !Players[player].Achievements[7]) { // Подход к Фрэнку после выполнения миссии
-                            Players[player].Achievements[7] = true;
-                            MoneySystem.Wallet.Change(player, 250);
-                            Trigger.ClientEvent(player, "ChatPyBed", 13, 0);
-                        } else if(Players[player].Achievements[7] && !Players[player].Achievements[8]) { // Взять второй квэст у Фрэнка
-                            Players[player].Achievements[8] = true;
-                            Trigger.ClientEvent(player, "ChatPyBed", 14, 0);
-                        } else if(Players[player].Achievements[8] && !Players[player].Achievements[9])  Trigger.ClientEvent(player, "ChatPyBed", 15, 0);
-                        else if(Players[player].Achievements[8] && Players[player].Achievements[9]) { // 
-                            if(!Players[player].Achievements[10]) { // Еще не сдан квест с трактором у фрэнка
-                                Players[player].Achievements[10] = true;
-                                Trigger.ClientEvent(player, "ChatPyBed", 16, 0);
-                                MoneySystem.Wallet.Change(player, 500);
-                            } else Trigger.ClientEvent(player, "ChatPyBed", 17, 0);
-                        }
-                        return;
-                    case 504:
-                        if(Players[player].Achievements[5] && !Players[player].Achievements[6]) { // Если сейчас взята миссия Фрэнка
-                            Players[player].Achievements[6] = true;
-                            OnAntiAnim(player);
-                            player.PlayAnimation("amb@prop_human_movie_studio_light@base", "base", 39);
-                            NAPI.Task.Run(() => {
-                                if (player != null && Main.Players.ContainsKey(player))
-                                {
-                                    player.StopAnimation();
-                                    OffAntiAnim(player);
-                                    player.SendChatMessage("Ну вот, насос включен, можно бежать к Фрэнку!");
-                                }
-                            }, 3000);
-                        }
-                        return;
-                    case 505:
-                        if(!Players[player].Achievements[9]) {
-                            if(!player.IsInVehicle) return;
-                            if(player.Vehicle != FrankQuest1Trac0 && player.Vehicle != FrankQuest1Trac1) return;
-                            Players[player].Achievements[9] = true;
-                            Vehicle trac = player.Vehicle;
-                            player.WarpOutOfVehicle();
-                            NAPI.Task.Run(() => {
-                                if(trac == FrankQuest1Trac0) {
-                                    trac.Position = new Vector3(1981.87, 5174.382, 48.26282);
-                                    trac.Rotation = new Vector3(0.1017629, -0.1177645, 129.811);
-                                } else {
-                                    trac.Position = new Vector3(1974.506, 5168.247, 48.2662);
-                                    trac.Rotation = new Vector3(0.07581472, -0.08908347, 129.8487);
-                                }
-                            }, 500);
-                            player.SendChatMessage("Отлично, трактор на месте, давай скажем Фрэнку?");
-                        }
-                        return;
                     default:
                         return;
                 }

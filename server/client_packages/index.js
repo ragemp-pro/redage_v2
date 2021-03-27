@@ -128,11 +128,6 @@ setInterval(function () {
 	mp.discord.update('RAGEMP.PRO v2.0', name);
 }, 10000);
 
-var pedsaying = null;
-var pedtext = "";
-var pedtext2 = null;
-var pedtimer = false;
-
 var friends = {};
 var personalLabels = [];
 
@@ -266,7 +261,7 @@ require('./gangzones.js');
 require('./fly.js');
 require('./environment.js');
 require('./elections.js');
-require('./animals.js');
+require('./world/animals.js');
 require('./client/utils/utils.js');
 require('./scripts/autopilot.js');
 require('./scripts/crouch.js');
