@@ -165,8 +165,8 @@ namespace NeptuneEvo.Houses
 
             var vehData = VehicleManager.Vehicles[number];
             if (vehData.Health < 1) return;
-            //            var car = NAPI.Util.GetHashKey(vehData.Model);
-            var veh = NAPI.Vehicle.CreateVehicle((VehicleHash)NAPI.Util.GetHashKey(vehData.Model), GarageManager.GarageTypes[Type].VehiclesPositions[i] + new Vector3(0, 0, 0.25), GarageManager.GarageTypes[Type].VehiclesRotations[i], 0, 0);
+            VehicleHash vh = (VehicleHash)NAPI.Util.GetHashKey(vehData.Model);
+            var veh = NAPI.Vehicle.CreateVehicle(vh, GarageManager.GarageTypes[Type].VehiclesPositions[i] + new Vector3(0, 0, 0.25), GarageManager.GarageTypes[Type].VehiclesRotations[i], 0, 0);
             veh.NumberPlate = number;
             NAPI.Entity.SetEntityDimension(veh, (uint)Dimension);
             VehicleStreaming.SetEngineState(veh, false);
@@ -651,7 +651,7 @@ namespace NeptuneEvo.Houses
                         var vehicles = VehicleManager.getAllPlayerVehicles(house.Owner);
                         if (player.IsInVehicle && !vehicles.Contains(player.Vehicle.NumberPlate))
                         {
-                            Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Du kannst mit diesem Auto nicht in die Garage fahren", 3000);
+                            Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Вы не можете въехать в гараж на этой машине", 3000);
                             return;
                         }
                         else if (player.IsInVehicle && vehicles.Contains(player.Vehicle.NumberPlate))
@@ -672,14 +672,14 @@ namespace NeptuneEvo.Houses
                             if (vehicles.Count == 0) return;
                             if (garage.CheckCar(false, vehicles[0]))
                             {
-                                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Ihr Auto ist jetzt irgendwo im Staat, Sie können evakuieren", 3000);
+                                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Ваша машина сейчас где-то в штате, вы можете эвакуировать её", 3000);
                                 return;
                             }
                             if (player.IsInVehicle) return;
 
                             if (VehicleManager.Vehicles[vehicles[0]].Health < 1)
                             {
-                                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Sie müssen das Auto wiederherstellen", 3000);
+                                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Вы должны восстановить машину", 3000);
                                 return;
                             }
                             garage.GetVehicleFromGarage(player, vehicles[0]);
