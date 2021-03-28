@@ -737,6 +737,9 @@ namespace NeptuneEvo.Fractions
                         return;
                     }
                     player.Health = player.Health + 1;
+
+                    if (Main.Players[player].Eat < 15) EatManager.AddEat(player, +1);
+                    if (Main.Players[player].Water < 15) EatManager.AddWater(player, +1);
                 }
                 catch { }
             });

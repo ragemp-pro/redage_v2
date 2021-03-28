@@ -70,11 +70,10 @@ namespace NeptuneEvo.Core
             GUI.Dashboard.sendStats(player);
         }
 
-        [ServerEvent(Event.PlayerDeath)]
-        public void OnPlayerDeath(Player player, Player killer, uint reason)
+        public static void SetEatWaterDefault(Player player)
         {
-            SetEat(player, 40);
-            SetWater(player, 40);
+            SetEat(player, 5);
+            SetWater(player, 5);
         }
         public static void CheckEat()
         {
