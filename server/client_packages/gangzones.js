@@ -90,20 +90,32 @@
 	{ 'position': { 'x': 1268.898, 'y': -1501.556, 'z': 28.17772 }, 'color': 10 },
 	{ 'position': { 'x': 1368.898, 'y': -1501.556, 'z': 28.17772 }, 'color': 10 },
 ]
-
-var blips = [];
+if (mp.storage.data.gangzones == undefined) {
+    mp.storage.data.gangzones = [];
+    mp.storage.flush();
+}
 mp.events.add('loadCaptureBlips', function (json) {
     var colors = JSON.parse(json);
     for (var i = 0; i < colors.length; i++) {
         positions[i].color = colors[i];
-    }
+	}
+	if(mp.storage.data.gangzones.length !== 0) {
+		mp.events.call('unloadCaptureBlips');
+	}
     positions.forEach(element => {
         const blip = mp.game.ui.addBlipForRadius(element.position.x, element.position.y, element.position.z, 50);
         mp.game.invoke(getNative("SET_BLIP_SPRITE"), blip, 5);
         mp.game.invoke(getNative("SET_BLIP_ALPHA"), blip, 175);
-        mp.game.invoke(getNative("SET_BLIP_COLOUR"), blip, element.color);
-        blips.push(blip);
+		mp.game.invoke(getNative("SET_BLIP_COLOUR"), blip, element.color);
+        mp.storage.data.gangzones.push(blip);
     });
+});
+mp.events.add('unloadCaptureBlips', () =>{
+	mp.storage.data.gangzones.forEach(element =>{
+		mp.game.ui.removeBlip(element);
+	});
+	mp.storage.data.gangzones = [];
+	mp.storage.flush();
 });
 
 var isCapture = false;
@@ -124,26 +136,26 @@ mp.events.add('captureHud', function (argument) {
 });
 
 mp.events.add('setZoneColor', function (id, color) {
-    if (blips.length == 0) return;
-    mp.game.invoke(getNative("SET_BLIP_COLOUR"), blips[id], color);
+    if (mp.storage.data.gangzones.length == 0) return;
+    mp.game.invoke(getNative("SET_BLIP_COLOUR"), mp.storage.data.gangzones[id], color);
 });
 mp.events.add('setZoneFlash', function (id, state, color) {
-    if (blips.length == 1 || blips.length == 0) {
+    if (mp.storage.data.gangzones.length == 1 || mp.storage.data.gangzones.length == 0) {
         if (state) {
             const blip = mp.game.ui.addBlipForRadius(positions[id].position.x, positions[id].position.y, positions[id].position.z, 50);
             mp.game.invoke(getNative("SET_BLIP_SPRITE"), blip, 5);
             mp.game.invoke(getNative("SET_BLIP_ALPHA"), blip, 175);
             mp.game.invoke(getNative("SET_BLIP_COLOUR"), blip, color);
-            blips[id] = blip;
+            mp.storage.data.gangzones[id] = blip;
         }
         else {
-            if (blips.length == 0) return;
-            mp.game.invoke(getNative("SET_BLIP_ALPHA"), blips[id], 0);
+            if (mp.storage.data.gangzones.length == 0) return;
+            mp.game.invoke(getNative("SET_BLIP_ALPHA"), mp.storage.data.gangzones[id], 0);
         }
     }
 
-    mp.game.invoke(getNative("SET_BLIP_FLASH_TIMER"), blips[id], 1000);
-    mp.game.invoke(getNative("SET_BLIP_FLASHES"), blips[id], state);
+    mp.game.invoke(getNative("SET_BLIP_FLASH_TIMER"), mp.storage.data.gangzones[id], 1000);
+    mp.game.invoke(getNative("SET_BLIP_FLASHES"), mp.storage.data.gangzones[id], state);
 });
 
 mp.events.add('render', () => {
@@ -162,13 +174,9 @@ mp.events.add('render', () => {
         });
     }
 
-    if (blips.length !== 0) {
-        blips.forEach(blip => {
+    if (mp.storage.data.gangzones.length !== 0) {
+        mp.storage.data.gangzones.forEach(blip => {
 			mp.game.invoke(getNative("SET_BLIP_ROTATION"), blip, 0);
         })
     }
-});
-
-mp.events.add('quitcmd', function () {
-    mp.events.callRemote('kickclient');
 });
