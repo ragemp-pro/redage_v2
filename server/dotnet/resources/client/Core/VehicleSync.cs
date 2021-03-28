@@ -240,6 +240,7 @@ namespace NeptuneEvo.Core
                 data = new VehicleSyncData();
 
             data.Engine = status;
+            veh.EngineStatus = status;
             data.RightIL = false;
             data.LeftIL = false;
             veh.SetSharedData("rightlight", false);
@@ -301,6 +302,7 @@ namespace NeptuneEvo.Core
 
             veh.SetSharedData("LOCKED", status);
             data.Locked = status;
+            veh.Locked = status;
             UpdateVehicleSyncData(veh, data);
             Trigger.ClientEventInRange(veh.Position, 250, "VehStream_SetLockStatus", veh, status);
         }
