@@ -20,6 +20,8 @@ const disableMicrophone = () => {
         mp.voiceChat.muted = true;
         mp.gui.execute(`HUD.mic=${false}`);
 		localplayer.playFacialAnim("mood_normal_1", "facials@gen_male@variations@normal");
+
+        //mp.voiceChat.cleanupAndReload(true, false, false); // voice fix (если все равно проблемы с войсом расскоментируйте это)
     }
 }
 
@@ -85,6 +87,16 @@ mp.events.add("voice.phoneStop", () => {
         PHONE.status = false;
     }
 });
+
+// voice fix
+var voiceFixTimer = setInterval(function () {
+    if ((new Date().getTime() - lastVoiceFixTime) > (5 * 60 * 1000)) {
+        if (mp.voiceChat.muted) {
+            mp.voiceChat.cleanupAndReload(false, false, true);
+            lastVoiceFixTime = new Date().getTime();
+        }
+    }
+}, 30 * 1000);
 
 mp.events.add('v_reload', () => {
 	try {
