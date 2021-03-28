@@ -89,6 +89,7 @@ mp.events.add("voice.phoneStop", () => {
 });
 
 // voice fix
+var lastVoiceFixTime = new Date().getTime();
 var voiceFixTimer = setInterval(function () {
     if ((new Date().getTime() - lastVoiceFixTime) > (5 * 60 * 1000)) {
         if (mp.voiceChat.muted) {
