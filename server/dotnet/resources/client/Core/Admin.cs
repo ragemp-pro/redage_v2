@@ -201,7 +201,7 @@ namespace NeptuneEvo.Core
                 return;
             }
             Main.Players[target].AdminLVL = 1;
-            target.SetData("IS_ADMIN", true);
+            target.SetSharedData("IS_ADMIN", true);
             //Main.AdminSlots.Add(target.GetData("RealSocialClub"), new Main.AdminSlotsData(target.Name, 1, true, false));
             Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Вы Выдали админ. права игроку {target.Name}", 3000);
             Notify.Send(target, NotifyType.Info, NotifyPosition.BottomCenter, $"{player.Name} Выдал Вам админ. права", 3000);
@@ -226,7 +226,7 @@ namespace NeptuneEvo.Core
                 return;
             }
             Main.Players[target].AdminLVL = 0;
-            target.SetData("IS_ADMIN", false);
+            target.SetSharedData("IS_ADMIN", false);
 
             //Main.AdminSlots.Remove(target.GetData("RealSocialClub"));
 
