@@ -2612,7 +2612,7 @@ namespace NeptuneEvo.Core
         {
             if (variation == 0)
             {
-                player.SetData("IS_MASK", false);
+                player.SetSharedData("IS_MASK", false);
                 ApplyCharacterFace(player);
 
                 player.SetClothes(2, CustomPlayerData[Main.Players[player].UUID].Hair.Hair, 0);
@@ -2620,7 +2620,7 @@ namespace NeptuneEvo.Core
             }
             else
             {
-                player.SetData("IS_MASK", true);
+                player.SetSharedData("IS_MASK", true);
                 ApplyMaskFace(player);
             }
             player.SetClothes(1, variation, texture);
