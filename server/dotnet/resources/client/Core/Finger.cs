@@ -12,5 +12,12 @@ namespace NeptuneEvo.Core
         {
             NAPI.ClientEvent.TriggerClientEventInRange(sender.Position, 100, "fpsync.update", sender.Handle, camPitch, camHeading);
         }
+
+        [RemoteEvent("toggleCrouch")]
+        public static void ToggleCrouch(Player player)
+        {
+            if (!player.HasSharedData("isCrouched")) player.SetSharedData("isCrouched", true);
+            else player.SetSharedData("isCrouched", !player.GetSharedData<bool>("isCrouched"));
+        }
     }
 }

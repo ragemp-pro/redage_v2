@@ -1,6 +1,6 @@
 const movementClipSet = "move_ped_crouched";
 const strafeClipSet = "move_ped_crouched_strafing";
-const clipSetSwitchTime = 0.5;
+const clipSetSwitchTime = 0.25;
 
 const loadClipSet = (clipSetName) => {
     mp.game.streaming.requestClipSet(clipSetName);
@@ -20,21 +20,27 @@ mp.events.add("entityStreamIn", (entity) => {
 });
 
 // apply/reset clip sets when isCrouched changes for a streamed player
-mp.events.addDataHandler("isCrouched", (entity, value, oldValue) => {
-    if (entity.type !== "player") return;
-    if (value) {
-        entity.setMovementClipset(movementClipSet, clipSetSwitchTime);
-        entity.setStrafeClipset(strafeClipSet);
-    } else {
-        entity.resetMovementClipset(clipSetSwitchTime);
-        entity.resetStrafeClipset();
+mp.events.addDataHandler("isCrouched", (entity, value) => {
+    if (entity.type === "player") {
+        if (value) {
+            entity.setMovementClipset(movementClipSet, clipSetSwitchTime);
+            entity.setStrafeClipset(strafeClipSet);
+        } else {
+            entity.resetMovementClipset(clipSetSwitchTime);
+            entity.resetStrafeClipset();
+        }
     }
 });
 
 // CTRL key to toggle crouching
-mp.keys.bind(0x11, false, () => {
-    if (mp.tabletActive || mp.chatActive || mp.consoleActive || mp.autoSaloonActive || mp.inventoryActive || mp.tradeActive 
-        || mp.playerMenuActive || mp.documentsActive || mp.houseMenuActive || mp.selectMenuActive || mp.game.ui.isPauseMenuActive() || mp.players.local.vehicle) return;
-    
+mp.keys.bind(Keys.VK_CONTROL, false, () => {
+if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 1000 || global.menuOpened || localplayer.vehicle) return;
     mp.events.callRemote("toggleCrouch");
+});
+
+mp.events.add('render', () => {
+    try {
+        mp.game.controls.disableControlAction(2, 36, true);
+    }
+    catch {}
 });
