@@ -1,4 +1,5 @@
 ﻿global.showhud = true;
+global.passports = {};
 var cruiseSpeed = -1;
 var cruiseLastPressed = 0;
 var showHint = true;
@@ -361,10 +362,16 @@ mp.events.add('setCruiseSpeed', function (speed) {
     cruiseSpeed = speed;
 });
 
-var passports = {};
 mp.events.add('newPassport', function (player, pass) {
     if (player && mp.players.exists(player))
-        passports[player.name] = pass;
+        global.passports[player.name] = pass;
+});
+
+mp.events.add('newFriend', function (player) {
+    if (player && mp.players.exists(player)) {
+        mp.storage.data.friends[player.name] = true;
+        mp.storage.flush();
+    }
 });
 
 var showAltTabHint = false;
@@ -397,7 +404,7 @@ mp.events.add('sendRPMessage', (type, msg, players) => {
 			if(player.getVariable('IS_MASK') == true) {
 				name = (player === localplayer || localplayer.getVariable('IS_ADMIN') == true) ? `${player.name.replace("_", " ")} (${player.getVariable('REMOTE_ID')})` : `Незнакомец (${id})`;
 			} else {
-				name = (player === localplayer || localplayer.getVariable('IS_ADMIN') == true || passports[player.name] != undefined || mp.storage.data.friends[player.name] != undefined) ? `${player.name.replace("_", " ")} (${player.getVariable('REMOTE_ID')})` : `Незнакомец (${id})`;
+				name = (player === localplayer || localplayer.getVariable('IS_ADMIN') == true || global.passports[player.name] != undefined || mp.storage.data.friends[player.name] != undefined) ? `${player.name.replace("_", " ")} (${player.getVariable('REMOTE_ID')})` : `Незнакомец (${id})`;
 			}
             msg = msg.replace("{name}", name);
         }

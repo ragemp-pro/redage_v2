@@ -72,10 +72,17 @@ mp.events.add('render', function (nametags) {
 
                             var text = void 0;
                             if (_player.getVariable('IS_MASK') == true) {
-                                if (isAdmin === true) text = '\u0418\u0433\u0440\u043E\u043A \u0432 \u043C\u0430\u0441\u043A\u0435: ' + _player.name + ' (' + _player.remoteId + passportText + ')';else text = 'ID: ' + _player.remoteId;
+                                if (isAdmin === true)
+                                    text = '\u0418\u0433\u0440\u043E\u043A \u0432 \u043C\u0430\u0441\u043A\u0435: ' + _player.name + ' (' + _player.remoteId + passportText + ')';
+                                else
+                                    text = 'ID: ' + _player.remoteId;
                             } else {
-                                if (isAdmin === true || global.friends[_player.name] !== undefined || global.passports[_player.name] !== undefined) text = _player.name + ' (' + _player.remoteId + passportText + ')';else text = 'ID: ' + _player.remoteId;;
+                                if (isAdmin === true || mp.storage.data.friends[_player.name] != undefined || global.passports[_player.name] != undefined)
+                                    text = _player.name + ' (' + _player.remoteId + passportText + ')';
+                                else
+                                    text = 'ID: ' + _player.remoteId;;
                             }
+                            
                             var localFraction = global.localplayer.getVariable('fraction');
                             var playerFraction = _player.getVariable('fraction');
                             if (localFraction != null && playerFraction != null && localFraction === playerFraction) text = _player.name + ' (' + _player.remoteId + passportText + ')';

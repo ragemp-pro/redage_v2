@@ -128,14 +128,8 @@ setInterval(function () {
 	mp.discord.update('RAGEMP.PRO v2.0', name);
 }, 10000);
 
-var friends = {};
-var personalLabels = [];
-
 var pressedraw = false;
 var accessRoding = false;
-var pentloaded = false;
-var emsloaded = false;
-var showCords = false;
 
 const walkstyles = [null,"move_m@brave","move_m@confident","move_m@drunk@verydrunk","move_m@shadyped@a","move_m@sad@a","move_f@sexy@a","move_ped_crouched"];
 const moods = [null,"mood_aiming_1", "mood_angry_1", "mood_drunk_1", "mood_happy_1", "mood_injured_1", "mood_stressed_1"];
@@ -184,17 +178,6 @@ mp.events.add('chatconfig', function (a, b) {
 	else if(a == 2) mp.storage.data.chatcfg.fontstep = b;
 	else mp.storage.data.chatcfg.alpha = b;
 	mp.storage.flush();
-});
-
-mp.events.add('setFriendList', function (friendlist) {
-	friends = {};
-	friendlist.forEach(friend => {
-		friends[friend] = true;
-    });
-});
-
-mp.events.add('newFriend', function (friend) {
-    friends[friend] = true;
 });
 
 mp.events.add('setClientRotation', function (player, rots) {
