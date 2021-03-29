@@ -152,6 +152,9 @@ fractionActions[11] = ["Вести за собой", "Bolso", "Ограбить"
 fractionActions[12] = ["Вести за собой", "Bolso", "Ограбить", "Украсть оружие"];
 fractionActions[13] = ["Вести за собой", "Bolso", "Ограбить", "Украсть оружие"];
 fractionActions[14] = ["Вести за собой"];
+fractionActions[15] = ["Вести за собой"];
+fractionActions[16] = ["Вести за собой"];
+fractionActions[17] = ["Вести за собой", "Мешок", "Обыскать", "Изъять нелегал", "Сорвать маску"];
 mp.events.add('fractionChange', (fraction) => {
     pFraction = fraction;
 });
