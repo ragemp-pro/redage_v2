@@ -2,7 +2,10 @@
 var lastdirt;
 
 mp.game.vehicle.defaultEngineBehaviour = false;
-localplayer.setConfigFlag(429, true); // PED_FLAG_STOP_ENGINE_TURNING
+localplayer.setConfigFlag(241, true); // Отключаем глушения двигателя при выходе из машины (PED_FLAG_DISABLE_STOPPING_VEH_ENGINE)
+localplayer.setConfigFlag(429, true); // Отключаем попытку завести двигатель машины при входе в нее (PED_FLAG_STOP_ENGINE_TURNING)
+localplayer.setConfigFlag(35, false); // Отключаем автоматический шлем при посадке на мотоцикл (PED_FLAG_CAN_PUT_MOTORCYCLE_HELMET).
+
 
 /*
 if(!mp.game.streaming.hasModelLoaded(mp.game.joaat("freight"))) mp.game.streaming.requestModel(mp.game.joaat("freight"));
