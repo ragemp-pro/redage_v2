@@ -80,7 +80,7 @@ mp.events.add('render', function (nametags) {
                                 if (isAdmin === true || mp.storage.data.friends[_player.name] != undefined || global.passports[_player.name] != undefined)
                                     text = _player.name + ' (' + _player.remoteId + passportText + ')';
                                 else
-                                    text = 'ID: ' + _player.remoteId;;
+                                    text = 'ID: ' + _player.remoteId;
                             }
                             
                             var localFraction = global.localplayer.getVariable('fraction');
