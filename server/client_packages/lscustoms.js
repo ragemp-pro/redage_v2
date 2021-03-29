@@ -1,4 +1,5 @@
 ﻿var lsc = mp.browsers.new('package://cef/lscustoms/home.html');
+lsc.active = false;
 var lscSpeed = 0;
 var lscBrakes = 0;
 var lscBoost = 0;
@@ -16,14 +17,15 @@ var priceMod = 1;
 var isBike = false;
 var modelPriceMod = 1;
 var carName = "";
-setTimeout(function () { lsc.execute(`show(${false});`); }, 1500);
 
 mp.events.add('hideTun', () => {
     lsc.execute(`show(${false});`);
+    lsc.active = false;
 });
 mp.events.add('browserDomReady', (browser) => {
     if (browser === lsc && !opened) {
         lsc.execute(`show(${false});`);
+        lsc.active = false;
     }
 });
 // Switch global page //
@@ -33,6 +35,7 @@ mp.events.add('tpage', (id) => {
 
     if (id == "exit_menu") {
         lsc.execute(`show(${false});`);
+        lsc.active = false;
         global.menuClose();
         tunCam.destroy();
         mp.game.cam.renderScriptCams(false, false, 500, true, false);
@@ -266,6 +269,7 @@ mp.events.add('tclk', (id) => {
         mp.events.call('notify', 1, 9, "У Вас уже установлена данная модификация", 3000);
     else {
         lsc.execute(`show(${false});`);
+        lsc.active = false;
         opened = false;
         lscSelected = id;
 
@@ -326,6 +330,7 @@ mp.events.add('tunbuy', (state) => {
             if (paintType == 2 && isBike) {
                 mp.events.call('notify', 1, 4, "Этот раздел недоступен для мотоциклов.", 3000);
                 lsc.execute(`show(${true});`);
+                lsc.active = true;
                 opened = true;
             }
             else mp.events.callRemote('buyTuning', 20, paintType, lscRGB.r, lscRGB.g, lscRGB.b);
@@ -335,6 +340,7 @@ mp.events.add('tunbuy', (state) => {
     }
     else {
         lsc.execute(`show(${true});`);
+        lsc.active = true;
         opened = true;
         if (lscPage == "numbers_menu") {
             localplayer.vehicle.setNumberPlateTextIndex(lscSettedMod);
@@ -363,6 +369,7 @@ mp.events.add('tunbuy', (state) => {
 mp.events.add('tunBuySuccess', (id) => {
     afkSecondsCount = 0;
     lsc.execute(`show(${true});`);
+    lsc.active = true;
     opened = true;
     if (id != -2) {
 
@@ -517,6 +524,7 @@ mp.events.add('openTun', (priceModief, carModel, modelPriceModief, components, v
     lsc.execute(`disable(${JSON.stringify(toDisable)});`);
     mp.events.call('tupd');
     lsc.execute(`show(${true});`);
+    lsc.active = true;
 
     priceMod = priceModief / 100;
     modelPriceMod = modelPriceModief;

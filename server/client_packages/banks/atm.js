@@ -1,14 +1,17 @@
 ﻿global.atm = mp.browsers.new('package://cef/banks/atm.html');
+atm.active = false;
 // ATM //
 var atmIndex = 0;
 mp.events.add('openatm', () => {
     if (global.menuCheck()) return;
     atm.execute('atm.active=1');
+    atm.active = true;
     menuOpen();
 });
 mp.events.add('closeatm', () => {
     menuClose();
     atm.execute('atm.reset();atm.active=0');
+    atm.active = false;
 })
 mp.events.add('setatm', (num, name, bal, sub) => {
     atm.execute(`atm.set('${num}','${name}','${bal}','${sub}')`);
