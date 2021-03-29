@@ -1831,6 +1831,7 @@ var report = mp.browsers.new('package://cef/ticket.html');
 var reportactive = false;
 mp.events.add('addreport', (id_, author_, quest_) => {
     report.execute(`addReport(${id_},'${author_}','${quest_}', false, '')`);
+    mp.events.call('notify', 0, 2, "Пришел новый репорт!", 1500);
 })
 mp.events.add('setreport', (id, name) => {
     report.execute(`setStatus(${id}, '${name}')`);
@@ -1866,6 +1867,7 @@ mp.events.add('enableadvert', (toggle) => {
 mp.events.add('addadvert', (id_, author_, quest_) => {
 	try {
 		if(adverts != null) adverts.execute(`addAdvert(${id_},'${author_}','${quest_}', false, '')`);
+        mp.events.call('notify', 0, 2, "Пришло новое объявление!", 3000);
 	} catch(e) {
 	}
 })

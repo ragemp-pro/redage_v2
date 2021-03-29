@@ -138,15 +138,6 @@ namespace NeptuneEvo.Core.Character
                     nInventory.Remove(player, ItemType.BagWithMoney, 1);
                 if (nInventory.Find(UUID, ItemType.BagWithDrill) != null)
                     nInventory.Remove(player, ItemType.BagWithDrill, 1);
-
-                if(FractionID == 15) {
-                    Trigger.ClientEvent(player, "enableadvert", true);
-                    Fractions.LSNews.onLSNPlayerLoad(player);
-                }
-                if(AdminLVL > 0)
-                {
-                    ReportSys.onAdminLoad(player);
-                }
             }
             catch (Exception e)
             {
