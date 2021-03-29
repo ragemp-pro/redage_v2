@@ -319,6 +319,53 @@ namespace NeptuneEvo.Fractions
                     case 2: //CompactRifle
                         Fractions.Manager.giveGun(client, Weapons.Hash.CompactRifle, "CompactRifle");
                         return;
+                    case 3: // pistol ammo
+                        if (!Manager.canGetWeapon(client, "PistolAmmo")) return;
+                        Fractions.Manager.giveAmmo(client, ItemType.PistolAmmo, 12);
+                        return;
+                    case 4: // RiflesAmmo ammo
+                        if (!Manager.canGetWeapon(client, "RiflesAmmo")) return;
+                        Fractions.Manager.giveAmmo(client, ItemType.RiflesAmmo, 15);
+                        return;
+                    case 5: // medkit
+                        if (!Manager.canGetWeapon(client, "Medkits")) return;
+                        if (Fractions.Stocks.fracStocks[17].Medkits == 0)
+                        {
+                            Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "На складе нет аптечек", 3000);
+                            return;
+                        }
+                        var hItem = nInventory.Find(Main.Players[client].UUID, ItemType.HealthKit);
+                        if (hItem != null)
+                        {
+                            Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "У Вас уже есть аптечка", 3000);
+                            return;
+                        }
+                        Fractions.Stocks.fracStocks[17].Medkits--;
+                        Fractions.Stocks.fracStocks[17].UpdateLabel();
+                        nInventory.Add(client, new nItem(ItemType.HealthKit, 1));
+                        GameLog.Stock(Main.Players[client].FractionID, Main.Players[client].UUID, "medkit", 1, false);
+                        Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы получили аптечку", 3000);
+                        return;
+                    case 6:
+                        if (!Manager.canGetWeapon(client, "armor")) return;
+                        if (Fractions.Stocks.fracStocks[17].Materials < Fractions.Manager.matsForArmor)
+                        {
+                            Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "На складе недостаточно материала", 3000);
+                            return;
+                        }
+                        var aItem = nInventory.Find(Main.Players[client].UUID, ItemType.BodyArmor);
+                        if (aItem != null)
+                        {
+                            Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "У Вас уже есть бронежилет", 3000);
+                            return;
+                        }
+                        Fractions.Stocks.fracStocks[17].Materials -= Fractions.Manager.matsForArmor;
+                        Fractions.Stocks.fracStocks[17].UpdateLabel();
+                        nInventory.Add(client, new nItem(ItemType.BodyArmor, 1, 100.ToString()));
+                        Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы получили бронежилет", 3000);
+                        GameLog.Stock(Main.Players[client].FractionID, Main.Players[client].UUID, "armor", 1, false);
+                        return;
+
                 }
             }
             catch (Exception e)

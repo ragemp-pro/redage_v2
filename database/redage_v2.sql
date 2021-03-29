@@ -521,6 +521,7 @@ INSERT INTO `fractionaccess` (`idkey`, `fraction`, `commands`, `weapons`) VALUES
 	(13, 13, '{"buydrugs":8,"cuff":2,"uncuff":2,"pocket":2,"follow":2,"incar":2,"pull":2,"takedrugs":3,"takemedkits":4,"openweaponstock":5,"takemats":5,"bizwar":7,"takemoney":8,"takestock":8,"setrank":9,"invite":9,"uninvite":9,"openstock":9,"closestock":9,"respawn":10,"takebiz":8}', '{"Medkits":4}'),
 	(14, 14, '{"dep":12,"gov":13,"openweaponstock":5,"cuff":8,"follow":8,"incar":8,"pull":8,"invite":14,"uninvite":14,"setrank":14,"openstock":14,"closestock":14,"respawn":15,"givearmylic":14}', '{"pistol":2,"PistolAmmo":2,"carabine":3,"RiflesAmmo":3,"Medkits":3,"armor":3,"SMGAmmo":13,"CombatMG":14}'),
 	(15, 15, '{"dep":15,"gov":15,"invite":14,"uninvite":14,"setrank":14}', '{"Medkits":8}'),
+	(17, 17, '{"invite": "17",  "uninvite": "17",  "setrank": "17",  "rfp": "1", "pull": "1",  "openweaponstock": "12",  "openstock": "12",  "dep": "1",  "gov": "1"}', '{"Nightstick":1,"Pistol":2,"CompactRifle":3,"PistolAmmo":12,"RiflesAmmo":15,"Medkits":2,"armor":2}'),
 	(18, 18, '{"invite": "13",  "uninvite": "13",  "setrank": "13",  "ticket": "1",  "arrest": "1",  "rfp": "1",  "follow": "1",  "su": "1",  "incar": "1",  "pull": "1",  "warg": "12",  "openweaponstock": "12",  "openstock": "12",  "givegunlic": "5",  "takegunlic": "5",  "cuff": "1",  "dep": "1",  "gov": "1"}', '{"sheriffgun":"1", "armor":"1", "Medkits":"1", "PistolAmmo":"1", "SMGAmmo":"1", "ShotgunsAmmo":"1", "RiflesAmmo":"1"}');
 /*!40000 ALTER TABLE `fractionaccess` ENABLE KEYS */;
 

@@ -532,7 +532,11 @@ mp.events.add('meryg', () => {
     let data = [
         "Дубинка",
         "Пистолет",
-        "Снайперская винтовка",
+        "Compact Rifle",
+        "Пистолетный калибр x12",
+        "RiflesAmmo",
+        "Аптечка",
+		"Бронежилет",
     ];
     openSM(12, JSON.stringify(data));
 });
