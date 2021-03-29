@@ -2,6 +2,7 @@
 var lastdirt;
 
 mp.game.vehicle.defaultEngineBehaviour = false;
+localplayer.setConfigFlag(429, true); // PED_FLAG_STOP_ENGINE_TURNING
 
 /*
 if(!mp.game.streaming.hasModelLoaded(mp.game.joaat("freight"))) mp.game.streaming.requestModel(mp.game.joaat("freight"));
@@ -620,7 +621,6 @@ mp.events.add("entityStreamIn", (entity) => {
         {
             let typeor = typeof entity.getVariable('VehicleSyncData');
             let actualData = entity.getVariable('VehicleSyncData');
-
             //Needed to stop vehicles from freaking out
             ///mp.game.streaming.requestCollisionAtCoord(entity.position.x, entity.position.y, entity.position.z);
             //mp.game.invoke(getNative("REQUEST_ADDITIONAL_COLLISION_AT_COORD"), entity.position.x, entity.position.y, entity.position.z);
