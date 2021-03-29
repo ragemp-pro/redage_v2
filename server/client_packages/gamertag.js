@@ -73,7 +73,7 @@ mp.events.add('render', function (nametags) {
                             var text = void 0;
                             if (_player.getVariable('IS_MASK') == true) {
                                 if (isAdmin === true)
-                                    text = '\u0418\u0433\u0440\u043E\u043A \u0432 \u043C\u0430\u0441\u043A\u0435: ' + _player.name + ' (' + _player.remoteId + passportText + ')';
+                                    text = 'В маске: ' + _player.name + ' (' + _player.remoteId + passportText + ')';
                                 else
                                     text = 'ID: ' + _player.remoteId;
                             } else {
@@ -85,7 +85,10 @@ mp.events.add('render', function (nametags) {
                             
                             var localFraction = global.localplayer.getVariable('fraction');
                             var playerFraction = _player.getVariable('fraction');
-                            if (localFraction != null && playerFraction != null && localFraction === playerFraction) text = _player.name + ' (' + _player.remoteId + passportText + ')';
+                            if (localFraction != null && playerFraction != null && localFraction === playerFraction)
+                            {
+                                text = `[${_player.getVariable('fractionRankName')}] ${_playerName} (${_player.getVariable('REMOTE_ID')}${passportText}) `;
+                            }
 
                             var color = _player.getVariable('REDNAME') === true ? [255, 0, 0, 255] : [255, 255, 255, 255];
                             tagLabelPool[_player.remoteId] = { text: text, color: color };
@@ -94,8 +97,10 @@ mp.events.add('render', function (nametags) {
                         var label = tagLabelPool[_player.remoteId];
                         if (label !== undefined) {
                             drawPlayerTag(_player, x, y, label.text, label.color);
-                            drawPlayerTag(player, x, y, '\n #' + _player.getVariable('PERSON_ID'), [200,200,200,200]);
+                            drawPlayerTag(_player, x, y, '\n #' + _player.getVariable('PERSON_ID'), [200,200,200,200]);
                             drawPlayerVoiceIcon(_player, x, y);
+                            if (_player.getVariable('IS_DYING')) drawPlayerTag(_player, x, y - 0.05, "Без сознания", [255,0,0,255]);
+                            if (_player.getVariable('IS_ADMIN') === true) drawPlayerStar(_player, x, y );
                         }
                     }
                 }
@@ -114,8 +119,8 @@ function drawPlayerTag(player, x, y, displayname, color) {
     mp.game.graphics.drawText(displayname, [x, y], { font: 4, color: color, scale: [0.35, 0.35], outline: true });
 
     // draw health & ammo bar
-    if (playerTarget != undefined && player.handle == playerTarget.handle || playerAimAt != undefined && player.handle == playerAimAt.handle || global.spectating) {
-        y += 0.04;
+    if (mp.game.player.isFreeAimingAtEntity(player.handle) || mp.game.player.isTargettingEntity(player.handle) || global.spectating) {
+        y += 0.05125;
         var health = player.getHealth();
         health = health <= 100 ? health / 100 : (health - 100) / 100;
 
@@ -142,6 +147,9 @@ function drawPlayerTag(player, x, y, displayname, color) {
 
 function drawPlayerVoiceIcon(player, x, y) {
     if (player.isVoiceActive) drawVoiceSprite("mpleaderboard", 'leaderboard_audio_3', [0.7, 0.7], 0, [255, 255, 255, 255], x, y - 0.02 * 0.7);else if (player.getVariable('voice.muted') == true) drawVoiceSprite("mpleaderboard", 'leaderboard_audio_mute', [0.7, 0.7], 0, [255, 0, 0, 255], x, y - 0.02 * 0.7);
+}
+function drawPlayerStar(player, x, y) {
+    if (!player.isVoiceActive) drawVoiceSprite("mpleaderboard", 'leaderboard_star_icon', [0.7, 0.7], 0, [255, 255, 0, 255], x, y - 0.02 * 0.7);
 }
 
 function drawVoiceSprite(dist, name, scale, heading, colour, x, y, layer) {

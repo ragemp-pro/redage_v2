@@ -287,6 +287,7 @@ namespace NeptuneEvo.Fractions
                     Trigger.ClientEvent(player, "DeathTimer", false);
                     player.Health = 100;
                     player.ResetData("IS_DYING");
+                    player.ResetSharedData("IS_DYING");
                     Main.Players[player].IsAlive = true;
                     Main.OffAntiAnim(player);
                     if (player.HasData("DYING_TIMER"))
@@ -306,6 +307,7 @@ namespace NeptuneEvo.Fractions
                     Trigger.ClientEvent(player, "DeathTimer", false);
                     player.Health = 100;
                     player.ResetData("IS_DYING");
+                    player.ResetSharedData("IS_DYING");
                     Main.Players[player].IsAlive = true;
                     Main.OffAntiAnim(player);
                     if (player.HasData("DYING_TIMER"))
@@ -325,6 +327,7 @@ namespace NeptuneEvo.Fractions
                     Trigger.ClientEvent(player, "DeathTimer", false);
                     player.Health = 100;
                     player.ResetData("IS_DYING");
+                    player.ResetSharedData("IS_DYING");
                     Main.Players[player].IsAlive = true;
                     Main.OffAntiAnim(player);
                     if (player.HasData("DYING_TIMER"))
@@ -366,7 +369,10 @@ namespace NeptuneEvo.Fractions
                 var dimension = player.Dimension;
 
                 if (Main.Players[player].DemorganTime != 0 || Main.Players[player].ArrestTime != 0)
+                {
                     player.SetData("IS_DYING", true);
+                    player.SetSharedData("IS_DYING", true);
+                }
 
                 if (!player.HasData("IS_DYING"))
                 {
@@ -433,6 +439,7 @@ namespace NeptuneEvo.Fractions
                             NAPI.Player.SetPlayerHealth(player, 20);
                             EatManager.SetEatWaterDefault(player);
                             player.ResetData("IS_DYING");
+                            player.ResetSharedData("IS_DYING");
                             Main.Players[player].IsAlive = true;
                             Main.OffAntiAnim(player);
                             NAPI.Entity.SetEntityDimension(player, dimension);
@@ -462,6 +469,7 @@ namespace NeptuneEvo.Fractions
             var timeMsg = (call) ? "10 минут Вас не вылечит медик или кто-нибудь другой" : "3 минут Вас никто не вылечит";
             //player.SetData("DYING_TIMER", Main.StartT(time, time, (o) => { player.Health = 0; }, "DYING_TIMER"));
             player.SetData("DYING_TIMER", Timers.StartOnce(time, () => DeathTimer(player)));
+            player.SetSharedData("IS_DYING", true);
 
             var deadAnimName = deadAnims[Main.rnd.Next(deadAnims.Count)];
             NAPI.Task.Run(() => { try { player.PlayAnimation("dead", deadAnimName, 39); } catch { } }, 500);

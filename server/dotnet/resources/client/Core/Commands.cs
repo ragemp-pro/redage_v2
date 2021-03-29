@@ -148,6 +148,7 @@ namespace NeptuneEvo.Core
                 Trigger.ClientEvent(target, "DeathTimer", false);
                 target.Health = 100;
                 target.ResetData("IS_DYING");
+                target.ResetSharedData("IS_DYING");
                 Main.Players[target].IsAlive = true;
                 Main.OffAntiAnim(target);
                 if (target.HasData("DYING_TIMER"))
