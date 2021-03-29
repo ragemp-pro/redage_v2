@@ -163,21 +163,26 @@ var circleData = {
     ],
     "Фракция":
     [
-        [],
-        ["rob", "robguns", "pocket"],
-        ["rob", "robguns", "pocket"],
-        ["rob", "robguns", "pocket"],
-        ["rob", "robguns", "pocket"],
-        ["rob", "robguns", "pocket"],
-        ["leadaway"],
-        ["leadaway", "search", "takegun", "takeillegal", "takemask", "ticket"],
-        ["sellkit", "offerheal"],
-        ["leadaway", "search", "takegun", "takeillegal", "takemask"],
-        ["leadaway", "pocket", "rob", "robguns"],
-        ["leadaway", "pocket", "rob", "robguns"],
-        ["leadaway", "pocket", "rob", "robguns"],
-        ["leadaway", "pocket", "rob", "robguns"],
-        ["leadaway"],
+        [], // 0
+        ["rob", "robguns", "pocket"], // 1
+        ["rob", "robguns", "pocket"], // 2
+        ["rob", "robguns", "pocket"], // 3
+        ["rob", "robguns", "pocket"], // 4
+        ["rob", "robguns", "pocket"], // 5
+        ["leadaway"], // 6
+        ["leadaway", "search", "takegun", "takeillegal", "takemask", "ticket"], // 7
+        ["sellkit", "offerheal"], // 8
+        ["leadaway", "search", "takegun", "takeillegal", "takemask"], // 9
+        ["leadaway", "pocket", "rob", "robguns"], // 10
+        ["leadaway", "pocket", "rob", "robguns"], // 11
+        ["leadaway", "pocket", "rob", "robguns"], // 12
+        ["leadaway", "pocket", "rob", "robguns"], // 13
+        ["leadaway"], // 14
+        ["leadaway"], // 15
+        ["leadaway"], // 16
+        ["leadaway", "search", "takegun", "takeillegal", "takemask"], // 17
+        ["leadaway", "search", "takegun", "takeillegal", "takemask", "ticket"], // 18
+
     ],
     "Категории":
     [
