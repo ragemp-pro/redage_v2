@@ -1066,7 +1066,7 @@ namespace NeptuneEvo.Core
             catch (Exception e) { Log.Write("VehicleDeath: " + e.Message, nLog.Type.Error); }
         }
 
-        private static string GenerateNumber()
+        public static string GenerateNumber()
         {
             string number;
             do

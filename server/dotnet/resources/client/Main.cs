@@ -1813,6 +1813,9 @@ namespace NeptuneEvo
                 intid = id;
                 switch (id)
                 {
+                    case 800:
+                        VehChangeNumber.OpenVehChangeNumberMenu(player);
+                        return;
                     case 500:
                     case 501:
                         Quests.InteractNPC(player, id);
@@ -2253,6 +2256,9 @@ namespace NeptuneEvo
                             return;
                         case "TICKET":
                             Fractions.FractionCommands.ticketConfirm(player, true);
+                            return;
+                        case "CAR_CHANGE_NUMBER":
+                            VehChangeNumber.ChangeVehNumber(player);
                             return;
                     }
                 }
