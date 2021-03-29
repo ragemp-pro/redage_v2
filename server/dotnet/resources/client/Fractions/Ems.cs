@@ -739,19 +739,15 @@ namespace NeptuneEvo.Fractions
                     }
                     player.Health = player.Health + 1;
 
-
-                    if(Main.Players[player].Eat < 15 || Main.Players[player].Water < 15)
+                    if (Main.Players[player].Eat < 15)
                     {
-                        if (Main.Players[player].Eat < 15) Main.Players[player].Eat++;
-                        {
-                            Main.Players[player].Eat++;
-                            Trigger.ClientEvent(player, "UpdateEat", Main.Players[player].Eat);
-                        }
-                        if (Main.Players[player].Water < 15) Main.Players[player].Water++;
-                        {
-                            Main.Players[player].Water++;
-                            Trigger.ClientEvent(player, "UpdateWater", Main.Players[player].Water);
-                        }
+                        Main.Players[player].Eat++;
+                        Trigger.ClientEvent(player, "UpdateEat", Main.Players[player].Eat);
+                    }
+                    if (Main.Players[player].Water < 15)
+                    {
+                        Main.Players[player].Water++;
+                        Trigger.ClientEvent(player, "UpdateWater", Main.Players[player].Water);
                     }
                 }
                 catch { }
