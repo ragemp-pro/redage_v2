@@ -317,7 +317,8 @@ namespace NeptuneEvo.Fractions
             }
             Trigger.ClientEvent(player, "fractionChange", fractionID);
             player.SetSharedData("fraction", fractionID);
-            Log.Write($"Member {player.Name.ToString()} loaded. ", nLog.Type.Success);
+            player.SetSharedData("fractionRankName", getNickname(fractionID, fractionLVL));
+            Log.Write($"Member {player.Name} loaded. ", nLog.Type.Success);
         }
         public static void UNLoad(Player player)
         {
@@ -327,6 +328,7 @@ namespace NeptuneEvo.Fractions
                 Members.Remove(player);
                 Trigger.ClientEvent(player, "fractionChange", 0);
                 player.SetSharedData("fraction", 0);
+                player.ResetSharedData("fractionRankName");
                 Trigger.ClientEvent(player, "closePc");
                 player.SetData("ON_DUTY", false);
                 MenuManager.Close(player);

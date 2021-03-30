@@ -71,23 +71,34 @@ mp.events.add('render', function (nametags) {
                             reupdateTagLabel[_player.remoteId] = new Date().getTime();
 
                             var text = void 0;
-                            if (_player.getVariable('IS_MASK') == true) {
+                            if (_player.getVariable('IS_MASK') == true)
+                            {
                                 if (isAdmin === true)
+                                {
                                     text = 'В маске: ' + _player.name + ' (' + _player.remoteId + passportText + ')';
-                                else
-                                    text = 'ID: ' + _player.remoteId;
-                            } else {
-                                if (isAdmin === true || mp.storage.data.friends[_player.name] != undefined || global.passports[_player.name] != undefined)
-                                    text = _player.name + ' (' + _player.remoteId + passportText + ')';
-                                else
-                                    text = 'ID: ' + _player.remoteId;
+                                }
+                                else text = 'ID: ' + _player.remoteId;
                             }
-                            
+                            else
+                            {
+                                if (isAdmin === true || mp.storage.data.friends[_player.name] != undefined || global.passports[_player.name] != undefined)
+                                {
+                                    text = _player.name + ' (' + _player.remoteId + passportText + ')';
+                                }
+                                else text = 'ID: ' + _player.remoteId;
+                            }
+
                             var localFraction = global.localplayer.getVariable('fraction');
                             var playerFraction = _player.getVariable('fraction');
-                            if (localFraction != null && playerFraction != null && localFraction === playerFraction)
+                            var playerFractionRankName = _player.getVariable('fractionRankName');
+
+                            if (playerFraction > 0)
                             {
-                                text = `[${_player.getVariable('fractionRankName')}] ${_playerName} (${_player.getVariable('REMOTE_ID')}${passportText}) `;
+                                if (isAdmin === true || localFraction == playerFraction)
+                                {
+                                    // mp.gui.chat.push(`Вау, мы одной фракции!!!`);
+                                    text = '[' + playerFractionRankName + '] ' + _player.name + ' (' + _player.remoteId + passportText + ')';
+                                }
                             }
 
                             var color = _player.getVariable('REDNAME') === true ? [255, 0, 0, 255] : [255, 255, 255, 255];
