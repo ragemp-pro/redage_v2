@@ -369,6 +369,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `lasthour` int(255) NOT NULL,
   `lastbonus` int(255) NOT NULL,
   `isbonused` int(255) NOT NULL,
+  `luckywheelspins` int(255) NOT NULL,
   `contacts` text NOT NULL,
   `achiev` text NOT NULL,
   `createdate` datetime NOT NULL,
