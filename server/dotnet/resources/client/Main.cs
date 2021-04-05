@@ -1813,15 +1813,18 @@ namespace NeptuneEvo
                 intid = id;
                 switch (id)
                 {
+                    case 806:
+                        Casino.CarLottery.CallBackShape(player);
+                        break;
                     case 800:
                         VehChangeNumber.OpenVehChangeNumberMenu(player);
+                        return;
+                    case 777:
+                        MoneySystem.Casino.CallBackShape(player);
                         return;
                     case 500:
                     case 501:
                         Quests.InteractNPC(player, id);
-                        return;
-                    case 777:
-                        MoneySystem.Casino.CallBackShape(player);
                         return;
                     case 888:
                         Trigger.ClientEvent(player, "garbageMenuOpen");
@@ -2257,6 +2260,9 @@ namespace NeptuneEvo
                         case "TICKET":
                             Fractions.FractionCommands.ticketConfirm(player, true);
                             return;
+                        case "RANDOMMEMBER_ADD":
+                            Casino.CarLottery.AcceptTakePart(player);
+                            return;
                         case "CAR_CHANGE_NUMBER":
                             VehChangeNumber.ChangeVehNumber(player);
                             return;
@@ -2689,6 +2695,12 @@ namespace NeptuneEvo
                             }
                             else
                             {
+                                if(Players[p].LuckyWheelSpins < 10)
+                                {
+                                    Players[p].LuckyWheelSpins++;
+                                    MoneySystem.Wallet.ChangeLuckyWheelSpins(p, Players[p].LuckyWheelSpins);
+                                }
+
                                 Random rnd = new Random();
                                 int type = rnd.Next(0, nInventory.PresentsTypes.Count);
                                 nInventory.Add(p, new nItem(ItemType.Present, 1, type));

@@ -37,6 +37,17 @@ namespace NeptuneEvo.MoneySystem
                 return true;
             }
         }
+        public static bool ChangeLuckyWheelSpins(Player player, int Amount)
+        {
+            if (!Main.Players.ContainsKey(player)) return false;
+            if (Main.Players[player] == null) return false;
+            int temp = Convert.ToInt32(Main.Players[player].LuckyWheelSpins + Amount);
+            if (temp < 0) return false;
+            Main.Players[player].LuckyWheelSpins = temp;
+            Trigger.ClientEvent(player, "UpdateLuckyWheelSpins", temp, Convert.ToString(Amount));
+            MySQL.Query($"UPDATE characters SET `luckywheelspins`={Main.Players[player].LuckyWheelSpins} WHERE uuid={Main.Players[player].UUID}");
+            return true;
+        }
         public static void Set(Player player, long Amount)
         {
             var data = Main.Players[player];

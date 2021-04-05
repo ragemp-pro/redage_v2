@@ -45,6 +45,7 @@ namespace Redage.SDK
         public List<bool> Achievements = new List<bool>();
 
         public int LastBonus { get; set; } = 0; //todo lastbonus
+        public int LuckyWheelSpins { get; set; } = 0;
         public bool IsBonused { get; set; } = false; //todo lastbonus
 
         public bool VoiceMuted = false;

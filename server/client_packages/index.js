@@ -283,7 +283,8 @@ require('./farmerWork/market/');
 
 require('./betternotifs/index.js');
 
-require('./casino/luckywheel.js');
+require('./casino/luckywheel/');
+require('./casino/carlottery/');
 
 
 // // // // // // //

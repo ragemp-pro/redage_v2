@@ -12,19 +12,17 @@ namespace NeptuneEvo.MoneySystem
         private static Vector3 enterPos = new Vector3(935.7294, 46.61844, 81.2);
         private static Vector3 exitPos = new Vector3(1089.695, 206.015, -49);
 
-        private static uint exitDim = 1; // Виртуальный мир для казино
-
         [ServerEvent(Event.ResourceStart)]
         public void onResourceStart()
         {
             try
             {
                 // Вход - выход + маркер
-                var colShapeEnter = NAPI.ColShape.CreateCylinderColShape(enterPos, 1f, 2, 0);
-                var colShapeExit = NAPI.ColShape.CreateCylinderColShape(exitPos, 1f, 2, exitDim);
+                var colShapeEnter = NAPI.ColShape.CreateCylinderColShape(enterPos, 1f, 2);
+                var colShapeExit = NAPI.ColShape.CreateCylinderColShape(exitPos, 1f, 2);
 
-                NAPI.Marker.CreateMarker(1, enterPos - new Vector3(0, 0, 1.5), new Vector3(), new Vector3(), 1, new Color(0, 255, 255), false, 0);
-                NAPI.Marker.CreateMarker(1, exitPos - new Vector3(0, 0, 1.5), new Vector3(), new Vector3(), 1, new Color(0, 255, 255), false, exitDim);
+                NAPI.Marker.CreateMarker(1, enterPos - new Vector3(0, 0, 1.5), new Vector3(), new Vector3(), 1, new Color(0, 255, 255), false);
+                NAPI.Marker.CreateMarker(1, exitPos - new Vector3(0, 0, 1.5), new Vector3(), new Vector3(), 1, new Color(0, 255, 255), false);
 
                 //
                 colShapeEnter.OnEntityEnterColShape += (s, e) =>
@@ -60,7 +58,7 @@ namespace NeptuneEvo.MoneySystem
 
                 //
 
-                ColShape shape = NAPI.ColShape.CreateCylinderColShape(new Vector3(1111.05, 229.81, -49.15), 2f, 2f, 1);
+                ColShape shape = NAPI.ColShape.CreateCylinderColShape(new Vector3(1111.05, 229.81, -49.15), 2f, 2f);
 
                 shape.OnEntityEnterColShape += (s, entity) =>
                 {
