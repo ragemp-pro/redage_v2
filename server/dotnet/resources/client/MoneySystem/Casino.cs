@@ -95,14 +95,10 @@ namespace NeptuneEvo.MoneySystem
                 case "ENTER":
                     NAPI.Entity.SetEntityPosition(player, exitPos);
                     NAPI.Entity.SetEntityRotation(player, new Vector3(0, 0, -27.5));
-
-                    NAPI.Entity.SetEntityDimension(player, 1);
                     return;
                 case "EXIT":
                     NAPI.Entity.SetEntityPosition(player, enterPos);
                     NAPI.Entity.SetEntityRotation(player, new Vector3(0, 0, 113.5));
-
-                    NAPI.Entity.SetEntityDimension(player, 0);
                     return;
             }
         }
