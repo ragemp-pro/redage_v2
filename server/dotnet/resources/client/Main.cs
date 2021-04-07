@@ -2735,6 +2735,8 @@ namespace NeptuneEvo
                 {
                     Forbes.SyncMajors(); // forbes
 
+                    Casino.CarLottery.FinishCompetition(); // розыгрыш авто в казино
+
                     if (DateTime.Now.Hour == 19) //каждый день в 19 часов вечера, контейнеры будут активированы. Можете поменять тут время или добавить ещё какой-то час. Или вообще сделать, чтобы каждый час они активировались.
                     {
                         try
