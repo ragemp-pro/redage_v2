@@ -174,6 +174,7 @@ namespace NeptuneEvo.Core
                 {
                     try
                     {
+                        if (!Main.Players.ContainsKey(entity)) return;
                         Notify.Send(entity, NotifyType.Info, NotifyPosition.BottomCenter,
                             $"Нажмите Numpad 2, чтобы открыть меню!",
                         3000);
