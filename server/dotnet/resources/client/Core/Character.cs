@@ -175,6 +175,8 @@ namespace NeptuneEvo.Core.Character
                         WorkID = Convert.ToInt32(Row["work"]);
                         FractionID = Convert.ToInt32(Row["fraction"]);
                         FractionLVL = Convert.ToInt32(Row["fractionlvl"]);
+                        FamilyCID = Convert.ToString(Row["familycid"]); //выставить в базе данных стандартное значение текстом null
+                        FamilyRank = Convert.ToInt32(Row["familyrank"]); //выставить в базе данных стандартное значение 0
                         ArrestTime = Convert.ToInt32(Row["arrest"]);
                         DemorganTime = Convert.ToInt32(Row["demorgan"]);
                         WantedLVL = JsonConvert.DeserializeObject<WantedLevel>(Row["wanted"].ToString());
@@ -319,7 +321,7 @@ namespace NeptuneEvo.Core.Character
                 Main.PlayerSlotsInfo[UUID] = new Tuple<int, int, int, long>(LVL, EXP, FractionID, Money);
 
                 await MySQL.QueryAsync($"UPDATE `characters` SET `personid`='{PersonID}', `pos`='{pos}',`gender`={Gender},`health`={Health},`armor`={Armor},`lvl`={LVL},`exp`={EXP}," +
-                    $"`money`={Money},`bank`={Bank},`work`={WorkID},`fraction`={FractionID},`fractionlvl`={FractionLVL},`arrest`={ArrestTime}," +
+                    $"`money`={Money},`bank`={Bank},`work`={WorkID},`fraction`={FractionID},`fractionlvl`={FractionLVL},`familycid`='{FamilyCID}', `familyrank`={FamilyRank},`arrest`={ArrestTime}," +
                     $"`wanted`='{JsonConvert.SerializeObject(WantedLVL)}',`biz`='{JsonConvert.SerializeObject(BizIDs)}',`adminlvl`={AdminLVL}," +
                     $"`licenses`='{JsonConvert.SerializeObject(Licenses)}',`unwarn`='{MySQL.ConvertTime(Unwarn)}',`unmute`='{Unmute}'," +
                     $"`luckywheelspins`={LuckyWheelSpins},`warns`={Warns},`hotel`={HotelID},`hotelleft`={HotelLeft},`lastveh`='{LastVeh}',`onduty`={OnDuty},`lasthour`={LastHourMin},`lastbonus`={LastBonus},`isbonused`={IsBonused}," +
@@ -379,9 +381,9 @@ namespace NeptuneEvo.Core.Character
                 Main.PlayerUUIDs.Add($"{firstName}_{lastName}", UUID);
                 Main.PlayerNames.Add(UUID, $"{firstName}_{lastName}");
 
-                await MySQL.QueryAsync($"INSERT INTO `characters`(`uuid`,`personid`,`firstname`,`lastname`,`gender`,`health`,`armor`,`lvl`,`exp`,`money`,`bank`,`work`,`fraction`,`fractionlvl`,`arrest`,`demorgan`,`wanted`," +
+                await MySQL.QueryAsync($"INSERT INTO `characters`(`uuid`,`personid`,`firstname`,`lastname`,`gender`,`health`,`armor`,`lvl`,`exp`,`money`,`bank`,`work`,`fraction`,`fractionlvl`,`familycid`,`familyrank`,`arrest`,`demorgan`,`wanted`," +
                     $"`biz`,`adminlvl`,`licenses`,`unwarn`,`unmute`,`warns`,`lastveh`,`onduty`,`lasthour`,`lastbonus`,`isbonused`,`luckywheelspins`,`hotel`,`hotelleft`,`contacts`,`achiev`,`sim`,`pos`,`createdate`,`eat`,`water`) " +
-                    $"VALUES({UUID},'{PersonID}','{FirstName}','{LastName}',{Gender},{Health},{Armor},{LVL},{EXP},{Money},{Bank},{WorkID},{FractionID},{FractionLVL},{ArrestTime},{DemorganTime}," +
+                    $"VALUES({UUID},'{PersonID}','{FirstName}','{LastName}',{Gender},{Health},{Armor},{LVL},{EXP},{Money},{Bank},{WorkID},{FractionID},{FractionLVL},'{FamilyCID}',{FamilyRank},{ArrestTime},{DemorganTime}," +
                     $"'{JsonConvert.SerializeObject(WantedLVL)}','{JsonConvert.SerializeObject(BizIDs)}',{AdminLVL},'{JsonConvert.SerializeObject(Licenses)}','{MySQL.ConvertTime(Unwarn)}'," +
                     $"'{Unmute}',{Warns},'{LastVeh}',{OnDuty},{LastHourMin},{LastBonus},{IsBonused},{LuckyWheelSpins},{HotelID},{HotelLeft},'{JsonConvert.SerializeObject(Contacts)}','{JsonConvert.SerializeObject(Achievements)}',{Sim}," +
                     $"'{JsonConvert.SerializeObject(SpawnPos)}','{MySQL.ConvertTime(CreateDate)}','{Eat}','{Water}')");

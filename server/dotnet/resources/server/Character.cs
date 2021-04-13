@@ -23,6 +23,8 @@ namespace Redage.SDK
         public int WorkID { get; set; } = 0;
         public int FractionID { get; set; } = 0;
         public int FractionLVL { get; set; } = 0;
+        public string FamilyCID { get; set; } = "null";
+        public int FamilyRank { get; set; } = 0;
         public int ArrestTime { get; set; } = 0;
         public int Water { get; set; } = 100;
         public int Eat { get; set; } = 100;

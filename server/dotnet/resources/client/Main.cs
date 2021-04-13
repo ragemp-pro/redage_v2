@@ -568,6 +568,7 @@ namespace NeptuneEvo
                             
                             Customization.ApplyCharacter(player);
                             if (Players[player].FractionID > 0) Fractions.Manager.Load(player, Players[player].FractionID, Players[player].FractionLVL);
+                            if (Players[player].FamilyRank > 0) Families.Member.LoadMembers(player, Players[player].FamilyCID, Players[player].FamilyRank);
 
                             Houses.House house = Houses.HouseManager.GetHouse(player);
                             if (house != null)
@@ -589,6 +590,7 @@ namespace NeptuneEvo
 
                             Customization.ApplyCharacter(player);
                             if (Players[player].FractionID > 0) Fractions.Manager.Load(player, Players[player].FractionID, Players[player].FractionLVL);
+                            if (Players[player].FamilyRank > 0) Families.Member.LoadMembers(player, Players[player].FamilyCID, Players[player].FamilyRank);
 
                             house = Houses.HouseManager.GetHouse(player);
                             if (house != null)
@@ -621,6 +623,7 @@ namespace NeptuneEvo
                             
                             Customization.ApplyCharacter(player);
                             if (Players[player].FractionID > 0) Fractions.Manager.Load(player, Players[player].FractionID, Players[player].FractionLVL);
+                            if (Players[player].FamilyRank > 0) Families.Member.LoadMembers(player, Players[player].FamilyCID, Players[player].FamilyRank);
 
                             if (house != null)
                             {
@@ -1822,6 +1825,9 @@ namespace NeptuneEvo
                     case 777:
                         MoneySystem.Casino.CallBackShape(player);
                         return;
+                    case 502: //todo FamilyCreatorMenu
+                        Families.Manager.OpenCreatorFamilyMenu(player);
+                        return;
                     case 500:
                     case 501:
                         Quests.InteractNPC(player, id);
@@ -2189,6 +2195,33 @@ namespace NeptuneEvo
                                 try
                                 {
                                     Notify.Send(player.GetData<Player>("SENDERFRAC"), NotifyType.Success, NotifyPosition.BottomCenter, $"{player.Name} принял приглашение вступить в Вашу фракцию", 3000);
+                                }
+                                catch { }
+                                return;
+                            }
+                        case "INVITEDTOFAMILY":
+                            {
+                                try
+                                {
+                                    string familycid = player.GetData<string>("INVITEFAMILY");
+
+                                    Players[player].FamilyCID = familycid;
+                                    Players[player].FamilyRank = 1;
+                                    Players[player].WorkID = 0;
+
+                                    Families.Member.LoadMembers(player, familycid, 1);
+                                    Families.Family family = Families.Family.GetFamilyToCid(familycid);
+                                    family.Players.Add(new Families.Member(player.Name.ToString(), family.Name, family.FamilyCID, 1, Families.Ranks.GetFamilyRankName(family.FamilyCID, 1)));
+
+                                    Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы вступили в {Families.Family.GetFamilyName(player.GetData<Player>("SENDERFAMILY"))}", 3000);
+                                }
+                                catch (Exception e)
+                                {
+                                    Log.Write(e.ToString(), nLog.Type.Error);
+                                }
+                                try
+                                {
+                                    Notify.Send(player.GetData<Player>("SENDERFAMILY"), NotifyType.Success, NotifyPosition.BottomCenter, $"{player.Name} принял приглашение вступить в Вашу семью", 3000);
                                 }
                                 catch { }
                                 return;

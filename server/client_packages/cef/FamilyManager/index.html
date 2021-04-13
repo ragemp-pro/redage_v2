@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/family.css">
+    <link rel="stylesheet" href="css/font.css">
+    <link rel="stylesheet" href="css/font-awesome.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <title>FamilyManager - Golem</title>
+  </head>
+  <body>
+    <div id="app" v-cloak>
+      <div class="container" v-if="active">
+        <header>
+          <i class="fa fa-users" aria-hidden="true"></i>
+          <h1>{{header}}</h1>
+          <span>
+            <i @click="closeMenu()" class="fa fa-times-circle-o" aria-hidden="true"></i>
+          </span>
+        </header>
+
+        <div class="main" v-if="page == 0">
+          <div class="upblock">
+            <div class="avatar">
+              <img :src="familyimg" @error="familyimg = `images/avatar.png`" :alt="header">
+            </div>
+            <div class="info">
+              <h2>
+                <i class="fa fa-info-circle" aria-hidden="true"></i> Информация
+              </h2>
+              <p>
+                <i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Ваш ранг: <b>{{familyrank}}</b>
+              </p>
+              <p>
+                <i class="fa fa-star" aria-hidden="true"></i> Ваше звание: <b>{{familyrankname}}</b>
+              </p>
+              <p>
+                <i class="fa fa-users" aria-hidden="true"></i> Участников: <b>{{membercount}}/{{membermax}}</b>
+              </p>
+              <p>
+                <i class="fa fa-plug" aria-hidden="true"></i> В сети: <b>{{membersonline}}</b>
+              </p>
+            </div>
+          </div>
+          <div class="description">
+            <p>
+              {{desc_1 == null || desc_1 == "" ? "Заполните в настройках блок первый" : desc_1}}
+            </p>
+            <p>
+              {{desc_2 == null || desc_2 == "" ? "Заполните в настройках блок второй" : desc_2}}
+            </p>
+          </div>
+        </div>
+
+        <div class="main pageMembers" v-if="page == 1">
+          <h2>Список участников</h2>
+          <div class="items">
+            <div class="item" v-for="(member, index) in members">
+              <p>
+                <i class="fa fa-toggle-on" aria-hidden="true" v-if="member[0]"></i>
+                <i class="fa fa-toggle-off" aria-hidden="true" v-else></i>
+                [{{member[1]}}] {{member[2]}} | {{member[3]}} - {{member[4]}}
+              </p>
+              <span v-if="familyrank >= allranks.length"> <!-- ЛИДЕР -->
+                <!-- <i class="fa fa-map-marker" aria-hidden="true"></i> -->
+                <i @click="changerank(member)" class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                <i @click="deleteMember(member)" class="fa fa-user-times" aria-hidden="true"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="main pageInvite" v-if="page == 2">
+          <h2>Пригласить</h2>
+          <div class="items">
+            <div class="item">
+              <input v-model="invitePlayerID" type="text" placeholder="ID игрока">
+              <p>
+                Приглашаемый Вами игрок не должен состоять ни во фракции, ни в любых других семьях, организациях. А также находится рядом с вами в радиусе 3 метров.
+              </p>
+            </div>
+          </div>
+          <a class="btnBuy" @click="invitePlayer(invitePlayerID)">Пригласить</a>
+        </div>
+
+        <div class="main pageSettings" v-if="page == 3">
+          <h2>Настройки семьи</h2>
+          <div class="items">
+            <div class="item">
+              <a @click="rankSettings()" class="btnSettings">Настроить ранги</a>
+              <a @click="disbandFamily()" class="btnSettings btnActive">Расформировать семью</a>
+            </div>
+            <div class="item">
+              <div class="desc">
+                <textarea v-model="newdesc_1" name="desc_1" placeholder="Вверхний текстовый блок на главной странице" maxlength="240"></textarea>
+              </div>
+              <p>
+                Используйте это блок, чтобы описать вашу семью. Расписать основную информацию о ней.
+              </p>
+            </div>
+            <div class="item">
+              <div class="desc">
+                <textarea v-model="newdesc_2" name="desc_1" placeholder="Нижний текстовый блок на главной странице" maxlength="240"></textarea>
+              </div>
+              <p>
+                Можете использовать данный текстовый блок для того, чтобы оставить информацию на сегодня. Инфо, что у вас важное собрание или т.п.
+              </p>
+            </div>
+          </div>
+          <a @click="saveSettings()" class="btnBuy">Сохранить</a>
+        </div>
+
+        <footer>
+          <div>
+            <a :class="{btnActive: page == 0}" class="button" @click="changePage(0)">Главная</a>
+          </div>
+          <div>
+            <a :class="{btnActive: page == 1}" class="button" @click="changePage(1)">Участники</a>
+          </div>
+          <div v-if="familyrank >= allranks.length"> <!-- ЛИДЕР -->
+            <a :class="{btnActive: page == 2}" class="button" @click="changePage(2)">Пригласить</a>
+          </div>
+          <div v-if="familyrank >= allranks.length"> <!-- ЛИДЕР -->
+            <a :class="{btnActive: page == 3}" class="button" @click="changePage(3)">Настройки</a>
+          </div>
+        </footer>
+      </div>
+
+      <transition name="modal">
+        <div class="modal-window" v-if="activeChangeRank">
+          <header>
+            <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+            <h2>Изменить название рангов</h2>
+          </header>
+          <div class="items">
+            <div class="item" v-for="(rank, index) in allranks">
+              <p>
+                {{rank.Rank}}
+              </p>
+              <input v-model="allranks[index].RankName" type="text" :value="rank.RankName">
+            </div>
+          </div>
+          <footer>
+            <a class="btnModal mg-center btnGps" @click="saveSettings()" >Подтвердить</a>
+            <a class="btnModal mg-center btnCancel" @click="cancelmodal()">Отмена</a>
+          </footer>
+        </div>
+      </transition>
+
+      <transition name="modal">
+        <div class="modal-window" v-if="activeModal || activeDisbandModal">
+          <header v-if="activeModal">
+            <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+            <h2>{{member[2]}} [{{member[1]}}]</h2>
+          </header>
+          <header v-if="activeDisbandModal">
+            <i class="fa fa-info-circle" aria-hidden="true"></i>
+            <h2>Расформировать семью</h2>
+          </header>
+          <div>
+            <p v-if="activeModal">
+              <i class="fa fa-arrow-circle-up" aria-hidden="true"></i> Текущий ранг: <b>{{member[3]}}</b>
+            </p>
+            <p v-if="activeModal">
+              <i class="fa fa-star" aria-hidden="true"></i> Текущее звание: <b>{{member[4]}}</b>
+            </p>
+            <p v-if="activeDisbandModal">
+              <i class="fa fa-question-circle" aria-hidden="true"></i> Вы действительно хотите расформировать семью: <b>{{header}}</b>
+            </p>
+            <p>
+              <input v-model="changeRank" type="number" placeholder="Введите ранг" v-if="modalRank">
+              <input v-model="reasonKick" type="text" placeholder="Введите причину" v-else>
+            </p>
+          </div>
+          <footer>
+            <a class="btnModal mg-center btnGps" @click="btnAccept()">Подтвердить</a>
+            <a class="btnModal mg-center btnCancel" @click="cancelmodal()">Отмена</a>
+          </footer>
+        </div>
+      </transition>
+      <transition name="fade">
+        <div class="fade" v-if="activeModal || activeChangeRank || activeDisbandModal"></div>
+      </transition>
+
+    </div>
+    <script src="js/manager.js"></script>
+  </body>
+</html>

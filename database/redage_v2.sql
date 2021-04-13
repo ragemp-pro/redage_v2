@@ -344,6 +344,8 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `lastname` text NOT NULL,
   `fraction` int(255) NOT NULL,
   `fractionlvl` int(255) NOT NULL,
+  `familycid` varchar(255) DEFAULT NULL,
+  `familyrank` int(255) NOT NULL DEFAULT 0,
   `warns` int(255) NOT NULL,
   `biz` text NOT NULL,
   `hotel` int(255) NOT NULL,
@@ -4701,3 +4703,26 @@ CREATE TABLE IF NOT EXISTS `whitelist` (
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+
+/* Система семей (база-данных) */
+CREATE TABLE `family` (
+  `cid` varchar(155) NOT NULL,
+  `name` text DEFAULT NULL,
+  `house` int(11) DEFAULT NULL,
+  `maxplayers` int(11) DEFAULT NULL,
+  `leader` int(11) DEFAULT NULL,
+  `imgurl` text DEFAULT NULL,
+  `desc_1` text DEFAULT NULL,
+  `desc_2` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE `family`
+  ADD PRIMARY KEY (`cid`);
+COMMIT;
+
+CREATE TABLE `familyranks` (
+  `cid` varchar(255) NOT NULL,
+  `rank` int(11) DEFAULT NULL,
+  `rankname` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+COMMIT;

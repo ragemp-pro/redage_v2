@@ -286,6 +286,11 @@ require('./betternotifs/index.js');
 require('./casino/luckywheel/');
 require('./casino/carlottery/');
 
+//family========================
+require('./family/familycreator.js');
+require('./family/familymanager.js');
+//==============================
+
 
 // // // // // // //
 
