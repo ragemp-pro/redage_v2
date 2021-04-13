@@ -2928,7 +2928,7 @@ namespace NeptuneEvo
                             {
                                 foreach (Product p in biz.Products)
                                 {
-                                    if (p.Ordered) continue;
+                                    if (p.Ordered || !BusinessManager.ProductsCapacity.ContainsKey(p.Name)) continue;
                                     if (p.Lefts < Convert.ToInt32(BusinessManager.ProductsCapacity[p.Name] * 0.1))
                                     {
                                         int amount = Convert.ToInt32(BusinessManager.ProductsCapacity[p.Name] * 0.1);

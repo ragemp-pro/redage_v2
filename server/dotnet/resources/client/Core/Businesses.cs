@@ -3397,6 +3397,8 @@ namespace NeptuneEvo.Core
             { "Banshee", 10 },
             { "Massacro2", 10 },
             { "GP1", 10 },
+            { "Tornado3", 10 },
+            { "Tornado4", 10 },
 
             { "Comet2", 10 }, // luxe
             { "Coquette", 10 },
@@ -3466,6 +3468,8 @@ namespace NeptuneEvo.Core
             { "CombatPDW", 20},
             { "MachinePistol", 20},
             { "Патроны", 5000},
+
+            { "deluxo", 10 },
 
             #region FishShop
             { "Удочка", 10 },
