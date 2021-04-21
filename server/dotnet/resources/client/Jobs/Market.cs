@@ -91,6 +91,7 @@ namespace NeptuneEvo.Jobs.FarmerJob
         {
             MarketItem(new FarmerProduct(7, 234, "Урожай", true)),
             MarketItem(new FarmerProduct(2, 235, "Семена", false)),
+            MarketItem(new FarmerProduct(10, 14, "Странная трава", true)),
         };
 
         private static List<object> BuyItems = new List<object>()
