@@ -69,7 +69,7 @@
             <div class="item" v-for="(item, index) in sellitems">
               <img :src="`../../items/` + item[1] + `.png`" alt="">
               <p>
-                {{item[2]}} <b>${{item[3] ? item[0] * curs : item[0]}}</b>
+                {{item[2]}} </br><b>${{item[3] ? item[0] * curs : item[0]}}</b>
               </p>
               <input type="number" placeholder="количество" v-model="sellValue">
               <a class="btnBuy" @click="sell(item[1])">Продать</a>
