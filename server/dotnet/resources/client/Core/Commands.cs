@@ -1157,7 +1157,26 @@ namespace NeptuneEvo.Core
                 player.ClearAccessory(id);
 
         }
-        
+
+        [Command("sh")] // Выдать HeadOverlay (8 лвл)
+        public static void CMD_setHeadOverlay(Player player, int id, int variant, int color1, int color2, int opacity)
+        {
+            try
+            {
+                if (!Main.Players.ContainsKey(player)) return;
+                if (!Group.CanUseCmd(player, "allspawncar")) return;
+
+                var headOverlay = new HeadOverlay();
+                headOverlay.Index = (byte)variant;
+                headOverlay.Opacity = opacity;
+                headOverlay.Color = (byte)color1;
+                headOverlay.SecondaryColor = (byte)color2;
+
+                NAPI.Player.SetPlayerHeadOverlay(player, id, headOverlay);
+            }
+            catch { }
+        }
+
         [Command("checkwanted")] // Узнать розыск игрока (8 лвл)
         public static void CMD_checkwanted(Player player, int id)
         {
