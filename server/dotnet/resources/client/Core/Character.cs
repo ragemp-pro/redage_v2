@@ -201,6 +201,13 @@ namespace NeptuneEvo.Core.Character
                         GenPromo = Convert.ToString(Row["genpromo"]); // promo
 
                         if (PersonID == null || PersonID == "") PersonID = GeneratePersonID(uuid, true);
+                        
+                        // генерация личного промокода при его отсутствии
+                        if (GenPromo == null || GenPromo == "" || GenPromo == "noref")
+                        {
+                            var rand_promo = RandomPromocode(6);
+                            GenPromo = Convert.ToString(rand_promo);
+                        }
 
                         if (Achievements == null)
                         {
