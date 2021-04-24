@@ -207,6 +207,11 @@ namespace NeptuneEvo.Core.Character
                         {
                             var rand_promo = RandomPromocode(6);
                             GenPromo = Convert.ToString(rand_promo);
+
+                            Main.PromoCodes.Add(Convert.ToString(rand_promo), new Tuple<int, int, int>(Convert.ToInt32(0), Convert.ToInt32(0), Convert.ToInt32(UUID)));
+
+                            MySQL.QueryAsync($"INSERT INTO `promocodes`(`name`,`type`,`count`,`owner`) " +
+                            $"VALUES( '{rand_promo}', '{1}', '{0}', '{UUID}' )");
                         }
 
                         if (Achievements == null)
