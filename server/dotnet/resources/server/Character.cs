@@ -52,6 +52,9 @@ namespace Redage.SDK
 
         public bool VoiceMuted = false;
 
+        // промо
+        public string GenPromo { get; set; } = "noref";
+
         // temperory data
         public int InsideHouseID = -1;
         public int InsideGarageID = -1;

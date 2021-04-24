@@ -1255,6 +1255,7 @@ namespace NeptuneEvo.Core
                     work,
                     fraction,
                     acc.FractionLVL,
+                    acc.GenPromo
                 };
 
                 string json = JsonConvert.SerializeObject(data);

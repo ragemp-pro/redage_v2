@@ -2830,20 +2830,9 @@ namespace NeptuneEvo.Core
                 if (!isChanging)
                 {
                     player.SendChatMessage("~y~Добро пожаловать в штат!");
-                    if (!Main.Accounts[player].PresentGet && Main.Accounts[player].PromoCodes[0].Equals("loveu"))
+                    if (!Main.Accounts[player].PresentGet && Main.PromoCodes.ContainsKey(Main.Accounts[player].PromoCodes[0]))
                     {
-                        Main.Accounts[player].PresentGet = true;
-                        GameLog.Money($"server", $"player({Main.Players[player].UUID})", 7500, $"loveu");
-                        AddClothes(player, ItemType.Hat, 44, 3);
-                        nInventory.Add(player, new nItem(ItemType.Sprunk, 3));
-                        nInventory.Add(player, new nItem(ItemType.Сrisps, 3));
-                        Main.Players[player].LVL = 1;
-                        MoneySystem.Wallet.Change(player, 5000);
-                        Main.Accounts[player].VipLvl = 3;
-                        Main.Accounts[player].VipDate = DateTime.Now.AddDays(3);
-                        GUI.Dashboard.sendStats(player);
-                        Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, "Добро пожаловать в штат! Вы получили первый уровень, Gold VIP на 3 дня и 5000$!", 6000);
-                        NAPI.Task.Run(() => { try { Trigger.ClientEvent(player, "disabledmg", false); } catch { } }, 5000);
+                        Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Промокод {Main.Accounts[player].PromoCodes[0]} успешно активирован! Приз вы получите при достижении 3-го уровня.", 5000);
                     }
                 }
                 CustomPlayerData[Main.Players[player].UUID].IsCreated = true;

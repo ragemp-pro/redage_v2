@@ -814,6 +814,7 @@ namespace NeptuneEvo.GUI
                     acc.LastName,//11
                     acc.UUID,//12
                     acc.Bank,//13
+                    acc.GenPromo,//14
                 };
 
                 string json = JsonConvert.SerializeObject(data);

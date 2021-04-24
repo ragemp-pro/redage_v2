@@ -198,6 +198,8 @@ namespace NeptuneEvo.Core.Character
                         IsBonused = Convert.ToBoolean(Row["isbonused"]); //todo bonus
                         LuckyWheelSpins = Convert.ToInt32(Row["luckywheelspins"]); //todo luckywheel
 
+                        GenPromo = Convert.ToString(Row["genpromo"]); // promo
+
                         if (PersonID == null || PersonID == "") PersonID = GeneratePersonID(uuid, true);
 
                         if (Achievements == null)
@@ -381,12 +383,23 @@ namespace NeptuneEvo.Core.Character
                 Main.PlayerUUIDs.Add($"{firstName}_{lastName}", UUID);
                 Main.PlayerNames.Add(UUID, $"{firstName}_{lastName}");
 
+                // новые промокоды
+                var rand_promo = RandomPromocode(6);
+
+                await MySQL.QueryAsync($"INSERT INTO `promocodes`(`name`,`type`,`count`,`owner`) " +
+                    $"VALUES( '{rand_promo}', '{1}', '{0}', '{UUID}' )");
+
+                Main.PromoCodes.Add(Convert.ToString(rand_promo), new Tuple<int, int, int>(Convert.ToInt32(0), Convert.ToInt32(0), Convert.ToInt32(UUID)));
+
+                GenPromo = Convert.ToString(rand_promo);
+                // 
+
                 await MySQL.QueryAsync($"INSERT INTO `characters`(`uuid`,`personid`,`firstname`,`lastname`,`gender`,`health`,`armor`,`lvl`,`exp`,`money`,`bank`,`work`,`fraction`,`fractionlvl`,`familycid`,`familyrank`,`arrest`,`demorgan`,`wanted`," +
-                    $"`biz`,`adminlvl`,`licenses`,`unwarn`,`unmute`,`warns`,`lastveh`,`onduty`,`lasthour`,`lastbonus`,`isbonused`,`luckywheelspins`,`hotel`,`hotelleft`,`contacts`,`achiev`,`sim`,`pos`,`createdate`,`eat`,`water`) " +
+                    $"`biz`,`adminlvl`,`licenses`,`unwarn`,`unmute`,`warns`,`lastveh`,`onduty`,`lasthour`,`lastbonus`,`isbonused`,`luckywheelspins`,`hotel`,`hotelleft`,`contacts`,`achiev`,`sim`,`pos`,`createdate`,`eat`,`water`,`genpromo`) " +
                     $"VALUES({UUID},'{PersonID}','{FirstName}','{LastName}',{Gender},{Health},{Armor},{LVL},{EXP},{Money},{Bank},{WorkID},{FractionID},{FractionLVL},'{FamilyCID}',{FamilyRank},{ArrestTime},{DemorganTime}," +
                     $"'{JsonConvert.SerializeObject(WantedLVL)}','{JsonConvert.SerializeObject(BizIDs)}',{AdminLVL},'{JsonConvert.SerializeObject(Licenses)}','{MySQL.ConvertTime(Unwarn)}'," +
                     $"'{Unmute}',{Warns},'{LastVeh}',{OnDuty},{LastHourMin},{LastBonus},{IsBonused},{LuckyWheelSpins},{HotelID},{HotelLeft},'{JsonConvert.SerializeObject(Contacts)}','{JsonConvert.SerializeObject(Achievements)}',{Sim}," +
-                    $"'{JsonConvert.SerializeObject(SpawnPos)}','{MySQL.ConvertTime(CreateDate)}','{Eat}','{Water}')");
+                    $"'{JsonConvert.SerializeObject(SpawnPos)}','{MySQL.ConvertTime(CreateDate)}','{Eat}','{Water}', '{rand_promo}')");
                 NAPI.Task.Run(() => { player.Name = FirstName + "_" + LastName; });
                 nInventory.Check(UUID);
                 Main.Players.Add(player, this);
@@ -398,6 +411,14 @@ namespace NeptuneEvo.Core.Character
                 Log.Write("EXCEPTION AT \"Create\":\n" + e.ToString());
                 return -1;
             }
+        }
+
+        private static Random randomp = new Random();
+        public static string RandomPromocode(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[randomp.Next(s.Length)]).ToArray());
         }
 
         private int GenerateUUID()

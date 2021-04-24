@@ -1462,6 +1462,44 @@ namespace NeptuneEvo
                     case "player_ticketreason":
                         Fractions.FractionCommands.ticketToTarget(player, player.GetData<Player>("TICKETTARGET"), player.GetData<int>("TICKETSUM"), text);
                         break;
+                    case "enter_promocode":
+                        if (string.IsNullOrEmpty(text))
+                        {
+                            Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Введите корректные данные!", 3000);
+                            return;
+                        }
+
+                        if (Main.Accounts[player].PresentGet)
+                        {
+                            Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Вы уже активировали промокод!", 3000);
+                            return;
+                        }
+
+                        if (text.Contains(Players[player].GenPromo))
+                        {
+                            Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Вы не можете вводить свой промокод!", 3000);
+                            return;
+                        }
+
+                        if (!Main.PromoCodes.ContainsKey(text))
+                        {
+                            Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Введите корректные данные!", 3000);
+                            return;
+                        }
+
+                        if (Players[player].LVL < 3)
+                        {
+                            Main.Accounts[player].PromoCodes.Add(text); // добавляем промокод в аккаунт
+                            MySQL.Query($"UPDATE promocodes SET count=count+1 WHERE name='{text}'"); // прибавляем количество использований к промокоду
+
+                            Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Промокод {Main.Accounts[player].PromoCodes[0]} успешно активирован! Приз вы получите при достижении 3-го уровня.", 5000);
+                        }
+                        else
+                        {
+                            Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Промокод можно активировать только до 3-го уровня!", 3000);
+                            return;
+                        }
+                        break;
                 }
             }
             catch (Exception e) { Log.Write($"inputCallback/{callback}/: {e.ToString()}\n{e.StackTrace}", nLog.Type.Error); }
@@ -2873,19 +2911,21 @@ namespace NeptuneEvo
                                     NAPI.Task.Run(() => { try { Trigger.ClientEvent(player, "disabledmg", false); } catch { } }, 5000);
                                 }
                                 Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, $"Поздравляем, у Вас новый уровень ({Players[player].LVL})!", 3000);
-                                if (Players[player].LVL == 1 && Accounts[player].PromoCodes[0] != "noref" && PromoCodes.ContainsKey(Accounts[player].PromoCodes[0]))
+                                if (Players[player].LVL == 3 && Accounts[player].PromoCodes[0] != "noref" && PromoCodes.ContainsKey(Accounts[player].PromoCodes[0]))
                                 {
                                     if (!Accounts[player].PresentGet)
                                     {
                                         Accounts[player].PresentGet = true;
                                         string promo = Accounts[player].PromoCodes[0];
-                                        MoneySystem.Wallet.Change(player, 2000);
+                                        MoneySystem.Wallet.Change(player, 2000); // получит тот кто ввел промо
                                         GameLog.Money($"server", $"player({Players[player].UUID})", 2000, $"promo_{promo}");
-                                        Customization.AddClothes(player, ItemType.Hat, 44, 3);
-                                        nInventory.Add(player, new nItem(ItemType.Sprunk, 3));
-                                        nInventory.Add(player, new nItem(ItemType.Сrisps, 3));
 
-                                        Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Поздравляем, Вы получили награду за достижение 1 уровня по промокоду {promo}!", 3000);
+                                        Accounts[player].VipLvl = 3;
+                                        Accounts[player].VipDate = DateTime.Now.AddDays(2);
+                                        Dashboard.sendStats(player);
+
+                                        Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Поздравляем, Вы получили награду за достижение 3 уровня по промокоду {promo}!", 3000);
+                                        Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, "Вы получили: Gold VIP на 2 дня и 5000$!", 3000);
 
                                         try
                                         {
@@ -2894,13 +2934,13 @@ namespace NeptuneEvo
                                             {
                                                 if (Players.ContainsKey(pl) && Players[pl].UUID == PromoCodes[promo].Item3)
                                                 {
-                                                    MoneySystem.Wallet.Change(pl, 2000);
-                                                    Notify.Send(pl, NotifyType.Info, NotifyPosition.Bottom, $"Вы получили $2000 за достижение 1 уровня игроком {player.Name}", 2000);
+                                                    MoneySystem.Wallet.Change(pl, 2500); // получит тот кто пригласил
+                                                    Notify.Send(pl, NotifyType.Info, NotifyPosition.Bottom, $"Вы получили $2500 за достижение 3 уровня игроком {player.Name}", 2000);
                                                     isGiven = true;
                                                     break;
                                                 }
                                             }
-                                            if (!isGiven) MySQL.Query($"UPDATE characters SET money=money+2000 WHERE uuid={PromoCodes[promo].Item3}");
+                                            if (!isGiven) MySQL.Query($"UPDATE characters SET money=money+2500 WHERE uuid={PromoCodes[promo].Item3}");
                                         }
                                         catch { }
                                     }
@@ -3553,6 +3593,13 @@ namespace NeptuneEvo
             menuItem = new Menu.Item("ad", Menu.MenuItem.ilanBtn);
             menuItem.Text = "";
             menu.Add(menuItem);
+
+            if (Players[player].LVL < 3)
+            {
+                menuItem = new Menu.Item("promo", Menu.MenuItem.promoBtn);
+                menuItem.Text = "";
+                menu.Add(menuItem);
+            }
 
             menuItem = new Menu.Item("close", Menu.MenuItem.closeBtn);
             menuItem.Text = "";

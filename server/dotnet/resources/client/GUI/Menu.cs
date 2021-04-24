@@ -341,6 +341,7 @@ namespace NeptuneEvo.GUI
             leaveBtn,
             onRadio,
             offRadio,
+            bankBtn,
             promoBtn
 
         }

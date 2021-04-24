@@ -514,7 +514,7 @@ input[type="text"] {
     }
 	
 .promoBtn {
-	position: absolute;
+    position: absolute;
     background-color: rgb(255, 255, 255), transparent;
     font-size: 14pt;
     margin: 4px 4px 4px 4px;
@@ -525,19 +525,19 @@ input[type="text"] {
     border-radius: 5px;
     width: 50px;
     height: 50px;
-	right: 58px;
-	right: 145px;
-	margin-top: 65px;
+    right: 58px;
+    right: 145px;
+    margin-top: 65px;
 }
 
 .promoBtn:active {
-	background-color: rgba(27, 27, 35, 0.8);	
-	border-radius: 34px;	
-	border: 4px solid;
-	height: 39px;
-	width: 39px;
-	box-shadow: 0 0 20px;
-    }
+    background-color: rgba(27, 27, 35, 0.8);	
+    border-radius: 34px;	
+    border: 4px solid;
+    height: 39px;
+    width: 39px;
+    box-shadow: 0 0 20px;
+}
 
 .list input {
     width: 58%;

@@ -33,21 +33,31 @@ namespace NeptuneEvo.Core.nAccount
                 Login = login_;
                 Email = email_;
                 VipLvl = 0;
-                PromoCodes = new List<string>();
-                promo_ = promo_.ToLower();
-                if(!promo_.Equals("reborn")) {
-                    if (string.IsNullOrEmpty(promo_) || !Main.PromoCodes.ContainsKey(promo_))
-                        promo_ = "noref";
-                    else
-                        await MySQL.QueryAsync($"UPDATE promocodes SET count=count+1 WHERE name='{promo_}'");
-                }
-                PromoCodes.Add(promo_);
 
                 Characters = new List<int>() { -1, -1, -2 }; // -1 - empty slot, -2 - non-purchased slot
 
-                HWID = client.Serial;
-                IP = client.Address;
-                SocialClub = client.SocialClubName;
+                // новые промокоды
+                PromoCodes = new List<string>();
+
+                if (!Main.PromoCodes.ContainsKey(promo_))
+                {
+                    // если промокод не найден
+                    promo_ = "noref"; // пустой промик
+                }
+                else
+                {
+                    // если он все-таки найден
+                    await MySQL.QueryAsync($"UPDATE promocodes SET count=count+1 WHERE name='{promo_}'"); // прибавляем количество использований к промокоду
+                }
+                PromoCodes.Add(promo_); // добавляем промокод в аккаунт
+                // 
+
+                NAPI.Task.Run(() =>
+                {
+                    HWID = client.Serial;
+                    IP = client.Address;
+                    SocialClub = client.SocialClubName;
+                });
 
                 await MySQL.QueryAsync($"INSERT INTO `accounts` (`login`,`email`,`password`,`hwid`,`ip`,`socialclub`,`redbucks`,`viplvl`,`vipdate`,`promocodes`,`character1`,`character2`,`character3`) " +
                     $"VALUES ('{Login}','{Email}','{Password}','{HWID}','{IP}','{SocialClub}',0,{VipLvl},'{MySQL.ConvertTime(VipDate)}','{JsonConvert.SerializeObject(PromoCodes)}',-1,-1,-2)");
