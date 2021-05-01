@@ -142,8 +142,6 @@ mp.game.streaming.requestClipSet("move_f@sexy@a");
 mp.game.streaming.requestClipSet("move_ped_crouched");
 var admingm = false;
 
-mp.game.object.doorControl(mp.game.joaat("prop_ld_bankdoors_02"), 232.6054, 214.1584, 106.4049, false, 0.0, 0.0, 0.0);
-mp.game.object.doorControl(mp.game.joaat("prop_ld_bankdoors_02"), 231.5075, 216.5148, 106.4049, false, 0.0, 0.0, 0.0);
 mp.game.audio.setAudioFlag("DisableFlightMusic", true);
 
 global.NativeUI = require("./nativeui.js");
@@ -193,9 +191,6 @@ mp.events.add('setWorldLights', function (toggle) {
 	} catch { }
 });
 
-mp.events.add('setDoorLocked', function (model, x, y, z, locked, angle) {
-    mp.game.object.doorControl(model, x, y, z, locked, 0, 0, angle);
-});
 mp.events.add('changeChatState', function (state) {
     chatActive = state;
 });
@@ -245,6 +240,7 @@ require('./fly.js');
 require('./environment.js');
 require('./elections.js');
 require('./world/animals.js');
+require('./world/doors.js');
 require('./client/utils/utils.js');
 require('./scripts/autopilot.js');
 require('./scripts/crouch.js');

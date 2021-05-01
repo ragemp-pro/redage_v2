@@ -68,12 +68,6 @@ namespace NeptuneEvo.Fractions
                 Cols[7].OnEntityExitColShape += city_OnEntityExitColShape;
                 Cols[7].SetData("INTERACT", 62);
                 NAPI.TextLabel.CreateTextLabel(Main.StringToU16("~g~Press E, to open gun menu"), new Vector3(CityhallChecksCoords[6].X, CityhallChecksCoords[6].Y, CityhallChecksCoords[6].Z + 0.7), 5F, 0.4F, 0, new Color(255, 255, 255));
-
-                NAPI.Object.CreateObject(0x4f97336b, new Vector3(260.651764, 203.230209, 106.432785), new Vector3(0, 0, 160.003571), 255, 0);
-                NAPI.Object.CreateObject(0x4f97336b, new Vector3(258.209259, 204.120041, 106.432785), new Vector3(0, 0, -20.0684872), 255, 0);
-
-                NAPI.Object.CreateObject(0x4f97336b, new Vector3(259.09613, 212.803894, 106.432793), new Vector3(0, 0, 70.0000153), 255, 0);
-                NAPI.Object.CreateObject(0x4f97336b, new Vector3(259.985962, 215.246399, 106.432793), new Vector3(0, 0, -109.999962), 255, 0);
             } catch(Exception e)
             {
                 Log.Write("EXCEPTION AT\"FRACTIONS_CITYHALL\":\n" + e.ToString(), nLog.Type.Error);

@@ -1,2 +1,11 @@
-mp.game.object.doorControl(mp.game.joaat("prop_ld_bankdoors_02"), 232.6054, 214.1584, 106.4049, false, 0.0, 0.0, 0.0);
-mp.game.object.doorControl(mp.game.joaat("prop_ld_bankdoors_02"), 231.5075, 216.5148, 106.4049, false, 0.0, 0.0, 0.0);
+mp.events.add('setDoorLocked', function (model, x, y, z, locked, angle) {
+    const timer = setInterval(() => {
+        if (mp.game.object.doesDoorExist(model)) {
+            clearInterval(timer);
+        }
+        //else mp.gui.chat.push(`Дверь мне сделай!`);
+
+        mp.game.object.addDoorToSystem(model, model, x, y, z, locked, false, false);
+        mp.game.object.doorControl(model, x, y, z, locked, 0, 0, angle);
+    }, 50);
+});

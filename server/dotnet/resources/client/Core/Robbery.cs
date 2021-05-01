@@ -173,7 +173,7 @@ namespace NeptuneEvo.Core
                 {
                     canBeClosed = true;
                 });
-                Doormanager.SetDoorLocked(2, true, 0.5f);
+                Doormanager.SetDoorLocked(0, true, 0.5f);
                 //Main.StopT(timer, "timer_22");
                 Timers.Stop(timer);
                 return;
@@ -766,12 +766,12 @@ namespace NeptuneEvo.Core
                         if (isOpen)
                         {
                             isOpen = false;
-                            Doormanager.SetDoorLocked(2, true, 0);
+                            Doormanager.SetDoorLocked(0, true, 0);
                         }
                         else
                         {
                             isOpen = true;
-                            Doormanager.SetDoorLocked(2, true, 45f);
+                            Doormanager.SetDoorLocked(0, true, 45f);
                         }
                         string msg = "Вы закрыли дверь";
                         if (isOpen) msg = "Вы открыли дверь";
