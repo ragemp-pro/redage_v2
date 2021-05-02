@@ -29,6 +29,7 @@ namespace NeptuneEvo.Core.Character
                         Main.Players[player].IsSpawned = true;
                         Main.Players[player].IsAlive = true;
 
+                        player.SetData("IS_MASK", false);
                         player.SetSharedData("IS_MASK", false);
 
                         // Logged in state, money, phone init
