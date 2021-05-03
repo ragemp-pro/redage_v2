@@ -6,8 +6,6 @@ using Redage.SDK;
 using System.Data;
 using System.Linq;
 using Newtonsoft.Json;
-using NeptuneEvo.GUI;
-using System.Threading.Tasks;
 using MySqlConnector;
 
 namespace NeptuneEvo.MoneySystem
@@ -394,7 +392,7 @@ namespace NeptuneEvo.MoneySystem
                 int type = NAPI.Data.GetEntityData(player, "ATMTYPE");
                 string data = Convert.ToString(args[0]);
                 int amount;
-                if (!Int32.TryParse(data, out amount))
+                if (!int.TryParse(data, out amount))
                     return;
                 switch (type)
                 {
@@ -425,7 +423,7 @@ namespace NeptuneEvo.MoneySystem
                             Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Невозможно перевести столько средств на счет дома.", 3000);
                             return;
                         }
-                        if (!Wallet.Change(player, -Math.Abs(amount)))
+                        if (!Bank.Change(acc.Bank, -Math.Abs(amount)))
                         {
                             Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно средств.", 3000);
                             return;
@@ -447,7 +445,7 @@ namespace NeptuneEvo.MoneySystem
                             Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Невозможно перевести столько средств на счет бизнеса.", 3000);
                             return;
                         }
-                        if (!Wallet.Change(player, -Math.Abs(amount)))
+                        if (!Bank.Change(acc.Bank, -Math.Abs(amount)))
                         {
                             Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно средств.", 3000);
                             return;
