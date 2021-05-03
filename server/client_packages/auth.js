@@ -184,7 +184,7 @@ mp.events.add('toslots', function (data) {
     auth.execute(`toslots('${data}')`);
 });
 
-mp.events.add('spawnShow', function (data) {
+mp.events.add('spawnShow', function (data, respawndata) {
     if (data === false) {
         if (respawn != null) {
             respawn.destroy();
@@ -194,6 +194,7 @@ mp.events.add('spawnShow', function (data) {
     else {
         respawn = mp.browsers["new"]('package://cef/respawn.html');
         respawn.execute(`set('${data}')`);
+        respawn.execute(`setimage('${respawndata}')`);
     }
 
     if (auth != null) {

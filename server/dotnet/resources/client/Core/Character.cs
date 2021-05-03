@@ -110,7 +110,8 @@ namespace NeptuneEvo.Core.Character
                                     (FractionID > 0) ? true : false,
                                     (house != null || HotelID != -1) ? true : false,
                                 };
-                                Trigger.ClientEvent(player, "spawnShow", JsonConvert.SerializeObject(prepData));
+                                List<string> respawnData = new List<string> { player.SocialClubId.ToString(), player.SocialClubName };
+                                Trigger.ClientEvent(player, "spawnShow", JsonConvert.SerializeObject(prepData), JsonConvert.SerializeObject(respawnData));
                                 Customization.ApplyCharacter(player);
                             }
                             catch { }
