@@ -13,6 +13,8 @@ namespace NeptuneEvo.Jobs
     {
         private static nLog Log = new nLog("Truckers");
 
+        private static bool TruckersTrailers = false; // Доставка грузов с помощью транспорта с прицепами (true - с прицепами / false - без прицепов).
+
         [ServerEvent(Event.ResourceStart)]
         public void OnResourceStart()
         {
@@ -129,15 +131,23 @@ namespace NeptuneEvo.Jobs
 
                 if (player.HasData("TRAILER"))
                 {
-                    var trailer = player.GetData<Vehicle>("TRAILER");
-                    NAPI.Task.Run(() =>
+                    if (TruckersTrailers)
                     {
-                        try
+                        var trailer = player.GetData<Vehicle>("TRAILER");
+                        NAPI.Task.Run(() =>
                         {
-                            NAPI.Entity.DeleteEntity(trailer);
-                        }
-                        catch { }
-                    });
+                            try
+                            {
+                                NAPI.Entity.DeleteEntity(trailer);
+                            }
+                            catch { }
+                        });
+                    }
+                    else
+                    {
+                        //
+                    }
+
                     player.ResetData("TRAILER");
                 }
                 
@@ -225,6 +235,7 @@ namespace NeptuneEvo.Jobs
                 cancelOrder(player);
                 return;
             }
+            /*
             DateTime date = player.GetData<DateTime>("ORDERDATE");
             if (DateTime.Now < date)
             {
@@ -233,11 +244,13 @@ namespace NeptuneEvo.Jobs
                 var sec = g.Second;
                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Товар всё ещё подготавливается. Ждите {min}:{sec}", 3000);
                 return;
-            }
+            }*/
 
             var spawnI = LastTrailerSpawn[prod];
             if (LastTrailerSpawn[prod] == 2) LastTrailerSpawn[prod] = 0;
             else LastTrailerSpawn[prod]++;
+
+            VehicleHash trailerModel = VehicleHash.Trailers; // default
 
             switch (prod)
             {
@@ -247,48 +260,52 @@ namespace NeptuneEvo.Jobs
                         Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы не брали заказ на этот тип товара", 3000);
                         return;
                     }
-                    var veh = NAPI.Vehicle.CreateVehicle(VehicleHash.Trailers2, SpawnTrailers[prod][spawnI], SpawnTrailersRot[prod][spawnI].Z, 0, 0);
-                    player.SetData("TRAILER", veh);
-                    Trigger.ClientEvent(player, "SetOrderTruck", veh);
-                    player.SendChatMessage("Если вдруг Вы потеряете свой трейлер, то напишите в чат /findtrailer");
-                    Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы получили трейлер с товаром, подойдите к нему и увидите 'Ваш Заказ'", 3000);
-                    return;
+                    trailerModel = VehicleHash.Trailers2;
+
+                    break;
                 case 1:
                     if (biz.Type != 1)
                     {
                         Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы не брали заказ на бензин", 3000);
                         return;
                     }
-                    veh = NAPI.Vehicle.CreateVehicle(VehicleHash.Tanker, SpawnTrailers[prod][spawnI], SpawnTrailersRot[prod][spawnI].Z, 0, 0);
-                    player.SetData("TRAILER", veh);
-                    Trigger.ClientEvent(player, "SetOrderTruck", veh);
-                    player.SendChatMessage("Если вдруг Вы потеряете свой трейлер, то напишите в чат /findtrailer");
-                    Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы получили трейлер с товаром, подойдите к нему и увидите 'Ваш Заказ'", 3000);
-                    return;
+                    trailerModel = VehicleHash.Tanker;
+
+                    break;
                 case 2:
                     if (biz.Type < 2 || biz.Type > 5)
                     {
                         Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы не брали заказ на автомобили", 3000);
                         return;
                     }
-                    veh = NAPI.Vehicle.CreateVehicle(VehicleHash.Tr4, SpawnTrailers[prod][spawnI], SpawnTrailersRot[prod][spawnI].Z, 0, 0);
-                    player.SetData("TRAILER", veh);
-                    Trigger.ClientEvent(player, "SetOrderTruck", veh);
-                    player.SendChatMessage("Если вдруг Вы потеряете свой трейлер, то напишите в чат /findtrailer");
-                    Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы получили трейлер с товаром, подойдите к нему и увидите 'Ваш Заказ'", 3000);
-                    return;
+                    trailerModel = VehicleHash.Tr4;
+
+                    break;
                 case 3:
                     if (biz.Type != 6)
                     {
                         Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы не брали заказ на оружие", 3000);
                         return;
                     }
-                    veh = NAPI.Vehicle.CreateVehicle(VehicleHash.Trailers, SpawnTrailers[prod][spawnI], SpawnTrailersRot[prod][spawnI].Z, 0, 0);
-                    player.SetData("TRAILER", veh);
-                    Trigger.ClientEvent(player, "SetOrderTruck", veh);
-                    player.SendChatMessage("Если вдруг Вы потеряете свой трейлер, то напишите в чат /findtrailer");
-                    Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы получили трейлер с товаром, подойдите к нему и увидите 'Ваш Заказ'", 3000);
-                    return;
+                    trailerModel = VehicleHash.Trailers;
+
+                    break;
+            }
+
+            if (TruckersTrailers)
+            {
+                var veh = NAPI.Vehicle.CreateVehicle(trailerModel, SpawnTrailers[prod][spawnI], SpawnTrailersRot[prod][spawnI].Z, 0, 0);
+                player.SetData("TRAILER", veh);
+                Trigger.ClientEvent(player, "SetOrderTruck", veh);
+                player.SendChatMessage("Если вдруг Вы потеряете свой трейлер, то напишите в чат /findtrailer");
+                Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы получили трейлер с товаром, подойдите к нему и увидите 'Ваш Заказ'", 3000);
+            }
+            else
+            {
+                player.SetData("TRAILER", true);
+
+                player.SendChatMessage("В ваш транспорт был загружен необходимый товар.");
+                Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Вам загрузили транспорт товаром, сядьте в авто и увидите 'Ваш Заказ'", 3000);
             }
         }
         public static void onPlayerDissconnectedHandler(Player player, DisconnectionType type, string reason)
@@ -350,6 +367,14 @@ namespace NeptuneEvo.Jobs
                             return;
                         }
                         */
+
+                        if ((VehicleHash)NAPI.Util.GetHashKey(vehicle.DisplayName) == VehicleHash.Phantom && !TruckersTrailers)
+                        {
+                            Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"В данный момент этот транспорт недоступен для перевозки. Используйте другое авто (без прицепа).", 3000);
+                            VehicleManager.WarpPlayerOutOfVehicle(player);
+                            return;
+                        }
+
                         if (!NAPI.Data.GetEntityData(vehicle, "ON_WORK"))
                         {
                             if (NAPI.Data.GetEntityData(player, "WORK") == null)
@@ -504,12 +529,17 @@ namespace NeptuneEvo.Jobs
                     cancelOrder(player);
                     return;
                 }
-                Vehicle trailer = player.GetData<Vehicle>("TRAILER");
-                if (player.Position.DistanceTo(trailer.Position) > 20)
+
+                if (TruckersTrailers)
                 {
-                    Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Трейлер должен находиться по-близости", 3000);
-                    return;
+                    Vehicle trailer = player.GetData<Vehicle>("TRAILER");
+                    if (player.Position.DistanceTo(trailer.Position) > 20)
+                    {
+                        Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Трейлер должен находиться по-близости", 3000);
+                        return;
+                    }
                 }
+
                 var payment = Convert.ToInt32(order.Amount * BusinessManager.ProductsOrderPrice[order.Name] * 2 * Main.oldconfig.PaydayMultiplier);
                 var max = Convert.ToInt32(2000 * Group.GroupPayAdd[Main.Accounts[player].VipLvl] * Main.oldconfig.PaydayMultiplier);
                 var min = Convert.ToInt32(500 * Group.GroupPayAdd[Main.Accounts[player].VipLvl] * Main.oldconfig.PaydayMultiplier);
@@ -541,7 +571,11 @@ namespace NeptuneEvo.Jobs
                     {
                         if (player.HasData("TRAILER"))
                         {
-                            NAPI.Entity.DeleteEntity(player.GetData<Vehicle>("TRAILER"));
+                            if (TruckersTrailers)
+                            {
+                                NAPI.Entity.DeleteEntity(player.GetData<Vehicle>("TRAILER"));
+                            }
+
                             player.ResetData("TRAILER");
                         }
                     } catch { }
