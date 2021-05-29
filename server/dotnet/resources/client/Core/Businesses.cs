@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using NeptuneEvo.GUI;
 using NeptuneEvo.MoneySystem;
 using Redage.SDK;
@@ -4591,13 +4590,12 @@ namespace NeptuneEvo.Core
                 var zone = Convert.ToInt32(arguments[0].ToString());
                 var tattooID = Convert.ToInt32(arguments[1].ToString());
                 var tattoo = BusinessTattoos[zone][tattooID];
-                //player.SendChatMessage("zone " + zone + " tattooID " + tattooID + " tattoo" + tattoo);
+
                 Log.Debug($"buyTattoo zone: {zone} | id: {tattooID}");
 
                 Business biz = BizList[player.GetData<int>("BODY_SHOP")];
 
                 var prod = biz.Products.FirstOrDefault(p => p.Name == "Татуировки");
-                player.SendChatMessage(" prod" + prod);
                 double price = tattoo.Price / 100.0 * prod.Price;
                 if (Main.Players[player].Money < Convert.ToInt32(price))
                 {
@@ -4614,7 +4612,7 @@ namespace NeptuneEvo.Core
                 //    return;
                 //}
                 GameLog.Money($"player({Main.Players[player].UUID})", $"biz({biz.ID})", Convert.ToInt32(price), "buyTattoo");
-                MoneySystem.Wallet.Change(player, -Convert.ToInt32(price));
+                Wallet.Change(player, -Convert.ToInt32(price));
 
                 var tattooHash = (Main.Players[player].Gender) ? tattoo.MaleHash : tattoo.FemaleHash;
                 List<Tattoo> validTattoos = new List<Tattoo>();
