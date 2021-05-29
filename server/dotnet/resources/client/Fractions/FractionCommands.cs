@@ -38,23 +38,24 @@ namespace NeptuneEvo.Fractions
         }
         private static Dictionary<int, DateTime> NextCarRespawn = new Dictionary<int, DateTime>()
         {
-            { 1, DateTime.Now },
-            { 2, DateTime.Now },
-            { 3, DateTime.Now },
-            { 4, DateTime.Now },
-            { 5, DateTime.Now },
-            { 6, DateTime.Now },
-            { 7, DateTime.Now },
-            { 8, DateTime.Now },
-            { 9, DateTime.Now },
-            { 10, DateTime.Now },
-            { 11, DateTime.Now },
-            { 12, DateTime.Now },
-            { 13, DateTime.Now },
-            { 14, DateTime.Now },
-            { 15, DateTime.Now },
-            { 16, DateTime.Now },
-            { 17, DateTime.Now },
+            { 1, DateTime.Now.AddMinutes(1) },
+            { 2, DateTime.Now.AddMinutes(1) },
+            { 3, DateTime.Now.AddMinutes(1) },
+            { 4, DateTime.Now.AddMinutes(1) },
+            { 5, DateTime.Now.AddMinutes(1) },
+            { 6, DateTime.Now.AddMinutes(1) },
+            { 7, DateTime.Now.AddMinutes(1) },
+            { 8, DateTime.Now.AddMinutes(1) },
+            { 9, DateTime.Now.AddMinutes(1) },
+            { 10, DateTime.Now.AddMinutes(1) },
+            { 11, DateTime.Now.AddMinutes(1) },
+            { 12, DateTime.Now.AddMinutes(1) },
+            { 13, DateTime.Now.AddMinutes(1) },
+            { 14, DateTime.Now.AddMinutes(1) },
+            { 15, DateTime.Now.AddMinutes(1) },
+            { 16, DateTime.Now.AddMinutes(1) },
+            { 17, DateTime.Now.AddMinutes(1) },
+            { 18, DateTime.Now.AddMinutes(1) },
         };
         public static void respawnFractionCars(Player player)
         {
@@ -62,9 +63,7 @@ namespace NeptuneEvo.Fractions
             if (DateTime.Now < NextCarRespawn[Main.Players[player].FractionID])
             {
                 DateTime g = new DateTime((NextCarRespawn[Main.Players[player].FractionID] - DateTime.Now).Ticks);
-                var min = g.Minute;
-                var sec = g.Second;
-                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы сможете сделать это только через {min}:{sec}", 3000);
+                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы сможете сделать это только через {g.Minute}:{g.Second}", 3000);
                 return;
             }
 
