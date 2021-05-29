@@ -1658,8 +1658,8 @@ namespace NeptuneEvo.Core
                 Main.Players[target].EXP += exp;
                 if (Main.Players[target].EXP >= 3 + Main.Players[target].LVL * 3)
                 {
-                    Main.Players[target].EXP = Main.Players[target].EXP - (3 + Main.Players[target].LVL * 3);
                     Main.Players[target].LVL += (1 * Main.Players[target].EXP / 3);
+                    Main.Players[target].EXP = Main.Players[target].EXP - (3 + Main.Players[target].LVL * 3);
                     if (Main.Players[target].LVL == 1)
                     {
                         NAPI.Task.Run(() => { try { Trigger.ClientEvent(target, "disabledmg", false); } catch { } }, 5000);
