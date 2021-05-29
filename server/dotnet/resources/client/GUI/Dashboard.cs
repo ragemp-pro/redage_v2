@@ -801,7 +801,7 @@ namespace NeptuneEvo.GUI
                 List<object> data = new List<object>
                 {
                     acc.LVL, //0
-                    $"{acc.EXP}/{3 + acc.LVL * 3}", //1
+                    $"{acc.EXP}/{acc.EXP + 3 + acc.LVL * 3}", //1
                     number, //2
                     status, //3
                     acc.Warns,//4
@@ -859,7 +859,7 @@ namespace NeptuneEvo.GUI
                 List<object> data = new List<object>
                 {
                     acc.LVL, //0
-                    $"{acc.EXP}/{3 + acc.LVL * 3}", //1
+                    $"{acc.EXP}/{acc.EXP + 3 + acc.LVL * 3}", //1
                     number, //2
                     status, //3
                     acc.Warns,//4

@@ -1243,7 +1243,7 @@ namespace NeptuneEvo.Core
                 List<object> data = new List<object>
                 {
                     acc.LVL,
-                    $"{acc.EXP}/{3 + acc.LVL * 3}",
+                    $"{acc.EXP}/{acc.EXP + 3 + acc.LVL * 3}",
                     number,
                     status,
                     0,
