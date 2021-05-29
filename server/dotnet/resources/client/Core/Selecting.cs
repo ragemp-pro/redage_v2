@@ -446,7 +446,7 @@ namespace NeptuneEvo.Core
                         Notify.Send(target, NotifyType.Warning, NotifyPosition.BottomCenter, $"Игрок ({player.Value}) предложил Вам обменяться предметами. Y/N - принять/отклонить", 3000);
                         Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Вы предложили игроку ({target.Value}) обменяться предметами.", 3000);
                         return;
-                    case "Мешок":
+                    case "Мешок на голову":
                         if (player.IsInVehicle) return;
                         Fractions.FractionCommands.playerChangePocket(player, target);
                         return;
