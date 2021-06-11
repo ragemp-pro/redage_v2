@@ -1383,6 +1383,82 @@ let clothes = {
     colors: [0, 0, 0],
     price: 0,
 }
+
+/* clothes real names */
+const CN_male_tops = JSON.parse(require(`./configs/clothingnames/male_tops`));
+const CN_female_tops = JSON.parse(require(`./configs/clothingnames/female_tops`));
+
+const CN_male_torsos = JSON.parse(require(`./configs/clothingnames/male_torsos`));
+const CN_female_torsos = JSON.parse(require(`./configs/clothingnames/female_torsos`));
+
+const CN_male_undershirts = JSON.parse(require(`./configs/clothingnames/male_undershirts`));
+const CN_female_undershirts = JSON.parse(require(`./configs/clothingnames/female_undershirts`));
+
+const CN_male_accessories = JSON.parse(require(`./configs/clothingnames/male_accessories`));
+const CN_female_accessories = JSON.parse(require(`./configs/clothingnames/female_accessories`));
+
+const CN_male_legs = JSON.parse(require(`./configs/clothingnames/male_legs`));
+const CN_female_legs = JSON.parse(require(`./configs/clothingnames/female_legs`));
+
+const CN_male_shoes = JSON.parse(require(`./configs/clothingnames/male_shoes`));
+const CN_female_shoes = JSON.parse(require(`./configs/clothingnames/female_shoes`));
+
+const CN_male_glasses = JSON.parse(require(`./configs/clothingnames/props_male_glasses`));
+const CN_female_glasses = JSON.parse(require(`./configs/clothingnames/props_female_glasses`));
+
+const CN_male_hats = JSON.parse(require(`./configs/clothingnames/props_male_hats`));
+const CN_female_hats = JSON.parse(require(`./configs/clothingnames/props_female_hats`));
+
+const CN_female_watches = JSON.parse(require(`./configs/clothingnames/props_female_watches`));
+const CN_male_watches = JSON.parse(require(`./configs/clothingnames/props_male_watches`));
+
+function getClothesNamesArr(gender, type)
+{   
+    var clothesArr = {};
+	var clothesNames = {};
+	switch(type)
+	{
+		case 0:
+			clothesArr = clothesHats[gender];
+			clothesNames = (gender) ? CN_male_hats : CN_female_hats;
+			break;
+		case 1:
+			clothesArr = clothesTops[gender];
+			clothesNames = (gender) ? CN_male_tops : CN_female_tops;
+			break;
+		case 2:
+			clothesArr = clothesUnderwears[gender];
+			clothesNames = (gender) ? CN_male_undershirts : CN_female_undershirts;
+			break;
+		case 3:
+			clothesArr = clothesLegs[gender];
+			clothesNames = (gender) ? CN_male_legs : CN_female_legs;
+			break;
+		case 4:
+			clothesArr = clothesFeets[gender];
+			clothesNames = (gender) ? CN_male_shoes : CN_female_shoes;
+			break;
+		case 5:
+			clothesArr = clothesGloves[gender];
+			clothesNames = (gender) ? CN_male_torsos : CN_female_torsos;
+			break;
+		case 6:
+			clothesArr = clothesWatches[gender];
+			clothesNames = (gender) ? CN_male_watches : CN_female_watches;
+			break;
+		case 7:
+			clothesArr = clothesGlasses[gender];
+			clothesNames = (gender) ? CN_male_glasses : CN_female_glasses;
+			break;
+		case 8:
+			clothesArr = clothesJewerly[gender];
+			clothesNames = (gender) ? CN_male_accessories : CN_female_accessories;
+			break;
+	}
+
+    return clothesNames;
+}
+
 mp.events.add('clothes', (act, value) => {
     const gender = (localplayer.getVariable("GENDER")) ? 1 : 0;
 
@@ -1544,21 +1620,52 @@ mp.events.add('clothes', (act, value) => {
 
             var styles = [];
             var prices = [];
+            var names = [];
+            var clothesNames = getClothesNamesArr(gender, value);
             var colors = clothesArr[0].Colors;
 
-            clothesArr.forEach(item => {
+            clothesArr.forEach( function(item, indexs) {
                 let tempPrice = item.Price / 100 * clothes.price;
                 prices.push(tempPrice.toFixed());
 
+                let temp_variant;
+
                 if (value == 2) 
-                    styles.push(item.Top)
+                    styles.push(item.Top), temp_variant = item.Top;
                 else 
-                    styles.push(item.Variation)
+                    styles.push(item.Variation), temp_variant = item.Variation;
+
+                // names
+                names[indexs] = [];
+                item.Colors.forEach(function (color, indexc) {
+                    var cloth_name = "Вариация №" + color;
+                    var real_name;
+                    var gxt_name;
+                    
+                    if(clothesNames[temp_variant] != undefined) real_name = clothesNames[temp_variant][color];
+                    if(real_name != undefined)
+                    {
+                        if(real_name.GXT != undefined && real_name.GXT != "NO_LABEL")
+                        {
+                            gxt_name = mp.game.ui.getLabelText(real_name.GXT);
+                            cloth_name = gxt_name; // Выдергиваем название шмотки из самой GTA V
+                        }
+
+                        if(clothesNames[temp_variant][color].Localized != undefined && clothesNames[temp_variant][color].Localized != "NULL")
+                        {
+                            real_name = clothesNames[temp_variant][color].Localized;
+                            //cloth_name = real_name; // Название шмотки из кастомного конфига
+                        }
+                    }
+
+                    names[indexs].push(cloth_name);
+                });
             });
 
             setClothes("styles", JSON.stringify(styles));
             setClothes("colors", JSON.stringify(colors));
             setClothes("prices", JSON.stringify(prices));
+            setClothes("names", JSON.stringify(names));
 
             clothes.type = value;
             clothes.style = styles[0];
@@ -1615,6 +1722,7 @@ mp.events.add('closeClothes', () => {
 
     mp.events.callRemote('cancelClothes');
 })
+
 mp.events.add('openClothes', (price) => {
     if (global.menuCheck()) return;
 
@@ -1630,18 +1738,47 @@ mp.events.add('openClothes', (price) => {
 
     var styles = [];
     var prices = [];
+    var names = [];
+    var clothesNames = getClothesNamesArr(gender, 0);
     var colors = clothesHats[gender][0].Colors;
 
-    clothesHats[gender].forEach(hat => {
+    clothesHats[gender].forEach(function (hat, indexs) {
         let tempPrice = hat.Price / 100 * price;
         prices.push(tempPrice.toFixed());
 
         styles.push(hat.Variation)
+
+        // names
+        names[indexs] = [];
+        hat.Colors.forEach(function (color, indexc) {
+            var cloth_name = "Вариация №" + color;
+			var real_name;
+			var gxt_name;
+			
+			if(clothesNames[hat.Variation] != undefined) real_name = clothesNames[hat.Variation][color];
+			if(real_name != undefined)
+			{
+				if(real_name.GXT != undefined && real_name.GXT != "NO_LABEL")
+				{
+					gxt_name = mp.game.ui.getLabelText(real_name.GXT);
+					cloth_name = gxt_name; // Выдергиваем название шмотки из самой GTA V
+				}
+
+				if(clothesNames[hat.Variation][color].Localized != undefined && clothesNames[hat.Variation][color].Localized != "NULL")
+				{
+					real_name = clothesNames[hat.Variation][color].Localized;
+					//cloth_name = real_name; // Название шмотки из кастомного конфига
+				}
+			}
+
+			names[indexs].push(cloth_name);
+        });
     });
 
     setClothes("styles", JSON.stringify(styles));
     setClothes("colors", JSON.stringify(colors));
     setClothes("prices", JSON.stringify(prices));
+    setClothes("names", JSON.stringify(names));
 
     clothes = {
         type: 0,

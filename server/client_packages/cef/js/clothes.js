@@ -8,6 +8,7 @@ var clothes = new Vue({
         styles: ["Style-1","Styles-2"],
         colors: ["Colors-1","Colors-2"],
         prices: [9,99],
+        names: [],
         btns: [true,false,false,false],
     },
     methods: {
