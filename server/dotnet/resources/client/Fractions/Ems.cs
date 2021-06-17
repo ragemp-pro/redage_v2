@@ -353,6 +353,12 @@ namespace NeptuneEvo.Fractions
                 Jobs.Collector.Event_PlayerDeath(player, entityKiller, weapon);
                 Jobs.Gopostal.Event_PlayerDeath(player, entityKiller, weapon);
 
+                // new jobs
+                Jobs.Construction.Event_PlayerDeath(player, entityKiller, weapon);
+                Jobs.Loader.Event_PlayerDeath(player, entityKiller, weapon);
+                Jobs.Diver.Event_PlayerDeath(player, entityKiller, weapon);
+                Jobs.Miner.Event_PlayerDeath(player, entityKiller, weapon);
+
                 if (player.HasData("job_farmer")) Jobs.FarmerJob.Farmer.StartWork(player, false); //todo Farmer
 
                 // Фикс краша при взрыве авто (видимо баг рейджа что нельзя выкинуть из сгоревшего авто игрока, но оно по сути и не надо, так как все игроки внутри должны взроваться)

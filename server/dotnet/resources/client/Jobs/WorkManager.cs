@@ -93,6 +93,11 @@ namespace NeptuneEvo.Jobs
             "Дальнобойщик",
             "Инкассатор",
             "Автомеханик",
+            "Грузчик",
+            "Пусто",
+            "Каменщик",
+            "Строитель",
+            "Дайвер",
         };
         public static SortedList<int, Vector3> Points = new SortedList<int, Vector3>
         {

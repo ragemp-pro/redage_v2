@@ -389,6 +389,12 @@ namespace NeptuneEvo
                         Jobs.Collector.Event_PlayerDisconnected(player, type, reason);
                         Jobs.AutoMechanic.onPlayerDissconnectedHandler(player, type, reason);
 
+                        // new jobs
+                        Jobs.Miner.Event_PlayerDisconnected(player, type, reason);
+                        Jobs.Diver.Event_PlayerDisconnected(player, type, reason);
+                        Jobs.Loader.Event_PlayerDisconnected(player, type, reason);
+                        Jobs.Construction.Event_PlayerDisconnected(player, type, reason);
+
                         if (player.GetData<string>("jobname") == "farmer" && player.HasData("job_farmer")) Jobs.FarmerJob.Farmer.StartWork(player, false);
                     }
                     catch (Exception e) { Log.Write("EXCEPTION AT \"UnLoad:Unloading Neptune.jobs\":\n" + e.ToString()); }
@@ -1895,6 +1901,20 @@ namespace NeptuneEvo
                     case 814:
                         Core.ContainerSystem.OpenMenuContainer(player);
                         break;
+                    #region CustomJobs
+                    case 510:
+                        Jobs.Diver.StartWorkDayDiver(player);
+                        return;
+                    case 508:
+                        Jobs.Miner.StartWorkDayMiner(player);
+                        return;
+                    case 509:
+                        Jobs.Construction.StartWorkDayConstruction(player);
+                        return;
+                    case 5060:
+                        Jobs.Loader.StartWorkDayLoader(player);
+                        return;
+                    #endregion
                     case 512:
                         Realtor.OpenRealtorMenu(player);
                         return;
