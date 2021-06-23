@@ -30,7 +30,7 @@ mp.events.add('Enviroment_Date', (data) => {
 })
 
 mp.events.add('Enviroment_Weather', (weather) => {
-    if (updateGameTime) mp.game.gameplay.setWeatherTypeTransition(mp.game.joaat(nowWeather), mp.game.joaat(weather), 0.5);
+    if (updateGameTime) mp.game.gameplay.setWeatherTypeTransition(mp.game.gameplay.getHashKey(nowWeather), mp.game.gameplay.getHashKey(weather), 0.5);
 	else if(setTimeCMDused) mp.game.gameplay.setWeatherTypeNow(weather);
     nowWeather = weather;
 })
@@ -51,7 +51,7 @@ mp.events.add('Enviroment_Start', (timeData, dateData, weather) => {
     let date = `${formatIntZero(nowDate.Day, -2)}.${formatIntZero(nowDate.Month, -2)}.${nowDate.Year}`;
     mp.gui.execute(`HUD.date='${date}'`);
 
-    mp.game.gameplay.setWeatherTypeTransition(mp.game.joaat(nowWeather), mp.game.joaat(weather), 0.5);
+    mp.game.gameplay.setWeatherTypeTransition(mp.game.gameplay.getHashKey(nowWeather), mp.game.gameplay.getHashKey(weather), 0.5);
     nowWeather = weather;
 
     mp.events.call('authready');
