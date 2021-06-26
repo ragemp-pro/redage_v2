@@ -3455,7 +3455,7 @@ namespace NeptuneEvo
                         Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Введите корректные данные", 3000);
                         return;
                     }
-                    BusinessManager.fillCar(player, Convert.ToInt32(text));
+                    BusinessManager.fillCar(player, text);
                     return;
                 /*case "load_mats":
                 case "unload_mats":

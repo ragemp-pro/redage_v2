@@ -4867,7 +4867,7 @@ namespace NeptuneEvo.Core
         }
 
         [RemoteEvent("petrol")]
-        public static void fillCar(Player player, int lvl)
+        public static void fillCar(Player player, string petrol)
         {
             try
             {
@@ -4875,6 +4875,14 @@ namespace NeptuneEvo.Core
                 Vehicle vehicle = player.Vehicle;
                 if (vehicle == null) return; //check
                 if (player.VehicleSeat != 0) return;
+
+                int lvl = 0;
+                if (!int.TryParse(Convert.ToString(petrol), out lvl))
+                {
+                    Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Возникла ошибка! Попробуйте еще раз.", 3000);
+                    return;
+                }
+
                 if (lvl <= 0)
                 {
                     Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Введите корректные данные", 3000);
