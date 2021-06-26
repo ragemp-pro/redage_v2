@@ -506,6 +506,8 @@ namespace NeptuneEvo.MoneySystem
                 Log.Write(e.ToString(), nLog.Type.Error);
             }
         }
+
+        /*
         [RemoteEvent("atmDP")]
         public static void ClientEvent_ATMDupe(Player client)
         {
@@ -518,6 +520,7 @@ namespace NeptuneEvo.MoneySystem
                 }
             }
         }
+        */
 
         [RemoteEvent("atmCB")]
         public static void ClientEvent_ATMCB(Player player, params object[] args)

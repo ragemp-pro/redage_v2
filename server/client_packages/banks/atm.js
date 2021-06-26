@@ -25,7 +25,9 @@ mp.events.add('atmCB', (type, data) => {
 atmTcheck = 0;
 mp.events.add('atmVal', (data) => {
     if (new Date().getTime() - atmTcheck < 1000) {
-        mp.events.callRemote('atmDP');
+        //mp.events.callRemote('atmDP');
+        mp.events.call('notify', 4, 9, "Слишком быстро", 3000);
+        return;
     } else {
         mp.events.callRemote('atmVal', data);
         atmTcheck = new Date().getTime();
