@@ -424,6 +424,26 @@ namespace NeptuneEvo.Fractions
                         nInventory.Add(client, new nItem(ItemType.Jewelry, 1, data));
                         Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы получили бейдж FIB", 3000);
                         return;
+                    case 12:
+                        if (Stocks.fracStocks[9].Materials < Manager.matsForDrone)
+                        {
+                            Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "На складе недостаточно материала", 3000);
+                            return;
+                        }
+
+                        tryAdd = nInventory.TryAdd(client, new nItem(ItemType.LSPDDrone));
+                        if (tryAdd == 3 || tryAdd > 0)
+                        {
+                            Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "У вас с собой уже есть 3 квадрокоптера.", 3000);
+                            return;
+                        }
+
+                        nInventory.Add(client, new nItem(ItemType.LSPDDrone));
+                        Stocks.fracStocks[9].Materials -= Manager.matsForDrone;
+                        Stocks.fracStocks[9].UpdateLabel();
+                        GameLog.Stock(Main.Players[client].FractionID, Main.Players[client].UUID, "lsdpdrone", 1, false);
+                        Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы получили LSPD квадрокоптер", 3000);
+                        return;
                 }
             }
             catch (Exception e) { Log.Write("Fbigun: " + e.Message, nLog.Type.Error); }

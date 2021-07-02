@@ -130,7 +130,7 @@ namespace NeptuneEvo.Core
         #region Логика потока
         public static void Start()
         {
-            thread = new Thread(Worker);
+            thread = new Thread(new ThreadStart(Worker));
             thread.IsBackground = true;
             thread.Start();
         }

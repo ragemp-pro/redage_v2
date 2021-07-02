@@ -697,6 +697,14 @@ mp.events.add("entityStreamIn", (entity) => {
                     entity.setNeonLightEnabled(2, true);
                     entity.setNeonLightEnabled(3, true);
                 }
+
+                // drone sync
+                if (entity.getVariable('markAsDrone')) {
+                    entity.setAlpha(0);
+                    drone.playSound(entity.remoteId, 'drone', "Flight_Loop", "DLC_Arena_Drone_Sounds");
+                    entity.setCanBeDamaged(false);
+                    entity.setInvincible(true);
+                }
             }
             else
                 mp.events.callRemote("VehStream_RequestFixStreamIn", entity);

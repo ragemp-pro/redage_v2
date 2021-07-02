@@ -160,6 +160,9 @@ namespace NeptuneEvo.Core
             {235, "Семена" },
 
             {556, "Сух.Паёк" },
+
+            {560, "Полицейский квадрокоптер" },
+            {561, "Квадрокоптер" },
         };
         public static Dictionary<int, string> ItemsDescriptions = new Dictionary<int, string>();
         public static Dictionary<ItemType, uint> ItemModels = new Dictionary<ItemType, uint>()
@@ -311,6 +314,9 @@ namespace NeptuneEvo.Core
             { ItemType.Seed, NAPI.Util.GetHashKey("ch_prop_ch_moneybag_01a") },
 
             { ItemType.Payek, NAPI.Util.GetHashKey("prop_ff_noodle_02") },
+
+            { ItemType.LSPDDrone, NAPI.Util.GetHashKey("ch_prop_casino_drone_02a") },
+            { ItemType.Drone, NAPI.Util.GetHashKey("ch_prop_casino_drone_01a") },
         };
 
         public static Dictionary<ItemType, Vector3> ItemsPosOffset = new Dictionary<ItemType, Vector3>()
@@ -462,6 +468,9 @@ namespace NeptuneEvo.Core
             { ItemType.Seed, new Vector3(0, 0, -0.99) },
 
             { ItemType.Payek, new Vector3(0, 0, -1) },
+
+            { ItemType.LSPDDrone, new Vector3(0, 0, -0.99) },
+            { ItemType.Drone, new Vector3(0, 0, -0.99) },
         };
         public static Dictionary<ItemType, Vector3> ItemsRotOffset = new Dictionary<ItemType, Vector3>()
         {
@@ -612,6 +621,9 @@ namespace NeptuneEvo.Core
             { ItemType.Seed, new Vector3(0, 0, 0) },
 
             { ItemType.Payek, new Vector3() },
+
+            { ItemType.LSPDDrone, new Vector3() },
+            { ItemType.Drone, new Vector3() },
         };
 
         public static Dictionary<ItemType, int> ItemsStacks = new Dictionary<ItemType, int>()
@@ -768,6 +780,9 @@ namespace NeptuneEvo.Core
             { ItemType.Seed, 100 }, //100 семян всего в инвентаре (максимум)
 
             { ItemType.Payek, 2 },
+
+            { ItemType.LSPDDrone, 3 },
+            { ItemType.Drone, 1 },
         };
 
         public static List<ItemType> ClothesItems = new List<ItemType>()
@@ -2126,6 +2141,20 @@ namespace NeptuneEvo.Core
                             Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Попробуйте использовать позже", 3000);
                             return;
                         }
+                        break;
+                    case ItemType.LSPDDrone:
+                        if (Main.Players[player].FractionID != 7 && Main.Players[player].FractionID != 9)
+                        {
+                            Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы не сотрудник!", 3000);
+                            return;
+                        }
+                        if (!NAPI.Data.GetEntityData(player, "ON_DUTY"))
+                        {
+                            Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы должны начать рабочий день", 3000);
+                            return;
+                        }
+
+                        Trigger.ClientEvent(player, "client:StartLSPDDrone");
                         break;
                 }
                 nInventory.Remove(player, item.Type, 1);

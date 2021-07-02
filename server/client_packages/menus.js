@@ -463,6 +463,7 @@ mp.events.add('policeg', () => {
         "Пистолетный калибр x12",
         "Малый калибр x30",
         "Дробь x6",
+        "LSPD квадрокоптер"
     ];
     openSM(4, JSON.stringify(data));
 });
@@ -479,6 +480,7 @@ mp.events.add('sheriffg', () => {
         "Пистолетный калибр x12",
         "Малый калибр x30",
         "Дробь x6",
+        "LSPD квадрокоптер"
     ];
     openSM(4, JSON.stringify(data));
 });
@@ -497,6 +499,7 @@ mp.events.add('fbiguns', () => {
         "Автоматный калибр x30",
         "Снайперский калибр x5",
         "Бейдж",
+        "LSPD квадрокоптер"
     ];
     openSM(3, JSON.stringify(data));
 });

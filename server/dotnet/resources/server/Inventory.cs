@@ -161,6 +161,9 @@ namespace Redage.SDK
         Seed = 235,
 
         Payek = 556, // Сух.Паек
+
+        LSPDDrone = 560,
+        Drone = 561,
     }
 
     public class nItem
