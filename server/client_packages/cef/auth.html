@@ -149,19 +149,7 @@
 					<div class="btnEnter btn-register-end">Создать</div>
 					</form>
 			</div>
-		</main>
-		
-		
-<script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
-<script>$('body').on('click', '.password-control', function(){if ($('#entry-password-id').attr('type') == 'password'){$(this).addClass('view');$('#entry-password-id').attr('type', 'text');} else {$(this).removeClass('view');$('#entry-password-id').attr('type', 'password');}return false;});</script>
-
-<script>$('body').on('click', '.password-control', function(){if ($('#new-user__pw-id').attr('type') == 'password'){$(this).addClass('view');$('#new-user__pw-id').attr('type', 'text');} else {$(this).removeClass('view');$('#new-user__pw-id').attr('type', 'password');}return false;});</script>
-
-<script>$('body').on('click', '.password-control', function(){if ($('#new-user__pw-repeat-id').attr('type') == 'password'){$(this).addClass('view');$('#new-user__pw-repeat-id').attr('type', 'text');} else {$(this).removeClass('view');$('#new-user__pw-repeat-id').attr('type', 'password');}return false;});</script>
-
-		
-		
-		
+		</main>	
 		<main class="gta-acount  slots  slots-page">
 		<div class="bgshow"></div>
             <div class="slots__wrapper">
@@ -709,8 +697,15 @@
         </main>
 	</div>
 
-	<script>Vue.filter('formatThousands', (x) => {return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");})</script> 
+    <script>Vue.filter('formatThousands', (x) => {return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");})</script> 
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+    <script>$('body').on('click', '.password-control', function(){if ($('#entry-password-id').attr('type') == 'password'){$(this).addClass('view');$('#entry-password-id').attr('type', 'text');} else {$(this).removeClass('view');$('#entry-password-id').attr('type', 'password');}return false;});</script>
+
+    <script>$('body').on('click', '.password-control', function(){if ($('#new-user__pw-id').attr('type') == 'password'){$(this).addClass('view');$('#new-user__pw-id').attr('type', 'text');} else {$(this).removeClass('view');$('#new-user__pw-id').attr('type', 'password');}return false;});</script>
+
+    <script>$('body').on('click', '.password-control', function(){if ($('#new-user__pw-repeat-id').attr('type') == 'password'){$(this).addClass('view');$('#new-user__pw-repeat-id').attr('type', 'text');} else {$(this).removeClass('view');$('#new-user__pw-repeat-id').attr('type', 'password');}return false;});</script>
+
 	<script src="js/notify.js"></script>
 	<script src="js/noty.min.js"></script>
     <script src="js/script.js"></script>

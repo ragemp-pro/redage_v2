@@ -194,7 +194,10 @@ mp.events.add('spawnShow', function (data, respawndata) {
     else {
         respawn = mp.browsers["new"]('package://cef/respawn.html');
         respawn.execute(`set('${data}')`);
-        respawn.execute(`setimage('${respawndata}')`);
+        
+        if(respawndata != null) {
+            respawn.execute(`setimage('${respawndata}')`);
+        }
     }
 
     if (auth != null) {

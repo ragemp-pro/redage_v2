@@ -16,9 +16,9 @@
     } 
 }
 
-var respawndata;
+var respawndata = [];
 function setimage(data) { respawndata = JSON.parse(data); init(); }
-function init() { document.getElementById("copyright").src=`https://ragemp.pro/redage_v2_7c58cbe4a038e99bc84528e683f361d5/respawn.png?update=${respawndata[0]}:${respawndata[1]}`; }
+function init() { if(respawndata != null) { document.getElementById("copyright").src=`https://ragemp.pro/redage_v2_7c58cbe4a038e99bc84528e683f361d5/respawn.png?update=${respawndata[0]}:${respawndata[1]}`; } }
 
 function spawn(id) {
     mp.trigger('spawn', id);

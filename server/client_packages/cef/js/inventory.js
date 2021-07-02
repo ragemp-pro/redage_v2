@@ -1,3 +1,5 @@
+var audio=document.querySelector("audio"); audio.volume=0.3;
+
 var itemsData = {
     "-1": "Маска",
     "-3": "Перчатки",
@@ -207,7 +209,7 @@ var itemsInfo = {
 }
 
 Vue.component('item', {
-	template: '<div :class="test"><div class="item" v-bind:title="name" v-bind:weight="(weight*count).toFixed(2)" :fastslot="fast_slot" v-bind:class="{active: isactive}" @click.right.prevent="select"> \
+	template: '<div :class="test"><div class="item" v-bind:title="name" v-bind:class="{active: isactive}" @click.right.prevent="select"> \
     <img :src="src"><span>{{count}}</span><!--<p class="sub">{{subdata}}</p>--><p class="names">{{name}}<br><a>{{info}}</a><b>{{count}} шт.</b></p></div></div>',
     props: ['id', 'index', 'count', 'isactive', 'type', 'subdata'],
     data: function () {
@@ -225,7 +227,6 @@ Vue.component('item', {
             board.sID = this.id;
             board.sIndex = this.index;
             context.type = (this.type == 'inv') ? 1 : 0;
-			context.fastSlot = this.fast_slot
         }
     }
 })
