@@ -1,4 +1,5 @@
 var circleDesc = {
+    "bazar": "Автобазар",
     "handshake": "Пожать руку",
     "licenses": "Показать лицензии",
     "carinv":"Инвентарь",
@@ -155,7 +156,7 @@ var circleData = {
     ],
     "Машина":
     [
-        ["hood", "trunk", "doors", "carinv"],
+        ["hood", "trunk", "doors", "carinv", "bazar"],
     ],
     "Дом":
     [

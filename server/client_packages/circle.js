@@ -28,6 +28,7 @@ mp.events.add('circleCallback', (index) => {
                     case 1:
                     case 2:
                     case 3:
+                    case 4:
                         if (entity == null) return;
                         mp.events.callRemote('vehicleSelected', entity, index);
                         return;

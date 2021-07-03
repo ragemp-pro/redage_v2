@@ -153,6 +153,7 @@
     width: 50%;
     height: 50%;
   }
+  .circle .bazar{background-image: url('../icons/bazar.png');}
   .circle .handshake{background-image: url('../icons/handshake.png');}
   .circle .carinv{background-image: url('../icons/carinv.png');}
   .circle .crime{background-image: url('../icons/crime.png');}

@@ -257,6 +257,9 @@ namespace NeptuneEvo.Core
                         GUI.Dashboard.OpenOut(player, vehicle.GetData<List<nItem>>("ITEMS"), "Багажник", 2);
                         player.SetData("SELECTEDVEH", vehicle);
                         return;
+                    case 4:
+                        CarMarket.vehicleSelected(player, vehicle);
+                        return;
                 }
             }
             catch (Exception e) { Log.Write("vSelected: " + e.Message, nLog.Type.Error); }

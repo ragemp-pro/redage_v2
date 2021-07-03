@@ -289,6 +289,9 @@ require('./family/familymanager.js');
 
 require('./Jobs.js');
 
+require('./CustomMenus/bazarmenu.js');
+require('./CustomMenus/bazarinfomenu.js');
+
 
 // // // // // // //
 

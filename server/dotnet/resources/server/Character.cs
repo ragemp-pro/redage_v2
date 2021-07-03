@@ -52,6 +52,8 @@ namespace Redage.SDK
 
         public bool VoiceMuted = false;
 
+        public int CarMarketPlayerData = -1;
+
         // промо
         public string GenPromo { get; set; } = "noref";
 

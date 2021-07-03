@@ -4732,3 +4732,15 @@ CREATE TABLE `familyranks` (
   `rankname` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 COMMIT;
+
+/* Система авторынка */
+-- Дамп структуры для таблица redage_v2.autobazar
+CREATE TABLE IF NOT EXISTS `autobazar` (
+  `id` int(11) NOT NULL,
+  `model` varchar(255) DEFAULT NULL,
+  `number` text DEFAULT NULL,
+  `price` double DEFAULT NULL,
+  `tuning` text DEFAULT NULL,
+  `holder` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;

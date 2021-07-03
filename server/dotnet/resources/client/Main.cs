@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
-using System.Text;
 using GTANetworkAPI;
 using NeptuneEvo.Core;
 using Redage.SDK;
@@ -15,7 +14,6 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Threading;
-using System.Globalization;
 using System.Net.Mail;
 using NeptuneEvo.Voice;
 using NeptuneEvo.Houses;
@@ -686,6 +684,121 @@ namespace NeptuneEvo
                 string text = arguments[1].ToString();
                 switch (callback)
                 {
+                    case "sellcar_bazar":
+                        {
+                            int autoprice = 0;
+                            if (!Int32.TryParse(text, out autoprice))
+                            {
+                                Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, "Введите корректные данные", 3000);
+                                return;
+                            }
+                            if (autoprice <= 0) return;
+                            if (CarMarket.CarsLoading.Count > 39)
+                            {
+                                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "В данный момент все места заняты.", 3000);
+                                return;
+                            }
+                            var vehiclebazar = player.Vehicle;
+                            var carname = VehicleManager.Vehicles[vehiclebazar.NumberPlate].Model;
+                            var numberbazar = vehiclebazar.NumberPlate;
+
+                            if (!VehicleManager.Vehicles.ContainsKey(vehiclebazar.NumberPlate))
+                            {
+                                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Этой машины больше не существует", 3000);
+                                break;
+                            }
+                            int id = 0;
+                            for (id = 0; id < 100; id++)
+                            {
+                                if (!CarMarket.CarsLoading.ContainsKey(id))
+                                {
+                                    break;
+                                }
+                            }
+
+                            MySQL.Query("INSERT INTO `autobazar`(`id`, `holder`, `model`,`number`, `price`,`tuning`)" +
+                            $" VALUES ('{id}','{Main.Players[player].UUID}','{carname}','{numberbazar}',{autoprice},'{JsonConvert.SerializeObject(VehicleManager.Vehicles[numberbazar].Components)}')");
+                            VehicleHash vh = (VehicleHash)NAPI.Util.GetHashKey($"{carname}");
+
+                            CarMarket.Custom.Add(numberbazar, VehicleManager.Vehicles[numberbazar].Components);
+
+                            Core.VehicleManager.VehicleCustomization datatun = CarMarket.Custom[numberbazar];
+
+                            datatun.Muffler = VehicleManager.Vehicles[numberbazar].Components.Muffler;
+                            datatun.SideSkirt = VehicleManager.Vehicles[numberbazar].Components.SideSkirt;
+                            datatun.Hood = VehicleManager.Vehicles[numberbazar].Components.Hood;
+                            datatun.Spoiler = VehicleManager.Vehicles[numberbazar].Components.Spoiler;
+                            datatun.Lattice = VehicleManager.Vehicles[numberbazar].Components.Lattice;
+                            datatun.Wings = VehicleManager.Vehicles[numberbazar].Components.Wings;
+                            datatun.Roof = VehicleManager.Vehicles[numberbazar].Components.Roof;
+                            datatun.Vinyls = VehicleManager.Vehicles[numberbazar].Components.Vinyls;
+                            datatun.FrontBumper = VehicleManager.Vehicles[numberbazar].Components.FrontBumper;
+                            datatun.RearBumper = VehicleManager.Vehicles[numberbazar].Components.RearBumper;
+                            datatun.Engine = VehicleManager.Vehicles[numberbazar].Components.Engine;
+                            datatun.Turbo = VehicleManager.Vehicles[numberbazar].Components.Turbo;
+                            datatun.Horn = VehicleManager.Vehicles[numberbazar].Components.Horn;
+                            datatun.Transmission = VehicleManager.Vehicles[numberbazar].Components.Transmission;
+                            datatun.WindowTint = VehicleManager.Vehicles[numberbazar].Components.WindowTint;
+                            datatun.Suspension = VehicleManager.Vehicles[numberbazar].Components.Suspension;
+                            datatun.Brakes = VehicleManager.Vehicles[numberbazar].Components.Brakes;
+                            datatun.Headlights = VehicleManager.Vehicles[numberbazar].Components.Headlights;
+                            datatun.NumberPlate = VehicleManager.Vehicles[numberbazar].Components.NumberPlate;
+                            datatun.Wheels = VehicleManager.Vehicles[numberbazar].Components.Wheels;
+                            datatun.WheelsType = VehicleManager.Vehicles[numberbazar].Components.WheelsType;
+                            datatun.PrimColor = VehicleManager.Vehicles[numberbazar].Components.PrimColor;
+                            datatun.SecColor = VehicleManager.Vehicles[numberbazar].Components.SecColor;
+                            datatun.NeonColor = VehicleManager.Vehicles[numberbazar].Components.NeonColor;
+
+
+                            var veh = NAPI.Vehicle.CreateVehicle(vh, CarMarket.CarsPositions[id], -179, 0, 0);
+                            veh.Locked = true;
+                            veh.SetSharedData("MarketID", id);
+                            CarMarket.CarBazar.Add(id, veh);
+                            veh.NumberPlate = numberbazar;
+
+                            veh.SetMod(4, datatun.Muffler);
+                            veh.SetMod(3, datatun.SideSkirt);
+                            veh.SetMod(7, datatun.Hood);
+                            veh.SetMod(0, datatun.Spoiler);
+                            veh.SetMod(6, datatun.Lattice);
+                            veh.SetMod(8, datatun.Wings);
+                            veh.SetMod(10, datatun.Roof);
+                            veh.SetMod(48, datatun.Vinyls);
+                            veh.SetMod(1, datatun.FrontBumper);
+                            veh.SetMod(2, datatun.RearBumper);
+
+                            veh.SetMod(11, datatun.Engine);
+                            veh.SetMod(18, datatun.Turbo);
+                            veh.SetMod(13, datatun.Transmission);
+                            veh.SetMod(15, datatun.Suspension);
+                            veh.SetMod(12, datatun.Brakes);
+                            veh.SetMod(14, datatun.Horn);
+                            veh.WindowTint = datatun.WindowTint;
+                            veh.NumberPlateStyle = datatun.NumberPlate;
+                            veh.WheelType = datatun.WheelsType;
+                            veh.SetMod(23, datatun.Wheels);
+
+                            NAPI.Vehicle.SetVehicleCustomPrimaryColor(veh, datatun.PrimColor.Red, datatun.PrimColor.Green, datatun.PrimColor.Blue);
+                            NAPI.Vehicle.SetVehicleCustomSecondaryColor(veh, datatun.SecColor.Red, datatun.SecColor.Green, datatun.SecColor.Blue);
+
+                            Cars data = new Cars
+                            {
+                                ID = id,
+                                Model = carname,
+                                Number = numberbazar,
+                                Price = autoprice,
+                                Holder = Players[player].UUID,
+                            };
+                            Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы выставили автомобиль {carname} с номерами {numberbazar} за {autoprice}$", 7000);
+                            player.SendChatMessage($"Вы выставили автомобиль {carname} с номерами {numberbazar} за {autoprice}$");
+
+                            CarMarket.CarsLoading.Add(id, data);
+                            VehicleManager.Remove(vehiclebazar.NumberPlate, player);
+                            vehiclebazar.Delete();
+
+
+                        }
+                        return;
                     case "fuelcontrol_city":
                     case "fuelcontrol_police":
                     case "fuelcontrol_sheriff":
@@ -1860,6 +1973,10 @@ namespace NeptuneEvo
                 intid = id;
                 switch (id)
                 {
+                    case 99999:
+                    case 99998:
+                        CarMarket.interactPressed(player, id);
+                        return;
                     case 806:
                         Casino.CarLottery.CallBackShape(player);
                         break;
@@ -2135,6 +2252,9 @@ namespace NeptuneEvo
                     
                     switch (callback)
                     {
+                        case "BUY_CAR_BAZAR":
+                            CarMarket.DialogYes(player);
+                            return;
                         case "CARWASH_PAY":
                             BusinessManager.Carwash_Pay(player);
                             return;
