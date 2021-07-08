@@ -132,20 +132,18 @@ mp.events.add('tpage', (id) => {
                 }
             }
 
-            if (categoryIds[id] <= 9) {
-                var elements = [];
-                if (tuningConf[carName][categoryIds[id]] != undefined) {
-                    global.tuningConf[carName][categoryIds[id]].forEach(element => {
-                        var price = element.Item3 * priceMod;
-                        elements.push([`${element.Item1}`, element.Item2, price.toFixed()]);
-                    });
-                    setTimeout(function () { lsc.execute(`add(${JSON.stringify(elements)})`); }, 150);
-                } else mp.events.call('notify', 1, 4, "Этот раздел недоступен для данного авто.", 3000);
-            }
-            else if (categoryIds[id] <= 18) {
+            if (categoryIds[id] <= 18) {
                 var prices = [];
                 for (var key in global.tuningStandart[categoryIds[id]]) {
                     var price = global.tuningStandart[categoryIds[id]][key] * modelPriceMod * priceMod;
+                    prices.push([`${key}`, price.toFixed()]);
+                }
+                setTimeout(function () { lsc.execute(`price(${JSON.stringify(prices)})`); }, 150);
+            }
+			else if (categoryIds[id] <= 26) {
+                var prices = [];
+                for (var key in global.tuningStandart[categoryIds[id]]) {
+                    var price = global.tuningStandart[categoryIds[id]][key];
                     prices.push([`${key}`, price.toFixed()]);
                 }
                 setTimeout(function () { lsc.execute(`price(${JSON.stringify(prices)})`); }, 150);
@@ -200,7 +198,7 @@ mp.events.add('tclk', (id) => {
         case "muffler_menu":
             if (vehicleComponents.Muffler == id) setted = true;
             break;
-        case "sides_menu":
+        case "skirt_menu":
             if (vehicleComponents.SideSkirt == id) setted = true;
             break;
         case "hood_menu":
@@ -273,7 +271,7 @@ mp.events.add('tclk', (id) => {
         opened = false;
         lscSelected = id;
 
-        if (lscPage === "paint_menu_one" || lscPage === "paint_menu_two" || lscPage === "paint_menu_three")
+        if (lscPage === "paint_menu_one" || lscPage === "paint_menu_two" || lscPage === "paint_menu_three" || lscPage === "paint_menu_four")
             mp.events.call("hideColorp");
 
         var title = (lscPage === "paint_menu_one" || lscPage === "paint_menu_two" || lscPage === "paint_menu_three") ? "Вы действительно хотите покрасить машину в данный цвет?" : "Вы действительно хотите установить данную модификацию?";
@@ -292,7 +290,7 @@ mp.events.add('thov', (id) => {
         localplayer.vehicle.setWindowTint(parseInt(id));
     }
     else if (lscPage == "horn_menu") {
-        localplayer.vehicle.startHorn(1000, hornNames[id], false);
+        //localplayer.vehicle.startHorn(1000, hornNames[id], false);
     }
     else if (lscPage == "lights_menu")
     {
@@ -322,17 +320,23 @@ mp.events.add('tunbuy', (state) => {
     if (state) {
         if (wheelsTypes[lscPage] != undefined)
             mp.events.callRemote('buyTuning', 19, lscSelected, wheelsTypes[lscPage]);
-        else if (lscPage === "paint_menu_one" || lscPage === "paint_menu_two" || lscPage === "paint_menu_three") {
+        else if (lscPage === "paint_menu_one" || lscPage === "paint_menu_two" || lscPage === "paint_menu_three" || lscPage === "paint_menu_four") {
             var paintType;
             if (lscPage === "paint_menu_one") paintType = 0;
             else if (lscPage === "paint_menu_two") paintType = 1;
             else if (lscPage === "paint_menu_three") paintType = 2;
+            else if (lscPage === "paint_menu_four" && lscSelected == -1) paintType = 3;
             if (paintType == 2 && isBike) {
                 mp.events.call('notify', 1, 4, "Этот раздел недоступен для мотоциклов.", 3000);
                 lsc.execute(`show(${true});`);
                 lsc.active = true;
                 opened = true;
             }
+            else if (lscPage === "paint_menu_four")
+			{
+				mp.events.callRemote('buyTuning', 21, lscSelected);
+				lscMyColor = lscSelected;
+			}
             else mp.events.callRemote('buyTuning', 20, paintType, lscRGB.r, lscRGB.g, lscRGB.b);
         }
         else
@@ -431,10 +435,16 @@ var categoryPositions = [
     { 'CarHeading': 85.0, 'CamPosition': new mp.Vector3(-333.7966, -137.409, 38.88963) },
     { 'CarHeading': 148.9986, 'CamPosition': new mp.Vector3(-333.7966, -137.409, 39.28963) },
     { 'CarHeading': 160.9986, 'CamPosition': new mp.Vector3(-333.7966, -137.409, 40.08963) },
+	{ 'CarHeading': 160.9986, 'CamPosition': new mp.Vector3(-333.7966, -137.409, 40.08963) },
+	{ 'CarHeading': 160.9986, 'CamPosition': new mp.Vector3(-333.7966, -137.409, 40.08963) },
+	{ 'CarHeading': 160.9986, 'CamPosition': new mp.Vector3(-333.7966, -137.409, 40.08963) },
+	{ 'CarHeading': 160.9986, 'CamPosition': new mp.Vector3(-333.7966, -137.409, 40.08963) },
+	{ 'CarHeading': 160.9986, 'CamPosition': new mp.Vector3(-333.7966, -137.409, 40.08963) },
+	{ 'CarHeading': 160.9986, 'CamPosition': new mp.Vector3(-333.7966, -137.409, 40.08963) },
 ];
 var categoryIds = {
     "muffler_menu": 0,
-    "sides_menu": 1,
+    "skirt_menu": 1,
     "hood_menu": 2,
     "spoiler_menu": 3,
     "lattice_menu": 4,
@@ -454,30 +464,38 @@ var categoryIds = {
     "numbers_menu": 18,
     "wheels_menu": 19,
     "paint_menu": 20,
+	"paint_1": 21,
+	"paint_2": 21,
+	"paint_3": 21,
+	"paint_4": 21,
+	"paint_5": 21,
+	"armor_menu": 26,
 };
 var categoryModsIds = {
-    "muffler_menu": 4,
-    "sides_menu": 3,
-    "hood_menu": 7,
-    "spoiler_menu": 0,
+	"spoiler_menu": 0,
+	"bamper_menu_front": 1,
+    "bamper_menu_back": 2,
+    "skirt_menu": 3,
+	"muffler_menu": 4,
     "lattice_menu": 6,
+    "hood_menu": 7,
     "wings_menu": 8,
     "roof_menu": 10,
-    "flame_menu": 48,
-    "bamper_menu_front": 1,
-    "bamper_menu_back": 2,
-    "engine_menu": 11,
-    "turbo_menu": 18,
-    "transmission_menu": 13,
-    "suspention_menu": 15,
-    "brakes_menu": 12,
-    "lights_menu": 22,
-    "horn_menu": 14,
+	"engine_menu": 11,
+	"brakes_menu": 12,
+	"transmission_menu": 13,
+	"horn_menu": 14,
+	"suspention_menu": 15,
+	"armor_menu": 16,
+	"turbo_menu": 18,
+	"lights_menu": 22,
     "wheels_menu": 23,
+    "flame_menu": 48,
+    
 };
 var categoryMods = [
     { Name: "muffler_menu", Index: 4 },
-    { Name: "sides_menu", Index: 3 },
+    { Name: "skirt_menu", Index: 3 },
     { Name: "hood_menu", Index: 7 },
     { Name: "spoiler_menu", Index: 0 },
     { Name: "lattice_menu", Index: 6 },
@@ -487,10 +505,42 @@ var categoryMods = [
     { Name: "bamper_menu", Index: 1 },
 ];
 var hornNames = {
-    "-1": "HORN_STOCK",
-    "0": "HORN_TRUCK",
-    "1": "HORN_POLICE",
-    "2": "HORN_CLOWN",
+    "HORN_STOCK": -1,
+    "HORN_TRUCK": 0,
+    "HORN_POLICE": 1,
+    "HORN_CLOWN": 2,
+    "HORN_MUSICAL1": 3,
+    "HORN_MUSICAL2": 4,
+    "HORN_MUSICAL3": 5,
+    "HORN_MUSICAL4": 6,
+    "HORN_MUSICAL5": 7,
+    "HORN_SADTROMBONE": 8,
+    "HORN_CALSSICAL1": 9,
+    "HORN_CALSSICAL2": 10,
+    "HORN_CALSSICAL3": 11,
+    "HORN_CALSSICAL4": 12,
+    "HORN_CALSSICAL5": 13,
+    "HORN_CALSSICAL6": 14,
+    "HORN_CALSSICAL7": 15,
+    "HORN_SCALEDO": 16,
+    "HORN_SCALERE": 17,
+    "HORN_SCALEMI": 18,
+    "HORN_SCALEFA": 19,
+    "HORN_SCALESOL": 20,
+    "HORN_SCALELA": 21,
+    "HORN_SCALETI": 22,
+    "HORN_SCALEDO_HIGH": 23,
+    "HORN_JAZZ1": 24,
+    "HORN_JAZZ2": 25,
+    "HORN_JAZZ3": 26,
+    "HORN_JAZZLOOP": 27,
+    "HORN_STARSPANGBAN1": 28,
+    "HORN_STARSPANGBAN2": 29,
+    "HORN_STARSPANGBAN3": 30,
+    "HORN_STARSPANGBAN4": 31,
+    "HORN_CLASSICALLOOP1": 32,
+    "HORN_CLASSICAL8": 33,
+    "HORN_CLASSICALLOOP2": 34,
 };
 var wheelsTypes = {
     "wheels_exclusive": 7,
@@ -518,7 +568,7 @@ mp.events.add('openTun', (priceModief, carModel, modelPriceModief, components, v
 
     if (vehclass == 8) {
         isBike = true;
-        toDisable = ["armor_menu", "protection_menu", "muffler_menu", "sides_menu", "hood_menu", "spoiler_menu", "lattice_menu", "wings_menu", "roof_menu", "flame_menu", "bamper_menu", "turbo_menu", "transmission_menu", "suspention_menu", "horn_menu", "wheels_menu", "glasses_menu", "paint_menu_three"];
+        toDisable = ["armor_menu", "protection_menu", "muffler_menu", "skirt_menu", "hood_menu", "spoiler_menu", "lattice_menu", "wings_menu", "roof_menu", "flame_menu", "bamper_menu", "turbo_menu", "transmission_menu", "suspention_menu", "horn_menu", "wheels_menu", "glasses_menu", "paint_menu_three"];
     }
 
     lsc.execute(`disable(${JSON.stringify(toDisable)});`);
