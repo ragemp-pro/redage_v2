@@ -190,7 +190,7 @@ namespace NeptuneEvo.Core
         {
             try
             {
-                if ((player.HasData("HAND_MONEY") || player.HasData("HEIST_DRILL")) && player.VehicleSeat == -1 && vehicle.Class != 8)
+                if ((player.HasData("HAND_MONEY") || player.HasData("HEIST_DRILL")) && player.VehicleSeat == 0 && vehicle.Class != 8)
                 {
                     VehicleManager.WarpPlayerOutOfVehicle(player);
                     Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы не можете сесть в машину с сумками", 3000);
