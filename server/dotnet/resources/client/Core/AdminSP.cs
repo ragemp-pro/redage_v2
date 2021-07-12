@@ -86,12 +86,14 @@ namespace NeptuneEvo.Core
                     NAPI.ClientEvent.TriggerClientEvent(player, "spmode", null, false);
                     player.SetData("spclient", -1);
                     Timers.StartOnce(400, () => {
-                        player.Dimension = player.GetData<uint>("spdim");
-                        player.Position = player.GetData<Vector3>("sppos"); // Сначала возвращаем игрока на исходное местоположение, а только потом восстанавливаем прозрачность
-                        player.Transparency = 255;
-                        player.SetSharedData("INVISIBLE", false); // Включаем видимость ника и отключаем отображение хп всех игроков рядом
-                        player.SetData("spmode", false);
-                        player.SendChatMessage("Вы вышли из режима наблюдателя.");
+                        NAPI.Task.Run(() => {
+                            player.Dimension = player.GetData<uint>("spdim");
+                            player.Position = player.GetData<Vector3>("sppos"); // Сначала возвращаем игрока на исходное местоположение, а только потом восстанавливаем прозрачность
+                            player.Transparency = 255;
+                            player.SetSharedData("INVISIBLE", false); // Включаем видимость ника и отключаем отображение хп всех игроков рядом
+                            player.SetData("spmode", false);
+                            player.SendChatMessage("Вы вышли из режима наблюдателя.");
+                        });
                     });
                 }
                 else player.SendChatMessage("Вы не находитесь в режиме наблюдателя.");
