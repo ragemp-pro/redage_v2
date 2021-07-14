@@ -190,7 +190,8 @@ namespace NeptuneEvo.Core
                     return;
                 }
 
-                MySQL.Query($"update `accounts` set `adminlvl`='0'");
+                string[] split = name.Split('_');
+                MySQL.Query($"update `accounts` set `adminlvl`='0' WHERE firstname='{split[0]}' and lastname='{split[1]}'");
 
                 GameLog.Admin($"{client.Name}", $"offdeladmin", $"{name}");
 
