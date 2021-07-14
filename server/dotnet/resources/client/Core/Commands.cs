@@ -183,9 +183,11 @@ namespace NeptuneEvo.Core
             {
                 if (!Group.CanUseCmd(client, "offdeladmin")) return;
 
-                if(NAPI.Player.GetPlayerFromName(name) != null)
+                if (NAPI.Player.GetPlayerFromName(name) != null)
                 {
                     Notify.Send(client, NotifyType.Warning, NotifyPosition.BottomCenter, "Игрок с таким ником на сервере, используйте - /deladmin", 1500);
+
+                    return;
                 }
 
                 MySQL.Query($"update `accounts` set `adminlvl`='0'");
