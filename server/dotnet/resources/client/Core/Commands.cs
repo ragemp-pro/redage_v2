@@ -129,6 +129,117 @@ namespace NeptuneEvo.Core
         }
         */
 
+        [Command("ghc")] // /ghc IDcar (Тп машину к себе по ID)
+        public static void CMD_ghc(Player client, int id)
+        {
+            try
+            {
+                if (!Group.CanUseCmd(client, "ghc")) return;
+
+                List<Vehicle> all_vehicles = NAPI.Pools.GetAllVehicles();
+                Vehicle veh = all_vehicles[id];
+
+                if (veh != null && NAPI.Entity.DoesEntityExist(veh))
+                {
+                    NAPI.Entity.SetEntityPosition(veh, client.Position);
+                    NAPI.Entity.SetEntityRotation(veh, client.Rotation);
+                    NAPI.Entity.SetEntityDimension(veh, client.Dimension);
+
+                    Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы телепортировали авто - [ ID: {id}] к себе", 3000);
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error);
+            }
+
+        }
+
+        [Command("clearchat")] // Отчистить чат
+        public static void CMD_clearchat(Player client)
+        {
+            try
+            {
+                if (!Group.CanUseCmd(client, "clearchat")) return;
+
+                foreach (Player player in NAPI.Pools.GetAllPlayers())
+                {
+                    Trigger.ClientEvent(player, "admin:clean_chat");
+                }
+
+                NAPI.Chat.SendChatMessageToAll($"!{{#f25c49}}Администратор {client.Name} очистил чат.");
+            }
+            catch (Exception e)
+            {
+                Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error);
+            }
+
+        }
+
+        [Command("offdeladmin")] // Удалить администратора в оффлайне
+        public static void CMD_offdeladmin(Player client, string name)
+        {
+            try
+            {
+                if (!Group.CanUseCmd(client, "offdeladmin")) return;
+
+                if(NAPI.Player.GetPlayerFromName(name) != null)
+                {
+                    Notify.Send(client, NotifyType.Warning, NotifyPosition.BottomCenter, "Игрок с таким ником на сервере, используйте - /deladmin", 1500);
+                }
+
+                MySQL.Query($"update `accounts` set `adminlvl`='0'");
+
+                GameLog.Admin($"{client.Name}", $"offdeladmin", $"{name}");
+
+                Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, $"Администратор - [{name}] удален из базы данных!", 2500);
+            }
+            catch (Exception e)
+            {
+                Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error);
+            }
+
+        }
+
+        [Command("deleteacc")] // Полное удаление аккаунта (по нику)
+        public static void CMD_deleteacc(Player client, string name)
+        {
+            try
+            {
+                if (!Group.CanUseCmd(client, "deleteacc")) return;
+
+                Player target = NAPI.Player.GetPlayerFromName(name);
+
+                if(target != null)
+                {
+                    NAPI.Player.KickPlayer(target, "GG");
+
+                    if (Main.Players.ContainsKey(target)) Main.Players.Remove(target);
+
+                    Notify.Send(client, NotifyType.Warning, NotifyPosition.BottomCenter, "Игрок был онлайн: аккаунт успешно удален.", 1500);
+
+                    return;
+                }
+                else
+                {
+                    if (!Main.PlayerNames.ContainsValue(name))
+                    {
+                        Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, $"Игрок не найден", 3000);
+                        return;
+                    }
+
+                    string[] split = name.Split('_');
+                    MySQL.Query($"DELETE FROM characters WHERE firstname='{split[0]}' and lastname='{split[1]}'");
+
+                    Notify.Send(client, NotifyType.Warning, NotifyPosition.BottomCenter, "Игрок был оффлайн: аккаунт успешно удален.", 1500);
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error);
+            }
+
+        }
 
         [Command("revive")] // Воскресить игрока после смерти (5 лвл)
         public static void CMD_revive(Player client, int id)

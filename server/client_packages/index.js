@@ -669,3 +669,13 @@ mp.events.add('BetterNotify', (type, header, header1, text, a, b, c, pic, icon) 
     if(type) mp.game.ui.notifications.showWithPicture(header, header1, text, pic, icon, a, b, c);
     else mp.game.ui.notifications.show(text, a, b, c);
 });
+
+mp.events.add('admin:clean_chat', () => {
+    mp.gui.chat.show(false);
+
+    for (var i = 0; i < 666; i++) {
+        mp.gui.chat.push('');
+    }
+
+    mp.gui.chat.show(true);
+});
