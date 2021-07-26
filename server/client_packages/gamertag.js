@@ -168,9 +168,6 @@ function drawVoiceSprite(dist, name, scale, heading, colour, x, y, layer) {
         textureResolution = mp.game.graphics.getTextureResolution(dist, name),
         textureScale = [scale[0] * textureResolution.x / resolution.x, scale[1] * textureResolution.y / resolution.y];
 
-        mp.gui.chat.push(`resolution: ${resolution}, textureResolution: ${textureResolution}, textureScale: ${textureScale}`);
-        mp.gui.chat.push(`layer: ${layer}, dist: ${dist}`);
-
     if (!mp.game.graphics.hasStreamedTextureDictLoaded(dist)) {
         mp.game.graphics.requestStreamedTextureDict(dist, true);
         while (!mp.game.graphics.hasStreamedTextureDictLoaded(dist)) mp.game.wait(0);
