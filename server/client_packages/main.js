@@ -448,15 +448,21 @@ var deathTimer = 0;
 
 mp.events.add('DeathTimer', (time) => {
     if (time === false)
+    {
         deathTimerOn = false;
+        mp.players.local.freezePosition(false);
+    }
     else {
         deathTimerOn = true;
         deathTimer = new Date().getTime() + time;
+        mp.players.local.freezePosition(true);
     }
 });
 
 mp.events.add('render', () => {
     if (localplayer.getVariable('InDeath') == true) {
+        mp.game.controls.disableAllControlActions(0);
+        mp.game.controls.disableAllControlActions(1);
         mp.game.controls.disableAllControlActions(2);
         mp.game.controls.enableControlAction(2, 1, true);
         mp.game.controls.enableControlAction(2, 2, true);
@@ -465,6 +471,16 @@ mp.events.add('render', () => {
         mp.game.controls.enableControlAction(2, 5, true);
         mp.game.controls.enableControlAction(2, 6, true);
     }
+
+    mp.players.forEachInStreamRange(player => {
+        if(player !== mp.players.local)
+        {
+            if (player.getVariable('InDeath') == true)
+            {
+                player.freezePosition(true);
+            }
+        }
+    });
 
     if (deathTimerOn) {
         var secondsLeft = Math.trunc((deathTimer - new Date().getTime()) / 1000);
@@ -479,7 +495,11 @@ mp.events.add('render', () => {
                 outline: true
             });
         }
-        else deathTimerOn = false;
+        else
+        {
+            deathTimerOn = false;
+            mp.players.local.freezePosition(false);
+        }
     }
 
     if (mp.game.controls.isControlPressed(0, 32) || 
