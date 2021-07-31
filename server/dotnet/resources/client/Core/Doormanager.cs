@@ -35,6 +35,9 @@ namespace NeptuneEvo.Core
 
                 RegisterDoor(-1663022887, new Vector3(150.8389, -1008.352, -98.85)); // Система отелей (закрытая дверь в интерьере).
                 SetDoorLocked(6, true, 0);
+
+                RegisterDoor(132154435, new Vector3(1972.769, 3815.366, 33.66326)); // Система домов (закрытая дверь в трейлере).
+                SetDoorLocked(7, true, 0);
             }
             catch (Exception e) { Log.Write("ResourceStart: " + e.Message, nLog.Type.Error); }
         }
