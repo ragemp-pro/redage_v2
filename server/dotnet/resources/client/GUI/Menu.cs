@@ -70,8 +70,12 @@ namespace NeptuneEvo.GUI
             }
             catch (Exception e)
             {
-                Menu menu = Menus[client];
-                Log.Write($"EXCEPTION AT /{menu.ID}/\"PHONE_CALLBACK\":\n" + e.ToString(), nLog.Type.Error);
+                if (Menus.ContainsKey(client))
+                {
+                    Menu menu = Menus[client];
+                    Log.Write($"EXCEPTION AT /{menu.ID}/\"PHONE_CALLBACK\":\n" + e.ToString(), nLog.Type.Error);
+                }
+                else Log.Write($"PhoneCallback: {e.ToString()}\n{e.StackTrace}", nLog.Type.Error);
             }
 
             return Task.CompletedTask;
