@@ -84,7 +84,7 @@ namespace NeptuneEvo.Core
                     Trigger.ClientEvent(entity, "setDoorLocked", door.Model, door.Position.X, door.Position.Y, door.Position.Z, door.Locked, door.Angle);
 
                     Log.Debug($"setDoorLocked for {entity.Name} " + shape.GetData<int>("DoorID"), nLog.Type.Info);
-                });
+                }, 250);
             }
             catch (Exception e) { Log.Write("Door_onEntityEnterColshape: " + e.ToString(), nLog.Type.Error); }
         }
