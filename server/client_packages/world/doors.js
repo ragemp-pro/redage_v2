@@ -1,11 +1,8 @@
 mp.events.add('setDoorLocked', function (model, x, y, z, locked, angle) {
-    const timer = setInterval(() => {
-        if (mp.game.object.doesDoorExist(model)) {
-            clearInterval(timer);
-        }
-        //else mp.gui.chat.push(`Дверь мне сделай!`);
+    while(!mp.game.streaming.hasModelLoaded(model)) mp.game.wait(0);
 
+    if (!mp.game.object.doesDoorExist(model)) {
         mp.game.object.addDoorToSystem(model, model, x, y, z, locked, false, false);
-        mp.game.object.doorControl(model, x, y, z, locked, 0, 0, angle);
-    }, 50);
+    }
+    mp.game.object.doorControl(model, x, y, z, locked, 0, 0, angle);
 });

@@ -48,7 +48,7 @@ namespace NeptuneEvo.Core
             //NAPI.Blip.CreateBlip(456, Position, 0.7f, 1, Main.StringToU16($"Door {allDoors.Count}"), 254, 0, true, 0, 0);
 
             allDoors.Add(new Door(model, Position));
-            var col = NAPI.ColShape.CreateCylinderColShape(Position, 5, 5, 0);
+            var col = NAPI.ColShape.CreateCylinderColShape(Position, 5, 5);
             col.SetData("DoorID", allDoors.Count - 1);
             col.OnEntityEnterColShape += Door_onEntityEnterColShape;
 
@@ -80,14 +80,12 @@ namespace NeptuneEvo.Core
             try
             {
                 if (NAPI.Entity.GetEntityType(entity) != EntityType.Player) return;
+                if (!Main.Players.ContainsKey(entity)) return;
 
-                NAPI.Task.Run(() =>
-                {
-                    var door = allDoors[shape.GetData<int>("DoorID")];
-                    Trigger.ClientEvent(entity, "setDoorLocked", door.Model, door.Position.X, door.Position.Y, door.Position.Z, door.Locked, door.Angle);
+                var door = allDoors[shape.GetData<int>("DoorID")];
+                Trigger.ClientEvent(entity, "setDoorLocked", door.Model, door.Position.X, door.Position.Y, door.Position.Z, door.Locked, door.Angle);
 
-                    Log.Debug($"setDoorLocked for {entity.Name} " + shape.GetData<int>("DoorID"), nLog.Type.Info);
-                }, 250);
+                Log.Debug($"setDoorLocked for {entity.Name} " + shape.GetData<int>("DoorID"), nLog.Type.Info);
             }
             catch (Exception e) { Log.Write("Door_onEntityEnterColshape: " + e.ToString(), nLog.Type.Error); }
         }
