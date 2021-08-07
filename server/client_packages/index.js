@@ -292,6 +292,8 @@ require('./Jobs.js');
 require('./CustomMenus/bazarmenu.js');
 require('./CustomMenus/bazarinfomenu.js');
 
+require('./vehiclespawner.js');
+
 
 // // // // // // //
 

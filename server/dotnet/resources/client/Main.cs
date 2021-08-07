@@ -1973,6 +1973,9 @@ namespace NeptuneEvo
                 intid = id;
                 switch (id)
                 {
+                    case 804: //todo FractionCarSpawner
+                        Fractions.CarSpawner.OpenMenuSpawner(player);
+                        break;
                     case 99999:
                     case 99998:
                         CarMarket.interactPressed(player, id);

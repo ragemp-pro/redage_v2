@@ -13,7 +13,7 @@ namespace NeptuneEvo.Fractions
     {
         private static nLog Log = new nLog("FractionConfigs");
         // fractionid - vehicle number - vehiclemodel, position, rotation, min rank, color1, color2
-        public static Dictionary<int, Dictionary<string, Tuple<VehicleHash, Vector3, Vector3, int, int, int, VehicleManager.VehicleCustomization>>> FractionVehicles = new Dictionary<int, Dictionary<string, Tuple<VehicleHash, Vector3, Vector3, int, int, int, VehicleManager.VehicleCustomization>>>();
+        public static Dictionary<int, Dictionary<string, Tuple<string, Vector3, Vector3, int, int, int, VehicleManager.VehicleCustomization>>> FractionVehicles = new Dictionary<int, Dictionary<string, Tuple<string, Vector3, Vector3, int, int, int, VehicleManager.VehicleCustomization>>>();
         public static Dictionary<int, string> FractionTypes = new Dictionary<int, string>()
         {
             { 1, "FAMILY" },
@@ -43,88 +43,24 @@ namespace NeptuneEvo.Fractions
         public static Dictionary<int, Dictionary<string, int>> FractionWeapons = new Dictionary<int, Dictionary<string, int>>();
         public static void LoadFractionConfigs()
         {
+            int _fractionCount = FractionTypes.Count;
             #region loadconfigstodb
-            /*for (int i = 0; i < Army.ArmyCarsCoords.Count; i++)
+            for (int i = 1; i <= _fractionCount; i++)
             {
-                MySQL.Query($"INSERT INTO `fractionvehicles`(`fraction`,`number`,`model`,`position`,`rotation`,`rank`) " +
-                    $"VALUES (14,'number_{i}','model','{JsonConvert.SerializeObject(Army.ArmyCarsCoords[i])}','{JsonConvert.SerializeObject(Army.ArmyCarsRot[i])}',0)");
-            }
-            for (int i = 0; i < Cityhall.CityCarsCoords.Count; i++)
-            {
-                MySQL.Query($"INSERT INTO `fractionvehicles`(`fraction`,`number`,`model`,`position`,`rotation`,`rank`) " +
-                    $"VALUES (6,'number_{i}','model','{JsonConvert.SerializeObject(Cityhall.CityCarsCoords[i])}','{JsonConvert.SerializeObject(Cityhall.CityCarsRot[i])}',0)");
-            }
-            for (int i = 0; i < Ems.EmsCarsCoords.Count; i++)
-            {
-                MySQL.Query($"INSERT INTO `fractionvehicles`(`fraction`,`number`,`model`,`position`,`rotation`,`rank`) " +
-                    $"VALUES (8,'number_{i}','model','{JsonConvert.SerializeObject(Ems.EmsCarsCoords[i])}','{JsonConvert.SerializeObject(Ems.EmsCarsRot[i])}',0)");
-            }
-            for (int i = 0; i < Fbi.FbiCarsCoords.Count; i++)
-            {
-                MySQL.Query($"INSERT INTO `fractionvehicles`(`fraction`,`number`,`model`,`position`,`rotation`,`rank`) " +
-                    $"VALUES (9,'number_{i}','model','{JsonConvert.SerializeObject(Fbi.FbiCarsCoords[i])}','{JsonConvert.SerializeObject(Fbi.FbiCarsRot[i])}',0)");
-            }
-            for (int i = 0; i < Gangs.FamCarCoord.Count; i++)
-            {
-                MySQL.Query($"INSERT INTO `fractionvehicles`(`fraction`,`number`,`model`,`position`,`rotation`,`rank`) " +
-                    $"VALUES (1,'number_{i}','model','{JsonConvert.SerializeObject(Gangs.FamCarCoord[i])}','{JsonConvert.SerializeObject(Gangs.FamCarRot[i])}',0)");
-            }
-            for (int i = 0; i < Gangs.BallasCarCoord.Count; i++)
-            {
-                MySQL.Query($"INSERT INTO `fractionvehicles`(`fraction`,`number`,`model`,`position`,`rotation`,`rank`) " +
-                    $"VALUES (2,'number_{i}','model','{JsonConvert.SerializeObject(Gangs.BallasCarCoord[i])}','{JsonConvert.SerializeObject(Gangs.BallasCarRot[i])}',0)");
-            }
-            for (int i = 0; i < Gangs.VagosCarCoord.Count; i++)
-            {
-                MySQL.Query($"INSERT INTO `fractionvehicles`(`fraction`,`number`,`model`,`position`,`rotation`,`rank`) " +
-                    $"VALUES (3,'number_{i}','model','{JsonConvert.SerializeObject(Gangs.VagosCarCoord[i])}','{JsonConvert.SerializeObject(Gangs.VagosCarRot[i])}',0)");
-            }
-            for (int i = 0; i < Gangs.MarabuntaCarCoord.Count; i++)
-            {
-                MySQL.Query($"INSERT INTO `fractionvehicles`(`fraction`,`number`,`model`,`position`,`rotation`,`rank`) " +
-                    $"VALUES (4,'number_{i}','model','{JsonConvert.SerializeObject(Gangs.MarabuntaCarCoord[i])}','{JsonConvert.SerializeObject(Gangs.MarabuntaCarRot[i])}',0)");
-            }
-            for (int i = 0; i < Gangs.BloodCarCoord.Count; i++)
-            {
-                MySQL.Query($"INSERT INTO `fractionvehicles`(`fraction`,`number`,`model`,`position`,`rotation`,`rank`) " +
-                    $"VALUES (5,'number_{i}','model','{JsonConvert.SerializeObject(Gangs.BloodCarCoord[i])}','{JsonConvert.SerializeObject(Gangs.BloodCarRot[i])}',0)");
-            }
-            for (int i = 0; i < Mafia.LcnCarCoord.Count; i++)
-            {
-                MySQL.Query($"INSERT INTO `fractionvehicles`(`fraction`,`number`,`model`,`position`,`rotation`,`rank`) " +
-                    $"VALUES (10,'number_{i}','model','{JsonConvert.SerializeObject(Mafia.LcnCarCoord[i])}','{JsonConvert.SerializeObject(Mafia.LcnCarRot[i])}',0)");
-            }
-            for (int i = 0; i < Mafia.RusCarCoord.Count; i++)
-            {
-                MySQL.Query($"INSERT INTO `fractionvehicles`(`fraction`,`number`,`model`,`position`,`rotation`,`rank`) " +
-                    $"VALUES (11,'number_{i}','model','{JsonConvert.SerializeObject(Mafia.RusCarCoord[i])}','{JsonConvert.SerializeObject(Mafia.RusCarRot[i])}',0)");
-            }
-            for (int i = 0; i < Mafia.YakuzaCarCoord.Count; i++)
-            {
-                MySQL.Query($"INSERT INTO `fractionvehicles`(`fraction`,`number`,`model`,`position`,`rotation`,`rank`) " +
-                    $"VALUES (12,'number_{i}','model','{JsonConvert.SerializeObject(Mafia.YakuzaCarCoord[i])}','{JsonConvert.SerializeObject(Mafia.YakuzaCarRot[i])}',0)");
-            }
-            for (int i = 0; i < Mafia.ArmCarCoord.Count; i++)
-            {
-                MySQL.Query($"INSERT INTO `fractionvehicles`(`fraction`,`number`,`model`,`position`,`rotation`,`rank`) " +
-                    $"VALUES (13,'number_{i}','model','{JsonConvert.SerializeObject(Mafia.ArmCarCoord[i])}','{JsonConvert.SerializeObject(Mafia.ArmCarRot[i])}',0)");
-            }
-            for (int i = 0; i < Police.PoliceCarsCoords.Count; i++)
-            {
-                MySQL.Query($"INSERT INTO `fractionvehicles`(`fraction`,`number`,`model`,`position`,`rotation`,`rank`) " +
-                    $"VALUES (7,'number_{i}','model','{JsonConvert.SerializeObject(Police.PoliceCarsCoords[i])}','{JsonConvert.SerializeObject(Police.PoliceCarsRot[i])}',0)");
-            }
-            return;
-            */
-            #endregion
-            for (int i = 1; i <= 18; i++)
-                FractionVehicles.Add(i, new Dictionary<string, Tuple<VehicleHash, Vector3, Vector3, int, int, int, VehicleManager.VehicleCustomization>>());
-            for (int i = 1; i <= 18; i++)
+                FractionVehicles.Add(i, new Dictionary<string, Tuple<string, Vector3, Vector3, int, int, int, VehicleManager.VehicleCustomization>>());
                 FractionRanks.Add(i, new Dictionary<int, Tuple<string, string, string, int>>());
-            for (int i = 1; i <= 18; i++)
                 FractionCommands.Add(i, new Dictionary<string, int>());
-            for (int i = 1; i <= 18; i++)
                 FractionWeapons.Add(i, new Dictionary<string, int>());
+            }
+            #endregion
+
+            #region LogLoadFracConfig
+            Log.Write($"Fractions: {_fractionCount}", nLog.Type.Info);
+            Log.Write($"Vehicles: {FractionVehicles.Count}", nLog.Type.Info);
+            Log.Write($"Ranks: {FractionRanks.Count}", nLog.Type.Info);
+            Log.Write($"Commands: {FractionCommands.Count}", nLog.Type.Info);
+            Log.Write($"Weapons: {FractionWeapons.Count}", nLog.Type.Info);
+            #endregion
 
             // loading fraction vehicle configs and spawn
             DataTable result = MySQL.QueryRead("SELECT * FROM `fractionvehicles`");
@@ -133,7 +69,7 @@ namespace NeptuneEvo.Fractions
             {
                 var fraction = Convert.ToInt32(Row["fraction"]);
                 var number = Row["number"].ToString();
-                var model = (VehicleHash)NAPI.Util.GetHashKey(Row["model"].ToString());
+                var model = Row["model"].ToString();
                 var position = JsonConvert.DeserializeObject<Vector3>(Row["position"].ToString());
                 var rotation = JsonConvert.DeserializeObject<Vector3>(Row["rotation"].ToString());
                 var minrank = Convert.ToInt32(Row["rank"]);
@@ -141,11 +77,10 @@ namespace NeptuneEvo.Fractions
                 var color2 = Convert.ToInt32(Row["colorsec"]);
                 VehicleManager.VehicleCustomization components = JsonConvert.DeserializeObject<VehicleManager.VehicleCustomization>(Row["components"].ToString());
 
-                FractionVehicles[fraction].Add(number, new Tuple<VehicleHash, Vector3, Vector3, int, int, int, VehicleManager.VehicleCustomization>(model, position, rotation, minrank, color1, color2, components));
+                FractionVehicles[fraction].Add(number, new Tuple<string, Vector3, Vector3, int, int, int, VehicleManager.VehicleCustomization>(model, position, rotation, minrank, color1, color2, components));
             }
 
-            foreach (var fraction in FractionVehicles.Keys)
-                SpawnFractionCars(fraction);
+            CarSpawner.Init(); // Fraction Vehicles Spawner Init
 
             // load fraction ranks configs
             result = MySQL.QueryRead("SELECT * FROM `fractionranks`");
@@ -176,31 +111,35 @@ namespace NeptuneEvo.Fractions
 
             Manager.onResourceStart();
         }
-        
+
         public static void SpawnFractionCars(int fraction)
         {
             foreach (var vehicle in FractionVehicles[fraction])
             {
-                var model = vehicle.Value.Item1;
-                var canmats = (model == VehicleHash.Barracks || model == VehicleHash.Youga || model == VehicleHash.Burrito3); // "CANMATS"
-                var candrugs = (model == VehicleHash.Youga || model == VehicleHash.Burrito3); // "CANDRUGS"
-                var canmeds = (model == VehicleHash.Ambulance); // "CANMEDKITS"
-                var veh = NAPI.Vehicle.CreateVehicle(model, vehicle.Value.Item2, vehicle.Value.Item3, vehicle.Value.Item5, vehicle.Value.Item6);
+                if (vehicle.Value.Item1 == "barracks")
+                {
+                    var model = NAPI.Util.GetHashKey(vehicle.Value.Item1);
+                    var canmats = ((VehicleHash)model == VehicleHash.Barracks || (VehicleHash)model == VehicleHash.Youga || (VehicleHash)model == VehicleHash.Burrito3); // "CANMATS"
+                    var candrugs = ((VehicleHash)model == VehicleHash.Youga || (VehicleHash)model == VehicleHash.Burrito3); // "CANDRUGS"
+                    var canmeds = ((VehicleHash)model == VehicleHash.Ambulance); // "CANMEDKITS"
+                    var veh = NAPI.Vehicle.CreateVehicle(model, vehicle.Value.Item2, vehicle.Value.Item3.Z, vehicle.Value.Item5, vehicle.Value.Item6);
 
-                NAPI.Data.SetEntityData(veh, "ACCESS", "FRACTION");
-                NAPI.Data.SetEntityData(veh, "FRACTION", fraction);
-                NAPI.Data.SetEntityData(veh, "MINRANK", vehicle.Value.Item4);
-                NAPI.Data.SetEntityData(veh, "TYPE", FractionTypes[fraction]);
-                if (canmats)
-                    NAPI.Data.SetEntityData(veh, "CANMATS", true);
-                if (candrugs)
-                    NAPI.Data.SetEntityData(veh, "CANDRUGS", true);
-                if (canmeds)
-                    NAPI.Data.SetEntityData(veh, "CANMEDKITS", true);
-                NAPI.Vehicle.SetVehicleNumberPlate(veh, vehicle.Key);
-                Core.VehicleStreaming.SetEngineState(veh, false);
-                VehicleManager.FracApplyCustomization(veh, fraction);
-                if(model == VehicleHash.Submersible || model == VehicleHash.Thruster) veh.SetSharedData("PETROL", 0);
+                    NAPI.Data.SetEntityData(veh, "ACCESS", "FRACTION");
+                    NAPI.Data.SetEntityData(veh, "FRACTION", fraction);
+                    NAPI.Data.SetEntityData(veh, "MINRANK", vehicle.Value.Item4);
+                    NAPI.Data.SetEntityData(veh, "TYPE", FractionTypes[fraction]);
+                    if (canmats)
+                        NAPI.Data.SetEntityData(veh, "CANMATS", true);
+                    if (candrugs)
+                        NAPI.Data.SetEntityData(veh, "CANDRUGS", true);
+                    if (canmeds)
+                        NAPI.Data.SetEntityData(veh, "CANMEDKITS", true);
+                    NAPI.Vehicle.SetVehicleNumberPlate(veh, vehicle.Key);
+                    Core.VehicleStreaming.SetEngineState(veh, false);
+                    VehicleManager.FracApplyCustomization(veh, fraction);
+
+                    CarSpawner.carSpawners.Find(x => x.FractionID == fraction).SpawnedCars.Add(vehicle.Key);
+                }
             }
         }
         public static void RespawnFractionCar(Vehicle vehicle)
@@ -230,6 +169,231 @@ namespace NeptuneEvo.Fractions
                 VehicleManager.FracApplyCustomization(vehicle, fraction);
             }
             catch (Exception e) { Log.Write("RespawnFractionCar: " + e.Message, nLog.Type.Error); }
+        }
+
+        [RemoteEvent("callbackCarSpawner")]
+        public static void CallBackCarSpawner(Player player, string vnumber, int type)
+        {
+            switch (type)
+            {
+                case 0:
+                    Configs.DeleteSpawnedCar(player, vnumber);
+                    break;
+                case 1:
+                    Configs.SpawnFractionCar(player, vnumber);
+                    break;
+            }
+        }
+
+        private static void DeleteSpawnedCar(Player player, string vnumber)
+        {
+            if (Main.Players[player].FractionID <= 0) return;
+            int fractionid = Main.Players[player].FractionID;
+            CarSpawner spawner = CarSpawner.carSpawners.Find(x => x.FractionID == fractionid);
+
+            var vehicle = FractionVehicles[fractionid][vnumber];
+            if (vehicle == null) return;
+            if (!spawner.SpawnedCars.Contains(vnumber))
+            {
+                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Машина не заспавнена", 2500);
+                return;
+            }
+            if (vehicle.Item4 > Main.Players[player].FractionLVL)
+            {
+                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно уровня", 2500);
+                return;
+            }
+
+            foreach (Vehicle item in NAPI.Pools.GetAllVehicles())
+            {
+                if (item.NumberPlate == vnumber)
+                {
+                    if (item.HasData("FRACTION") && item.GetData<int>("FRACTION") == fractionid)
+                    {
+                        if (item.Occupants.Count != 0)
+                        {
+                            foreach (Player p in item.Occupants)
+                            {
+                                VehicleManager.WarpPlayerOutOfVehicle(p);
+                            }
+                        }
+                        NAPI.Task.Run(() => {
+                            NAPI.Entity.DeleteEntity(item);
+                            int index = spawner.SpawnedCars.FindIndex(x => x == vnumber);
+                            spawner.SpawnedCars.RemoveAt(index);
+
+                            player.TriggerEvent("blip_remove", "FractionCarSpawn");
+                        });
+                    }
+                }
+            }
+        }
+
+        private static void SpawnFractionCar(Player player, string vnumber)
+        {
+            if (Main.Players[player].FractionID <= 0) return;
+            int fractionid = Main.Players[player].FractionID;
+
+            var vehicle = FractionVehicles[fractionid][vnumber];
+            if (vehicle == null) return;
+
+            if (player.HasData("LASTSPAWNCAR"))
+            {
+                DateTime lastSpawn = player.GetData<DateTime>("LASTSPAWNCAR");
+                if (DateTime.Now < lastSpawn)
+                {
+                    DateTime g = new DateTime((lastSpawn - DateTime.Now).Ticks);
+                    var min = g.Minute;
+                    var sec = g.Second;
+                    Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы сможете вызвать любую машину через {min}:{sec}", 3000);
+                    return;
+                }
+            }
+            if (player.HasData($"{vnumber}SPAWN"))
+            {
+                DateTime lastSpawn = player.GetData<DateTime>($"{vnumber}SPAWN");
+                if (DateTime.Now < lastSpawn)
+                {
+                    DateTime g = new DateTime((lastSpawn - DateTime.Now).Ticks);
+                    var min = g.Minute;
+                    var sec = g.Second;
+                    Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы сможете вызвать эту машину через {min}:{sec}", 3000);
+                    return;
+                }
+            }
+
+            if (vehicle.Item4 > Main.Players[player].FractionLVL)
+            {
+                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Недостаточно уровня", 2500);
+                return;
+            }
+            var model = NAPI.Util.GetHashKey(vehicle.Item1);
+            var canmats = ((VehicleHash)model == VehicleHash.Barracks || (VehicleHash)model == VehicleHash.Youga || (VehicleHash)model == VehicleHash.Burrito3); // "CANMATS"
+            var candrugs = ((VehicleHash)model == VehicleHash.Youga || (VehicleHash)model == VehicleHash.Burrito3); // "CANDRUGS"
+            var canmeds = ((VehicleHash)model == VehicleHash.Ambulance); // "CANMEDKITS"
+            var veh = NAPI.Vehicle.CreateVehicle(model, vehicle.Item2, vehicle.Item3.Z, vehicle.Item5, vehicle.Item6);
+
+            NAPI.Data.SetEntityData(veh, "ACCESS", "FRACTION");
+            NAPI.Data.SetEntityData(veh, "FRACTION", fractionid);
+            NAPI.Data.SetEntityData(veh, "MINRANK", vehicle.Item4);
+            NAPI.Data.SetEntityData(veh, "TYPE", FractionTypes[fractionid]);
+            if (canmats)
+                NAPI.Data.SetEntityData(veh, "CANMATS", true);
+            if (candrugs)
+                NAPI.Data.SetEntityData(veh, "CANDRUGS", true);
+            if (canmeds)
+                NAPI.Data.SetEntityData(veh, "CANMEDKITS", true);
+            NAPI.Vehicle.SetVehicleNumberPlate(veh, vnumber);
+            Core.VehicleStreaming.SetEngineState(veh, false);
+            VehicleManager.FracApplyCustomization(veh, fractionid);
+            if ((VehicleHash)model == VehicleHash.Submersible || (VehicleHash)model == VehicleHash.Thruster) veh.SetSharedData("PETROL", 0);
+
+            CarSpawner.carSpawners.Find(x => x.FractionID == fractionid).SpawnedCars.Add(vnumber);
+
+            NAPI.Data.SetEntityData(player, $"{vnumber}SPAWN", DateTime.Now.AddMinutes(5));
+            NAPI.Data.SetEntityData(player, $"LASTSPAWNCAR", DateTime.Now.AddMinutes(1));
+
+            player.TriggerEvent("blip_create_ext", "FractionCarSpawn", vehicle.Item2, 125, 0.5f, 225, true, vnumber);
+        }
+    }
+
+    public class CarSpawner
+    {
+        public int FractionID { get; set; }
+        public Vector3 Position { get; set; }
+
+        public List<string> SpawnedCars = new List<string>();
+
+        private GTANetworkAPI.ColShape shape;
+        private GTANetworkAPI.Marker marker;
+        private GTANetworkAPI.TextLabel label;
+
+        public static List<CarSpawner> carSpawners = new List<CarSpawner>();
+
+        public CarSpawner(int fractionID, Vector3 position)
+        {
+            FractionID = fractionID;
+            Position = position;
+
+            Create();
+        }
+
+        private void Create()
+        {
+            shape = NAPI.ColShape.CreateCylinderColShape(Position, 1f, 2f, 0);
+            marker = NAPI.Marker.CreateMarker(1, Position, new Vector3(), new Vector3(), 1f, new Color(255, 250, 250, 120), false, 0);
+            label = NAPI.TextLabel.CreateTextLabel("Спавн транспорта", Position + new Vector3(0, 0, 1), 10f, 5f, 4, new Color(255, 255, 255), false, 0);
+
+            shape.OnEntityEnterColShape += (s, p) =>
+            {
+                if (!Main.Players.ContainsKey(p)) return;
+                if (Main.Players[p].FractionID != FractionID) return;
+                NAPI.Data.SetEntityData(p, "INTERACTIONCHECK", 804);
+            };
+            shape.OnEntityExitColShape += (s, p) =>
+            {
+                NAPI.Data.ResetEntityData(p, "INTERACTIONCHECK");
+            };
+        }
+
+        public static void Init()
+        {
+            //Координаты расположения маркера для каждой фракции
+            Dictionary<int, Vector3> FractionsCarSpawnerCoords = new Dictionary<int, Vector3>()
+            {
+                { 1, new Vector3(-199.96379, -1606.6681, 33.52537)}, //Families
+                { 2, new Vector3(84.731155, -1954.5448, 19.704018)}, //Ballas
+                { 3, new Vector3(482.5498, -1519.4877, 28.171408)}, //Vagos
+                { 4, new Vector3(1417.155, -1497.3917, 58.951546)}, //Marabunte
+                { 5, new Vector3(881.6645, -2168.2346, 31.151388)}, //Bloods
+                { 6, new Vector3(-560.6294, -174.94687, 36.978725)}, //CityHall
+                { 7, new Vector3(421.32764, -990.5731, 29.583729)}, //Police
+                { 8, new Vector3(349.5916, -550.88995, 27.62378)}, //EMS
+                { 9, new Vector3(139.51517, -702.72986, 32.0049)}, //FIB
+                { 10, new Vector3(1390.9471, 1156.9696, 113.32328)}, //La Cosa Nostra
+                { 11, new Vector3(-114.58606, 988.9835, 234.63089)}, //Russian Mafia
+                { 12, new Vector3(-1552.8608, -87.15276, 53.21184)}, //Yakuza Mafia
+                { 13, new Vector3(-1811.5052, 450.76276, 127.39384)}, //Armenian Mafia
+                { 14, new Vector3(-2336.9888, 3314.033, 31.70962)}, //Army
+                { 15, new Vector3(-1040.6895, -225.95102, 37.893054)}, //News
+                { 16, new Vector3(0,0,0)}, //The Lost
+                { 17, new Vector3(2520.923, -384.2475, 92.99275)}, //Merryweather Security
+                { 18, new Vector3(-459.43457, 6031.523, 30.220525)}, //Sheriff
+            };
+
+            foreach (var item in FractionsCarSpawnerCoords)
+            {
+                CarSpawner spawner = new CarSpawner(item.Key, item.Value);
+                spawner.Create();
+                carSpawners.Add(spawner);
+            }
+
+            Configs.SpawnFractionCars(14); //Для спавна Матовозок
+        }
+
+        public static void OpenMenuSpawner(Player player)
+        {
+            if (!Main.Players.ContainsKey(player)) return;
+            CarSpawner spawner = carSpawners.Find(x => x.FractionID == Main.Players[player].FractionID);
+
+            List<List<object>> data = new List<List<object>>();
+
+            foreach (var item in Configs.FractionVehicles[Main.Players[player].FractionID])
+            {
+                if (item.Value.Item1 != "barracks")
+                {
+                    List<object> vehdata = new List<object>()
+                    {
+                        spawner.SpawnedCars.Contains(item.Key),
+                        item.Value.Item4,
+                        item.Value.Item1,
+                        item.Key,
+                    };
+                    data.Add(vehdata);
+                }
+            }
+            string json = JsonConvert.SerializeObject(data);
+            Trigger.ClientEvent(player, "openFractionVehicleSpawner", json);
         }
     }
 }

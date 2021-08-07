@@ -502,17 +502,17 @@ namespace NeptuneEvo.Core
         {
             try
             {
-                if (!Group.CanUseCmd(player, "setvehdirt")) return;
+                if (!Group.CanUseCmd(player, "vconfigload")) return;
                 if (type == 0) // fractionvehicles
                 {
-                    Fractions.Configs.FractionVehicles[number] = new Dictionary<string, Tuple<VehicleHash, Vector3, Vector3, int, int, int, VehicleManager.VehicleCustomization>>();
+                    Fractions.Configs.FractionVehicles[number] = new Dictionary<string, Tuple<string, Vector3, Vector3, int, int, int, VehicleManager.VehicleCustomization>>();
                     DataTable result = MySQL.QueryRead($"SELECT * FROM `fractionvehicles` WHERE `fraction`={number}");
                     if (result == null || result.Rows.Count == 0) return;
                     foreach (DataRow Row in result.Rows)
                     {
                         var fraction = Convert.ToInt32(Row["fraction"]);
                         var numberplate = Row["number"].ToString();
-                        var model = (VehicleHash)NAPI.Util.GetHashKey(Row["model"].ToString());
+                        var model = Row["model"].ToString();
                         var position = JsonConvert.DeserializeObject<Vector3>(Row["position"].ToString());
                         var rotation = JsonConvert.DeserializeObject<Vector3>(Row["rotation"].ToString());
                         var minrank = Convert.ToInt32(Row["rank"]);
@@ -520,7 +520,7 @@ namespace NeptuneEvo.Core
                         var color2 = Convert.ToInt32(Row["colorsec"]);
                         VehicleManager.VehicleCustomization components = JsonConvert.DeserializeObject<VehicleManager.VehicleCustomization>(Row["components"].ToString());
 
-                        Fractions.Configs.FractionVehicles[fraction].Add(numberplate, new Tuple<VehicleHash, Vector3, Vector3, int, int, int, VehicleManager.VehicleCustomization>(model, position, rotation, minrank, color1, color2, new VehicleManager.VehicleCustomization()));
+                        Fractions.Configs.FractionVehicles[fraction].Add(numberplate, new Tuple<string, Vector3, Vector3, int, int, int, VehicleManager.VehicleCustomization>(model, position, rotation, minrank, color1, color2, new VehicleManager.VehicleCustomization()));
                     }
 
                     NAPI.Task.Run(() =>
@@ -646,7 +646,7 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("vconfigload: " + e.Message, nLog.Type.Error); }
         }
-        
+
         [Command("addpromo")] // Добавить промокод (7 лвл)
         public static void CMD_addPromo(Player player, int uuid, string promocode)
         {
@@ -2008,8 +2008,9 @@ namespace NeptuneEvo.Core
                     }
 
                     string number = player.Vehicle.NumberPlate;
-                    Tuple<VehicleHash, Vector3, Vector3, int, int, int, VehicleManager.VehicleCustomization> oldtuple = Fractions.Configs.FractionVehicles[fractionid][number];
-                    VehicleHash oldvehhash = oldtuple.Item1;
+                    Tuple<string, Vector3, Vector3, int, int, int, VehicleManager.VehicleCustomization> oldtuple = Fractions.Configs.FractionVehicles[fractionid][number];
+                    string oldname = oldtuple.Item1;
+                    VehicleHash oldvehhash = (VehicleHash)NAPI.Util.GetHashKey(oldname);
                     Vector3 oldvehpos = oldtuple.Item2;
                     Vector3 oldvehrot = oldtuple.Item3;
                     int oldvehrank = oldtuple.Item4;
@@ -2099,7 +2100,7 @@ namespace NeptuneEvo.Core
                             oldvehdata.WheelsColor = id;
                             break;
                     }
-                    Fractions.Configs.FractionVehicles[fractionid][number] = new Tuple<VehicleHash, Vector3, Vector3, int, int, int, VehicleManager.VehicleCustomization>(oldvehhash, oldvehpos, oldvehrot, oldvehrank, oldvehc1, oldvehc2, oldvehdata);
+                    Fractions.Configs.FractionVehicles[fractionid][number] = new Tuple<string, Vector3, Vector3, int, int, int, VehicleManager.VehicleCustomization>(oldname, oldvehpos, oldvehrot, oldvehrank, oldvehc1, oldvehc2, oldvehdata);
                     MySqlCommand cmd = new MySqlCommand
                     {
                         CommandText = "UPDATE `fractionvehicles` SET `components`=@com WHERE `number`=@num"
@@ -2270,8 +2271,9 @@ namespace NeptuneEvo.Core
                     Vector3 pos = NAPI.Entity.GetEntityPosition(vehicle) + new Vector3(0, 0, 0.5);
                     Vector3 rot = NAPI.Entity.GetEntityRotation(vehicle);
                     VehicleManager.VehicleCustomization data = Fractions.Configs.FractionVehicles[fractionid][vehicle.NumberPlate].Item7;
-                    if (Fractions.Configs.FractionVehicles[fractionid][vehicle.NumberPlate].Item1 != vh) data = new VehicleManager.VehicleCustomization();
-                    Fractions.Configs.FractionVehicles[fractionid][vehicle.NumberPlate] = new Tuple<VehicleHash, Vector3, Vector3, int, int, int, VehicleManager.VehicleCustomization>(vh, pos, rot, rank, c1, c2, data);
+                    VehicleHash vehhash = (VehicleHash)NAPI.Util.GetHashKey(Fractions.Configs.FractionVehicles[fractionid][vehicle.NumberPlate].Item1);
+                    if (vehhash != vh) data = new VehicleManager.VehicleCustomization();
+                    Fractions.Configs.FractionVehicles[fractionid][vehicle.NumberPlate] = new Tuple<string, Vector3, Vector3, int, int, int, VehicleManager.VehicleCustomization>(vehname, pos, rot, rank, c1, c2, data);
                     MySqlCommand cmd = new MySqlCommand
                     {
                         CommandText = "UPDATE `fractionvehicles` SET `model`=@mod,`position`=@pos,`rotation`=@rot,`rank`=@ra,`colorprim`=@col,`colorsec`=@sec,`components`=@com WHERE `number`=@num"
@@ -2295,7 +2297,7 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"ACMD_setfracveh\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        
+
         [Command("stop")] // Выключить сервер (8 лвл)
         public static void CMD_stopServer(Player player, string text = null)
         {

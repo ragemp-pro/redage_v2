@@ -22,6 +22,9 @@ namespace NeptuneEvo.Fractions
             try
             {
                 if (!Main.Players.ContainsKey(player)) return;
+
+                player.TriggerEvent("blip_remove", "FractionCarSpawn");
+
                 if (NAPI.Data.GetEntityData(player, "CUFFED") && player.VehicleSeat == 0)
                 {
                     VehicleManager.WarpPlayerOutOfVehicle(player);
