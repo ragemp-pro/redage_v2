@@ -2,6 +2,7 @@
 using Redage.SDK;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 
@@ -14,13 +15,14 @@ namespace NeptuneEvo.Core
         private static nLog Log = new nLog("GameLog");
         private static Queue<string> queue = new Queue<string>();
         private static Dictionary<int, DateTime> OnlineQueue = new Dictionary<int, DateTime>();
-        
+
         private static Config config = new Config("MySQL");
 
         private static string DB = config.TryGet<string>("DataBase", "") + "logs";
 
         private static string insert = "insert into " + DB + ".{0}({1}) values ({2})";
-        
+        private static string timer = null;
+
         public static void Votes(uint ElectionId, string Login, string VoteFor)
         {
             if (thread == null) return;
@@ -138,20 +140,26 @@ namespace NeptuneEvo.Core
             try
             {
                 Log.Debug("Worker started");
-                while (true)
-                {
-                    if (queue.Count < 1) continue;
-                    else
-                        MySQL.Query(queue.Dequeue());
-                }
+
+                timer = Timers.StartTask(500, () => TimerExec());
             }
             catch (Exception e)
             {
                 Log.Write($"{e.ToString()}\n{CMD}", nLog.Type.Error);
             }
         }
+        private static void TimerExec()
+        {
+            var list = queue.ToList();
+
+            if (list.Any())
+            {
+                MySQL.Query(queue.Dequeue());
+            }
+        }
         public static void Stop()
         {
+            Timers.Stop(timer);
             thread.Join();
         }
         #endregion
