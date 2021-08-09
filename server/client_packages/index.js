@@ -245,11 +245,9 @@ require('./client/utils/utils.js');
 require('./scripts/autopilot.js');
 require('./scripts/crouch.js');
 //require('./scripts/location.js');
-require('./scripts/markers.js');
 require('./scripts/fingerPointer.js');
 //require('./scripts/Hunting.js'); НЕ РАБОТАЕТ
 require('./scripts/publicGarage/index.js');
-require('./scripts/SmoothThrottle/SmoothThrottle.js');
 require('./banks/atm.js');
 require('./admin/adminpanel.js');
 
