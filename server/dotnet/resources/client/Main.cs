@@ -1973,6 +1973,9 @@ namespace NeptuneEvo
                 intid = id;
                 switch (id)
                 {
+                    case 805:
+                        Rentcar.RentNPC_MenuSelectVehicle(player);
+                        break;
                     case 804: //todo FractionCarSpawner
                         Fractions.CarSpawner.OpenMenuSpawner(player);
                         break;
@@ -2468,6 +2471,10 @@ namespace NeptuneEvo
                         case "RENT_CAR":
                             Rentcar.RentCar(player);
                             return;
+                        case "RENT_CAR_NPC":
+                            MenuManager.Close(player);
+                            Rentcar.RentCarNPC(player);
+                            return;
                         case "DEATH_CONFIRM":
                             Fractions.Ems.DeathConfirm(player, true);
                             return;
@@ -2506,6 +2513,9 @@ namespace NeptuneEvo
                             return;
                         case "RENT_CAR":
                             VehicleManager.WarpPlayerOutOfVehicle(player);
+                            return;
+                        case "RENT_CAR_NPC":
+                            MenuManager.Close(player);
                             return;
                         case "MECHANIC_RENT":
                             VehicleManager.WarpPlayerOutOfVehicle(player);

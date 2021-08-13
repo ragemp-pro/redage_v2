@@ -13,6 +13,8 @@ mp.peds.new(882848737, new mp.Vector3(442.9502, -981.1665, 30.06959), 88.87737, 
 mp.peds.new(3630914197, new mp.Vector3(-1528.098, 1753.292, 86.17753), 323.6743, 0); 
 mp.peds.new(1462895032, new mp.Vector3(2015.733, 4967.312, 41.87567), 258.3119, 0);
 
+mp.peds.new(0x64611296, new mp.Vector3(-1015.24664, -2693.803, 13.975073), 150.0, 0); // rentcar NPC on spawn
+
 // Peds (quests)
 var needped = [];
 
