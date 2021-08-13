@@ -573,7 +573,7 @@ namespace NeptuneEvo.Fractions
             Manager.sendFractionMessage(9, $"{player.Name} посадил в КПЗ {target.Name} ({Main.Players[target].WantedLVL.Reason})", true);
             Main.Players[target].ArrestTime = Main.Players[target].WantedLVL.Level * 20 * 60;
             GameLog.Arrest(Main.Players[player].UUID, Main.Players[target].UUID, Main.Players[target].WantedLVL.Reason, Main.Players[target].WantedLVL.Level, player.Name, target.Name);
-            arrestPlayer(target);
+            arrestPlayer(target, NAPI.Data.GetEntityData(player, "ARREST_AREA_NAME"));
         }
 
         public static void releasePlayerFromPrison(Player player, Player target)
@@ -604,7 +604,7 @@ namespace NeptuneEvo.Fractions
                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Игрок не в тюрьме", 3000);
                 return;
             }
-            freePlayer(target);
+            freePlayer(target, NAPI.Data.GetEntityData(player, "ARREST_AREA_NAME"));
             Main.Players[target].ArrestTime = 0;
             Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы освободили игрока ({target.Value}) из тюрьмы", 3000);
             Notify.Send(target, NotifyType.Warning, NotifyPosition.BottomCenter, $"Игрок ({player.Value}) освободил Вас из тюрьмы", 3000);
@@ -618,7 +618,7 @@ namespace NeptuneEvo.Fractions
                 if (!Main.Players.ContainsKey(player)) return;
                 if (Main.Players[player].ArrestTime == 0)
                 {
-                    freePlayer(player);
+                    freePlayer(player, NAPI.Data.GetEntityData(player, "ARREST_AREA_NAME"));
                     return;
                 }
                 Main.Players[player].ArrestTime--;
@@ -629,7 +629,7 @@ namespace NeptuneEvo.Fractions
             
         }
 
-        public static void freePlayer(Player player)
+        public static void freePlayer(Player player, string freeType)
         {
             NAPI.Task.Run(() =>
             {
@@ -639,8 +639,19 @@ namespace NeptuneEvo.Fractions
                     Timers.Stop(NAPI.Data.GetEntityData(player, "ARREST_TIMER")); // still not fixed
                     NAPI.Data.ResetEntityData(player, "ARREST_TIMER");
                     Police.setPlayerWantedLevel(player, null);
-                    NAPI.Entity.SetEntityPosition(player, Police.policeCheckpoints[5]);
-                    NAPI.Entity.SetEntityPosition(player, Sheriff.sheriffCheckpoints[5]);
+
+                    switch (freeType)
+                    {
+                        default:
+                            NAPI.Entity.SetEntityPosition(player, Police.policeCheckpoints[5]);
+                            break;
+                        case "LSPD":
+                            NAPI.Entity.SetEntityPosition(player, Police.policeCheckpoints[5]);
+                            break;
+                        case "SHERIFF":
+                            NAPI.Entity.SetEntityPosition(player, Sheriff.sheriffCheckpoints[5]);
+                            break;
+                    }
                     NAPI.Entity.SetEntityDimension(player, 0);
                     Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, $"Вы были освобождены из тюрьмы", 3000);
                 }
@@ -648,13 +659,24 @@ namespace NeptuneEvo.Fractions
             });
         }
 
-        public static void arrestPlayer(Player target)
+        public static void arrestPlayer(Player target, string arrestType)
         {
-            NAPI.Entity.SetEntityPosition(target, Police.policeCheckpoints[4]);
-            Police.setPlayerWantedLevel(target, null);
+            switch(arrestType)
+            {
+                default:
+                    NAPI.Entity.SetEntityPosition(target, Police.policeCheckpoints[4]);
+                    Police.setPlayerWantedLevel(target, null);
+                    break;
+                case "LSPD":
+                    NAPI.Entity.SetEntityPosition(target, Police.policeCheckpoints[4]);
+                    Police.setPlayerWantedLevel(target, null);
+                    break;
+                case "SHERIFF":
+                    NAPI.Entity.SetEntityPosition(target, Sheriff.sheriffCheckpoints[4]);
+                    Sheriff.setPlayerWantedLevel(target, null);
+                    break;
+            }
             //NAPI.Data.SetEntityData(target, "ARREST_TIMER", Main.StartT(1000, 1000, (o) => arrestTimer(target), "ARREST_TIMER"));
-            NAPI.Entity.SetEntityPosition(target, Sheriff.sheriffCheckpoints[4]);
-            Sheriff.setPlayerWantedLevel(target, null);
             NAPI.Data.SetEntityData(target, "ARREST_TIMER", Timers.Start(1000, () => arrestTimer(target)));
             Weapons.RemoveAll(target, true);
         }

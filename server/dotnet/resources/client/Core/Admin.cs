@@ -1027,7 +1027,7 @@ namespace NeptuneEvo.Core
                 if (!Main.Players.ContainsKey(player)) return;
                 if (Main.Players[player].DemorganTime <= 0)
                 {
-                    Fractions.FractionCommands.freePlayer(player);
+                    Fractions.FractionCommands.freePlayer(player, NAPI.Data.GetEntityData(player, "ARREST_AREA_NAME"));
                     return;
                 }
                 Main.Players[player].DemorganTime--;

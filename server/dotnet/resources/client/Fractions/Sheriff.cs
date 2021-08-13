@@ -550,6 +550,7 @@ namespace NeptuneEvo.Fractions
             try
             {
                 NAPI.Data.SetEntityData(entity, "IS_IN_ARREST_AREA", true);
+                NAPI.Data.SetEntityData(entity, "ARREST_AREA_NAME", "SHERIFF");
             }
             catch (Exception ex) { Log.Write("arrestShape_onEntityEnterColShape: " + ex.Message, nLog.Type.Error); }
         }
