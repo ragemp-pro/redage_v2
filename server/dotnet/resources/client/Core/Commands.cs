@@ -129,6 +129,23 @@ namespace NeptuneEvo.Core
         }
         */
 
+        [Command("drone", "Use: /drone [type]")]
+        public static void CMD_drone(Player client, int type = 0)
+        {
+            try
+            {
+                if (!Group.CanUseCmd(client, "drone")) return;
+
+
+                client.SetData<int>("drone_type", type);
+                Trigger.ClientEvent(client, "client:StartAdminDrone");
+            }
+            catch (Exception e)
+            {
+                Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error);
+            }
+        }
+
         [Command("ghc")] // /ghc IDcar (Тп машину к себе по ID)
         public static void CMD_ghc(Player client, int id)
         {

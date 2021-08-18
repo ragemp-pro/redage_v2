@@ -292,6 +292,8 @@ require('./CustomMenus/bazarinfomenu.js');
 
 require('./vehiclespawner.js');
 
+require('./drone.js');
+
 
 // // // // // // //
 
