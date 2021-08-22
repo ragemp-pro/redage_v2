@@ -31,7 +31,6 @@ namespace NeptuneEvo.Core
             new Vector3(10.59172, 6322.342, 30.23178),
             new Vector3(-3036.624, 105.1893, 10.59305),
             new Vector3(-85.10564, -2004.633, 17.01696),
-            new Vector3(116.7458, -1949.892, 19.748),
             new Vector3(611.4971, 111.1495, 91.91084),
             new Vector3(-905.5421, -161.0625, 41.87945),
             new Vector3(-68.31268, 897.8906, 234.5641)
@@ -163,10 +162,7 @@ namespace NeptuneEvo.Core
             // Create blips
             foreach (Vector3 position in vehstore)
             {
-                if (position != new Vector3(116.7458, -1949.892, 19.748))
-                {
-                    NAPI.Blip.CreateBlip(50, position, 1, 4, "Общественная парковка", 255, 0, true);
-                }
+                NAPI.Blip.CreateBlip(50, position, 1, 4, "Общественная парковка", 255, 0, true);
 
                 NAPI.Marker.CreateMarker(1, position, new Vector3(), new Vector3(), 3, new Color(255, 255, 255, 220), false, 0);
                 ColShape shape = NAPI.ColShape.CreateCylinderColShape(position, 3, 3, 0);
