@@ -15,6 +15,22 @@ namespace NeptuneEvo.Core
         private static nLog Log = new nLog("BusinessManager");
         private static int lastBizID = -1;
 
+        internal static Business GetBusinessToPlayer(Player player)
+        {
+            if (!Main.Players.ContainsKey(player)) return null;
+
+            List<int> bizData = Main.Players[player].BizIDs;
+            if (bizData.Count != 0)
+            {
+                if (BusinessManager.BizList.ContainsKey(bizData[0]))
+                {
+                    return BusinessManager.BizList[bizData[0]];
+                }
+                return null;
+            }
+            return null;
+        }
+
         [ServerEvent(Event.ResourceStart)]
         public void onResourceStart()
         {
@@ -6307,6 +6323,18 @@ namespace NeptuneEvo.Core
             MySQL.Query($"UPDATE businesses SET owner='{this.Owner}',sellprice={this.SellPrice}," +
                     $"products='{JsonConvert.SerializeObject(this.Products)}',money={this.BankID},mafia={this.Mafia},orders='{JsonConvert.SerializeObject(this.Orders)}' WHERE id={this.ID}");
             MoneySystem.Bank.Save(this.BankID);
+        }
+        public string GetBusinessToJson()
+        {
+            Dictionary<string, object> data = new Dictionary<string, object>()
+            {
+                { "id", this.ID },
+                { "price", this.SellPrice },
+                { "typeName", BusinessManager.BusinessTypeNames[Type] },
+                { "position", this.EnterPoint },
+            };
+
+            return JsonConvert.SerializeObject(data);
         }
     }
 

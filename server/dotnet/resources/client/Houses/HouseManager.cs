@@ -124,6 +124,42 @@ namespace NeptuneEvo.Houses
             label = NAPI.TextLabel.CreateTextLabel(Main.StringToU16($"House {id}"), position + new Vector3(0, 0, 1.5), 5f, 0.4f, 0, new Color(255, 255, 255), false, 0);
             UpdateLabel();
         }
+        public string GetHouseInfoToJson()
+        {
+            Dictionary<string, object> data = new Dictionary<string, object>()
+            {
+                { "id", this.ID },
+                { "price", this.Price },
+                { "typeName", GetHouseType()?.Name },
+                { "position", this.Position },
+                { "MaxCars", GetGarageTypeOfGarage(GetGarage())?.MaxCars }
+            };
+
+            return JsonConvert.SerializeObject(data);
+        }
+        private HouseType GetHouseType()
+        {
+            if (HouseManager.HouseTypeList.Count > Type && Type >= 0)
+                return HouseManager.HouseTypeList[Type];
+            else
+                return null;
+
+        }
+        private Garage GetGarage()
+        {
+            if (GarageManager.Garages.ContainsKey(GarageID))
+                return GarageManager.Garages?[GarageID];
+            else
+                return null;
+        }
+        private GarageType GetGarageTypeOfGarage(Garage garage = null)
+        {
+            if (garage == null) return null;
+            if (GarageManager.GarageTypes.ContainsKey(garage.Type))
+                return GarageManager.GarageTypes?[garage.Type];
+            else
+                return null;
+        }
         public void UpdateLabel()
         {
             try

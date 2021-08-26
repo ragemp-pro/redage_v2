@@ -69,7 +69,7 @@
 			 <transition name="fade">
 			<div class="globalstats" v-if="statis == 0">
 				<div class="left-block">
-					<p onclick="new Audio('./UI/auto/ui.mp3').play(); return false;" class="active" @click="statsid(0)">Осноная статистика</p>
+					<p onclick="new Audio('./UI/auto/ui.mp3').play(); return false;" class="active" @click="statsid(0)">Основная статистика</p>
 					<p onclick="new Audio('./UI/auto/ui.mp3').play(); return false;" @click="statsid(1)">Имущество</p>
 				</div>
 				<div class="right-block">
@@ -111,12 +111,81 @@
 			 <transition name="fade">
 			<div class="stats" v-if="statis == 1">
 				<div class="left-block">
-					<p onclick="new Audio('./UI/auto/ui.mp3').play(); return false;" @click="statsid(0)">Осноная статистика</p>
+					<p onclick="new Audio('./UI/auto/ui.mp3').play(); return false;" @click="statsid(0)">Основная статистика</p>
 					<p onclick="new Audio('./UI/auto/ui.mp3').play(); return false;" class="active" @click="statsid(1)">Имущество</p>
 				</div>
 				<div class="right-block">
 					<h1>Имущество</h1>
 					<a>Тут Вы можете просмотреть Ваше имущество на этом персонаже.</a>
+
+					<div class="blockStats" style="text-align: center;" v-if="properties == null"><span><a>У вас нет имущества!</a></span></div>
+					<div class="properties_info_block" v-else>
+						<div class="house_asset_info properties_element">
+							<div class="blockStats">
+								<h2>Недвижимость:</h2>
+									<div v-if="properties.House != null">
+										<p>
+											<span>ID: <span class="right">{{properties.House.id}}</span>
+										</p>
+										<p>
+											<span>Цена:</span> <span class="right">{{properties.House.price}}$</span>
+										</p>
+										<p>
+											<span>Класс:</span> <span class="right">{{properties.House.typeName}}</span>
+										</p>
+										<p>
+											<span>Гаражных мест:</span> <span class="right">{{properties.House.MaxCars}} шт.</span>
+										</p>
+									</div>
+									<div v-else>
+										<span><a>У вас нет недвижимости!</a></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="business_asset_info properties_element">
+							<div class="blockStats">
+								<h2>Бизнес:</h2>
+								<div v-if="properties.Business != null">
+									<p>
+										<span>ID:</span> <span class="right">{{properties.Business.id}}</span>
+									</p>
+									<p>
+										<span>Цена:</span> <span class="right">{{properties.Business.price}}$</span>
+									</p>
+									<p>
+										<span>Тип:</span> <span class="right">{{properties.Business.typeName}}</span>
+									</p>
+								</div>
+								<div v-else>
+									<span><a>У вас нет бизнеса!</a></span>	
+								</div>
+							</div>
+						</div>
+						<div class="vehicles_asset_info properties_element">
+								<h2 style="color: #fff">Список транспорта:</h2>
+								<div v-if="properties.Vehicles != null">
+									<div class="blockStats" v-for="(veh, index) in properties.Vehicles">
+										<p>
+											<span>Модель:</span> <span class="right">{{veh.model}}</span>
+										</p>
+										<p>
+											<span>Номера:</span> <span class="right">{{veh.number}}</span>
+										</p>
+										<p>
+											<span>Цена:</span> <span class="right">{{veh.price}}$</span>
+										</p>
+										<p>
+											<span>Топливо:</span> <span class="right">{{veh.fuel}} литров</span>
+										</p>
+									</div>
+								</div>
+								<div v-else>
+									<span><a>У вас нет ни одного транспорта!</a></span>
+								</div>
+						</div>
+					</div>
+
 				</div>
 			</div>
 	</transition>

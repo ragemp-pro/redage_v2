@@ -36,6 +36,38 @@ namespace NeptuneEvo.GUI
             {1, "Мужской" }
         };
 
+        [RemoteEvent("REMOTE::LOAD_PROPERTIES_INFO_TO_BOARD")]
+        public static void SendPropertiesPlayer(Player player)
+        {
+            try
+            {
+                if (!Main.Players.ContainsKey(player)) return;
+
+                int UUID = Main.Players[player].UUID;
+                List<object> data = new List<object>();
+
+                Houses.House house = Houses.HouseManager.GetHouse(player, true);
+                Business business = BusinessManager.GetBusinessToPlayer(player);
+
+                string vehicleDatas = "[";
+                VehicleManager.getAllPlayerVehicles(player.Name)?.ForEach(number =>
+                {
+                    if (VehicleManager.Vehicles.ContainsKey(number))
+                        vehicleDatas += VehicleManager.Vehicles[number]?.GetVehicleDataToJson(number) + ',';
+                });
+                vehicleDatas = vehicleDatas.Remove(vehicleDatas.Length - 1, 1) + ']';
+
+                string houseData = house?.GetHouseInfoToJson();
+                string businessData = business?.GetBusinessToJson();
+
+                Trigger.ClientEvent(player, "BOARD::LOAD_ASSETS_INFO", houseData, businessData, vehicleDatas);
+            }
+            catch (Exception e)
+            {
+                Log.Write(e.Message, nLog.Type.Error);
+            }
+        }
+
         [RemoteEvent("Inventory")]
         public void ClientEvent_Inventory(Player player, params object[] arguments)
         {

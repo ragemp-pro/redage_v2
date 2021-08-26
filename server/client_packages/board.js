@@ -19,6 +19,18 @@ mp.keys.bind(Keys.VK_ESCAPE, false, function() {
     }
 });
 
+mp.events.add('BOARD::LOAD_ASSETS_INFO', (houseData, businessData, vehiclesData) => {
+	houseData = JSON.parse(houseData);
+	businessData = JSON.parse(businessData);
+	vehiclesData = JSON.parse(vehiclesData);
+	let data = {
+		"House": houseData,
+		"Business": businessData,
+		"Vehicles": vehiclesData
+	}
+	let json = JSON.stringify(data);
+	board.execute(`board.properties=${json}`);
+});
 
 // DONATE //
 var reds = 0;
@@ -111,6 +123,7 @@ mp.events.add('board', (act, data, index) => {
 			break;
         case 2:
 			board.execute(`board.stats=${data}`);
+            mp.events.callRemote("REMOTE::LOAD_PROPERTIES_INFO_TO_BOARD");
 			break;
 		case 3:
 			board.execute(`board.itemsSet(${data})`);

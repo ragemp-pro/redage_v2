@@ -258,7 +258,8 @@ var board = new Vue({
         aftertrans: null,
         fname: null,
         pause:0,
-        lname: null
+        lname: null,
+        properties: null,
     },
     methods: {
         context: function (event) {
