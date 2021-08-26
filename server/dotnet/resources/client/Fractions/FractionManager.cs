@@ -21,7 +21,7 @@ namespace NeptuneEvo.Fractions
                 NAPI.Blip.CreateBlip(184, LSNews.LSNewsCoords[0], 1, 1, Main.StringToU16("Новости"), 255, 0, true, 0, 0);
                 NAPI.Blip.CreateBlip(419, Cityhall.CityhallChecksCoords[2], 1.5f, 14, Main.StringToU16("Мэрия"), 255, 0, true, 0, 0);
                 NAPI.Blip.CreateBlip(61, Ems.emsCheckpoints[0], 1, 49, Main.StringToU16("Госпиталь"), 255, 0, true, 0, 0);
-                NAPI.Blip.CreateBlip(88, Fbi.EnterFBI, 1, 58, Main.StringToU16("FIB"), 255, 0, true, 0, 0);
+                NAPI.Blip.CreateBlip(88, Fbi.fbiCheckpoints[0], 1, 58, Main.StringToU16("FIB"), 255, 0, true, 0, 0);
                 NAPI.Blip.CreateBlip(526, Police.policeCheckpoints[1], 1, 38, Main.StringToU16("Полиция"), 255, 0, true, 0, 0);
                 NAPI.Blip.CreateBlip(85, Army.ArmyCheckpoints[2], 1, 28, Main.StringToU16("Доки"), 255, 0, true, 0, 0);
 

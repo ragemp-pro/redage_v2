@@ -11,9 +11,7 @@ namespace NeptuneEvo.Fractions
     class Fbi : Script
     {
         private static Dictionary<int, ColShape> Cols = new Dictionary<int, ColShape>();
-        public static Vector3 EnterFBI = new Vector3(104.56081, -744.52924, 44.634758);
-        private static Vector3 ExitFBI = new Vector3(107.1693, -744.6852, 44.75476);
-        private static List<Vector3> fbiCheckpoints = new List<Vector3>()
+        public static List<Vector3> fbiCheckpoints = new List<Vector3>()
         {
             new Vector3(147.2835, -757.7181, 241.032), // duty          0
             new Vector3(136.1821, -761.7615, 241.152), // 49 floor       1
@@ -49,20 +47,6 @@ namespace NeptuneEvo.Fractions
                 Cols[0].OnEntityEnterColShape += fbiShape_onEntityEnterColShape;
                 Cols[0].OnEntityExitColShape += fbiShape_onEntityExitColShape;
                 NAPI.TextLabel.CreateTextLabel(Main.StringToU16("~g~Press E to change clothes"), new Vector3(fbiCheckpoints[0].X, fbiCheckpoints[0].Y, fbiCheckpoints[0].Z + 0.3), 5F, 0.3F, 0, new Color(255, 255, 255));
-
-                Cols.Add(1, NAPI.ColShape.CreateCylinderColShape(EnterFBI, 1, 2, 0)); // fbi enter
-                Cols[1].SetData("INTERACT", 21);
-                Cols[1].OnEntityEnterColShape += fbiShape_onEntityEnterColShape;
-                Cols[1].OnEntityExitColShape += fbiShape_onEntityExitColShape;
-                NAPI.TextLabel.CreateTextLabel(Main.StringToU16("~g~Press E"), new Vector3(EnterFBI.X, EnterFBI.Y, EnterFBI.Z + 0.3), 5F, 0.3F, 0, new Color(255, 255, 255));
-                NAPI.Marker.CreateMarker(21, EnterFBI + new Vector3(0, 0, 0.7), new Vector3(), new Vector3(), 0.8f, new Color(255, 255, 255, 60));
-
-                Cols.Add(2, NAPI.ColShape.CreateCylinderColShape(ExitFBI, 1, 2, 0)); // fbi exit
-                Cols[2].SetData("INTERACT", 22);
-                Cols[2].OnEntityEnterColShape += fbiShape_onEntityEnterColShape;
-                Cols[2].OnEntityExitColShape += fbiShape_onEntityExitColShape;
-                NAPI.TextLabel.CreateTextLabel(Main.StringToU16("~g~Press E"), new Vector3(ExitFBI.X, ExitFBI.Y, ExitFBI.Z + 0.3), 5F, 0.3F, 0, new Color(255, 255, 255));
-                NAPI.Marker.CreateMarker(21, ExitFBI + new Vector3(0, 0, 0.7), new Vector3(), new Vector3(), 0.8f, new Color(255, 255, 255, 60));
 
                 Cols.Add(3, NAPI.ColShape.CreateCylinderColShape(fbiCheckpoints[1], 1, 2, 0)); // 49 floor to 53
                 Cols[3].SetData("INTERACT", 23);
@@ -147,26 +131,6 @@ namespace NeptuneEvo.Fractions
                         }
                     }
                     else Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы не сотрудник FBI", 3000);
-                    return;
-                case 21:
-                    if (player.IsInVehicle) return;
-                    if (player.HasData("FOLLOWING"))
-                    {
-                        Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вас кто-то тащит за собой", 3000);
-                        return;
-                    }
-                    NAPI.Entity.SetEntityPosition(player, ExitFBI + new Vector3(0, 0, 1.12));
-                    Main.PlayerEnterInterior(player, ExitFBI + new Vector3(0, 0, 1.12));
-                    return;
-                case 22:
-                    if (player.IsInVehicle) return;
-                    if (player.HasData("FOLLOWING"))
-                    {
-                        Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вас кто-то тащит за собой", 3000);
-                        return;
-                    }
-                    NAPI.Entity.SetEntityPosition(player, EnterFBI + new Vector3(0, 0, 1.12));
-                    Main.PlayerEnterInterior(player, EnterFBI + new Vector3(0, 0, 1.12));
                     return;
                 case 23:
                     if (player.IsInVehicle) return;
