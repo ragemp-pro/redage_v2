@@ -1097,11 +1097,17 @@ namespace NeptuneEvo.Core
 
             public string GetVehicleDataToJson(string vehnumber = null)
             {
+                int price = 0;
+                if (BusinessManager.ProductsOrderPrice.ContainsKey(this.Model))
+                {
+                    price = BusinessManager.ProductsOrderPrice[this.Model];
+                }
+
                 Dictionary<string, object> data = new Dictionary<string, object>()
                 {
                     { "model", this.Model },
                     { "number", vehnumber },
-                    { "price", this.Price },
+                    { "price", price },
                     { "fuel", this.Fuel }
                 };
 
