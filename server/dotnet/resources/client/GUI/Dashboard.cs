@@ -49,13 +49,18 @@ namespace NeptuneEvo.GUI
                 Houses.House house = Houses.HouseManager.GetHouse(player, true);
                 Business business = BusinessManager.GetBusinessToPlayer(player);
 
-                string vehicleDatas = "[";
+                string vehicleDatas = "";
                 VehicleManager.getAllPlayerVehicles(player.Name)?.ForEach(number =>
                 {
                     if (VehicleManager.Vehicles.ContainsKey(number))
                         vehicleDatas += VehicleManager.Vehicles[number]?.GetVehicleDataToJson(number) + ',';
                 });
-                vehicleDatas = vehicleDatas.Remove(vehicleDatas.Length - 1, 1) + ']';
+                if (string.IsNullOrEmpty(vehicleDatas) || vehicleDatas == null) vehicleDatas = "[]";
+                else 
+                {
+                    vehicleDatas = vehicleDatas.Remove(vehicleDatas.Length - 1);
+                    vehicleDatas = $"[{vehicleDatas}]";
+                }
 
                 string houseData = house?.GetHouseInfoToJson();
                 string businessData = business?.GetBusinessToJson();

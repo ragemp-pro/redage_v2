@@ -84,6 +84,8 @@ function openBoard() {
     menuOpen();
 	board.execute('board.active=true');
 	global.boardOpen = true;
+
+	mp.events.callRemote("REMOTE::LOAD_PROPERTIES_INFO_TO_BOARD");
 }
 
 function closeBoard() {
@@ -123,7 +125,6 @@ mp.events.add('board', (act, data, index) => {
 			break;
         case 2:
 			board.execute(`board.stats=${data}`);
-            mp.events.callRemote("REMOTE::LOAD_PROPERTIES_INFO_TO_BOARD");
 			break;
 		case 3:
 			board.execute(`board.itemsSet(${data})`);

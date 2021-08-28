@@ -123,69 +123,72 @@
 						<div class="house_asset_info properties_element">
 							<div class="blockStats">
 								<h2>Недвижимость:</h2>
-									<div v-if="properties.House != null">
-										<p>
-											<span>ID: <span class="right">{{properties.House.id}}</span>
-										</p>
-										<p>
-											<span>Цена:</span> <span class="right">{{properties.House.price}}$</span>
-										</p>
-										<p>
-											<span>Класс:</span> <span class="right">{{properties.House.typeName}}</span>
-										</p>
-										<p>
-											<span>Гаражных мест:</span> <span class="right">{{properties.House.MaxCars}} шт.</span>
-										</p>
-									</div>
-									<div v-else>
-										<span><a>У вас нет недвижимости!</a></span>
-									</div>
+								<div v-if="properties.House != null">
+								   <p>
+									  <span>ID: <span class="right">{{properties.House.id}}</span>
+								   </p>
+								   <p>
+									  <span>Цена:</span> <span class="right">{{properties.House.price}}$</span>
+								   </p>
+								   <p>
+									  <span>Класс:</span> <span class="right">{{properties.House.typeName}}</span>
+								   </p>
+								   <p>
+									  <span>Гаражных мест:</span> <span class="right">{{properties.House.MaxCars}} шт.</span>
+								   </p>
 								</div>
-							</div>
+								<div v-else>
+								   <span><a>У вас нет недвижимости!</a></span>
+								</div>
+							 </div>
 						</div>
+
 						<div class="business_asset_info properties_element">
 							<div class="blockStats">
 								<h2>Бизнес:</h2>
 								<div v-if="properties.Business != null">
-									<p>
-										<span>ID:</span> <span class="right">{{properties.Business.id}}</span>
-									</p>
-									<p>
-										<span>Цена:</span> <span class="right">{{properties.Business.price}}$</span>
-									</p>
-									<p>
-										<span>Тип:</span> <span class="right">{{properties.Business.typeName}}</span>
-									</p>
+								   <p>
+									  <span>ID:</span> <span class="right">{{properties.Business.id}}</span>
+								   </p>
+								   <p>
+									  <span>Цена:</span> <span class="right">{{properties.Business.price}}$</span>
+								   </p>
+								   <p>
+									  <span>Тип:</span> <span class="right">{{properties.Business.typeName}}</span>
+								   </p>
 								</div>
 								<div v-else>
-									<span><a>У вас нет бизнеса!</a></span>	
+								   <span><a>У вас нет бизнеса!</a></span>	
 								</div>
-							</div>
+							 </div>
 						</div>
-						<div class="vehicles_asset_info properties_element">
-								<h2 style="color: #fff">Список транспорта:</h2>
-								<div v-if="properties.Vehicles != null">
-									<div class="blockStats" v-for="(veh, index) in properties.Vehicles">
-										<p>
-											<span>Модель:</span> <span class="right">{{veh.model}}</span>
-										</p>
-										<p>
-											<span>Номера:</span> <span class="right">{{veh.number}}</span>
-										</p>
-										<p>
-											<span>Цена:</span> <span class="right">{{veh.price}}$</span>
-										</p>
-										<p>
-											<span>Топливо:</span> <span class="right">{{veh.fuel}} литров</span>
-										</p>
-									</div>
-								</div>
-								<div v-else>
-									<span><a>У вас нет ни одного транспорта!</a></span>
-								</div>
-						</div>
-					</div>
 
+						<div class="vehicles_asset_info properties_element">
+							<h2 style="color: #fff">Список транспорта:</h2>
+							<div v-if="properties.Vehicles.length > 0">
+								<div class="blockStats" v-for="(veh, index) in properties.Vehicles">
+								   <p>
+									  <span>Модель:</span> <span class="right">{{veh.model}}</span>
+								   </p>
+								   <p>
+									  <span>Номера:</span> <span class="right">{{veh.number}}</span>
+								   </p>
+								   <p>
+									  <span>Цена:</span> <span class="right">{{veh.price}}$</span>
+								   </p>
+								   <p>
+									  <span>Топливо:</span> <span class="right">{{veh.fuel}} литров</span>
+								   </p>
+								</div>
+							 </div>
+							 <div v-else>
+								<div class="blockStats">
+								   <span><a>У вас нет ни одного транспорта!</a></span>
+								</div>
+							 </div>
+						</div>
+
+					</div>
 				</div>
 			</div>
 	</transition>
