@@ -24,8 +24,8 @@ namespace NeptuneEvo
     public class Main : Script
     { 
         public static string Codename { get; } = "redage_v2";
-        public static string Version { get; } = "2.4.5";
-        public static string Build { get; } = "0305";
+        public static string Version { get; } = "2.4.7";
+        public static string Build { get; } = "1809";
         // // // //
         public static string Full { get; } = $"{Codename} {Version} {Build}";
         public static DateTime StartDate { get; } = DateTime.Now;

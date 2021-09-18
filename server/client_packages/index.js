@@ -125,7 +125,7 @@ setTimeout(function () {
 
 setInterval(function () {
     var name = (localplayer.getVariable('REMOTE_ID') == undefined) ? `Не авторизован` : `Игрок №${localplayer.getVariable("REMOTE_ID")}`;
-	mp.discord.update('RAGEMP.PRO v2.0', name);
+	mp.discord.update('redage_v2 - 2.4.7 (1809) | RAGEMP.PRO', name);
 }, 10000);
 
 var pressedraw = false;
