@@ -407,7 +407,7 @@ namespace NeptuneEvo.Core
                 Main.Players[target].Licenses[lic] = true;
                 Dashboard.sendStats(target);
 
-                Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Успешно выдано", 3000);
+                Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Успешно выдано (лицензия категории - {Main.LicWords[lic]}).", 3000);
             }
             catch { }
         }
