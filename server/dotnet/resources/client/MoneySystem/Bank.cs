@@ -613,7 +613,7 @@ namespace NeptuneEvo.MoneySystem
                 string data1 = Convert.ToString(args[1]);
                 var acc = Main.Players[player];
                 int amount;
-                if (!Int32.TryParse(data1, out amount))
+                if (!int.TryParse(data1, out amount))
                     return;
                 Log.Debug($"{player.Name} : {data1}");
                 switch (act)
@@ -662,7 +662,7 @@ namespace NeptuneEvo.MoneySystem
                             return;
                         }
                         int bid = 0;
-                        if (!Int32.TryParse(Convert.ToString(args[2]), out bid))
+                        if (!int.TryParse(Convert.ToString(args[2]), out bid))
                         {
                             Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Возникла ошибка! Попробуйте еще раз.", 3000);
                             return;
@@ -687,7 +687,7 @@ namespace NeptuneEvo.MoneySystem
                         break;
                     case 4: //transfer to
                         int num = 0;
-                        if (!Int32.TryParse(Convert.ToString(args[2]), out num))
+                        if (!int.TryParse(Convert.ToString(args[2]), out num))
                             return;
                         Bank.Transfer(acc.Bank, num, +Math.Abs(amount));
                         break;

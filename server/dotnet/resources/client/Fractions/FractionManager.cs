@@ -1547,7 +1547,7 @@ namespace NeptuneEvo.Fractions
                 switch (act)
                 {
                     case 2: //invite
-                        if (Int32.TryParse(data1, out id))
+                        if (int.TryParse(data1, out id))
                         {
                             Player target = Main.GetPlayerByID(id);
                             if (target == null)
@@ -1569,7 +1569,7 @@ namespace NeptuneEvo.Fractions
                         }
                         break;
                     case 3: //kick
-                        if (Int32.TryParse(data1, out id))
+                        if (int.TryParse(data1, out id))
                         {
                             Player target = Main.GetPlayerByID(id);
                             if (target == null)
@@ -1625,12 +1625,12 @@ namespace NeptuneEvo.Fractions
                         }
                         break;
                     case 4: //change
-                        if (!Int32.TryParse(data2, out rank))
+                        if (!int.TryParse(data2, out rank))
                         {
                             Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Введите корректные данные", 3000);
                             return;
                         }
-                        if (Int32.TryParse(data1, out id))
+                        if (int.TryParse(data1, out id))
                         {
                             Player target = Main.GetPlayerByID(id);
                             if (target == null)
@@ -2375,7 +2375,7 @@ namespace NeptuneEvo.Fractions
         public static void fracgarage(Player player, string eventName, string data)
         {
             int amount = 0;
-            if (!Int32.TryParse(data, out amount))
+            if (!int.TryParse(data, out amount))
             {
                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Введите корректные данные", 3000);
                 return;

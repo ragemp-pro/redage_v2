@@ -152,7 +152,7 @@ namespace NeptuneEvo.Core
                         if (!veh.HasSharedData("PETROL")) continue;
                         if (!Core.VehicleStreaming.GetEngineState(veh)) continue;
 
-                        /*if(!Int32.TryParse(veh.GetSharedData<int>("PETROL"), out int fuel))
+                        /*if(!int.TryParse(veh.GetSharedData<int>("PETROL"), out int fuel))
                         {
                             Log.Write($"Bad fuel data detected from car [{veh.NumberPlate}]", nLog.Type.Warn);
                             return;

@@ -869,7 +869,7 @@ namespace NeptuneEvo.Core
                 if (!Group.CanUseCmd(player, "id")) return;
 
                 int id;
-                if (Int32.TryParse(target, out id))
+                if (int.TryParse(target, out id))
                 {
                     foreach (var p in Main.Players.Keys.ToList())
                     {

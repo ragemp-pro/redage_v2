@@ -151,7 +151,7 @@ namespace NeptuneEvo.Families
                     return;
                 }
                 string st = id.ToString();
-                if (Int32.TryParse(st, out id))
+                if (int.TryParse(st, out id))
                 {
                     Player target = Main.GetPlayerByID(id);
                     if (target.HasData("IS_DYING"))
@@ -182,12 +182,12 @@ namespace NeptuneEvo.Families
             try
             {
                 int id;
-                if (!Int32.TryParse(data2, out id))
+                if (!int.TryParse(data2, out id))
                 {
                     Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Введите корректные данные", 3000);
                     return;
                 }
-                if (Int32.TryParse(data1, out id))
+                if (int.TryParse(data1, out id))
                 {
                     Player target = Main.GetPlayerByID(id);
                     if (target == null)
@@ -223,7 +223,7 @@ namespace NeptuneEvo.Families
             try
             {
                 int id;
-                if (Int32.TryParse(data, out id))
+                if (int.TryParse(data, out id))
                 {
                     Player target = Main.GetPlayerByID(id);
                     if (target == null)

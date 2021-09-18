@@ -365,7 +365,7 @@ namespace NeptuneEvo.MoneySystem
                     case Type.GiveBox:
                         {
                             int amount = 0;
-                            if (!Int32.TryParse(data, out amount))
+                            if (!int.TryParse(data, out amount))
                             {
                                 Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Возникла ошибка, попоробуйте еще раз", 3000);
                                 return;
@@ -458,7 +458,7 @@ namespace NeptuneEvo.MoneySystem
                     case Type.Convert:
                         {
                             int amount = 0;
-                            if (!Int32.TryParse(data, out amount))
+                            if (!int.TryParse(data, out amount))
                             {
                                 Notify.Send(client, NotifyType.Error, NotifyPosition.BottomCenter, "Возникла ошибка, попоробуйте еще раз", 3000);
                                 return;

@@ -687,7 +687,7 @@ namespace NeptuneEvo
                     case "sellcar_bazar":
                         {
                             int autoprice = 0;
-                            if (!Int32.TryParse(text, out autoprice))
+                            if (!int.TryParse(text, out autoprice))
                             {
                                 Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, "Введите корректные данные", 3000);
                                 return;
@@ -807,7 +807,7 @@ namespace NeptuneEvo
                     case "fuelcontrol_army":
                     case "fuelcontrol_news":
                         int limit = 0;
-                        if (!Int32.TryParse(text, out limit) || limit <= 0)
+                        if (!int.TryParse(text, out limit) || limit <= 0)
                         {
                             Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, "Введите корректные данные", 3000);
                             return;
@@ -873,7 +873,7 @@ namespace NeptuneEvo
                         return;
                     case "player_offerhousesell":
                         int price = 0;
-                        if (!Int32.TryParse(text, out price) || price <= 0)
+                        if (!int.TryParse(text, out price) || price <= 0)
                         {
                             Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, "Введите корректные данные", 3000);
                             return;
@@ -890,7 +890,7 @@ namespace NeptuneEvo
                         return;
                     case "buy_drugs":
                         int amount = 0;
-                        if (!Int32.TryParse(text, out amount))
+                        if (!int.TryParse(text, out amount))
                         {
                             Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, "Введите корректные данные", 3000);
                             return;
@@ -1098,7 +1098,7 @@ namespace NeptuneEvo
                             if (items.Count <= index) return;
                             nItem item = items[index];
                             if (item.Type != type) return;
-                            if (Int32.TryParse(text, out int dropAmount))
+                            if (int.TryParse(text, out int dropAmount))
                             {
                                 if (dropAmount <= 0) return;
                                 if (item.Count < dropAmount)
@@ -1127,7 +1127,7 @@ namespace NeptuneEvo
                             if (item.Type != type) return;
 
                             int transferAmount;
-                            if (Int32.TryParse(text, out transferAmount))
+                            if (int.TryParse(text, out transferAmount))
                             {
                                 if (transferAmount <= 0) return;
                                 if (item.Count < transferAmount)
@@ -1302,7 +1302,7 @@ namespace NeptuneEvo
 
                             int count = VehicleInventory.GetCountOfType(veh, item.Type);
                             int transferAmount;
-                            if (Int32.TryParse(text, out transferAmount))
+                            if (int.TryParse(text, out transferAmount))
                             {
                                 if (transferAmount <= 0) return;
                                 if (count < transferAmount)
@@ -1398,7 +1398,7 @@ namespace NeptuneEvo
                     case "weaptransfer":
                         {
                             int ammo = 0;
-                            if (!Int32.TryParse(text, out ammo)) {
+                            if (!int.TryParse(text, out ammo)) {
                                 Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, "Введите корректные данные", 3000);
                                 return;
                             }
@@ -1409,7 +1409,7 @@ namespace NeptuneEvo
                     case "extend_hotel_rent":
                         {
                             int hours = 0;
-                            if (!Int32.TryParse(text, out hours))
+                            if (!int.TryParse(text, out hours))
                             {
                                 Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, "Введите корректные данные", 3000);
                                 return;
@@ -1430,11 +1430,16 @@ namespace NeptuneEvo
                                 return;
                             }
                             int num;
-                            if (Int32.TryParse(text, out num))
+                            if (int.TryParse(text, out num))
                             {
                                 if (Players[player].Contacts.Count >= Group.GroupMaxContacts[Accounts[player].VipLvl])
                                 {
                                     Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, "У Вас записано максимальное кол-во контактов", 3000);
+                                    return;
+                                }
+                                if (!SimCards.ContainsKey(num))
+                                {
+                                    Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, "Игрока с таким номером не найдено", 3000);
                                     return;
                                 }
                                 if (Players[player].Contacts.ContainsKey(num))
@@ -1461,7 +1466,7 @@ namespace NeptuneEvo
                                 return;
                             }
                             int num;
-                            if (Int32.TryParse(text, out num))
+                            if (int.TryParse(text, out num))
                             {
                                 if (!SimCards.ContainsKey(num))
                                 {
@@ -1522,9 +1527,9 @@ namespace NeptuneEvo
                                 Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, "Введите корректные данные", 3000);
                                 return;
                             }
-                            if (text.Contains('"'.ToString()) || text.Contains("'") || text.Contains("[") || text.Contains("]") || text.Contains(":") || text.Contains("|") || text.Contains("\"") || text.Contains("`") || text.Contains("$") || text.Contains("%") || text.Contains("@") || text.Contains("{") || text.Contains("}") || text.Contains("(") || text.Contains(")"))
+                            if (!text.All(Char.IsLetterOrDigit))
                             {
-                                Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, "Имя содержит запрещенный символ.", 3000);
+                                Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, "Имя содержит недопустимые символы.", 3000);
                                 return;
                             }
                             int num = player.GetData<int>("SMSNUM");
@@ -1570,7 +1575,7 @@ namespace NeptuneEvo
                         break;
                     case "player_ticketsum":
                         int sum = 0;
-                        if (!Int32.TryParse(text, out sum))
+                        if (!int.TryParse(text, out sum))
                         {
                             Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Некорректные данные", 3000);
                             return;
