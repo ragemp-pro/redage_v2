@@ -329,7 +329,7 @@ namespace NeptuneEvo.Houses
             Main.Players[player].InsideHouseID = ID;
             if (HouseManager.HouseTypeList[Type].PetPosition != null)
             {
-                if (!PetName.Equals("null")) Trigger.ClientEvent(player, "petinhouse", PetName, HouseManager.HouseTypeList[Type].PetPosition.X, HouseManager.HouseTypeList[Type].PetPosition.Y, HouseManager.HouseTypeList[Type].PetPosition.Z, HouseManager.HouseTypeList[Type].PetRotation, Dimension);
+                if (PetName != null && PetName != "null") Trigger.ClientEvent(player, "petinhouse", PetName, HouseManager.HouseTypeList[Type].PetPosition.X, HouseManager.HouseTypeList[Type].PetPosition.Y, HouseManager.HouseTypeList[Type].PetPosition.Z, HouseManager.HouseTypeList[Type].PetRotation, Dimension);
             }
             DestroyFurnitures();
             CreateAllFurnitures();
