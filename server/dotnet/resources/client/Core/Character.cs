@@ -41,6 +41,7 @@ namespace NeptuneEvo.Core.Character
                         Trigger.ClientEvent(player, "UpdateWater", Main.Players[player].Water);
                         Trigger.ClientEvent(player, "UpdateBank", MoneySystem.Bank.Accounts[Bank].Balance);
                         Trigger.ClientEvent(player, "initPhone");
+                        Trigger.ClientEvent(player, "freeze", false);
                         Jobs.WorkManager.load(player);
 
                         #region LastBonus
