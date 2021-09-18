@@ -300,6 +300,7 @@ $(document).ready(() => {
     });
 
     // Кнопка "Разблокировать слот"
+	/*
     $('.js-unlock-slot-1').on('click', () => {
         mp.trigger('buyNewSlot', 1);
         return false;
@@ -309,6 +310,7 @@ $(document).ready(() => {
         mp.trigger('buyNewSlot', 2);
         return false;
     });
+	*/
 
     $('.js-unlock-slot-3').on('click', () => {
         mp.trigger('buyNewSlot', 3);

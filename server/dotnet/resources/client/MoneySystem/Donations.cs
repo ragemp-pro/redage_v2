@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using GTANetworkAPI;
 using MySqlConnector;
@@ -203,15 +202,15 @@ namespace NeptuneEvo.MoneySystem
             switch (id)
             {
                 case 0:
-                    MoneySystem.Wallet.Change(client, 50000);
+                    Wallet.Change(client, 50000);
                     Log.Write("Деньги пришли в размере 50 000", nLog.Type.Success);
                     break;
                 case 1:
-                    MoneySystem.Wallet.Change(client, 100000);
+                    Wallet.Change(client, 100000);
                     Log.Write("Деньги пришли в размере 100 000", nLog.Type.Success);
                     break;
                 case 2:
-                    MoneySystem.Wallet.Change(client, 150000);
+                    Wallet.Change(client, 150000);
                     Log.Write("Деньги пришли в размере 150 000", nLog.Type.Success);
                     break;
                 case 3:
@@ -305,31 +304,31 @@ namespace NeptuneEvo.MoneySystem
                     Customization.AddClothes(client, ItemType.Feet, 55, 0);
                     break;
                 case 11:
-                    MoneySystem.Wallet.Change(client, 200000);
+                    Wallet.Change(client, 200000);
                     Log.Write("Деньги пришли в размере 200 000", nLog.Type.Success);
                     break;
                 case 12:
-                    MoneySystem.Wallet.Change(client, 250000);
+                    Wallet.Change(client, 250000);
                     Log.Write("Деньги пришли в размере 250 000", nLog.Type.Success);
                     break;
                 case 13:
-                    MoneySystem.Wallet.Change(client, 300000);
+                    Wallet.Change(client, 300000);
                     Log.Write("Деньги пришли в размере 300 000", nLog.Type.Success);
                     break;
                 case 14:
-                    MoneySystem.Wallet.Change(client, 350000);
+                    Wallet.Change(client, 350000);
                     Log.Write("Деньги пришли в размере 350 000", nLog.Type.Success);
                     break;
                 case 15:
-                    MoneySystem.Wallet.Change(client, 400000);
+                    Wallet.Change(client, 400000);
                     Log.Write("Деньги пришли в размере 400 000", nLog.Type.Success);
                     break;
                 case 16:
-                    MoneySystem.Wallet.Change(client, 450000);
+                    Wallet.Change(client, 450000);
                     Log.Write("Деньги пришли в размере 450 000", nLog.Type.Success);
                     break;
                 case 17:
-                    MoneySystem.Wallet.Change(client, 500000);
+                    Wallet.Change(client, 500000);
                     Log.Write("Деньги пришли в размере 500 000", nLog.Type.Success);
                     break;
 
@@ -391,7 +390,7 @@ namespace NeptuneEvo.MoneySystem
                             GameLog.Money(acc.Login, "server", 100 * amount, "donateChar");
                             nInventory.Add(client, new nItem(ItemType.Present, amount, ""));
                             Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы купили {amount} кейсов", 3000);
-                            GUI.Dashboard.sendItems(client);
+                            Dashboard.sendItems(client);
                             break;
                         }
                     case Type.Character:
@@ -477,7 +476,7 @@ namespace NeptuneEvo.MoneySystem
                             Main.Accounts[client].RedBucks -= amount;
                             GameLog.Money(acc.Login, "server", amount, "donateConvert");
                             amount = amount * 100;
-                            MoneySystem.Wallet.Change(client, +amount);
+                            Wallet.Change(client, +amount);
                             Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, "Вы успешно перевели RF в {amount}", 3000);
                             GameLog.Money($"donate", $"player({Main.Players[client].UUID})", amount, $"donate");
                             break;
@@ -602,6 +601,8 @@ namespace NeptuneEvo.MoneySystem
                             Main.Accounts[client].Characters[2] = -1;
                             Trigger.ClientEvent(client, "unlockSlot", Main.Accounts[client].RedBucks);
                             MySQL.Query($"update `accounts` set `redbucks`={Main.Accounts[client].RedBucks} where `login`='{Main.Accounts[client].Login}'");
+
+                            Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, "Вы успешно перевели купили доп. слот для персонажей!", 3000);
                             return;
                         }
                     case Type.Money1:
@@ -613,7 +614,7 @@ namespace NeptuneEvo.MoneySystem
                             }
                             Main.Accounts[client].RedBucks -= 2500;
                             GameLog.Money(acc.Login, "server", 2500, "donateMoney");
-                            MoneySystem.Wallet.Change(client, 100000);
+                            Wallet.Change(client, 100000);
                             Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, "Вы успешно приобрели $100 000", 3000);
                             Dashboard.sendStats(client);
                             break;
@@ -627,7 +628,7 @@ namespace NeptuneEvo.MoneySystem
                             }
                             Main.Accounts[client].RedBucks -= 2500;
                             GameLog.Money(acc.Login, "server", 2500, "donateMoney");
-                            MoneySystem.Wallet.Change(client, 300000);
+                            Wallet.Change(client, 300000);
                             Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, "Вы успешно приобрели $300 000", 3000);
                             Dashboard.sendStats(client);
                             break;
@@ -641,7 +642,7 @@ namespace NeptuneEvo.MoneySystem
                             }
                             Main.Accounts[client].RedBucks -= 2500;
                             GameLog.Money(acc.Login, "server", 2500, "donateMoney");
-                            MoneySystem.Wallet.Change(client, 500000);
+                            Wallet.Change(client, 500000);
                             Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, "Вы успешно приобрели $500 000", 3000);
                             Dashboard.sendStats(client);
                             break;
@@ -655,7 +656,7 @@ namespace NeptuneEvo.MoneySystem
                             }
                             Main.Accounts[client].RedBucks -= 2500;
                             GameLog.Money(acc.Login, "server", 2500, "donateMoney");
-                            MoneySystem.Wallet.Change(client, 1000000);
+                            Wallet.Change(client, 1000000);
                             Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, "Вы успешно приобрели $1 000 000", 3000);
                             Dashboard.sendStats(client);
                             break;
@@ -671,7 +672,7 @@ namespace NeptuneEvo.MoneySystem
 
                             Main.Accounts[client].RedBucks -= 500;
                             GameLog.Money(acc.Login, "server", 500, "donateBox1");
-                            MoneySystem.Wallet.Change(client, 150000000);
+                            Wallet.Change(client, 150000000);
                             Main.Players[client].Licenses[1] = true;
                             Main.Players[client].EXP += 10;
                             VehicleManager.Create(client.Name, CarNameS[1], new Color(0, 0, 0), new Color(0, 0, 0), new Color(0, 0, 0));
@@ -690,7 +691,7 @@ namespace NeptuneEvo.MoneySystem
 
                             Main.Accounts[client].RedBucks -= 500;
                             GameLog.Money(acc.Login, "server", 500, "donateBox1");
-                            MoneySystem.Wallet.Change(client, 150000000);
+                            Wallet.Change(client, 150000000);
                             Main.Players[client].Licenses[1] = true;
                             Main.Players[client].EXP += 15;
                             VehicleManager.Create(client.Name, CarNameS[2], new Color(0, 0, 0), new Color(0, 0, 0), new Color(0, 0, 0));
@@ -709,7 +710,7 @@ namespace NeptuneEvo.MoneySystem
 
                             Main.Accounts[client].RedBucks -= 500;
                             GameLog.Money(acc.Login, "server", 500, "donateBox1");
-                            MoneySystem.Wallet.Change(client, 150000000);
+                            Wallet.Change(client, 150000000);
                             Main.Players[client].Licenses[1] = true;
                             Main.Players[client].EXP += 20;
                             VehicleManager.Create(client.Name, CarNameS[3], new Color(0, 0, 0), new Color(0, 0, 0), new Color(0, 0, 0));
@@ -728,7 +729,7 @@ namespace NeptuneEvo.MoneySystem
 
                             Main.Accounts[client].RedBucks -= 500;
                             GameLog.Money(acc.Login, "server", 500, "donateBox1");
-                            MoneySystem.Wallet.Change(client, 150000000);
+                            Wallet.Change(client, 150000000);
                             Main.Players[client].Licenses[1] = true;
                             Main.Players[client].EXP += 25;
                             VehicleManager.Create(client.Name, CarNameS[4], new Color(0, 0, 0), new Color(0, 0, 0), new Color(0, 0, 0));

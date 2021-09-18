@@ -158,6 +158,16 @@ mp.events.add('transferChar', function (slot, name, lastname, pass) {
     mp.events.callRemote('transferchar', slot, name, lastname, pass);
 });
 
+mp.events.add('buyNewSlot', function (slot) {
+    if (new Date().getTime() - lastButSlots < 3000) {
+        mp.events.call('notify', 4, 9, "Слишком быстро", 3000);
+        return;
+    }
+    lastButSlots = new Date().getTime();
+
+    mp.events.callRemote('donate', 8, slot);
+});
+
 mp.events.add('spawn', function (data) {
     if (new Date().getTime() - lastButSlots < 1000) {
         mp.events.call('notify', 4, 9, "Слишком быстро", 3000);
