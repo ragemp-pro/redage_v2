@@ -1,5 +1,6 @@
 ﻿using GTANetworkAPI;
 using System.Collections.Generic;
+using NeptuneEvo.GUI;
 using System;
 using NeptuneEvo.Core;
 using Redage.SDK;
@@ -289,7 +290,7 @@ namespace NeptuneEvo.Jobs
                         Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Вы закончили рабочий день", 3000);
                         respawnCar(vehicle);
                         player.SetData("ON_WORK", false);
-                        player.SetData<string>("WORK", null);
+                        player.SetData<Vehicle>("WORK", null);
                         //Main.StopT(NAPI.Data.GetEntityData(player, "WORK_CAR_EXIT_TIMER"), "timer_3");
                         Timers.Stop(NAPI.Data.GetEntityData(player, "WORK_CAR_EXIT_TIMER"));
                         NAPI.Data.ResetEntityData(player, "WORK_CAR_EXIT_TIMER");
