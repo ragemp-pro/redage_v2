@@ -1,7 +1,6 @@
 ﻿using GTANetworkAPI;
 using System.Collections.Generic;
 using System;
-using NeptuneEvo.GUI;
 using NeptuneEvo.Core;
 using Redage.SDK;
 using NeptuneEvo.Houses;
@@ -21,13 +20,13 @@ namespace NeptuneEvo.Jobs
                 Cols[0].OnEntityEnterColShape += gp_onEntityEnterColShape;
                 Cols[0].OnEntityExitColShape += gp_onEntityExitColShape;
                 Cols[0].SetData("INTERACT", 28);
-                NAPI.TextLabel.CreateTextLabel(Main.StringToU16("Postal stock"), Coords[0] + new Vector3(0, 0, 0.3), 10F, 0.6F, 0, new Color(0, 180, 0));
+                NAPI.TextLabel.CreateTextLabel(Main.StringToU16("Отделение почты"), Coords[0] + new Vector3(0, 0, 0.3), 10F, 0.6F, 0, new Color(255, 255, 255));
 
                 Cols.Add(1, NAPI.ColShape.CreateCylinderColShape(Coords[1], 1, 2, 0)); // get car
                 Cols[1].OnEntityEnterColShape += gp_onEntityEnterColShape;
                 Cols[1].OnEntityExitColShape += gp_onEntityExitColShape;
                 Cols[1].SetData("INTERACT", 29);
-                NAPI.TextLabel.CreateTextLabel(Main.StringToU16("Take work car"), Coords[1] + new Vector3(0, 0, 0.3), 10F, 0.6F, 0, new Color(0, 180, 0));
+                NAPI.TextLabel.CreateTextLabel(Main.StringToU16("Рабочий транспорт"), Coords[1] + new Vector3(0, 0, 0.3), 10F, 0.6F, 0, new Color(255, 255, 255));
 
             }
             catch (Exception e) { Log.Write("ResourceStart: " + e.Message, nLog.Type.Error); }
@@ -42,6 +41,7 @@ namespace NeptuneEvo.Jobs
         };
         private static Dictionary<int, ColShape> Cols = new Dictionary<int, ColShape>();
         private static Dictionary<int, ColShape> gCols = new Dictionary<int, ColShape>();
+        
         // Postal items (objects) //
         public static List<uint> GoPostalObjects = new List<uint>
         {
@@ -71,8 +71,22 @@ namespace NeptuneEvo.Jobs
                 if (!Main.Players.ContainsKey(player)) return;
                 if (Main.Players[player].WorkID == 2 && NAPI.Data.GetEntityData(player, "ON_WORK"))
                 {
-                    NAPI.Data.SetEntityData(player, "ON_WORK", false);
+                    Trigger.ClientEvent(player, "deleteCheckpoint", 1, 0);
+                    BasicSync.DetachObject(player);
+
+                    player.SetData("PAYMENT", 0);
                     Customization.ApplyCharacter(player);
+                    if (player.HasData("HAND_MONEY")) player.SetClothes(5, 45, 0);
+                    else if (player.HasData("HEIST_DRILL")) player.SetClothes(5, 41, 0);
+
+                    player.SetData("PACKAGES", 0);
+                    player.SetData("ON_WORK", false);
+
+                    if (player.GetData<Vehicle>("WORK") != null)
+                    {
+                        NAPI.Entity.DeleteEntity(player.GetData<Vehicle>("WORK"));
+                        player.SetData<Vehicle>("WORK", null);
+                    }
                 }
             }
             catch (Exception e) { Log.Write("PlayerDeath: " + e.Message, nLog.Type.Error); }
@@ -93,20 +107,22 @@ namespace NeptuneEvo.Jobs
                         return;
                     }
                     if (player.GetData<int>("PACKAGES") == 0) return;
+
+                    var coef = Convert.ToInt32(player.Position.DistanceTo2D(player.GetData<Vector3>("W_LASTPOS")) / 100);
+                    var payment = Convert.ToInt32(coef * checkpointPayment * Group.GroupPayAdd[Main.Accounts[player].VipLvl] * Main.oldconfig.PaydayMultiplier);
+
+                    DateTime lastTime = player.GetData<DateTime>("W_LASTTIME");
+                    if (DateTime.Now < lastTime.AddSeconds(coef * 2))
+                    {
+                        Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Хозяина нет дома, попробуйте позже", 3000);
+                        return;
+                    }
+
                     else if (player.GetData<int>("PACKAGES") > 1)
                     {
+
                         player.SetData("PACKAGES", player.GetData<int>("PACKAGES") - 1);
                         Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"У Вас осталось {player.GetData<int>("PACKAGES")} посылок", 3000);
-
-                        var coef = Convert.ToInt32(player.Position.DistanceTo2D(player.GetData<Vector3>("W_LASTPOS")) / 100);
-                        var payment = Convert.ToInt32(coef * checkpointPayment * Group.GroupPayAdd[Main.Accounts[player].VipLvl] * Main.oldconfig.PaydayMultiplier);
-
-                        DateTime lastTime = player.GetData<DateTime>("W_LASTTIME");
-                        if (DateTime.Now < lastTime.AddSeconds(coef * 2))
-                        {
-                            Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Хозяина нет дома, попробуйте позже", 3000);
-                            return;
-                        }
 
                         //player.SetData("PAYMENT", player.GetData<int>("PAYMENT") + payment);
                         MoneySystem.Wallet.Change(player, payment);
@@ -120,7 +136,7 @@ namespace NeptuneEvo.Jobs
                         {
                             next = WorkManager.rnd.Next(0, HouseManager.Houses.Count - 1);
                         }
-                        while (Houses.HouseManager.Houses[next].Position.DistanceTo2D(player.Position) < 200);
+                        while (HouseManager.Houses[next].Position.DistanceTo2D(player.Position) < 200);
                         player.SetData("W_LASTPOS", player.Position);
                         player.SetData("W_LASTTIME", DateTime.Now);
                         player.SetData("NEXTHOUSE", HouseManager.Houses[next].ID);
@@ -132,16 +148,6 @@ namespace NeptuneEvo.Jobs
                     }
                     else
                     {
-                        var coef = Convert.ToInt32(player.Position.DistanceTo2D(player.GetData<Vector3>("W_LASTPOS")) / 100);
-                        var payment = Convert.ToInt32(coef * checkpointPayment * Group.GroupPayAdd[Main.Accounts[player].VipLvl]);
-
-                        DateTime lastTime = player.GetData<DateTime>("W_LASTTIME");
-                        if (DateTime.Now < lastTime.AddSeconds(coef * 2))
-                        {
-                            Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Хозяина нет дома, попробуйте позже", 3000);
-                            return;
-                        }
-
                         //player.SetData("PAYMENT", player.GetData<int>("PAYMENT") + payment);
                         MoneySystem.Wallet.Change(player, payment);
                         GameLog.Money($"server", $"player({Main.Players[player].UUID})", payment, $"postalCheck");
