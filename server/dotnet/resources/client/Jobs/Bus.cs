@@ -936,7 +936,7 @@ namespace NeptuneEvo.Jobs
                     {
                         if (vehicle.GetData<Vehicle>("DRIVER") == null)
                         {
-                            if (player.GetData<Player>("WORK") == null)
+                            if (player.GetData<Vehicle>("WORK") == null)
                             {
                                 if (Main.Players[player].Money >= BusRentCost)
                                 {
