@@ -174,7 +174,12 @@ namespace NeptuneEvo.MoneySystem
             }
 
             nItem chipsItem = nInventory.Find(Main.Players[player].UUID, ItemType.CasinoChips);
-            if (chipsItem == null || chipsItem.Count < amount)
+            if (chipsItem == null)
+            {
+                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomRight, $"У вас нет фишек!", 3000);
+                return;
+            }
+            if (chipsItem.Count < amount)
             {
                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomRight, $"Недостаточно фишек для продажи (у вас есть: {chipsItem.Count} шт.)", 3000);
                 return;
