@@ -1,5 +1,5 @@
 mp.events.add("openChipsMenu", (data) => {
-    if (!loggedin || chatActive || editing || cuffed) return;
+    if (!loggedin || chatActive || editing || cuffed || global.menuOpened) return;
 
     global.chipsMenu = mp.browsers.new('package://cef/CasinoMarket/index.html');
     global.chipsMenu.active = true;
@@ -19,9 +19,15 @@ mp.events.add("closeChipsMenu", () => {
 });
 
 mp.events.add("casino:buyChips", (data) => {
+    if (!loggedin || new Date().getTime() - lastCheck < 1000) return;
+    lastCheck = new Date().getTime();
+
     mp.events.callRemote('casino.buyChips', data);
 });
 mp.events.add("casino:sellChips", (data) => {
+    if (!loggedin || new Date().getTime() - lastCheck < 1000) return;
+    lastCheck = new Date().getTime();
+
     data = parseInt(data);
     if (data === NaN || data < 1) return;
 
