@@ -92,6 +92,18 @@ namespace NeptuneEvo.Core
             Trigger.ClientEvent(player, "loadPlayerInfo", json);
         }
 
+        public static void sendCasinoChips(Player player, Player target, int amount)
+        {
+            if (!Group.CanUseCmd(player, "givechips")) return;
+
+            if (amount < 0) amount = 0;
+            nInventory.Add(target, new nItem(ItemType.CasinoChips, amount));
+
+            Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы отправили {target.Name} {amount} фишек казино", 3000);
+            Notify.Send(target, NotifyType.Success, NotifyPosition.BottomCenter, $"+{amount} фишек казино", 3000);
+
+            GameLog.Admin(player.Name, $"givechips({amount})", target.Name);
+        }
         public static void sendRedbucks(Player player, Player target, int amount)
         {
             if (!Group.CanUseCmd(player, "givereds")) return;

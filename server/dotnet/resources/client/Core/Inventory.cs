@@ -163,6 +163,8 @@ namespace NeptuneEvo.Core
 
             {560, "Полицейский квадрокоптер" },
             {561, "Квадрокоптер" },
+
+            {666, "Фишка казино" },
         };
         public static Dictionary<int, string> ItemsDescriptions = new Dictionary<int, string>();
         public static Dictionary<ItemType, uint> ItemModels = new Dictionary<ItemType, uint>()
@@ -317,6 +319,8 @@ namespace NeptuneEvo.Core
 
             { ItemType.LSPDDrone, NAPI.Util.GetHashKey("ch_prop_casino_drone_02a") },
             { ItemType.Drone, NAPI.Util.GetHashKey("ch_prop_casino_drone_01a") },
+
+            { ItemType.CasinoChips, NAPI.Util.GetHashKey("vw_prop_chip_100dollar_st") },
         };
 
         public static Dictionary<ItemType, Vector3> ItemsPosOffset = new Dictionary<ItemType, Vector3>()
@@ -471,6 +475,8 @@ namespace NeptuneEvo.Core
 
             { ItemType.LSPDDrone, new Vector3(0, 0, -0.99) },
             { ItemType.Drone, new Vector3(0, 0, -0.99) },
+
+            { ItemType.CasinoChips, new Vector3(0, 0, -0.99) },
         };
         public static Dictionary<ItemType, Vector3> ItemsRotOffset = new Dictionary<ItemType, Vector3>()
         {
@@ -624,6 +630,8 @@ namespace NeptuneEvo.Core
 
             { ItemType.LSPDDrone, new Vector3() },
             { ItemType.Drone, new Vector3() },
+
+            { ItemType.CasinoChips, new Vector3() },
         };
 
         public static Dictionary<ItemType, int> ItemsStacks = new Dictionary<ItemType, int>()
@@ -783,6 +791,8 @@ namespace NeptuneEvo.Core
 
             { ItemType.LSPDDrone, 3 },
             { ItemType.Drone, 1 },
+
+            { ItemType.CasinoChips, 100000 },
         };
 
         public static List<ItemType> ClothesItems = new List<ItemType>()

@@ -164,6 +164,8 @@ namespace Redage.SDK
 
         LSPDDrone = 560,
         Drone = 561,
+
+        CasinoChips = 666
     }
 
     public class nItem

@@ -277,6 +277,7 @@ require('./farmerWork/market/');
 
 require('./betternotifs/index.js');
 
+require('./casino/chipsmenu/');
 require('./casino/luckywheel/');
 require('./casino/carlottery/');
 

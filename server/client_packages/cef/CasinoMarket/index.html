@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Casino Chip Market</title>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="fonts/font/stylesheet.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="css/infa.css">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700" rel="stylesheet">
+	<script src="./js/library/vue.js"></script>
+</head>
+
+<body>
+	<div v-cloak class="market" v-if="active">
+		<div class="background_market">
+			<div class="text_market">Покупка <a>Фишек</a></div>
+			<div class="exit" @click="exit()">X</div>
+			<div class="left_market">
+				<div class="listproducts_market">
+					<div class="block_f_market" @click="buy(0);">
+						<div class="block_fl_market">
+							<a>100</a>
+							<h1>ШТ</h1> 
+						</div>
+						<div class="price_f_market">${{100 * chipbuy | formatThousands}}</div>
+					</div>
+					<div style="margin-top: 7.5vh;  background: #fda455;" class="block_f_market" @click="buy(1);">
+						<div style="background: #d78236;" class="block_fl_market">
+							<a>200</a>
+							<h1>ШТ</h1> 
+						</div>
+						<div class="price_f_market">${{200 * chipbuy | formatThousands}}</div>
+					</div>
+					<div style="margin-top: 15vh;  background: #ea4720;" class="block_f_market" @click="buy(2);">
+						<div style="background: #a72709;" class="block_fl_market">
+							<a>500</a>
+							<h1>ШТ</h1> 
+						</div>
+						<div class="price_f_market">${{500 * chipbuy | formatThousands}}</div>
+					</div>
+					<div style="margin-top: 22.5vh; background: #9c1715;" class="block_f_market" @click="buy(3);">
+						<div style="background: #d00045;" class="block_fl_market">
+							<a>1000</a>
+							<h1>ШТ</h1> 
+						</div>
+						<div class="price_f_market">${{1000 * chipbuy | formatThousands}}</div>
+					</div>
+				</div>
+				<input type="text" class="input_market" v-model="chipscount" placeholder="Колличество...">
+				<div class="btnchange_market" @click="sell()">ОБМЕНЯТЬ</div>
+			</div>
+			<img src="./img/chips.png" class="chips_market">
+			<div class="right_market">
+				<div class="chiprate_market">
+					<div class="all_text_market">
+						<div class="name_market">КУРС ФИШЕК</div>
+						<div class="infoblock_market">
+							<div class="infoheadline_market">Покупка фишек</div>
+							<div class="infodesc_market">- ${{chipbuy}}</div>
+						</div>
+						<div style="margin-top: 4vh;" class="infoblock_market">
+							<div class="infoheadline_market">Продажа фишек</div>
+							<div class="infodesc_market">- ${{chipsale}}</div>
+						</div>
+					</div>
+				</div>
+				<img src="./img/character.png" class="character_market">
+				<div class="line_1_market">
+					<div class="b1"></div>
+					<div class="b2"></div>
+					<div class="b3"></div>
+					<div class="b4"></div>
+				</div>
+				<div style="margin-top: 13vh" class="line_1_market">
+					<div class="b5"></div>
+					<div class="b6"></div>
+					<div class="b7"></div>
+					<div class="b8"></div>
+				</div>
+				<div class="cyl1"></div>
+				<div class="cyl2"></div>
+				<div class="cyl3"></div>
+				<div class="cyl4"></div>
+				<div class="cyl5"></div>
+			</div>
+		</div>
+	</div>
+	<script>
+        Vue.filter('formatThousands', (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+        })
+	</script>
+    <script src="./js/index.js"></script>
+	<script src="./js/library/jquery-3.2.1.min.js"></script>
+</body>
+</html>
