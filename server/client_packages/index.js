@@ -280,6 +280,7 @@ require('./betternotifs/index.js');
 require('./casino/chipsmenu/');
 require('./casino/luckywheel/');
 require('./casino/carlottery/');
+require('./casino/casinowalls');
 
 //family========================
 require('./family/familycreator.js');
