@@ -3850,6 +3850,7 @@ namespace NeptuneEvo
                 "Работы",
                 "Банды",
                 "Мафии",
+                "Развлечения",
                 "Ближайшие места",
             }},
             { "Гос.структуры", new List<string>(){
@@ -3881,6 +3882,10 @@ namespace NeptuneEvo
                 "Русская мафия",
                 "Yakuza",
                 "Армянская мафия",
+            }},
+            { "Развлечения", new List<string>(){
+                "Арена (GunGame)",
+                "Diamond Casino",
             }},
             { "Ближайшие места", new List<string>(){
                 "Ближайший банкомат",
@@ -3915,6 +3920,8 @@ namespace NeptuneEvo
             { "Yakuza", Fractions.Manager.FractionSpawns[12] },
             { "Армянская мафия", Fractions.Manager.FractionSpawns[13] },
             { "Sheriff", new Vector3(-439.4586, 6006.434, 30.59653) },
+            { "Арена (GunGame)", GanGame.gangameCheckpoints[0] },
+            { "Diamond Casino", MoneySystem.Casino.enterPos },
         };
         public static void OpenGPSMenu(Player player, string cat)
         {
@@ -3948,6 +3955,7 @@ namespace NeptuneEvo
                 case "Банды":
                 case "Мафии":
                 case "Ближайшие места":
+                case "Развлечения":
                     OpenGPSMenu(player, item.ID);
                     return;
                 case "Мэрия":
@@ -3972,6 +3980,8 @@ namespace NeptuneEvo
                 case "Русская мафия":
                 case "Yakuza":
                 case "Армянская мафия":
+                case "Арена (GunGame)":
+                case "Diamond Casino":
                     Trigger.ClientEvent(player, "createWaypoint", Points[item.ID].X, Points[item.ID].Y);
                     return;
                 case "Ближайший банкомат":

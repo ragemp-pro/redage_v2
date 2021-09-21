@@ -9,7 +9,7 @@ namespace NeptuneEvo.Core
     {
         private static Dictionary<int, ColShape> Cols = new Dictionary<int, ColShape>();
         public static List<CarInfo> CarInfos = new List<CarInfo>();
-        private static List<Vector3> gangameCheckpoints = new List<Vector3>()
+        public static List<Vector3> gangameCheckpoints = new List<Vector3>()
         {
             new Vector3(-621.48505, -1640.7035, 24.154979), //   Вход в арену
             new Vector3(-1507.5887, -3002.5588, -84.155), // выход из арены  

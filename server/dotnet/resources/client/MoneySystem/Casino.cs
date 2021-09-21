@@ -10,7 +10,7 @@ namespace NeptuneEvo.MoneySystem
     {
         private static nLog Log = new nLog("Casino");
 
-        private static Vector3 enterPos = new Vector3(935.7294, 46.61844, 81.2);
+        public static Vector3 enterPos = new Vector3(935.7294, 46.61844, 81.2);
         private static Vector3 exitPos = new Vector3(1089.695, 206.015, -49);
         private static Vector3 buyChipsPos = new Vector3(1115.912, 219.99, -49.55512);
 
