@@ -2166,6 +2166,10 @@ namespace NeptuneEvo.Core
 
                         Trigger.ClientEvent(player, "client:StartLSPDDrone");
                         break;
+                    case ItemType.CasinoChips:
+                        Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Фишки используются для игры в казино (GPS - Развлечения - Diamond Casino).", 3000);
+                        return;
+                        break;
                 }
                 nInventory.Remove(player, item.Type, 1);
                 Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Вы использовали {nInventory.ItemsNames[item.ID]}", 3000);
