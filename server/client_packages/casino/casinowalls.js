@@ -12,6 +12,10 @@ const textureDict = "Prop_Screen_Vinewood";
 const textureName = "BG_Wall_Colour_4x4";
 
 mp.events.add("casino:loadVideoWall", async () => {
+    
+    mp.events.call('casino:unloadVideoWall');
+        await mp.game.waitAsync(100);
+
     mp.game.graphics.requestStreamedTextureDict(textureDict, false);
 
     while(!mp.game.graphics.hasStreamedTextureDictLoaded(textureDict)){
@@ -34,10 +38,10 @@ mp.events.add("casino:loadVideoWall", async () => {
 });
 
 mp.events.add("casino:unloadVideoWall", () => {
-  mp.game.ui.releaseNamedRendertarget(renderTarget);
-  mp.game.ui.isNamedRendertargetRegistered(targetName);
-  mp.game.graphics.setStreamedTextureDictAsNoLongerNeeded(textureDict);
-  mp.game.graphics.setTvChannel(-1);
+    /*mp.game.ui.releaseNamedRendertarget(renderTarget);
+    mp.game.ui.isNamedRendertargetRegistered(targetName);
+    mp.game.graphics.setStreamedTextureDictAsNoLongerNeeded(textureDict);*/
+    mp.game.graphics.setTvChannel(-1);
 });
 
 mp.events.add('render', function () {
@@ -53,4 +57,17 @@ mp.events.add('render', function () {
     }
 });
 
-mp.events.call('casino:loadVideoWall');
+// Дожидаемся загрузки GUI и ждем пока игрок придет в интерьер казино чтобы включить ему экраны..
+const casinoInteriorId = 275201;
+mp.events.add("guiReady", () => {
+    const timer = setInterval(() => {
+        var position = localplayer.position;
+        var interior = mp.game.interior.getInteriorAtCoords(position.x, position.y, position.z);
+        
+        if(!enabled && interior === casinoInteriorId)
+        {
+            mp.events.call('casino:loadVideoWall');
+            clearInterval(timer);
+        }
+    }, 1000);
+});
