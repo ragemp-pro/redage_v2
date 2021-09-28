@@ -947,9 +947,7 @@ namespace NeptuneEvo.Core
                         case "GARAGE":
                             if (Main.Players[sender].InsideGarageID == -1) return;
                             string number = NAPI.Vehicle.GetVehicleNumberPlate(vehicle);
-
                             Houses.Garage garage = Houses.GarageManager.Garages[Main.Players[sender].InsideGarageID];
-                            garage.RemovePlayer(sender);
 
                             garage.GetVehicleFromGarage(sender, number);
                             break;

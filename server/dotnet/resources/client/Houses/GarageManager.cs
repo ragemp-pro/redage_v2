@@ -278,22 +278,21 @@ namespace NeptuneEvo.Houses
         }
         public void GetVehicleFromGarage(Player player, string number)
         {
+            // create vehicle outside garage
             var vData = VehicleManager.Vehicles[number];
             var veh = NAPI.Vehicle.CreateVehicle((VehicleHash)NAPI.Util.GetHashKey(vData.Model), player.Position + new Vector3(0, 0, 0.3), Rotation, 0, 0, number);
-            player.SetIntoVehicle(veh, 0);
+            NAPI.Vehicle.SetVehicleNumberPlate(veh, number);
             vehiclesOut.Add(number, veh);
+
             veh.SetSharedData("PETROL", vData.Fuel);
             veh.SetData("ACCESS", "PERSONAL");
             veh.SetData("OWNER", player);
             veh.SetData("ITEMS", vData.Items);
             veh.Position = Position;
-            
 
-            //VehicleManager.Vehicles[number].Position = JsonConvert.SerializeObject(Position + new Vector3(0, 0, 0.3));
-            //VehicleManager.Vehicles[number].Position = JsonConvert.SerializeObject(Rotation);
-            //Main.Players[player].LastVeh = number;
-
-            NAPI.Vehicle.SetVehicleNumberPlate(veh, number);
+            // player teleport
+            RemovePlayer(player);
+            NAPI.Task.Run(() => player.SetIntoVehicle(veh, 0), 250);
 
             if (Type == -1)
             {
