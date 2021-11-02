@@ -70,7 +70,7 @@ namespace NeptuneEvo.Core.Character
 
                         player.SetSharedData("voipmode", -1);
 
-                        if (Fractions.Manager.FractionTypes[FractionID] == 1 || AdminLVL > 0) Fractions.GangsCapture.LoadBlips(player);
+                        Fractions.GangsCapture.LoadBlips(player); // загружаем гангзоны для всех игроков
                         if (WantedLVL != null) Trigger.ClientEvent(player, "setWanted", WantedLVL.Level);
                         
                         player.SetData("RESIST_STAGE", 0);
