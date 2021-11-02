@@ -217,7 +217,7 @@ namespace NeptuneEvo.Fractions
         };
         public static List<MemberData> AllMembers = new List<MemberData>();
 
-        public static void fractionChat(Player sender, string message)
+        public static void fractionChat(Player sender, string message, int type = 0)
         {
             try
             {
@@ -232,7 +232,16 @@ namespace NeptuneEvo.Fractions
 
                 int Fraction = Main.Players[sender].FractionID;
                 if (!Members.ContainsKey(sender)) return;
-                string msgSender = $"~b~[Рация] {Members[sender].inFracName} " + sender.Name.ToString().Replace('_', ' ') + " (" + sender.Value + "): " + message;
+                string msgSender;
+                switch (type)
+                {
+                    default:
+                        msgSender = $"~b~[Рация] {Members[sender].inFracName} " + sender.Name.ToString().Replace('_', ' ') + " (" + sender.Value + "): " + message;
+                        break;
+                    case 1:
+                        msgSender = $"~b~(( [Рация] {Members[sender].inFracName} " + sender.Name.ToString().Replace('_', ' ') + " (" + sender.Value + "): " + message + " ))";
+                        break;
+                }
                 var fracid = Main.Players[sender].FractionID;
                 foreach (var p in NAPI.Pools.GetAllPlayers())
                 {

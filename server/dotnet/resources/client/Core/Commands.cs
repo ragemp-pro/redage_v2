@@ -4339,6 +4339,16 @@ namespace NeptuneEvo.Core
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
 
+        [Command("f!", GreedyArg = true)]
+        public static void CMD_fracNRPChat(Player player, string msg)
+        {
+            try
+            {
+                Fractions.Manager.fractionChat(player, msg, 1); // 1 - nonRP chat
+            }
+            catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
+        }
+
         [Command("arrest")]
         public static void CMD_arrest(Player player, int id)
         {
