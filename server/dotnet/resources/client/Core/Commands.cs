@@ -4078,11 +4078,39 @@ namespace NeptuneEvo.Core
             try
             {
                 if (!Fractions.Manager.canUseCommand(player, "gov")) return;
+
+                int currentAttempt = player.GetData<int>("govChatAttempt");
+                if (currentAttempt > 2 && player.HasData("govChatTimeout"))
+                {
+                    DateTime govChatTimeout = player.GetData<DateTime>("govChatTimeout");
+
+                    if (DateTime.Now < govChatTimeout)
+                    {
+                        DateTime date = new DateTime((govChatTimeout - DateTime.Now).Ticks);
+
+                        Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Лимит отправки сообщений! (осталось {date.Minute} м. {date.Second} с.).", 3000);
+                        return;
+                    }
+                    else
+                    {
+                        player.ResetData("govChatAttempt");
+                        player.ResetData("govChatTimeout");
+
+                        currentAttempt = 0;
+                    }
+                }
+
                 int frac = Main.Players[player].FractionID;
                 int lvl = Main.Players[player].FractionLVL;
                 string[] split = player.Name.Split('_');
 
                 NAPI.Chat.SendChatMessageToAll($"~y~[{Fractions.Manager.GovTags[frac]} | {split[0]} {split[1]}] {msg}");
+
+                player.SetData<int>("govChatAttempt", currentAttempt + 1);
+                if(currentAttempt >= 2)
+                {
+                    player.SetData<DateTime>("govChatTimeout", (DateTime.Now).AddMinutes(10));
+                }
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
