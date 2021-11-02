@@ -204,17 +204,23 @@ namespace NeptuneEvo.Fractions
             }
         }
 
-        /*[Command("test")]
-        public static void test(Player player, int index, int style, int color)
+        [Command("stopcapture")]
+        public static void CMD_adminStopCapture(Player player)
         {
-            NAPI.Player.SetPlayerFaceFeature(player, index, style);
-            var headoverlay = new HeadOverlay();
-            headoverlay.Index = (byte)index;
-            headoverlay.Opacity = 1.0f;
-            headoverlay.Color = (byte)color;
-            headoverlay.SecondaryColor = 100;
-            NAPI.Player.SetPlayerHeadOverlay(player, index, headoverlay);
-        }*/
+            if (!Main.Players.ContainsKey(player)) return;
+            if (!Group.CanUseCmd(player, "stopcapture")) return;
+
+            if (!captureStarting)
+            {
+                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"В данный момент не проходит захват территории", 3000);
+                return;
+            }
+
+            GangPoint region = gangPoints.FirstOrDefault(g => g.Value.IsCapture == true).Value; // находим территорию на которой идет капт в данный момент
+            endCapture(region, 0, 0, 1); // останавливаем текущий капт принудительно
+
+            NAPI.Chat.SendChatMessageToAll($"!{{#f25c49}}Администратор {player.Name.Replace('_', ' ')} принудительно остановил текущий захват территории банд.");
+        }
 
         public static void CMD_startCapture(Player player)
         {
@@ -230,11 +236,14 @@ namespace NeptuneEvo.Fractions
                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы не можете напасть на свою территорию", 3000);
                 return;
             }
+            
+            /*
             if (DateTime.Now.Hour < 13 || DateTime.Now.Hour > 23)
             {
                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы можете напасть только с 13:00 до 23:00", 3000);
                 return;
             }
+            */
             if (DateTime.Now < nextCaptDate[Main.Players[player].FractionID])
             {
                 DateTime g = new DateTime((nextCaptDate[Main.Players[player].FractionID] - DateTime.Now).Ticks);
@@ -251,11 +260,13 @@ namespace NeptuneEvo.Fractions
                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы сможете начать захват территории этой банды только через {min}:{sec}", 3000);
                 return;
             }
+            /*
             if (Manager.countOfFractionMembers(region.GangOwner) < 3)
             {
                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Недостаточный онлайн в банде противников", 3000);
                 return;
             }
+            */
             if (smbTryCapture) return;
             smbTryCapture = true;
             if (captureStarting || captureIsGoing)
@@ -375,40 +386,53 @@ namespace NeptuneEvo.Fractions
             catch (Exception e) { Log.Write("GangCapture: " + e.Message, nLog.Type.Error); }
         }
 
-        private static void endCapture(GangPoint region, int defenders, int attackers)
+        private static void endCapture(GangPoint region, int defenders, int attackers, int type = 0)
         {
+            // Капт остановился сам, по окончанию
+            if (type == 0)
+            {
+                if (attackers <= defenders)
+                {
+                    Manager.sendFractionMessage(region.GangOwner, $"Обсосы сбежали! Вы дали им под хвост! Вы отстояли территорию");
+                    Manager.sendFractionMessage(attackersFracID, "Вы лохонулись! Враги были сильнее! Вы не смогли захватить территорию");
+                    foreach (var m in Manager.Members.Keys)
+                    {
+                        if (Main.Players[m].FractionID == region.GangOwner)
+                        {
+                            MoneySystem.Wallet.Change(m, 300);
+                            GameLog.Money($"server", $"player({Main.Players[m].UUID})", 300, $"winCapture");
+                        }
+                    }
+                }
+                else if (attackers > defenders)
+                {
+                    Manager.sendFractionMessage(region.GangOwner, $"Вы прошляпили территорию");
+                    Manager.sendFractionMessage(attackersFracID, "Шугнули их как детей! Вы захватили территорию");
+                    region.GangOwner = attackersFracID;
+                    foreach (var m in Manager.Members.Keys)
+                    {
+                        if (Main.Players[m].FractionID == attackersFracID)
+                        {
+                            MoneySystem.Wallet.Change(m, 300);
+                            GameLog.Money($"server", $"player({Main.Players[m].UUID})", 300, $"winCapture");
+                        }
+                    }
+                }
+            }
+            // Администратор принудительно остановил капт
+            else
+            {
+                Manager.sendFractionMessage(region.GangOwner, "Внимание! Капт был досрочно остановлен администратором.");
+                Manager.sendFractionMessage(attackersFracID, "Внимание! Капт был досрочно остановлен администратором.");
+            }
+
             //Main.StopT(captureTimer, "endCapture_gangcapture");
-            Timers.Stop(captureTimer);
+            if(toStartCaptureTimer != null) Timers.Stop(toStartCaptureTimer);
+            if(captureTimer != null) Timers.Stop(captureTimer);
             NAPI.Task.Run(() => Main.ClientEventToAll("captureHud", false));
             protectDate[region.GangOwner] = DateTime.Now.AddMinutes(20);
             protectDate[attackersFracID] = DateTime.Now.AddMinutes(20);
-            if (attackers <= defenders)
-            {
-                Manager.sendFractionMessage(region.GangOwner, $"Обсосы сбежали! Вы дали им под хвост! Вы отстояли территорию");
-                Manager.sendFractionMessage(attackersFracID, "Вы лохонулись! Враги были сильнее! Вы не смогли захватить территорию");
-                foreach (var m in Manager.Members.Keys)
-                {
-                    if (Main.Players[m].FractionID == region.GangOwner)
-                    {
-                        MoneySystem.Wallet.Change(m, 300);
-                        GameLog.Money($"server", $"player({Main.Players[m].UUID})", 300, $"winCapture");
-                    }
-                }
-            }
-            else if (attackers > defenders)
-            {
-                Manager.sendFractionMessage(region.GangOwner, $"Вы прошляпили территорию");
-                Manager.sendFractionMessage(attackersFracID, "Шугнули их как детей! Вы захватили территорию");
-                region.GangOwner = attackersFracID;
-                foreach (var m in Manager.Members.Keys)
-                {
-                    if (Main.Players[m].FractionID == attackersFracID)
-                    {
-                        MoneySystem.Wallet.Change(m, 300);
-                        GameLog.Money($"server", $"player({Main.Players[m].UUID})", 300, $"winCapture");
-                    }
-                }
-            }
+            
             DateTime nextcapt = DateTime.Now.AddMinutes(config.TryGet<double>("nextcapt", 120));
             nextCaptDate[attackersFracID] = nextcapt;
             region.IsCapture = false;
