@@ -131,7 +131,7 @@ namespace NeptuneEvo
                 NAPI.Task.Run(() =>
                 {
                     NAPI.Server.SetGlobalServerChat(false);
-                    NAPI.World.SetTime(DateTime.Now.Hour, 0, 0);
+                    NAPI.World.SetTime(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
                 });
 
                 DataTable result = MySQL.QueryRead("SELECT `uuid`,`personid`,`firstname`,`lastname`,`sim`,`lvl`,`exp`,`fraction`,`money`,`bank`,`adminlvl` FROM `characters`");
@@ -471,9 +471,7 @@ namespace NeptuneEvo
                 }
                 player.SetSharedData("playermood", 0);
                 player.SetSharedData("playerws", 0);
-                //player.SendChatMessage($"!{{#ffb21d}} Добро пожаловать на сервер !{{#00FFFF}} Sirus !{{#FFFFFF}} RolePlay");
-                //player.SendChatMessage($"!{{#ffb21d}} Бета тест");
-                player.Eval("let g_swapDate=Date.now();let g_triggersCount=0;mp._events.add('cefTrigger',(eventName)=>{if(++g_triggersCount>10){let currentDate=Date.now();if((currentDate-g_swapDate)>200){g_swapDate=currentDate;g_triggersCount=0}else{g_triggersCount=0;return!0}}})");
+
                 uint dimension = Dimensions.RequestPrivateDimension(player);
                 NAPI.Entity.SetEntityDimension(player, dimension);
                 Trigger.ClientEvent(player, "ServerNum", servernum);

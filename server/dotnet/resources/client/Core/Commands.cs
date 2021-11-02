@@ -3185,8 +3185,19 @@ namespace NeptuneEvo.Core
         {
             if (!Group.CanUseCmd(player, "st")) return;
             NAPI.World.SetTime(hours, minutes, seconds);
+
+            Main.ClientEventToAll("setTimeCmd", hours, minutes, seconds);
+            Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Новое время сервера установлено (чтобы сбросить укажите аргументы: -1 -1 -1)", 3000);
         }
-        
+
+        [Command("gettime")] // Узнать текущее время мира (7 лвл)
+        public static void CMD_getTime(Player player)
+        {
+            if (!Group.CanUseCmd(player, "gettime")) return;
+
+            player.SendChatMessage("Current World Time: " + NAPI.World.GetTime().ToString());
+        }
+
         [Command("tp")] // Телепорт к игроку (2 лвл)
         public static void CMD_teleport(Player player, int id)
         {
