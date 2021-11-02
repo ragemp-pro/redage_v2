@@ -237,13 +237,11 @@ namespace NeptuneEvo.Fractions
                 return;
             }
             
-            /*
             if (DateTime.Now.Hour < 13 || DateTime.Now.Hour > 23)
             {
                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы можете напасть только с 13:00 до 23:00", 3000);
                 return;
             }
-            */
             if (DateTime.Now < nextCaptDate[Main.Players[player].FractionID])
             {
                 DateTime g = new DateTime((nextCaptDate[Main.Players[player].FractionID] - DateTime.Now).Ticks);
@@ -260,13 +258,11 @@ namespace NeptuneEvo.Fractions
                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы сможете начать захват территории этой банды только через {min}:{sec}", 3000);
                 return;
             }
-            /*
             if (Manager.countOfFractionMembers(region.GangOwner) < 3)
             {
                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Недостаточный онлайн в банде противников", 3000);
                 return;
             }
-            */
             if (smbTryCapture) return;
             smbTryCapture = true;
             if (captureStarting || captureIsGoing)
