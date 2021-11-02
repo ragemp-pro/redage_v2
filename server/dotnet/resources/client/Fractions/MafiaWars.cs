@@ -74,6 +74,23 @@ namespace NeptuneEvo.Fractions
             catch (Exception e) { Log.Write("ResourceStart: " + e.Message, nLog.Type.Error); }
         }
 
+        [Command("stopbizwar")]
+        public static void CMD_adminStopBizwar(Player player)
+        {
+            if (!Main.Players.ContainsKey(player)) return;
+            if (!Group.CanUseCmd(player, "stopbizwar")) return;
+
+            if (!warStarting)
+            {
+                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"В данный момент не проходит захват территории", 3000);
+                return;
+            }
+
+            endCapture(1); // остановка войны за бизнес
+
+            NAPI.Chat.SendChatMessageToAll($"!{{#f25c49}}Администратор {player.Name.Replace('_', ' ')} принудительно остановил текущий захват территории мафии.");
+        }
+
         [Command("takebiz")]
         public static void CMD_takeBiz(Player player)
         {
@@ -92,9 +109,9 @@ namespace NeptuneEvo.Fractions
         public static void CMD_startBizwar(Player player)
         {
             if (!Manager.canUseCommand(player, "bizwar")) return;
-            if (player.GetData<int>("BIZ_ID") == -1)
+            if (!player.HasData("BIZ_ID") || player.GetData<int>("BIZ_ID") == -1)
             {
-                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы не находитесь ни на одном из бизнесов", 3000);
+                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы должны находиться около бизнеса", 3000);
                 return;
             }
             Business biz = BusinessManager.BizList[player.GetData<int>("BIZ_ID")];
@@ -232,45 +249,59 @@ namespace NeptuneEvo.Fractions
             catch (Exception e) { Log.Write("MafiaWars: " + e.Message, nLog.Type.Error); }
         }
 
-        private static void endCapture()
+        private static void endCapture(int type = 0)
         {
             try
             {
-                //Main.StopT(warTimer, "warTimer");
-                Timers.Stop(warTimer);
-                Main.ClientEventToAll("captureHud", false);
                 var biz = BusinessManager.BizList[bizID];
+
+                if (type == 0)
+                {
+                    if (attackersSt <= defendersSt)
+                    {
+                        Manager.sendFractionMessage(biz.Mafia, $"Обсосы сбежали! Вы дали им под хвост! Вы отстояли бизнес");
+                        Manager.sendFractionMessage(attackersFracID, "Вы лохонулись! Враги были сильнее! Вы не смогли захватить бизнес");
+
+                        foreach (var m in Manager.Members.Keys)
+                        {
+                            if (Main.Players[m].FractionID == biz.Mafia)
+                            {
+                                MoneySystem.Wallet.Change(m, 300);
+                                GameLog.Money($"server", $"player({Main.Players[m].UUID})", 300, $"winBiz");
+                            }
+                        }
+                    }
+                    else if (attackersSt > defendersSt)
+                    {
+                        Manager.sendFractionMessage(biz.Mafia, $"Вы прошляпили бизнес..");
+                        Manager.sendFractionMessage(attackersFracID, "Шугнули их как детей! Вы захватили бизнес!");
+                        biz.Mafia = attackersFracID;
+                        foreach (var m in Manager.Members.Keys)
+                        {
+                            if (Main.Players[m].FractionID == attackersFracID)
+                            {
+                                MoneySystem.Wallet.Change(m, 300);
+                                GameLog.Money($"server", $"player({Main.Players[m].UUID})", 300, $"winBiz");
+                            }
+                        }
+                        biz.UpdateLabel();
+                    }
+                }
+                else
+                {
+                    Manager.sendFractionMessage(biz.Mafia, $"Внимание! Война за бизнес была досрочно остановлена администратором.");
+                    Manager.sendFractionMessage(attackersFracID, "Внимание! Война за бизнес была досрочно остановлена администратором.");
+                }
+
+                //Main.StopT(warTimer, "warTimer");
+                if (toStartWarTimer != null) Timers.Stop(toStartWarTimer);
+                if (warTimer != null) Timers.Stop(warTimer);
+                Main.ClientEventToAll("captureHud", false);
+
                 protectDate[biz.Mafia] = DateTime.Now.AddMinutes(20);
                 protectDate[attackersFracID] = DateTime.Now.AddMinutes(20);
-                if (attackersSt <= defendersSt)
-                {
-                    Manager.sendFractionMessage(biz.Mafia, $"Обсосы сбежали! Вы дали им под хвост! Вы отстояли бизнес");
-                    Manager.sendFractionMessage(attackersFracID, "Вы лохонулись! Враги были сильнее! Вы не смогли захватить бизнес");
 
-                    foreach (var m in Manager.Members.Keys)
-                    {
-                        if (Main.Players[m].FractionID == biz.Mafia)
-                        {
-                            MoneySystem.Wallet.Change(m, 300);
-                            GameLog.Money($"server", $"player({Main.Players[m].UUID})", 300, $"winBiz");
-                        }
-                    }
-                }
-                else if (attackersSt > defendersSt)
-                {
-                    Manager.sendFractionMessage(biz.Mafia, $"Вы прошляпили бизнес..");
-                    Manager.sendFractionMessage(attackersFracID, "Шугнули их как детей! Вы захватили бизнес!");
-                    biz.Mafia = attackersFracID;
-                    foreach (var m in Manager.Members.Keys)
-                    {
-                        if (Main.Players[m].FractionID == attackersFracID)
-                        {
-                            MoneySystem.Wallet.Change(m, 300);
-                            GameLog.Money($"server", $"player({Main.Players[m].UUID})", 300, $"winBiz");
-                        }
-                    }
-                    biz.UpdateLabel();
-                }
+                warStarting = false;
                 warIsGoing = false;
                 warBlips[whereWarIsGoing].Color = 40;
             }
