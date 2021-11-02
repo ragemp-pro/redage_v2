@@ -290,6 +290,20 @@ namespace NeptuneEvo.Core
             GameLog.Admin($"{player.Name}", $"setVipLvl({rank})", $"{target.Name}");
         }
 
+        //
+        public static void teleportToFracSpawn(Player player, int fracid)
+        {
+            if (!Group.CanUseCmd(player, "tpfrac")) return;
+            if (fracid != 0 && fracid <= 18)
+            {
+                NAPI.Entity.SetEntityPosition(player, Fractions.Manager.FractionSpawns[fracid] + new Vector3(1, 0, 1.5));
+                NAPI.Entity.SetEntityDimension(player, 0);
+
+                Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Вы телепортировались на спавн фракции - {Fractions.Manager.getName(fracid)}", 1500);
+            }
+        }
+        //
+
         public static void setFracLeader(Player sender, Player target, int fracid)
         {
             if (!Group.CanUseCmd(sender, "setleader")) return;

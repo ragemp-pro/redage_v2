@@ -2380,7 +2380,17 @@ namespace NeptuneEvo.Core
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
         }
-        
+
+        [Command("tpfrac")] // Телепорт на спавн фракции (7 лвл)
+        public static void tpToFraction(Player player, int fracid)
+        {
+            try
+            {
+                Admin.teleportToFracSpawn(player, fracid);
+            }
+            catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }
+        }
+
         [Command("sp")] // Следить за игроком (2 лвл)
         public static void CMD_spectateMode(Player player, int id)
         {
