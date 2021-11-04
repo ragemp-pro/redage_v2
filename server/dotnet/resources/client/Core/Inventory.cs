@@ -1788,6 +1788,11 @@ namespace NeptuneEvo.Core
 
                                 nInventory.Items[UUID][index].IsActive = false;
                                 GUI.Dashboard.Update(player, item, index);
+
+                                // visual
+                                Customization.CustomPlayerData[Main.Players[player].UUID].Clothes.Bodyarmor.Variation = 0;
+                                Customization.CustomPlayerData[Main.Players[player].UUID].Clothes.Bodyarmor.Texture = 0;
+                                player.SetClothes(9, Customization.CustomPlayerData[Main.Players[player].UUID].Clothes.Bodyarmor.Variation, Customization.CustomPlayerData[Main.Players[player].UUID].Clothes.Bodyarmor.Texture);
                             }
                             else
                             {
@@ -1798,6 +1803,27 @@ namespace NeptuneEvo.Core
                                 nInventory.UnActiveItem(player, item.Type);
                                 nInventory.Items[UUID][index].IsActive = true;
                                 GUI.Dashboard.Update(player, item, index);
+
+                                // visual
+                                switch (Fractions.Manager.FractionTypes[Main.Players[player].FractionID])
+                                {
+                                    case -1:
+                                    case 1:
+                                        Customization.CustomPlayerData[Main.Players[player].UUID].Clothes.Bodyarmor.Texture = 2;
+                                        break;
+                                    case 0:
+                                        Customization.CustomPlayerData[Main.Players[player].UUID].Clothes.Bodyarmor.Texture = 0;
+                                        break;
+                                    case 2:
+                                        Customization.CustomPlayerData[Main.Players[player].UUID].Clothes.Bodyarmor.Texture = 1;
+                                        break;
+                                    default:
+                                        Customization.CustomPlayerData[Main.Players[player].UUID].Clothes.Bodyarmor.Texture = 1;
+                                        break;
+
+                                }
+                                Customization.CustomPlayerData[Main.Players[player].UUID].Clothes.Bodyarmor.Variation = 12;
+                                player.SetClothes(9, Customization.CustomPlayerData[Main.Players[player].UUID].Clothes.Bodyarmor.Variation, Customization.CustomPlayerData[Main.Players[player].UUID].Clothes.Bodyarmor.Texture);
                             }
                             return;
                         }
