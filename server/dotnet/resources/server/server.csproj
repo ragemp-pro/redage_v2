@@ -7,17 +7,13 @@
 
   <ItemGroup>
     <PackageReference Include="MySqlConnector" Version="1.3.0-beta.3" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="Obfuscar" Version="2.2.29">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="RAGEMP-Bootstrapper" Version="1.1.3" />
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.113.7" />
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="&quot;$(Obfuscar)&quot; obfuscar.xml" />
-  </Target>
+  <ItemGroup>
+    <Reference Include="Bootstrapper">
+      <HintPath>..\..\runtime\Bootstrapper.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>
