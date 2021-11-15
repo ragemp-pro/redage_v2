@@ -2194,7 +2194,6 @@ namespace NeptuneEvo.Core
                         break;
                     case ItemType.CasinoChips:
                         Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Фишки используются для игры в казино (GPS - Развлечения - Diamond Casino).", 3000);
-                        return;
                         break;
                 }
                 nInventory.Remove(player, item.Type, 1);

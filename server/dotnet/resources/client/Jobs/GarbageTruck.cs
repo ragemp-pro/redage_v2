@@ -8,7 +8,7 @@ namespace NeptuneEvo.Jobs
 {
     class GarbageTruck : Script
     {
-        static int checkpointPayment = 250; // Зарплата за одну метку
+        //static int checkpointPayment = 250; // Зарплата за одну метку
         private static nLog Log = new nLog("GarbageTruck");
 
         // Места для появления машины после начала работы
