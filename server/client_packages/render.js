@@ -88,7 +88,7 @@ mp.events.add('safeZone', function (argument) {
 });
 
 mp.keys.bind(0x47, false, function () { // G key
-    if (global.menuCheck() || localplayer.getVariable('InDeath') == true && !localPlayer.isInAnyVehicle(false)) return;
+    if (global.menuCheck() || cuffed || localplayer.getVariable('InDeath') == true && !localPlayer.isInAnyVehicle(false)) return;
     if (circleOpen) {
         CloseCircle();
         return;
