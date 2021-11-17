@@ -405,16 +405,15 @@ namespace NeptuneEvo.Fractions
                         {
                             case 0:
                                 ClubsStocks[club].Alco1--;
-                                return;
+                                break;
                             case 1:
                                 ClubsStocks[club].Alco2--;
-                                return;
+                                break;
                             case 2:
                                 ClubsStocks[club].Alco3--;
-                                return;
+                                break;
                         }
                         ClubsStocks[club].UpdateLabel();
-                        OpenBuyAlcoholMenu(player);
                         Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы купили {nInventory.ItemsNames[(int)invItem]}", 3000);
                         return;
                     case 1: // take
@@ -435,16 +434,15 @@ namespace NeptuneEvo.Fractions
                         {
                             case 0:
                                 ClubsStocks[club].Alco1--;
-                                return;
+                                break;
                             case 1:
                                 ClubsStocks[club].Alco2--;
-                                return;
+                                break;
                             case 2:
                                 ClubsStocks[club].Alco3--;
-                                return;
+                                break;
                         }
                         ClubsStocks[club].UpdateLabel();
-                        OpenBuyAlcoholMenu(player);
                         Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы взяли {nInventory.ItemsNames[(int)invItem]}. На складе {alcoCounts[index] - 1}шт", 3000);
                         return;
                     case 2: // craft
@@ -464,17 +462,16 @@ namespace NeptuneEvo.Fractions
                         {
                             case 0:
                                 ClubsStocks[club].Alco1++;
-                                return;
+                                break;
                             case 1:
                                 ClubsStocks[club].Alco2++;
-                                return;
+                                break;
                             case 2:
                                 ClubsStocks[club].Alco3++;
-                                return;
+                                break;
                         }
 
                         ClubsStocks[club].UpdateLabel();
-                        OpenBuyAlcoholMenu(player);
                         Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы скрафтили {nInventory.ItemsNames[(int)invItem]}. На складе {alcoCounts[index] + 1}шт", 3000);
                         return;
                     case 3: // setprice
