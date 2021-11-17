@@ -1370,7 +1370,8 @@ namespace NeptuneEvo.Core
             { "Средство для мытья", 200 }, // carwash
             { "Корм для животных", 20 }, // petshop
 
-            { "Sultan", 10 }, // premium
+            { "Dukes", 10 }, // premium
+            { "Sultan", 10 },
             { "SultanRS", 10 },
             { "Kuruma", 10 },
             { "Fugitive", 10 },
@@ -1517,6 +1518,7 @@ namespace NeptuneEvo.Core
             {"Средство для мытья",200},
             {"Корм для животных", 450000 }, // petshop
 
+            {"Dukes", 112500},
             {"Sultan",112500},
             {"SultanRS",800000},
             {"Kuruma",400000},
