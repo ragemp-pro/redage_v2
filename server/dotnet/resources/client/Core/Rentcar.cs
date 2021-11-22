@@ -188,17 +188,30 @@ namespace NeptuneEvo.Core
         public static void RespawnCar(Vehicle vehicle)
         {
             var number = vehicle.GetData<int>("NUMBER");
-            var random = new Random();
-            NAPI.Entity.SetEntityPosition(vehicle, CarInfos[number].Position);
-            NAPI.Entity.SetEntityRotation(vehicle, CarInfos[number].Rotation);
-            VehicleManager.RepairCar(vehicle);
-            
-            NAPI.Data.SetEntityData(vehicle, "ACCESS", "RENT");
-            NAPI.Data.SetEntityData(vehicle, "NUMBER", number);
-            NAPI.Data.SetEntityData(vehicle, "DRIVER", null);
-            NAPI.Data.SetEntitySharedData(vehicle, "PETROL", 50);
-            Core.VehicleStreaming.SetEngineState(vehicle, false);
-            Core.VehicleStreaming.SetLockStatus(vehicle, false);
+
+            // обычная аренда
+            if (!vehicle.HasData("RENT_TYPE") || vehicle.GetData<string>("RENT_TYPE") != "NPC")
+            {
+                // driver info
+                NAPI.Data.SetEntityData(vehicle, "ACCESS", "RENT");
+                NAPI.Data.SetEntityData(vehicle, "NUMBER", number);
+                NAPI.Data.SetEntityData(vehicle, "DRIVER", null);
+
+                // заправляем, открываем, глушим
+                NAPI.Data.SetEntitySharedData(vehicle, "PETROL", 50);
+                Core.VehicleStreaming.SetEngineState(vehicle, false);
+                Core.VehicleStreaming.SetLockStatus(vehicle, false);
+
+                // возвращаем на спавн и чиним
+                NAPI.Entity.SetEntityPosition(vehicle, CarInfos[number].Position);
+                NAPI.Entity.SetEntityRotation(vehicle, CarInfos[number].Rotation);
+                VehicleManager.RepairCar(vehicle);
+
+                return;
+            }
+
+            // или просто удаляем машину
+            vehicle.Delete();
         }
         [ServerEvent(Event.PlayerEnterVehicle)]
         public void Event_OnPlayerEnterVehicle(Player player, Vehicle vehicle, sbyte seatid)
@@ -387,6 +400,7 @@ namespace NeptuneEvo.Core
 
             var veh = NAPI.Vehicle.CreateVehicle(model, npc.Item2 + new Vector3(0.0, 1.0, 0.5F), 0, -1, -1);
             NAPI.Data.SetEntityData(veh, "ACCESS", "RENT");
+            NAPI.Data.SetEntityData(veh, "RENT_TYPE", "NPC");
             NAPI.Data.SetEntityData(veh, "DRIVER", player);
             VehicleStreaming.SetEngineState(veh, true);
             VehicleStreaming.SetLockStatus(veh, true);
