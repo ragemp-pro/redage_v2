@@ -588,6 +588,8 @@ namespace NeptuneEvo
                         case 1:
                             int frac = Players[player].FractionID;
                             NAPI.Entity.SetEntityPosition(player, Fractions.Manager.FractionSpawns[frac]);
+                            
+                            // Очистка инвентаря при спавне
                             nInventory.ClearWithoutClothes(player);
 
                             Customization.ApplyCharacter(player);
@@ -612,6 +614,8 @@ namespace NeptuneEvo
                             if (house != null)
                             {
                                 NAPI.Entity.SetEntityPosition(player, house.Position + new Vector3(0, 0, 1.5));
+
+                                // Очистка инвентаря при спавне
                                 nInventory.ClearWithoutClothes(player);
                             }
                             else if (Players[player].HotelID != -1)
