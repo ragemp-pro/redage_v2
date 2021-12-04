@@ -47,17 +47,27 @@ namespace NeptuneEvo.Core
         }
         public static void OpenVehChangeNumberMenu(Player player)
         {
-            var veh = player.Vehicle;
-            var oldNum = player.Vehicle.NumberPlate;
-
-            Character.Character acc = Main.Players[player];
-            if ((acc.FirstName + "_" + acc.LastName) != VehicleManager.Vehicles[oldNum].Holder)
+            try
             {
-                Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Это не ваша машина", 3000);
-                return;
-            }
+                if (!Main.Players.ContainsKey(player)) return;
+                if (player.VehicleSeat != 0)
+                {
+                    Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы должны быть в водительском месте", 3000);
+                    return;
+                }
 
-            Trigger.ClientEvent(player, "openDialog", "CAR_CHANGE_NUMBER", $"Вы действительно хотите изменить гос. номер на авто {veh.DisplayName} ({player.Vehicle.NumberPlate}) за ${Price}?");
+                Vehicle veh = player.Vehicle;
+                string oldNum = player.Vehicle.NumberPlate;
+
+                if (veh == null || !VehicleManager.Vehicles.ContainsKey(oldNum) || VehicleManager.Vehicles.ContainsKey(oldNum) && VehicleManager.Vehicles[oldNum].Holder != player.Name || !veh.HasData("ACCESS") || veh.GetData<string>("ACCESS") != "PERSONAL")
+                {
+                    Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, "Вы должны быть в личном авто", 3000);
+                    return;
+                }
+
+                Trigger.ClientEvent(player, "openDialog", "CAR_CHANGE_NUMBER", $"Вы действительно хотите изменить гос. номер на авто {veh.DisplayName} ({player.Vehicle.NumberPlate}) за ${Price}?");
+            }
+            catch (Exception e) { RLog.Write(e.ToString(), nLog.Type.Error); }
         }
         public static void ChangeVehNumber(Player player)
         {
