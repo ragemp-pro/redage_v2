@@ -2265,6 +2265,9 @@ namespace NeptuneEvo
                     
                     switch (callback)
                     {
+                        case "CAR_REPAIR":
+                            CarRepair.BuyRepair(player);
+                            return;
                         case "BUY_CAR_BAZAR":
                             CarMarket.DialogYes(player);
                             return;
@@ -4327,6 +4330,11 @@ namespace NeptuneEvo
         public void OnVehicleDamage(Vehicle vehicle, float bodyHealthLoss, float engineHealthLoss)
         {
             NAPI.Util.ConsoleOutput($"{vehicle.DisplayName} - {bodyHealthLoss} - {engineHealthLoss}");
+        }
+
+        internal static void PlayerEvent(Player player, string v1, string v2, string v3)
+        {
+            throw new NotImplementedException();
         }
     }
 

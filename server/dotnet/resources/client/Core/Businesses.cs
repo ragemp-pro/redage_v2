@@ -114,6 +114,7 @@ namespace NeptuneEvo.Core
 	        "Рыболовный магазин", // 15
 	        "Скупка рыбы", // 16
 	        "Авто-донат", // 17
+            "Ремонт Авто", // 18
         };
         public static List<int> BlipByType = new List<int>()
         {
@@ -135,6 +136,7 @@ namespace NeptuneEvo.Core
             371, // FishShop
             628, // SellShop
             641, // авто-донат
+            544, // ремонт-авто
         };
         public static List<int> BlipColorByType = new List<int>()
         {
@@ -156,6 +158,12 @@ namespace NeptuneEvo.Core
             3, // fishshop
             3, // sellshop
             60, // авто-донат
+            4, // ремонт-авто
+        };
+
+        private static List<string> CarRepairProducts = new List<string>()
+        {
+            "Запчасти"
         };
 
         private static List<string> FishProducts = new List<string>()
@@ -1732,6 +1740,13 @@ namespace NeptuneEvo.Core
                         products_list.Add(product);
                     }
                     break;
+                case 18:
+                    foreach (var name in CarRepairProducts)
+                    {
+                        Product product = new Product(ProductsOrderPrice[name], 0, 1, name, false);
+                        products_list.Add(product);
+                    }
+                    break;
             }
             return products_list;
         }
@@ -1837,6 +1852,9 @@ namespace NeptuneEvo.Core
                     }
                     player.SetData("CARROOMID", biz.ID);
                     CarRoom.enterCarroom(player, biz.Products[0].Name);
+                    return;
+                case 18:
+                    CarRepair.InteractPress(player);
                     return;
                 case 6:
                     player.SetData("GUNSHOP", biz.ID);
