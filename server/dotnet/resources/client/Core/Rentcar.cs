@@ -187,31 +187,36 @@ namespace NeptuneEvo.Core
 
         public static void RespawnCar(Vehicle vehicle)
         {
-            var number = vehicle.GetData<int>("NUMBER");
-
-            // обычная аренда
-            if (!vehicle.HasData("RENT_TYPE") || vehicle.GetData<string>("RENT_TYPE") != "NPC")
+            try
             {
-                // driver info
-                NAPI.Data.SetEntityData(vehicle, "ACCESS", "RENT");
-                NAPI.Data.SetEntityData(vehicle, "NUMBER", number);
-                NAPI.Data.SetEntityData(vehicle, "DRIVER", null);
+                if (!vehicle.HasData("NUMBER")) return;
+                var number = vehicle.GetData<int>("NUMBER");
 
-                // заправляем, открываем, глушим
-                NAPI.Data.SetEntitySharedData(vehicle, "PETROL", 50);
-                Core.VehicleStreaming.SetEngineState(vehicle, false);
-                Core.VehicleStreaming.SetLockStatus(vehicle, false);
+                // обычная аренда
+                if (!vehicle.HasData("RENT_TYPE") || vehicle.GetData<string>("RENT_TYPE") != "NPC")
+                {
+                    // driver info
+                    NAPI.Data.SetEntityData(vehicle, "ACCESS", "RENT");
+                    NAPI.Data.SetEntityData(vehicle, "NUMBER", number);
+                    NAPI.Data.SetEntityData(vehicle, "DRIVER", null);
 
-                // возвращаем на спавн и чиним
-                NAPI.Entity.SetEntityPosition(vehicle, CarInfos[number].Position);
-                NAPI.Entity.SetEntityRotation(vehicle, CarInfos[number].Rotation);
-                VehicleManager.RepairCar(vehicle);
+                    // заправляем, открываем, глушим
+                    NAPI.Data.SetEntitySharedData(vehicle, "PETROL", 50);
+                    Core.VehicleStreaming.SetEngineState(vehicle, false);
+                    Core.VehicleStreaming.SetLockStatus(vehicle, false);
 
-                return;
+                    // возвращаем на спавн и чиним
+                    NAPI.Entity.SetEntityPosition(vehicle, CarInfos[number].Position);
+                    NAPI.Entity.SetEntityRotation(vehicle, CarInfos[number].Rotation);
+                    VehicleManager.RepairCar(vehicle);
+
+                    return;
+                }
+
+                // или просто удаляем машину
+                vehicle.Delete();
             }
-
-            // или просто удаляем машину
-            vehicle.Delete();
+            catch (Exception e) { Log.Write("RespawnCar: " + e.Message, nLog.Type.Error); }
         }
         [ServerEvent(Event.PlayerEnterVehicle)]
         public void Event_OnPlayerEnterVehicle(Player player, Vehicle vehicle, sbyte seatid)
