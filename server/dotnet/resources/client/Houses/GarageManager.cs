@@ -108,7 +108,7 @@ namespace NeptuneEvo.Houses
                         {
                             VehicleManager.Vehicles[number].Items = NAPI.Data.GetEntityData(entityVehicles[number].Item2, "ITEMS");
                             var vclass = NAPI.Vehicle.GetVehicleClass((VehicleHash)NAPI.Util.GetHashKey(VehicleManager.Vehicles[number].Model));
-                            VehicleManager.Vehicles[number].Fuel = (!NAPI.Data.HasEntityData(entityVehicles[number].Item2, "PETROL")) ? VehicleManager.VehicleTank[vclass] : NAPI.Data.GetEntityData(entityVehicles[number].Item2, "PETROL");
+                            VehicleManager.Vehicles[number].Fuel = (!NAPI.Data.HasEntitySharedData(entityVehicles[number].Item2, "PETROL")) ? VehicleManager.VehicleTank[vclass] : entityVehicles[number].Item2.GetSharedData<int>("PETROL");
                         }
                         NAPI.Entity.DeleteEntity(entityVehicles[number].Item2);
                         entityVehicles.Remove(number);
@@ -127,7 +127,7 @@ namespace NeptuneEvo.Houses
                         {
                             VehicleManager.Vehicles[number].Items = NAPI.Data.GetEntityData(vehiclesOut[number], "ITEMS");
                             var vclass = NAPI.Vehicle.GetVehicleClass((VehicleHash)NAPI.Util.GetHashKey(VehicleManager.Vehicles[number].Model));
-                            VehicleManager.Vehicles[number].Fuel = (!NAPI.Data.HasEntityData(vehiclesOut[number], "PETROL")) ? VehicleManager.VehicleTank[vclass] : NAPI.Data.GetEntityData(vehiclesOut[number], "PETROL");
+                            VehicleManager.Vehicles[number].Fuel = (!NAPI.Data.HasEntitySharedData(vehiclesOut[number], "PETROL")) ? VehicleManager.VehicleTank[vclass] : vehiclesOut[number].GetSharedData<int>("PETROL");
                         }
                         NAPI.Entity.DeleteEntity(vehiclesOut[number]);
                         vehiclesOut.Remove(number);
@@ -352,7 +352,7 @@ namespace NeptuneEvo.Houses
                     toSend.Add(v.Key);
                     VehicleManager.Vehicles[v.Key].Items = NAPI.Data.GetEntityData(v.Value, "ITEMS");
                     var vclass = NAPI.Vehicle.GetVehicleClass((VehicleHash)NAPI.Util.GetHashKey(VehicleManager.Vehicles[v.Key].Model));
-                    VehicleManager.Vehicles[v.Key].Fuel = (!NAPI.Data.HasEntityData(v.Value, "PETROL")) ? VehicleManager.VehicleTank[vclass] : NAPI.Data.GetEntityData(v.Value, "PETROL");
+                    VehicleManager.Vehicles[v.Key].Fuel = (!NAPI.Data.HasEntitySharedData(v.Value, "PETROL")) ? VehicleManager.VehicleTank[vclass] : v.Value.GetSharedData<int>("PETROL");
                     NAPI.Task.Run(() =>
                     {
                         try
@@ -424,7 +424,7 @@ namespace NeptuneEvo.Houses
                     {
                         VehicleManager.Vehicles[v].Items = NAPI.Data.GetEntityData(vehiclesOut[v], "ITEMS");
                         var vclass = NAPI.Vehicle.GetVehicleClass((VehicleHash)NAPI.Util.GetHashKey(VehicleManager.Vehicles[v].Model));
-                        VehicleManager.Vehicles[v].Fuel = (!NAPI.Data.HasEntityData(vehiclesOut[v], "PETROL")) ? VehicleManager.VehicleTank[vclass] : NAPI.Data.GetEntityData(vehiclesOut[v], "PETROL");
+                        VehicleManager.Vehicles[v].Fuel = (!NAPI.Data.HasEntitySharedData(vehiclesOut[v], "PETROL")) ? VehicleManager.VehicleTank[vclass] : vehiclesOut[v].GetSharedData<int>("PETROL");
                         NAPI.Task.Run(() =>
                         {
                             try
@@ -657,7 +657,7 @@ namespace NeptuneEvo.Houses
                         {
                             var vehicle = player.Vehicle;
                             var number = vehicle.NumberPlate;
-                            VehicleManager.Vehicles[number].Fuel = (!NAPI.Data.HasEntityData(player.Vehicle, "PETROL")) ? VehicleManager.VehicleTank[player.Vehicle.Class] : NAPI.Data.GetEntityData(player.Vehicle, "PETROL");
+                            VehicleManager.Vehicles[number].Fuel = (!NAPI.Data.HasEntitySharedData(player.Vehicle, "PETROL")) ? VehicleManager.VehicleTank[player.Vehicle.Class] : player.Vehicle.GetSharedData<int>("PETROL");
                             VehicleManager.Vehicles[number].Items = player.Vehicle.GetData<List<nItem>>("ITEMS");
                             VehicleManager.Vehicles[number].Position = null;
                             VehicleManager.WarpPlayerOutOfVehicle(player);

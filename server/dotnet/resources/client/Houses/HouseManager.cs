@@ -1484,7 +1484,7 @@ namespace NeptuneEvo.Houses
 
                     var veh = garage.GetOutsideCar(number);
                     if (veh == null) return;
-                    VehicleManager.Vehicles[number].Fuel = (!NAPI.Data.HasEntityData(veh, "PETROL")) ? VehicleManager.VehicleTank[veh.Class] : NAPI.Data.GetEntityData(veh, "PETROL");
+                    VehicleManager.Vehicles[number].Fuel = (!NAPI.Data.HasEntitySharedData(veh, "PETROL")) ? VehicleManager.VehicleTank[veh.Class] : veh.GetSharedData<int>("PETROL");
                     NAPI.Entity.DeleteEntity(veh);
                     garage.SendVehicleIntoGarage(number);
 
