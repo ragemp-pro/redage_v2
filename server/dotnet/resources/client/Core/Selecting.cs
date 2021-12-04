@@ -271,6 +271,8 @@ namespace NeptuneEvo.Core
         {
             try
             {
+                if (arguments[0] == null) return;
+
                 var target = (Player)arguments[0];
                 if (target == null || player.Position.DistanceTo(target.Position) > 2)
                 {
