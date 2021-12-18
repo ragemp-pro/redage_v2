@@ -44,7 +44,7 @@ namespace NeptuneEvo.Core
                 return;
             }
 
-            MoneySystem.Wallet.Change(player, CostForRepair);
+            MoneySystem.Wallet.Change(player, -CostForRepair);
             GameLog.Money($"player({Main.Players[player].UUID})", $"biz({biz.ID})", CostForRepair, $"CarRepair");
 
             NAPI.Vehicle.RepairVehicle(NAPI.Player.GetPlayerVehicle(player));
