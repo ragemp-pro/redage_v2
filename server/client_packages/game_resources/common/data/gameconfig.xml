@@ -84,9 +84,9 @@
                             <PoolSize value="768"/>
                         </Item>
                         <Item>
-                            <!--Update 2372 950 - 970 - 990-->
+                            <!--Update 2372 950 - 970 - 990 - 1010 -->
                             <PoolName>ScriptStore</PoolName>
-                            <PoolSize value="990"/>
+                            <PoolSize value="1010"/>
                         </Item>
                         <Item>
                             <!--Update 2372 60 - 61-->
@@ -254,9 +254,9 @@
                             <PoolSize value="65000"/>
                         </Item>
                         <Item>
-                            <!--Update 2081  17100 - 19900-->
+                            <!--Update 2081  17100 - 19900 - 20100 -->
                             <PoolName>AnimStore</PoolName>
-                            <PoolSize value="19900"/>
+                            <PoolSize value="20100"/>
                         </Item>
                         <Item>
                             <!--384-->
@@ -640,6 +640,10 @@
                             <PoolName>carrec</PoolName>
                             <PoolSize value="4000"/>
                         </Item>
+                        <Item>
+							<PoolName>scrGlobals</PoolName>
+							<PoolSize value="15000000"/>
+						</Item>
                     </Entries>
                 </PoolSizes>
                 <ConfigPopulation>
@@ -1135,9 +1139,9 @@
                             <NumberOfStacksOfThisSize value="1"/>
                         </Item>
                         <Item>
-                            <!--Update 2372 18000 - 19000 - 20000-->
+                            <!--Update 2372 18000 - 19000 - 20000 - 21000 -->
                             <StackName>FMMC_LAUNCHER</StackName>
-                            <SizeOfStack value="20000"/>
+                            <SizeOfStack value="21000"/>
                             <NumberOfStacksOfThisSize value="1"/>
                         </Item>
                         <Item>
@@ -1147,9 +1151,9 @@
                             <NumberOfStacksOfThisSize value="1"/>
                         </Item>
                         <Item>
-                            <!--Update 2372 29500 - 35000 - 37500 - 41500-->
+                            <!--Update 2372 29500 - 35000 - 37500 - 41500 - 44500 -->
                             <StackName>MISSION</StackName>
-                            <SizeOfStack value="41500"/>
+                            <SizeOfStack value="44500"/>
                             <NumberOfStacksOfThisSize value="1"/>
                         </Item>
                         <Item>
@@ -1930,7 +1934,7 @@
                         </Item>
                         <Item>
                             <ResourceTypeName>SCENARIO_BLOCKING_AREA</ResourceTypeName>
-                            <ExpectedMaximum value="36"/>
+                            <ExpectedMaximum value="45"/>
                         </Item>
                         <Item>
                             <ResourceTypeName>BINK_MOVIE</ResourceTypeName>
