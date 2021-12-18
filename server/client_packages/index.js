@@ -243,7 +243,7 @@ require('./world/animals.js');
 require('./world/doors.js');
 require('./client/utils/utils.js');
 require('./scripts/autopilot.js');
-require('./scripts/crouch.js');
+//require('./scripts/crouch.js'); // Временно отключил скрипт из-за проблемы после обновления GTA V (2545 version)
 //require('./scripts/location.js');
 require('./scripts/fingerPointer.js');
 //require('./scripts/Hunting.js'); НЕ РАБОТАЕТ
