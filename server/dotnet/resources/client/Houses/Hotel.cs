@@ -59,7 +59,7 @@ namespace NeptuneEvo.Houses
                     {
                         try
                         {
-                            e.SetData("INTERACTIONCHECK", 0);
+                            e.ResetData("INTERACTIONCHECK");
                         }
                         catch (Exception ex) { Log.Write("Enter.colshape.OnEntityExitColShape: " + ex.Message, nLog.Type.Error); }
                     };
@@ -88,7 +88,7 @@ namespace NeptuneEvo.Houses
                     {
                         try
                         {
-                            e.SetData("INTERACTIONCHECK", 0);
+                            e.ResetData("INTERACTIONCHECK");
                         }
                         catch (Exception ex) { Log.Write("CarsGet.colshape.OnEntityExitColShape: " + ex.Message, nLog.Type.Error); }
                     };
@@ -120,7 +120,7 @@ namespace NeptuneEvo.Houses
                     NAPI.Entity.DeleteEntity(player.GetData<Entity>("InsideHotel_Marker"));
                     Dimensions.DismissPrivateDimension(player);
                     NAPI.Entity.SetEntityDimension(player, 0);
-                    player.SetData("INTERACTIONCHECK", 0);
+                    player.ResetData("INTERACTIONCHECK");
                     return;
                 case 50:
                     if (player.GetData<int>("HOTEL_ID") == Main.Players[player].HotelID)
@@ -166,7 +166,7 @@ namespace NeptuneEvo.Houses
             {
                 try
                 {
-                    e.SetData("INTERACTIONCHECK", 0);
+                    e.ResetData("INTERACTIONCHECK");
                 }
                 catch (Exception ex) { Log.Write("CarsGet.colshape.OnEntityExitColShape: " + ex.Message, nLog.Type.Error); }
             };

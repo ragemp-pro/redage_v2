@@ -36,7 +36,7 @@ namespace NeptuneEvo.Core
                 {
                     try
                     {
-                        NAPI.Data.SetEntityData(ent, "INTERACTIONCHECK", 0);
+                        ent.ResetData("INTERACTIONCHECK");
                     }
                     catch (Exception ex) { Console.WriteLine("shape.OnEntityExitColShape: " + ex.Message); }
                 };

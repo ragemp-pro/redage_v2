@@ -338,7 +338,7 @@ namespace NeptuneEvo.Jobs
         {
             try
             {
-                NAPI.Data.SetEntityData(entity, "INTERACTIONCHECK", 0);
+                entity.ResetData("INTERACTIONCHECK");
             }
             catch (Exception ex) { Log.Write("onEntityExitGetProduct: " + ex.Message, nLog.Type.Error); }
         }

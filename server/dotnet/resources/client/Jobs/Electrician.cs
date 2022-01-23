@@ -98,7 +98,7 @@ namespace NeptuneEvo.Jobs
                 col.OnEntityExitColShape += (shape, player) => {
                     try
                     {
-                        player.SetData("INTERACTIONCHECK", 0);
+                        player.ResetData("INTERACTIONCHECK");
                     }
                     catch (Exception ex) { Log.Write("col.OnEntityExitColShape: " + ex.Message, nLog.Type.Error); }
                 };

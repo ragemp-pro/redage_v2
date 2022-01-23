@@ -1975,13 +1975,12 @@ namespace NeptuneEvo.Core
             NAPI.Entity.SetEntityPosition(player, new Vector3(-758.3929, 319.5044, 175.302));
             player.PlayAnimation("amb@world_human_sunbathe@male@back@base", "base", 39);
             //player.FreezePosition = true;
-            player.SetData("INTERACTIONCHECK", 0);
+            player.ResetData("INTERACTIONCHECK");
             var prices = new List<int>();
             Business biz = BusinessManager.BizList[player.GetData<int>("PETSHOPID")];
-            for (byte i = 0; i != 9; i++)
-            {
-                prices.Add(biz.Products[0].Price);
-            }
+
+            for (byte i = 0; i != 9; i++) prices.Add(biz.Products[0].Price);
+            
             Trigger.ClientEvent(player, "openPetshop", JsonConvert.SerializeObject(PetNames), JsonConvert.SerializeObject(PetHashes), JsonConvert.SerializeObject(prices), mydim);
         }
         [RemoteEvent("fishshop")]
@@ -4058,7 +4057,7 @@ namespace NeptuneEvo.Core
             {
                 try
                 {
-                    NAPI.Data.SetEntityData(entity, "INTERACTIONCHECK", 0);
+                    entity.ResetData("INTERACTIONCHECK");
                     NAPI.Data.SetEntityData(entity, "BIZ_ID", -1);
                 }
                 catch (Exception e) { Console.WriteLine("shape.OnEntityEnterColshape: " + e.Message); }

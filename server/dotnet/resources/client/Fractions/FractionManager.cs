@@ -1803,7 +1803,7 @@ namespace NeptuneEvo.Fractions
         {
             try
             {
-                entity.SetData("INTERACTIONCHECK", 0);
+                entity.ResetData("INTERACTIONCHECK");
                 entity.SetData("ONFRACSTOCK", 0);
                 entity.TriggerEvent("interactHint", false);
             }
@@ -1825,7 +1825,7 @@ namespace NeptuneEvo.Fractions
         {
             try
             {
-                entity.SetData("INTERACTIONCHECK", 0);
+                entity.ResetData("INTERACTIONCHECK");
                 entity.SetData("ONFRACSTOCK", 0);
                 entity.TriggerEvent("interactHint", false);
             }
@@ -2726,7 +2726,8 @@ namespace NeptuneEvo.Fractions
             {
                 if (NAPI.Entity.GetEntityType(entity) == EntityType.Player)
                 {
-                    NAPI.Data.SetEntityData(entity, "INTERACTIONCHECK", 0);
+                    entity.ResetData("INTERACTIONCHECK");
+
                     if (entity.IsInVehicle && NAPI.Data.HasEntityData(entity.Vehicle, "loaderMats"))
                     {
                         Player player = NAPI.Data.GetEntityData(entity.Vehicle, "loaderMats");

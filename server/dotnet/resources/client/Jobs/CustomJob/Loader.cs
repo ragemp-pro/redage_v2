@@ -35,7 +35,7 @@ namespace NeptuneEvo.Jobs
                 col.OnEntityExitColShape += (shape, player) => {
                     try
                     {
-                        player.SetData("INTERACTIONCHECK", 0);
+                        player.ResetData("INTERACTIONCHECK");
                         //Trigger.ClientEvent(player, "PressE", false);
                         Trigger.ClientEvent(player, "JobsEinfo2");
                     }

@@ -114,7 +114,7 @@ namespace NeptuneEvo.Houses
             {
                 try
                 {
-                    NAPI.Data.SetEntityData(ent, "INTERACTIONCHECK", 0);
+                    ent.ResetData("INTERACTIONCHECK");
                     NAPI.Data.ResetEntityData(ent, "HOUSEID");
                 }
                 catch (Exception ex) { Console.WriteLine("shape.OnEntityExitColShape: " + ex.Message); }
@@ -389,7 +389,7 @@ namespace NeptuneEvo.Houses
             {
                 try
                 {
-                    NAPI.Data.SetEntityData(ent, "INTERACTIONCHECK", 0);
+                    ent.ResetData("INTERACTIONCHECK");
                 }
                 catch (Exception ex) { Console.WriteLine("intshape.OnEntityExitColShape: " + ex.Message); }
             };

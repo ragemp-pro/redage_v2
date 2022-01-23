@@ -321,7 +321,7 @@ namespace NeptuneEvo.MoneySystem
                     ATMCols[i].OnEntityExitColShape += (s, e) => {
                         try
                         {
-                            e.SetData("INTERACTIONCHECK", 0);
+                            e.ResetData("INTERACTIONCHECK");
                         }
                         catch (Exception ex) { Log.Write("ATMCols.OnEntityExitrColShape: " + ex.Message, nLog.Type.Error); }
                     };

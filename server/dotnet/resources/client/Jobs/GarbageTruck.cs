@@ -95,7 +95,7 @@ namespace NeptuneEvo.Jobs
                 {
                     try
                     {
-                        player.SetData("INTERACTIONCHECK", 0);
+                        player.ResetData("INTERACTIONCHECK");
                         Trigger.ClientEvent(player, "garbageMenuCancel");
                     }
                     catch (Exception e)

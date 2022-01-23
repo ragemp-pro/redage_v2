@@ -49,7 +49,7 @@ namespace NeptuneEvo.Jobs.FarmerJob
                 {
                     try
                     {
-                        player.SetData("INTERACTIONCHECK", 0);
+                        player.ResetData("INTERACTIONCHECK");
                     }
                     catch (Exception e)
                     {

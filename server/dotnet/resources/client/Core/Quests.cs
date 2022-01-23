@@ -52,7 +52,7 @@ namespace NeptuneEvo.Core
         }
         private void ExitNPCColshape(ColShape shape, Player player)
         {
-            NAPI.Data.SetEntityData(player, "INTERACTIONCHECK", 0);
+            player.ResetData("INTERACTIONCHECK");
         }
 
         public static void InteractNPC(Player player, int id)
@@ -169,7 +169,7 @@ namespace NeptuneEvo.Core
             Trigger.ClientEvent(player, "PressE", false);
             if (colshape == BonyCS || colshape == EmmaCS || colshape == Zone0 || colshape == Zone1 || colshape == FrankCS || colshape == FrankQuest0 || colshape == FrankQuest1_1)
             {
-                player.SetData("INTERACTIONCHECK", 0);
+                player.ResetData("INTERACTIONCHECK");
                 Trigger.ClientEvent(player, "PressE", false);
             }
             */

@@ -73,7 +73,7 @@ namespace NeptuneEvo.Houses
                 try
                 {
                     if (NAPI.Entity.GetEntityType(ent) != EntityType.Player) return;
-                    NAPI.Data.SetEntityData(ent, "INTERACTIONCHECK", 0);
+                    ent.ResetData("INTERACTIONCHECK");
                     NAPI.Data.ResetEntityData(ent, "GARAGEID");
                 }
                 catch (Exception ex) { Console.WriteLine("shape.OnEntityExitColShape: " + ex.Message); }
@@ -459,7 +459,7 @@ namespace NeptuneEvo.Houses
             {
                 try
                 {
-                    NAPI.Data.SetEntityData(ent, "INTERACTIONCHECK", 0);
+                    ent.ResetData("INTERACTIONCHECK");
                 }
                 catch (Exception ex) { Console.WriteLine("intShape.OnEntityExitColShape: " + ex.Message); }
             };

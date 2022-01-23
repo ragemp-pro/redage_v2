@@ -175,7 +175,7 @@ namespace NeptuneEvo.Fractions
                 colShape.OnEntityExitColShape += (s, e) => {
                     try
                     {
-                        e.SetData("INTERACTIONCHECK", 0);
+                        e.ResetData("INTERACTIONCHECK");
                     }
                     catch (Exception ex) { Log.Write("start_colShape.OnEntityExitColShape: " + ex.Message, nLog.Type.Error); }
                 };
@@ -198,7 +198,7 @@ namespace NeptuneEvo.Fractions
                     colShape.OnEntityExitColShape += (s, e) => {
                         try
                         {
-                            e.SetData("INTERACTIONCHECK", 0);
+                            e.ResetData("INTERACTIONCHECK");
                         }
                         catch (Exception ex) { Log.Write("Delivery_colShape.OnEntityExitColShape: " + ex.Message, nLog.Type.Error); }
                     };

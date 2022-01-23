@@ -167,7 +167,7 @@ namespace NeptuneEvo.Core
             shape.OnEntityExitColShape += (s, player) =>
             {
                 if (!State) return;
-                NAPI.Data.SetEntityData(player, "INTERACTIONCHECK", 0);
+                player.ResetData("INTERACTIONCHECK");
                 NAPI.Data.ResetEntityData(player, "ContainerID");
             };
         }

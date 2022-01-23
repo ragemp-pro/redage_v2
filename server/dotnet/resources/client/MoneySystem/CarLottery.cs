@@ -52,7 +52,7 @@ namespace NeptuneEvo.Casino
                 };
                 _mainShape.OnEntityExitColShape += (s, ent) =>
                 {
-                    NAPI.Data.SetEntityData(ent, "INTERACTIONCHECK", 0);
+                    ent.ResetData("INTERACTIONCHECK");
                 };
 
                 _podiumShape.OnEntityEnterColShape += (s, ent) =>

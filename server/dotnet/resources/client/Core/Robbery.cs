@@ -255,7 +255,7 @@ namespace NeptuneEvo.Core
         {
             try
             {
-                NAPI.Data.SetEntityData(entity, "INTERACTIONCHECK", 0);
+                entity.ResetData("INTERACTIONCHECK");
             }
             catch (Exception e) { Log.Write("narkosale_onEntityExitColShape: " + e.ToString(), nLog.Type.Error); }
         }
@@ -420,7 +420,7 @@ namespace NeptuneEvo.Core
             {
                 case 14:
                     OpenMoneyFlowMenu(player);
-                    NAPI.Data.SetEntityData(player, "INTERACTIONCHECK", 0);
+                    player.ResetData("INTERACTIONCHECK");
                     break;
             }
         }
@@ -872,7 +872,7 @@ namespace NeptuneEvo.Core
                 try
                 {
                     if (player == Occupier) Occupier = null;
-                    player.SetData("INTERACTIONCHECK", 0);
+                    player.ResetData("INTERACTIONCHECK");
                     Trigger.ClientEvent(player, "dial", "close");
                     player.ResetData("temp_SafeID");
                 }

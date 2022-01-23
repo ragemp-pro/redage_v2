@@ -176,7 +176,7 @@ namespace NeptuneEvo.Fractions
                     {
                         try
                         {
-                            e.SetData("INTERACTIONCHECK", 0);
+                            e.ResetData("INTERACTIONCHECK");
                             e.SetData("CLUB", -1);
                         }
                         catch (Exception ex) { Log.Write("EnterAlco_OnEntityExitColShape: " + ex.Message, nLog.Type.Error); }
@@ -204,7 +204,7 @@ namespace NeptuneEvo.Fractions
                     {
                         try
                         {
-                            e.SetData("INTERACTIONCHECK", 0);
+                            e.ResetData("INTERACTIONCHECK");
                         }
                         catch (Exception ex) { Log.Write("ExitAlco_OnEntityExitColShape: " + ex.Message, nLog.Type.Error); }
                     };
@@ -231,7 +231,7 @@ namespace NeptuneEvo.Fractions
                     {
                         try
                         {
-                            e.SetData("INTERACTIONCHECK", 0);
+                            e.ResetData("INTERACTIONCHECK");
                         }
                         catch (Exception ex) { Log.Write("Unloadpoints_OnEntityExitColShape: " + ex.Message, nLog.Type.Error); }
                     };
@@ -258,7 +258,7 @@ namespace NeptuneEvo.Fractions
                     {
                         try
                         {
-                            e.SetData("INTERACTIONCHECK", 0);
+                            e.ResetData("INTERACTIONCHECK");
                         }
                         catch (Exception ex) { Log.Write("BuyPoints_OnEntityExitColShape: " + ex.Message, nLog.Type.Error); }
                     };

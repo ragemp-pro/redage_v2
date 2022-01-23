@@ -256,7 +256,7 @@ namespace NeptuneEvo
             };
             MarketInfo.OnEntityExitColShape += (s, p) =>
             {
-                NAPI.Data.SetEntityData(p, "INTERACTIONCHECK", 0);
+                p.ResetData("INTERACTIONCHECK");
             };
 
             var MarketShape = NAPI.ColShape.CreateCylinderColShape(new Vector3(-677.32043, -2234.262, 4.6850348), 5, 8, 0);
@@ -266,7 +266,7 @@ namespace NeptuneEvo
             };
             MarketShape.OnEntityExitColShape += (s, p) =>
             {
-                NAPI.Data.SetEntityData(p, "INTERACTIONCHECK", 0);
+                p.ResetData("INTERACTIONCHECK");
             };
 
             MarketShape = NAPI.ColShape.CreateCylinderColShape(new Vector3(-701.7888, -2232.0925, 4.738958), 5, 8, 0);
@@ -276,7 +276,7 @@ namespace NeptuneEvo
             };
             MarketShape.OnEntityExitColShape += (s, p) =>
             {
-                NAPI.Data.SetEntityData(p, "INTERACTIONCHECK", 0);
+                p.ResetData("INTERACTIONCHECK");
             };
             NAPI.Marker.CreateMarker(1, new Vector3(-677.32043, -2234.262, 4.6850348), new Vector3(), new Vector3(), 5f, new Color(227, 252, 252));
             NAPI.Marker.CreateMarker(1, new Vector3(-701.7888, -2232.0925, 4.738958), new Vector3(), new Vector3(), 5f, new Color(227, 252, 252));

@@ -67,7 +67,7 @@ namespace NeptuneEvo.Core
 
                                 try
                                 {
-                                    NAPI.Data.SetEntityData(entity, "INTERACTIONCHECK", 0);
+                                    entity.ResetData("INTERACTIONCHECK");
                                     NAPI.Data.SetEntityData(entity, "RENT_NPC", -1);
                                 }
                                 catch (Exception e) { Console.WriteLine("RentCar.shape.OnEntityEnterColshape: " + e.Message); }

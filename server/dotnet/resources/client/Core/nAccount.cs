@@ -97,8 +97,11 @@ namespace NeptuneEvo.Core.nAccount
                 Email = Convert.ToString(row["email"]);
                 Password = pass_;
                 //Служебные данные
-                HWID = client.GetData<string>("RealHWID");
-                NAPI.Task.Run(() => IP = client.Address);
+                NAPI.Task.Run(() =>
+                {
+                    IP = client.Address;
+                    HWID = client.Serial;
+                });
                 SocialClub = row["socialclub"].ToString();
                 if(Main.SCCheck) {
                     if (SocialClub != client.GetData<string>("RealSocialClub")) return LoginEvent.SclubError;

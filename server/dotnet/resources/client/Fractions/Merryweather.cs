@@ -83,7 +83,7 @@ namespace NeptuneEvo.Fractions
         {
             try
             {
-                NAPI.Data.SetEntityData(entity, "INTERACTIONCHECK", 0);
+                entity.ResetData("INTERACTIONCHECK");
             }
             catch (Exception e) { Log.Write("mws_OnEntityExitColShape: " + e.Message, nLog.Type.Error); }
         }
@@ -101,7 +101,7 @@ namespace NeptuneEvo.Fractions
         {
             try
             {
-                NAPI.Data.SetEntityData(entity, "INTERACTIONCHECK", 0);
+                entity.ResetData("INTERACTIONCHECK");
             }
             catch (Exception ex) { Log.Write("onEntityExitColshape: " + ex.Message, nLog.Type.Error); }
         }

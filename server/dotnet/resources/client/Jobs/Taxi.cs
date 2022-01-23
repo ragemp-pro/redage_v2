@@ -273,7 +273,7 @@ namespace NeptuneEvo.Jobs
                     {
                         Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, $"Вы закончили рабочий день", 3000);
                         respawnCar(vehicle);
-                        player.SetData<bool>("ON_WORK", false);
+                        player.SetData("ON_WORK", false);
                         player.SetData<Vehicle>("WORK", null);
                         //Main.StopT(NAPI.Data.GetEntityData(player, "WORK_CAR_EXIT_TIMER"), "WORK_CAR_EXIT_TIMER_taxi_3");
                         Timers.Stop(NAPI.Data.GetEntityData(player, "WORK_CAR_EXIT_TIMER"));

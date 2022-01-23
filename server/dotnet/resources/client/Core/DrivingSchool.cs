@@ -257,7 +257,7 @@ namespace NeptuneEvo.Core
         }
         private void onPlayerExitSchool(ColShape shape, Player player)
         {
-            NAPI.Data.SetEntityData(player, "INTERACTIONCHECK", 0);
+            player.ResetData("INTERACTIONCHECK");
         }
         private void onPlayerEnterDrive(ColShape shape, Player player)
         {

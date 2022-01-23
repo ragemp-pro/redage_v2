@@ -28,7 +28,7 @@ namespace NeptuneEvo.Core
             //player.FreezePosition = true;
             Trigger.ClientEvent(player, "freeze", true);
 
-            player.SetData("INTERACTIONCHECK", 0);
+            player.ResetData("INTERACTIONCHECK");
             Trigger.ClientEvent(player, "carRoom");
 
             OpenCarromMenu(player, BusinessManager.BizList[player.GetData<int>("CARROOMID")].Type);

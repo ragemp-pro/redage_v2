@@ -137,7 +137,7 @@ namespace NeptuneEvo.Core
                 if (!Group.CanUseCmd(client, "drone")) return;
 
 
-                client.SetData<int>("drone_type", type);
+                client.SetData("drone_type", type);
                 Trigger.ClientEvent(client, "client:StartAdminDrone");
             }
             catch (Exception e)
@@ -153,16 +153,19 @@ namespace NeptuneEvo.Core
             {
                 if (!Group.CanUseCmd(client, "ghc")) return;
 
-                List<Vehicle> all_vehicles = NAPI.Pools.GetAllVehicles();
-                Vehicle veh = all_vehicles[id];
-
-                if (veh != null && NAPI.Entity.DoesEntityExist(veh))
+                foreach (var v in NAPI.Pools.GetAllVehicles())
                 {
-                    NAPI.Entity.SetEntityPosition(veh, client.Position);
-                    NAPI.Entity.SetEntityRotation(veh, client.Rotation);
-                    NAPI.Entity.SetEntityDimension(veh, client.Dimension);
+                    if (v.Id == id)
+                    {
+                        NAPI.Entity.SetEntityPosition(v, client.Position);
+                        NAPI.Entity.SetEntityRotation(v, client.Rotation);
+                        NAPI.Entity.SetEntityDimension(v, client.Dimension);
 
-                    Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы телепортировали авто - [ ID: {id}] к себе", 3000);
+                        Notify.Send(client, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы телепортировали авто - [ ID: {id}] к себе", 3000);
+
+                        return;
+                    }
+                    
                 }
             }
             catch (Exception e)
@@ -4117,10 +4120,10 @@ namespace NeptuneEvo.Core
 
                 NAPI.Chat.SendChatMessageToAll($"~y~[{Fractions.Manager.GovTags[frac]} | {split[0]} {split[1]}] {msg}");
 
-                player.SetData<int>("govChatAttempt", currentAttempt + 1);
+                player.SetData("govChatAttempt", currentAttempt + 1);
                 if(currentAttempt >= 2)
                 {
-                    player.SetData<DateTime>("govChatTimeout", (DateTime.Now).AddMinutes(10));
+                    player.SetData("govChatTimeout", (DateTime.Now).AddMinutes(10));
                 }
             }
             catch (Exception e) { Log.Write("EXCEPTION AT \"CMD\":\n" + e.ToString(), nLog.Type.Error); }

@@ -95,7 +95,7 @@ namespace NeptuneEvo.MoneySystem
         }
         public static void ExitResetColshape(ColShape shape, Player player)
         {
-            NAPI.Data.SetEntityData(player, "INTERACTIONCHECK", 0);
+            player.ResetData("INTERACTIONCHECK");
             NAPI.Data.ResetEntityData(player, "CASINO_SHAPE");
         }
         public static void CallBackShape(Player player)

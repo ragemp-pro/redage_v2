@@ -270,14 +270,15 @@ namespace NeptuneEvo.Fractions
         {
             try
             {
-                NAPI.Data.SetEntityData(entity, "INTERACTIONCHECK", 0);
+                entity.ResetData("INTERACTIONCHECK");
             }
             catch (Exception e) { Log.Write("onEntityExitColshape: " + e.Message, nLog.Type.Error); }
         }
 
         private static void onEntityExitArmyMats(ColShape shape, Player player)
         {
-            NAPI.Data.SetEntityData(player, "INTERACTIONCHECK", 0);
+            player.ResetData("INTERACTIONCHECK");
+
             Trigger.ClientEvent(player, "interactHint", false);
             if (NAPI.Data.HasEntityData(player, "loadMatsTimer"))
             {
@@ -304,7 +305,8 @@ namespace NeptuneEvo.Fractions
                     var itemCount = VehicleInventory.GetCountOfType(player.Vehicle, ItemType.Material);
                     if (player.GetData<string>("whereLoad") == "WAR" && !Fractions.MatsWar.isWar)
                     {
-                        player.SetData("INTERACTIONCHECK", 0);
+                        player.ResetData("INTERACTIONCHECK");
+
                         //Main.StopT(player.GetData<string>("loadMatsTimer"), "loadMaterialsTimer");
                         player.ResetData("loadMatsTimer");
                         Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Корабль уже уехал", 3000);

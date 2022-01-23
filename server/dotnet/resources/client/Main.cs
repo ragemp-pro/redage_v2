@@ -1966,20 +1966,20 @@ namespace NeptuneEvo
         [RemoteEvent("interactionPressed")]
         public void ClientEvent_interactionPressed(Player player, params object[] arguments)
         {
-            int intid = -404;
+            if (!player.HasData("INTERACTIONCHECK")) return;
+
+            int id = player.GetData<int>("INTERACTIONCHECK");
+
             try
             {
                 #region
-                int id = 0;
-                try
-                {
-                    id = player.GetData<int>("INTERACTIONCHECK");
-                    Log.Debug($"{player.Name} INTERACTIONCHECK IS {id}");
-                }
-                catch { }
-                intid = id;
+                Log.Debug($"{player.Name} INTERACTIONCHECK IS {id}");
+
                 switch (id)
                 {
+                    /*case 807:
+                        Casino.SlotMachines.interactPressed(player);
+                        break;*/
                     case 805:
                         Rentcar.RentNPC_MenuSelectVehicle(player);
                         break;
@@ -2207,7 +2207,7 @@ namespace NeptuneEvo
                 
                 #endregion
             }
-            catch (Exception e) { Log.Write($"interactionPressed/{intid}/: " + e.Message, nLog.Type.Error); }
+            catch (Exception e) { Log.Write($"interactionPressed/{id}/: " + e.Message, nLog.Type.Error); }
         }
 
 

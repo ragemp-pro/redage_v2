@@ -215,7 +215,7 @@ namespace NeptuneEvo.Jobs
             NAPI.Data.SetEntityData(player, "REQUEST", "null");
             player.SetData("IS_IN_ARREST_AREA", false);
             player.SetData("PAYMENT", 0);
-            player.SetData("INTERACTIONCHECK", 0);
+            player.ResetData("INTERACTIONCHECK");
             player.SetData("IN_HOSPITAL", false);
             player.SetData("MEDKITS", 0);
             player.SetData("GANGPOINT", -1);
