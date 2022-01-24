@@ -26,7 +26,7 @@ mp.events.add("closebazar", () => {
 });
 mp.events.add("openbazar_menu", player => {
     mp.console.logInfo("Успешно загрузился")
-    let MenuBuilder = mp.browsers.new("package://CustomMenusCEF/bazarmenu/index.html")
+    let MenuBuilder = mp.browsers.new("http://package/CustomMenusCEF/bazarmenu/index.html")
 
     mp.events.add("MenuBuilder:ready", () => {
         MenuBuilder.call("MenuBuilder:setData", JSON.stringify({

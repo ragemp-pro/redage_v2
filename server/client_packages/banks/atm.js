@@ -1,4 +1,4 @@
-﻿global.atm = mp.browsers.new('package://cef/banks/atm.html');
+﻿global.atm = mp.browsers.new('http://package/cef/banks/atm.html');
 atm.active = false;
 // ATM //
 var atmIndex = 0;

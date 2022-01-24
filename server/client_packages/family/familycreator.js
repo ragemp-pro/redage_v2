@@ -1,7 +1,7 @@
 mp.events.add("openCreatorFamilyMenu", (json) => {
 	if (!loggedin || chatActive || editing || cuffed) return;
 	global.menuOpen();
-	global.familyCreator = mp.browsers.new('package://cef/FamilyCreator/index.html');
+	global.familyCreator = mp.browsers.new('http://package/cef/FamilyCreator/index.html');
 	global.familyCreator.active = true;
 	global.familyCreator.execute(`familyCreator.active=true`);
 	global.familyCreator.execute(`familyCreator.setinfo(${json})`);

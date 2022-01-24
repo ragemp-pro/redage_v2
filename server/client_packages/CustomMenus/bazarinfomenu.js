@@ -9,7 +9,7 @@ mp.events.add("closebazarinfo", () => {
 mp.events.add("openbazarinfo_menu", player => {
     mp.console.logInfo("Успешно загрузился")
     
-   let MenuBuilder = mp.browsers.new("package://CustomMenusCEF/bazarinfomenu/index.html")
+   let MenuBuilder = mp.browsers.new("http://package/CustomMenusCEF/bazarinfomenu/index.html")
     
     mp.events.add("MenuBuilder:close", () => {
         UIMenu = 0;

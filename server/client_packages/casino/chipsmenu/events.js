@@ -1,7 +1,7 @@
 mp.events.add("openChipsMenu", (data) => {
     if (!loggedin || chatActive || editing || cuffed || global.menuOpened) return;
 
-    global.chipsMenu = mp.browsers.new('package://cef/CasinoMarket/index.html');
+    global.chipsMenu = mp.browsers.new('http://package/cef/CasinoMarket/index.html');
     global.chipsMenu.active = true;
     global.menuOpen();
     

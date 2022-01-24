@@ -1,4 +1,4 @@
-global.menuJobs = mp.browsers.new('package://cef/jobs/JobFarmer/index.html');
+global.menuJobs = mp.browsers.new('http://package/cef/jobs/JobFarmer/index.html');
 mp.peds.new(0xEF154C47, new mp.Vector3(438.3554, 6510.949, 28.6), 90, 0);
 
 mp.events.add("openJobsMenu", (json) => {

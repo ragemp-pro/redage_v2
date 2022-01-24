@@ -1,4 +1,4 @@
-global.inventory = mp.browsers.new('package://cef/inventory.html');
+global.inventory = mp.browsers.new('http://package/cef/inventory.html');
 
 mp.keys.bind(Keys.VK_I, false, function () {
 

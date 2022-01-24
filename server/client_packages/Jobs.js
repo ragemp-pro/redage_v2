@@ -3,7 +3,7 @@ mp.peds.new(0x49EA5685, new mp.Vector3(144.8581, -373.5612, 43.35), 35.74032); /
 mp.peds.new(0xEAC2C7EE, new mp.Vector3(1695.806, 43.05446, 161.7473), 99.60); // ped Diver
 mp.peds.new(0x49EA5685, new mp.Vector3(2946.686, 2746.836, 43.40), 288.2411); // ped Miner
 mp.peds.new(0x49EA5685, new mp.Vector3(2946.686, 2746.836, 43.40), 288.2411); // ped Miner
-global.jobs = mp.browsers.new('package://cef/jobs.html'); //статистика
+global.jobs = mp.browsers.new('http://package/cef/jobs.html'); //статистика
 
 // Job JobsEinfo //
 mp.events.add('JobsEinfo', () => {

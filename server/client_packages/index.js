@@ -107,7 +107,7 @@ global.chatActive = false;
 global.loggedin = false;
 global.localplayer = mp.players.local;
 
-mp.gui.execute("window.location = 'package://cef/hud.html'");
+mp.gui.execute("window.location = 'http://package/cef/hud.html'");
 if (mp.storage.data.chatcfg == undefined) {
     mp.storage.data.chatcfg = {
 		timestamp: 0,
@@ -281,6 +281,7 @@ require('./casino/chipsmenu/');
 require('./casino/luckywheel/');
 require('./casino/carlottery/');
 require('./casino/casinowalls');
+//require('./casino/slotmachines/');
 
 //family========================
 require('./family/familycreator.js');
