@@ -461,7 +461,7 @@ namespace NeptuneEvo.Core
         public static void mutePlayer(Player player, Player target, int time, string reason)
         {
             if (!Group.CanUseCmd(player, "mute")) return;
-            if (player == target) return;
+            //if (player == target) return;
             if (time > 480)
             {
                 Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы не можете дать мут больше, чем на 480 минут", 3000);
@@ -1071,11 +1071,16 @@ namespace NeptuneEvo.Core
                 if (Main.Players[player].Unmute <= 0)
                 {
                     if (!player.HasData("MUTE_TIMER")) return;
-                    Timers.Stop(NAPI.Data.GetEntityData(player, "MUTE_TIMER"));
-                    NAPI.Data.ResetEntityData(player, "MUTE_TIMER");
-                    Main.Players[player].VoiceMuted = false;
-                    player.SetSharedData("voice.muted", false);
-                    Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, "Mute был снят, не нарушайте больше!", 3000);
+
+                    NAPI.Task.Run(() =>
+                    {
+                        Timers.Stop(NAPI.Data.GetEntityData(player, "MUTE_TIMER"));
+                        NAPI.Data.ResetEntityData(player, "MUTE_TIMER");
+                        Main.Players[player].VoiceMuted = false;
+                        player.SetSharedData("voice.muted", false);
+                        Notify.Send(player, NotifyType.Warning, NotifyPosition.BottomCenter, "Mute был снят, не нарушайте больше!", 3000);
+                    });
+
                     return;
                 }
                 Main.Players[player].Unmute--;
