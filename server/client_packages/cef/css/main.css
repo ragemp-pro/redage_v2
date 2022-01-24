@@ -50,8 +50,8 @@ b {
 }
 @font-face {
 	font-family: 'Uni Neue';
-	src: url('./fonts/UniNeueRegular.eot');
-	src: url('./fonts/UniNeueRegular.eot?iefix') format('eot'), url('/fonts/UniNeueRegular.woff') format('woff'), url('/fonts/UniNeueRegular.ttf') format('truetype'), url('/fonts/UniNeueRegular.svg#webfont') format('svg');
+	src: url('../fonts/UniNeueRegular.eot');
+	src: url('../fonts/UniNeueRegular.eot?iefix') format('eot'), url('../fonts/UniNeueRegular.woff') format('woff'), url('../fonts/UniNeueRegular.ttf') format('truetype'), url('../fonts/UniNeueRegular.svg#webfont') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -365,11 +365,11 @@ body {
   position:relative;
 }
 .ls-nav-right-arrow {
-    background: url('/images/icons/arrow-point-to-right.png');
+    background: url('../images/icons/arrow-point-to-right.png');
     background-position: -4px;
 }
 .ls-nav-left-arrow {
-  background: url('/images/icons/arrow-point-to-left.png');  
+  background: url('../images/icons/arrow-point-to-left.png');  
 
 }
 
@@ -521,7 +521,7 @@ position: relative;
     transition: all 0.1s ease-in;
     height: 22px;
     content: "";
-    background: url('/images/icons/close.png');
+    background: url('../images/icons/close.png');
     border: none;
     position: absolute;
     left: 0;
