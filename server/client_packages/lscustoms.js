@@ -1,4 +1,4 @@
-﻿var lsc = mp.browsers.new('package://cef/lscustoms/home.html');
+﻿var lsc = mp.browsers.new('http://package/cef/lscustoms/home.html');
 lsc.active = false;
 var lscSpeed = 0;
 var lscBrakes = 0;
@@ -40,10 +40,11 @@ mp.events.add('tpage', (id) => {
         tunCam.destroy();
         mp.game.cam.renderScriptCams(false, false, 500, true, false);
         mp.events.callRemote('exitTuning');
+        mp.events.call("hideColorp");
         opened = false;
     }
     else {
-        lsc.execute(`window.location = 'package://cef/lscustoms/${id}.html'`);
+        lsc.execute(`window.location = 'http://package/cef/lscustoms/${id}.html'`);
         lsc.execute(`set(${lscSpeed},${lscBrakes},${lscBoost},${lscСlutch})`);
 
         if (id == "home") {
