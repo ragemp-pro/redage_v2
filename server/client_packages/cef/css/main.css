@@ -50,8 +50,8 @@ b {
 }
 @font-face {
 	font-family: 'Uni Neue';
-	src: url('/fonts/UniNeueRegular.eot');
-	src: url('/fonts/UniNeueRegular.eot?iefix') format('eot'), url('/fonts/UniNeueRegular.woff') format('woff'), url('/fonts/UniNeueRegular.ttf') format('truetype'), url('/fonts/UniNeueRegular.svg#webfont') format('svg');
+	src: url('./fonts/UniNeueRegular.eot');
+	src: url('./fonts/UniNeueRegular.eot?iefix') format('eot'), url('/fonts/UniNeueRegular.woff') format('woff'), url('/fonts/UniNeueRegular.ttf') format('truetype'), url('/fonts/UniNeueRegular.svg#webfont') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
