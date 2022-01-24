@@ -22,5 +22,5 @@
 **Внимание!** При изменении конфигурационых данных MySQL не забывайте удалять файл **Settings.db** (в корневой папке сервера). Там находится кэш настроек. 
 
 Скомпилированные файлы сервера находятся тут - **redage_v2\server\dotnet\resources\client\bin\x64\Debug\netcoreapp3.1**  
-Архив dlcpacks - https://drive.google.com/file/d/1rw3SDANSWrLQmaakkx60p1MsySnr_CS6/view?usp=sharing  
+Архив dlcpacks - https://drive.google.com/file/d/1uCzWnqTp62ovvisT7fwKjNjU-RDC0wCn/view?usp=sharing  
 (содержимое скопировать по пути - **redage_v2\server\client_packages\game_resources\dlcpacks**)
