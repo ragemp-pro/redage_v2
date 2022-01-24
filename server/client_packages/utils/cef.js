@@ -16,7 +16,7 @@ mp.gui.emmit = function(execute, log = true) {
     mp.gui.execute(execute);
 }
 
-mp.gui.emmit("window.location = 'http://package/interface/index.html'");
+mp.gui.emmit("window.location = 'package://interface/index.html'");
 
 setInterval(function() {
 

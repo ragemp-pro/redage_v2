@@ -1,4 +1,4 @@
-global.melogMarket = mp.browsers.new('http://package/cef/jobs/FarmerMarket/index.html');
+global.melogMarket = mp.browsers.new('package://cef/jobs/FarmerMarket/index.html');
 let melogMarketLoaded = false;
 
 mp.peds.new(0x94562DD7, new mp.Vector3(2367.39, 4881.526, 42), 120, 0);

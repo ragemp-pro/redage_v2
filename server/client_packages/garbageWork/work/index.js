@@ -24,7 +24,7 @@ mp.events.add("garbageMenuCancel", () => {
 
 mp.events.add("garbageMenuOpen", () => {
     if (inShape && browser == null) {
-        browser = mp.browsers.new("http://package/garbageWork/work/web/index.html");
+        browser = mp.browsers.new("package://garbageWork/work/web/index.html");
         mp.gui.cursor.show(true, true);
     } else if (browser.active == false){
         browser.active = true;

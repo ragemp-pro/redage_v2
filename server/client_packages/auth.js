@@ -4,7 +4,7 @@ cam.setActive(true);
 mp.game.cam.renderScriptCams(true, false, 0, true, false);
 
 var respawn;
-var auth = mp.browsers["new"]('http://package/cef/auth.html');
+var auth = mp.browsers["new"]('package://cef/auth.html');
 auth.execute(`slots.server=${serverid};`);
 mp.gui.cursor.visible = true;
 
@@ -202,7 +202,7 @@ mp.events.add('spawnShow', function (data, respawndata) {
         }
     }
     else {
-        respawn = mp.browsers["new"]('http://package/cef/respawn.html');
+        respawn = mp.browsers["new"]('package://cef/respawn.html');
         respawn.execute(`set('${data}')`);
         
         if(respawndata != null) {
@@ -225,8 +225,8 @@ mp.events.add('ready', function () {
     mp.events.call('hideTun');
     mp.game.player.setHealthRechargeMultiplier(0);
 
-    global.menu = mp.browsers["new"]('http://package/cef/menu.html');
-    global.helpmenu = mp.browsers["new"]('http://package/cef/help.html');
+    global.menu = mp.browsers["new"]('package://cef/menu.html');
+    global.helpmenu = mp.browsers["new"]('package://cef/help.html');
 
     if (respawn != null) {
         respawn.destroy();

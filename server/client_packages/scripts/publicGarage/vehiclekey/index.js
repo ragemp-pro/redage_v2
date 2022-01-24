@@ -13,7 +13,7 @@ const controls = mp.game.controls;
 
 mp.events.add('openSeatCef', () => {
     if (seatCef == null) {
-        seatCef = mp.browsers.new('http://package/Vehicles/vehiclekey/index.html');
+        seatCef = mp.browsers.new('package://Vehicles/vehiclekey/index.html');
 		mp.gui.cursor.visible = true;
     }
 });

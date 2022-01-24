@@ -11,7 +11,7 @@ mp.events.add('OpenVehStore', () => {
         mp.gui.cursor.show(true, true);
 		mp.gui.chat.activate(false);
 		mp.gui.chat.show(false);
-        garage = mp.browsers.new("http://package/scripts/publicGarage/garage.html");
+        garage = mp.browsers.new("package://scripts/publicGarage/garage.html");
         mp.events.callRemote("getVehicles");
     } else {
         mp.gui.cursor.show(false, false);

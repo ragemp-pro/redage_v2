@@ -7,7 +7,7 @@ mp.keys.bind(Keys.VK_O, false, function () {
 mp.events.add("openFamilyMenu", (json) => {
 	if (!loggedin || chatActive || editing || cuffed) return;
 	global.menuOpen();
-	global.familyManager = mp.browsers.new('http://package/cef/FamilyManager/index.html');
+	global.familyManager = mp.browsers.new('package://cef/FamilyManager/index.html');
 	global.familyManager.active = true;
 	global.familyManager.execute(`familyManager.active=true`);
 	global.familyManager.execute(`familyManager.setinfo(${json})`);
