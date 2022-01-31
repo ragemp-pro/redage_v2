@@ -19,7 +19,7 @@ namespace NeptuneEvo.Core
                     Trigger.ClientEvent(player, "safeZone", true);
                 }
                 catch (Exception e) { Log.Write($"SafeZoneEnter: {e.Message}", nLog.Type.Error); }
-                
+
             };
             colShape.OnEntityExitColShape += (shape, player) =>
             {
@@ -44,7 +44,7 @@ namespace NeptuneEvo.Core
         public static void SetEnterInteractionCheck(ColShape shape, Player player)
         {
             if (!Main.Players.ContainsKey(player)) return;
-            if (player.HasData("INTERACTIONCHECK") && player.GetData<int>("INTERACTIONCHECK") <= 0) return;
+            if (!player.HasData("INTERACTIONCHECK") || player.GetData<int>("INTERACTIONCHECK") <= 0) return;
             if (player.HasData("CUFFED") && player.GetData<bool>("CUFFED")) return;
             if (player.HasData("IS_DYING") || player.HasData("FOLLOWING")) return;
 
