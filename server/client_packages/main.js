@@ -340,7 +340,7 @@ mp.keys.bind(Keys.VK_DOWN, true, function() {   // стрелка вниз
 
 mp.keys.bind(Keys.VK_M, false, function () {
 
-    if (!loggedin || chatActive || editing || global.menuCheck() || cuffed || localplayer.getVariable('InDeath') == true || new Date().getTime() - lastCheck < 400) return;
+    if (!loggedin || chatActive || editing || global.menuCheck() || cuffed || localplayer.getVariable('InDeath') == true || localplayer.getVariable('AntiAnimDown') || new Date().getTime() - lastCheck < 400) return;
     
     if (global.phoneOpen)
     {

@@ -3518,11 +3518,11 @@ namespace NeptuneEvo
         }
         public static void OnAntiAnim(Player player)
         {
-            player.SetData("AntiAnimDown", true);
+            player.SetSharedData("AntiAnimDown", true);
         }
         public static void OffAntiAnim(Player player)
         {
-            player.ResetData("AntiAnimDown");
+            player.ResetSharedData("AntiAnimDown");
 
             if (player.HasData("PhoneVoip"))
             {
