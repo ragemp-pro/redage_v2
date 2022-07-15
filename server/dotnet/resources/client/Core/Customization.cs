@@ -2485,8 +2485,12 @@ namespace NeptuneEvo.Core
 
             var gender = Main.Players[player].Gender;
             SetDefaultFeatures(player, gender);
-            Trigger.ClientEvent(player, "CreatorCamera");
-            DimensionID++;
+
+            NAPI.Task.Run(() =>
+            {
+                Trigger.ClientEvent(player, "CreatorCamera");
+                DimensionID++;
+            }, 1500);
         }
 
         public static void SendToCreator(Player player)
