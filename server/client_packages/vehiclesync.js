@@ -230,17 +230,19 @@ mp.events.add({
 	
 mp.events.add("playerEnterVehicle", (entity, seat) => {
     try {
-        if (seat == 0) {
+        if (seat == -1) {
             lastdirt = entity.getDirtLevel();
             if (dirtt != null) clearInterval(dirtt);
             dirtt = setInterval(function () {
                 dirtlevel(entity);
             }, 20000);
 
-            if (entity.getVariable('BOOST') != undefined) {
-                var boost = entity.getVariable('BOOST');
+            if (entity.getVariable('BOOST_POWER') != undefined && entity.getVariable('BOOST_TORQUE') != undefined) {
+                var boost = entity.getVariable('BOOST_POWER');
+                var torque = entity.getVariable('BOOST_TORQUE');
+
                 entity.setEnginePowerMultiplier(boost);
-                entity.setEngineTorqueMultiplier(boost);
+                entity.setEngineTorqueMultiplier(torque);
             }
         }
     } catch (e) { }

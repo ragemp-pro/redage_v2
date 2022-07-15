@@ -1844,6 +1844,10 @@ namespace NeptuneEvo.Core
             {
                 if (!Group.CanUseCmd(player, "stt")) return;
                 if (!player.IsInVehicle) return;
+
+                player.Vehicle.SetSharedData("BOOST_POWER", power);
+                player.Vehicle.SetSharedData("BOOST_TORQUE", torque);
+
                 Trigger.ClientEvent(player, "svem", power, torque);
             }
             catch (Exception e)
