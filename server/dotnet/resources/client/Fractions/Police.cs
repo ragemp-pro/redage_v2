@@ -97,7 +97,7 @@ namespace NeptuneEvo.Fractions
             {
                 if (!Main.Players.ContainsKey(player)) return;
                 if (player.VehicleSeat != 0 || player.VehicleSeat != 1) return;
-                if (Main.Players[player].FractionID != 7 || Main.Players[player].FractionID != 9) return;
+                if (Main.Players[player].FractionID != 7 || Main.Players[player].FractionID != 9 || Main.Players[player].FractionID != 18) return;
                 Trigger.ClientEvent(player, "closePc");
             }
             catch (Exception e) { Log.Write("PlayerExitVehicle: " + e.Message, nLog.Type.Error); }
@@ -368,11 +368,11 @@ namespace NeptuneEvo.Fractions
                 if (!NAPI.Player.IsPlayerInAnyVehicle(sender)) return;
                 var vehicle = sender.Vehicle;
                 if (NAPI.Data.GetEntityData(vehicle, "ACCESS") == "FRACTION" &&
-                    (NAPI.Data.GetEntityData(vehicle, "FRACTION") == 7 || NAPI.Data.GetEntityData(vehicle, "FRACTION") == 9) &&
+                    (NAPI.Data.GetEntityData(vehicle, "FRACTION") == 7 || NAPI.Data.GetEntityData(vehicle, "FRACTION") == 9 || NAPI.Data.GetEntityData(vehicle, "FRACTION") == 18) &&
                     (sender.VehicleSeat == 0 || sender.VehicleSeat == 1))
                 {
                     MenuManager.Close(sender);
-                    if (Main.Players[sender].FractionID == 7 || Main.Players[sender].FractionID == 9)
+                    if (Main.Players[sender].FractionID == 7 || Main.Players[sender].FractionID == 9 || Main.Players[sender].FractionID == 18)
                     {
                         Trigger.ClientEvent(sender, "openPc");
                         Commands.RPChat("me", sender, "включил(а) бортовой компьютер");

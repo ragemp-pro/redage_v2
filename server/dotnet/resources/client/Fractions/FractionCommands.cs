@@ -197,7 +197,7 @@ namespace NeptuneEvo.Fractions
                 BasicSync.AttachObjectToPlayer(target, NAPI.Util.GetHashKey("p_cs_cuffs_02_s"), 6286, new Vector3(-0.02f, 0.063f, 0.0f), new Vector3(75.0f, 0.0f, 76.0f));
 
                 Trigger.ClientEvent(target, "CUFFED", true);
-                if (fracid == 6 || fracid == 7 || fracid == 9) target.SetData("CUFFED_BY_COP", true);
+                if (fracid == 6 || fracid == 7 || fracid == 9 || fracid == 18) target.SetData("CUFFED_BY_COP", true);
                 else target.SetData("CUFFED_BY_MAFIA", true);
 
                 GUI.Dashboard.Close(target);
@@ -513,7 +513,7 @@ namespace NeptuneEvo.Fractions
                 Notify.Send(target, NotifyType.Info, NotifyPosition.BottomCenter, $"Вы оплатили штраф в размере {sum}$ за {reason}", 3000);
                 Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"{target.Name} оплатил штраф в размере {sum}$ за {reason}", 3000);
                 Commands.RPChat("me", player, " выписал штраф для {name}", target);
-                Manager.sendFractionMessage(7, $"{player.Name} оштрафовал {target.Name} на {sum}$ ({reason})", true);
+                Manager.sendFractionMessage(Main.Players[player].FractionID, $"{player.Name} оштрафовал {target.Name} на {sum}$ ({reason})", true);
                 GameLog.Ticket(Main.Players[player].UUID, Main.Players[target].UUID, sum, reason, player.Name, target.Name);
             }
             else
@@ -569,7 +569,7 @@ namespace NeptuneEvo.Fractions
             Notify.Send(player, NotifyType.Success, NotifyPosition.BottomCenter, $"Вы посадили игрока ({target.Value}) на {Main.Players[target].WantedLVL.Level * 20} минут", 3000);
             Notify.Send(target, NotifyType.Warning, NotifyPosition.BottomCenter, $"Игрок ({player.Value}) посадил Вас на {Main.Players[target].WantedLVL.Level * 20} минут", 3000);
             Commands.RPChat("me", player, " поместил {name} в КПЗ", target);
-            Manager.sendFractionMessage(7, $"{player.Name} посадил в КПЗ {target.Name} ({Main.Players[target].WantedLVL.Reason})", true);
+            Manager.sendFractionMessage(Main.Players[player].FractionID, $"{player.Name} посадил в КПЗ {target.Name} ({Main.Players[target].WantedLVL.Reason})", true);
             Manager.sendFractionMessage(9, $"{player.Name} посадил в КПЗ {target.Name} ({Main.Players[target].WantedLVL.Reason})", true);
             Main.Players[target].ArrestTime = Main.Players[target].WantedLVL.Level * 20 * 60;
             GameLog.Arrest(Main.Players[player].UUID, Main.Players[target].UUID, Main.Players[target].WantedLVL.Reason, Main.Players[target].WantedLVL.Level, player.Name, target.Name);
@@ -673,7 +673,7 @@ namespace NeptuneEvo.Fractions
                     break;
                 case "SHERIFF":
                     NAPI.Entity.SetEntityPosition(target, Sheriff.sheriffCheckpoints[4]);
-                    Sheriff.setPlayerWantedLevel(target, null);
+                    Police.setPlayerWantedLevel(target, null);
                     break;
             }
             //NAPI.Data.SetEntityData(target, "ARREST_TIMER", Main.StartT(1000, 1000, (o) => arrestTimer(target), "ARREST_TIMER"));
@@ -827,7 +827,6 @@ namespace NeptuneEvo.Fractions
                     var oldStars = (Main.Players[target].WantedLVL == null) ? 0 : Main.Players[target].WantedLVL.Level;
                     var wantedLevel = new WantedLevel(oldStars + stars, player.Name, DateTime.Now, reason);
                     Police.setPlayerWantedLevel(target, wantedLevel);
-                    Sheriff.setPlayerWantedLevel(target, wantedLevel);
                     return;
                 }
                 else Notify.Send(player, NotifyType.Error, NotifyPosition.BottomCenter, $"Вы не можете выдать такое кол-во звёзд", 3000);
@@ -927,35 +926,13 @@ namespace NeptuneEvo.Fractions
 
         public static void setWargPoliceMode(Player player)
         {
-            if (!Manager.canUseCommand(player, "warg"))
-            {
-                return;
-            }
-            if (Main.Players[player].FractionID == 18)
-            {
-                var message = "";
-                Police.is_warg = !Police.is_warg;
-                if (Police.is_warg) message = $"{NAPI.Player.GetPlayerName(player)} объявил режим ЧП!!!";
-                else message = $"{NAPI.Player.GetPlayerName(player)} отключил режим ЧП.";
-                Manager.sendFractionMessage(7, message);
-            }
-            if (Main.Players[player].FractionID == 7)
-            {
-                var message = "";
-                Police.is_warg = !Police.is_warg;
-                if (Police.is_warg) message = $"{NAPI.Player.GetPlayerName(player)} объявил режим ЧП!!!";
-                else message = $"{NAPI.Player.GetPlayerName(player)} отключил режим ЧП.";
-                Manager.sendFractionMessage(7, message);
-            }
-            else if (Main.Players[player].FractionID == 9)
-            {
-                var message = "";
-                Fbi.warg_mode = !Fbi.warg_mode;
-                if (Fbi.warg_mode) message = $"{NAPI.Player.GetPlayerName(player)} объявил режим ЧП!!!";
-                else message = $"{NAPI.Player.GetPlayerName(player)} отключил режим ЧП.";
-                Manager.sendFractionMessage(9, message);
-            }
+            if (!Manager.canUseCommand(player, "warg")) return;
 
+            var message = "";
+            Police.is_warg = !Police.is_warg;
+            if (Police.is_warg) message = $"{NAPI.Player.GetPlayerName(player)} объявил режим ЧП!!!";
+            else message = $"{NAPI.Player.GetPlayerName(player)} отключил режим ЧП.";
+            Manager.sendFractionMessage(Main.Players[player].FractionID, message);
         }
 
         public static void takeGunLic(Player player, Player target)

@@ -307,7 +307,7 @@ namespace NeptuneEvo.Fractions
                 switch ((string)vehicle.GetData<string>("ACCESS"))
                 {
                     case "GANGDELIVERY":
-                        if (fraction == 7 || fraction == 9)
+                        if (fraction == 7 || fraction == 9 || fraction == 18)
                         {
                             Trigger.ClientEvent(player, "createWaypoint", PoliceEndDelivery.X, PoliceEndDelivery.Y);
                             Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, "Отвезите машину в полицейский участок", 3000);
@@ -325,7 +325,7 @@ namespace NeptuneEvo.Fractions
                         }
                         return;
                     case "MAFIADELIVERY":
-                        if (fraction == 7 || fraction == 9)
+                        if (fraction == 7 || fraction == 9 || fraction == 18)
                         {
                             Trigger.ClientEvent(player, "createWaypoint", PoliceEndDelivery.X, PoliceEndDelivery.Y);
                             Notify.Send(player, NotifyType.Info, NotifyPosition.BottomCenter, "Отвезите машину в полицейский участок", 3000);
