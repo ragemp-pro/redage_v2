@@ -32,9 +32,9 @@ function cancel() {
 }
 function show(state) {
     if (state) {
-        document.getElementsByTagName('body')[0].style.opacity = 1;
+        document.getElementsByTagName('body')[0].style.display = '';
     } else {
-        document.getElementsByTagName('body')[0].style.opacity = 0;
+        document.getElementsByTagName('body')[0].style.display = 'none';
     }
 }
 
