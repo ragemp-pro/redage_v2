@@ -130,14 +130,14 @@ namespace NeptuneEvo.Core
             }
         }
 
-        [ServerEvent(Event.PlayerExitVehicleAttempt)]
+        [ServerEvent(Event.PlayerExitVehicle)]
         public void VehStreamExitAttempt(Player player, Vehicle veh)
         {
             VehicleSyncData data = GetVehicleSyncData(veh);
             if (data == default(VehicleSyncData))
                 data = new VehicleSyncData();
             UpdateVehicleSyncData(veh, data);
-            Trigger.ClientEvent(player, "VehStream_PlayerExitVehicleAttempt", veh, data.Engine);
+            Trigger.ClientEvent(player, "VehStream_PlayerExitVehicle", veh, data.Engine);
         }
 
         [ServerEvent(Event.PlayerEnterVehicle)]
@@ -163,7 +163,7 @@ namespace NeptuneEvo.Core
             UpdateVehicleSyncData(veh, data);
 
             if (NAPI.Vehicle.GetVehicleDriver(veh) != default(Player)) //Doesn't work?
-                NAPI.ClientEvent.TriggerClientEvent((Player)NAPI.Vehicle.GetVehicleDriver(veh), "VehStream_PlayerExitVehicleAttempt", veh);
+                NAPI.ClientEvent.TriggerClientEvent((Player)NAPI.Vehicle.GetVehicleDriver(veh), "VehStream_PlayerExitVehicle", veh);
         }
 
         public static void SetVehicleWheelState(Vehicle veh, WheelID wheel, WheelState state)

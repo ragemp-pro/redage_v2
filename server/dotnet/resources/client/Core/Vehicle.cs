@@ -267,7 +267,7 @@ namespace NeptuneEvo.Core
             catch (Exception e) { Log.Write("PlayerEnterVehicle: " + e.Message, nLog.Type.Error); }
         }
 
-        [ServerEvent(Event.PlayerExitVehicleAttempt)]
+        [ServerEvent(Event.PlayerExitVehicle)]
         public void onPlayerExitVehicleHandler(Player player, Vehicle vehicle)
         {
             try
@@ -282,7 +282,7 @@ namespace NeptuneEvo.Core
                     if (vehicle.GetData<List<Player>>("OCCUPANTS").Contains(player)) vehicle.GetData<List<Player>>("OCCUPANTS").Remove(player);
                 }
             }
-            catch (Exception e) { Log.Write("PlayerExitVehicleAttempt: " + e.Message, nLog.Type.Error); }
+            catch (Exception e) { Log.Write("PlayerExitVehicle: " + e.Message, nLog.Type.Error); }
         }
 
         public static void API_onPlayerDisconnected(Player player, DisconnectionType type, string reason)
