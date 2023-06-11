@@ -212,7 +212,7 @@ mp.events.add('CreatorCamera', () => {
 
     bodyCamStart = mp.players.local.position;
     var camValues = { Angle: mp.players.local.getRotation(2).z + 90, Dist: 0.6, Height: 0.6 };
-    var pos = getCameraOffset(new mp.Vector3(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camValues.Height), camValues.Angle, camValues.Dist);
+    var pos = global.getCameraOffset(new mp.Vector3(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camValues.Height), camValues.Angle, camValues.Dist);
     bodyCam = mp.cameras.new('default', pos, new mp.Vector3(0, 0, 0), 50);
     bodyCam.pointAtCoord(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camValues.Height);
     bodyCam.setActive(true);

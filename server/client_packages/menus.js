@@ -734,7 +734,7 @@ mp.events.add('bsearchOpen', (data) => {
     global.menu.execute(`bsearch.set('${data}')`);
 })
 // BODY CUSTOM //
-function getCameraOffset(pos, angle, dist) {
+global.getCameraOffset = function(pos, angle, dist) {
     //mp.gui.chat.push(`Sin: ${Math.sin(angle)} | Cos: ${Math.cos(angle)}`);
 
     angle = angle * 0.0174533;
