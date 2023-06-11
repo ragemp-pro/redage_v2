@@ -2,9 +2,9 @@
 var lastdirt;
 
 mp.game.vehicle.defaultEngineBehaviour = false;
-localplayer.setConfigFlag(241, true); // Отключаем глушения двигателя при выходе из машины (PED_FLAG_DISABLE_STOPPING_VEH_ENGINE)
-localplayer.setConfigFlag(429, true); // Отключаем попытку завести двигатель машины при входе в нее (PED_FLAG_STOP_ENGINE_TURNING)
-localplayer.setConfigFlag(35, false); // Отключаем автоматический шлем при посадке на мотоцикл (PED_FLAG_CAN_PUT_MOTORCYCLE_HELMET).
+mp.players.local.setConfigFlag(241, true); // Отключаем глушения двигателя при выходе из машины (PED_FLAG_DISABLE_STOPPING_VEH_ENGINE)
+mp.players.local.setConfigFlag(429, true); // Отключаем попытку завести двигатель машины при входе в нее (PED_FLAG_STOP_ENGINE_TURNING)
+mp.players.local.setConfigFlag(35, false); // Отключаем автоматический шлем при посадке на мотоцикл (PED_FLAG_CAN_PUT_MOTORCYCLE_HELMET).
 
 mp.events.add("VehStream_SetEngineStatus", (veh, status, lights, left, right) => {
     try {
@@ -375,7 +375,7 @@ mp.events.add("VehStream_FixStreamIn", (entity, data) => {
 function dirtlevel(entity) {
     try {
         if (entity && mp.vehicles.exists(entity)) {
-            if (localplayer.vehicle == entity && entity.getPedInSeat(-1) == localplayer.handle)
+            if (mp.players.local.vehicle == entity && entity.getPedInSeat(-1) == mp.players.local.handle)
                 mp.events.call("VehStream_GetVehicleDirtLevel", entity);
         }
         else {
@@ -670,9 +670,9 @@ mp.events.add("entityStreamIn", (entity) => {
 });
 
 mp.keys.bind(0x60, true, _ => {
-    if (localPlayer.vehicle && localPlayer.vehicle.getPedInSeat(-1) === localPlayer.handle && localPlayer.vehicle.getClass() === 18) {
-        localPlayer.vehicle.getVariable('silentMode') ? mp.game.graphics.notify(`Silent mode is deactivated.`) : mp.game.graphics.notify(`Silent mode is activated.`);
-        mp.events.callRemote('syncSirens', localPlayer.vehicle)
+    if (mp.players.local.vehicle && mp.players.local.vehicle.getPedInSeat(-1) === mp.players.local.handle && mp.players.local.vehicle.getClass() === 18) {
+        mp.players.local.vehicle.getVariable('silentMode') ? mp.game.graphics.notify(`Silent mode is deactivated.`) : mp.game.graphics.notify(`Silent mode is activated.`);
+        mp.events.callRemote('syncSirens', mp.players.local.vehicle)
     }
 });
 

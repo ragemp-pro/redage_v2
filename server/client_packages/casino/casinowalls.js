@@ -61,7 +61,7 @@ mp.events.add('render', function () {
 const casinoInteriorId = 275201;
 mp.events.add("guiReady", () => {
     const timer = setInterval(() => {
-        var position = localplayer.position;
+        var position = mp.players.local.position;
         var interior = mp.game.interior.getInteriorAtCoords(position.x, position.y, position.z);
         
         if(!enabled && interior === casinoInteriorId)

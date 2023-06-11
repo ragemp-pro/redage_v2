@@ -1,5 +1,5 @@
 mp.keys.bind(Keys.VK_O, false, function () {
-    if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 1000 || global.menuOpened || !localplayer.getVariable('IS_FAMILY')) return;
+    if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 1000 || global.menuOpened || !mp.players.local.getVariable('IS_FAMILY')) return;
     mp.events.callRemote('openfamilymanager');
     lastCheck = new Date().getTime();
 });

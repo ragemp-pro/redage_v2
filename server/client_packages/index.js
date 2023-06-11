@@ -105,7 +105,6 @@ mp.events.add('admin.toggleGodMode', () => {
 
 global.chatActive = false;
 global.loggedin = false;
-global.localplayer = mp.players.local;
 
 mp.gui.execute("window.location = 'package://cef/hud.html'");
 if (mp.storage.data.chatcfg == undefined) {
@@ -124,11 +123,10 @@ setTimeout(function () {
 }, 1000);
 
 setInterval(function () {
-    var name = (localplayer.getVariable('REMOTE_ID') == undefined) ? `Не авторизован` : `Игрок №${localplayer.getVariable("REMOTE_ID")}`;
+    var name = (mp.players.local.getVariable('REMOTE_ID') == undefined) ? `Не авторизован` : `Игрок №${mp.players.local.getVariable("REMOTE_ID")}`;
 	mp.discord.update('redage_v2 - 2.4.7 (1809) | RAGEMP.PRO', name);
 }, 10000);
 
-var pressedraw = false;
 var accessRoding = false;
 
 const walkstyles = [null,"move_m@brave","move_m@confident","move_m@drunk@verydrunk","move_m@shadyped@a","move_m@sad@a","move_f@sexy@a","move_ped_crouched"];
@@ -140,7 +138,11 @@ mp.game.streaming.requestClipSet("move_m@shadyped@a");
 mp.game.streaming.requestClipSet("move_m@sad@a");
 mp.game.streaming.requestClipSet("move_f@sexy@a");
 mp.game.streaming.requestClipSet("move_ped_crouched");
-var admingm = false;
+
+global.admingm = false;
+
+global.showhud = true;
+global.passports = {};
 
 mp.game.audio.setAudioFlag("DisableFlightMusic", true);
 
@@ -179,7 +181,7 @@ mp.events.add('chatconfig', function (a, b) {
 });
 
 mp.events.add('setClientRotation', function (player, rots) {
-	if (player !== undefined && player != null && localplayer != player) player.setRotation(0, 0, rots, 2, true);
+	if (player !== undefined && player != null && mp.players.local != player) player.setRotation(0, 0, rots, 2, true);
 });
 
 mp.events.add('setWorldLights', function (toggle) {
@@ -193,10 +195,6 @@ mp.events.add('setWorldLights', function (toggle) {
 
 mp.events.add('changeChatState', function (state) {
     chatActive = state;
-});
-
-mp.events.add('PressE', function (toggle) {
-    pressedraw = toggle;
 });
 
 mp.events.add('allowRoding', function (toggle) {
@@ -241,7 +239,6 @@ require('./environment.js');
 require('./elections.js');
 require('./world/animals.js');
 require('./world/doors.js');
-require('./client/utils/utils.js');
 require('./scripts/autopilot.js');
 //require('./scripts/crouch.js'); // Временно отключил скрипт из-за проблемы после обновления GTA V (2545 version)
 //require('./scripts/location.js');
@@ -343,18 +340,15 @@ mp.events.add('authready', () => {
 mp.events.add('acpos', () => {
     global.acheat.pos();
 })
-// // // // // // //
-var spectating = false;
-var sptarget = null;
 
-//mp.game.invoke(getNative("REMOVE_ALL_PED_WEAPONS"), localplayer.handle, false);
+//mp.game.invoke(getNative("REMOVE_ALL_PED_WEAPONS"), mp.players.local.handle, false);
 
 mp.keys.bind(Keys.VK_R, false, function () { // R key
 	try {
 		if (!loggedin || chatActive || new Date().getTime() - global.lastCheck < 1000 || mp.gui.cursor.visible) return;
 		var current = currentWeapon();
 		if (current == -1569615261 || current == 911657153) return;
-		var ammo = mp.game.invoke(getNative("GET_AMMO_IN_PED_WEAPON"), localplayer.handle, current);
+		var ammo = mp.game.invoke(getNative("GET_AMMO_IN_PED_WEAPON"), mp.players.local.handle, current);
 		if (mp.game.weapon.getWeaponClipSize(current) == ammo) return;
 		mp.events.callRemote("playerReload", current, ammo);
 		global.lastCheck = new Date().getTime();
@@ -381,32 +375,32 @@ mp.keys.bind(Keys.VK_3, false, function () { // 3 key
 
 var ammosweap = 0;
 var givenWeapon = -1569615261;
-const currentWeapon = () => mp.game.invoke(getNative("GET_SELECTED_PED_WEAPON"), localplayer.handle);
+const currentWeapon = () => mp.game.invoke(getNative("GET_SELECTED_PED_WEAPON"), mp.players.local.handle);
 mp.events.add('wgive', (weaponHash, ammo, isReload, equipNow) => {
     weaponHash = parseInt(weaponHash);
     ammo = parseInt(ammo);
     ammo = ammo >= 9999 ? 9999 : ammo;
     givenWeapon = weaponHash;
-    ammo += mp.game.invoke(getNative("GET_AMMO_IN_PED_WEAPON"), localplayer.handle, weaponHash);
-    mp.game.invoke(getNative("SET_PED_AMMO"), localplayer.handle, weaponHash, 0);
+    ammo += mp.game.invoke(getNative("GET_AMMO_IN_PED_WEAPON"), mp.players.local.handle, weaponHash);
+    mp.game.invoke(getNative("SET_PED_AMMO"), mp.players.local.handle, weaponHash, 0);
 	ammosweap = ammo;
     mp.gui.execute(`HUD.ammo=${ammo};`);
     // GIVE_WEAPON_TO_PED //
-    mp.game.invoke(getNative("GIVE_WEAPON_TO_PED"), localplayer.handle, weaponHash, ammo, false, equipNow);
+    mp.game.invoke(getNative("GIVE_WEAPON_TO_PED"), mp.players.local.handle, weaponHash, ammo, false, equipNow);
 
     if (isReload) {
-        mp.game.invoke(getNative("MAKE_PED_RELOAD"), localplayer.handle);
+        mp.game.invoke(getNative("MAKE_PED_RELOAD"), mp.players.local.handle);
     }
 });
 mp.events.add('takeOffWeapon', (weaponHash) => {
     try {
         weaponHash = parseInt(weaponHash);
-        var ammo = mp.game.invoke(getNative("GET_AMMO_IN_PED_WEAPON"), localplayer.handle, weaponHash);
+        var ammo = mp.game.invoke(getNative("GET_AMMO_IN_PED_WEAPON"), mp.players.local.handle, weaponHash);
 		if(ammo == ammosweap) mp.events.callRemote('playerTakeoffWeapon', weaponHash, ammo, 0);
 		else mp.events.callRemote('playerTakeoffWeapon', weaponHash, ammosweap, 1);
 		ammosweap = 0;
-		mp.game.invoke(getNative("SET_PED_AMMO"), localplayer.handle, weaponHash, 0);
-		mp.game.invoke(getNative("REMOVE_WEAPON_FROM_PED"), localplayer.handle, weaponHash);
+		mp.game.invoke(getNative("SET_PED_AMMO"), mp.players.local.handle, weaponHash, 0);
+		mp.game.invoke(getNative("REMOVE_WEAPON_FROM_PED"), mp.players.local.handle, weaponHash);
 		givenWeapon = -1569615261;
 		mp.gui.execute(`HUD.ammo=0;`);
     } catch (e) { }
@@ -414,12 +408,12 @@ mp.events.add('takeOffWeapon', (weaponHash) => {
 mp.events.add('serverTakeOffWeapon', (weaponHash) => {
     try {
         weaponHash = parseInt(weaponHash);
-        var ammo = mp.game.invoke(getNative("GET_AMMO_IN_PED_WEAPON"), localplayer.handle, weaponHash);
+        var ammo = mp.game.invoke(getNative("GET_AMMO_IN_PED_WEAPON"), mp.players.local.handle, weaponHash);
 		if(ammo == ammosweap) mp.events.callRemote('takeoffWeapon', weaponHash, ammo, 0);
 		else mp.events.callRemote('takeoffWeapon', weaponHash, ammosweap, 1);
 		ammosweap = 0;
-		mp.game.invoke(getNative("SET_PED_AMMO"), localplayer.handle, weaponHash, 0);
-		mp.game.invoke(getNative("REMOVE_WEAPON_FROM_PED"), localplayer.handle, weaponHash);
+		mp.game.invoke(getNative("SET_PED_AMMO"), mp.players.local.handle, weaponHash, 0);
+		mp.game.invoke(getNative("REMOVE_WEAPON_FROM_PED"), mp.players.local.handle, weaponHash);
 		givenWeapon = -1569615261;
 		mp.gui.execute(`HUD.ammo=0;`);
 		
@@ -465,12 +459,12 @@ mp.events.add('petinhouse', (petName, petX, petY, petZ, petC, Dimension) => {
 });
 var checkTimer = setInterval(function () {
     var current = currentWeapon();
-    if (localplayer.isInAnyVehicle(true)) {
-        var vehicle = localplayer.vehicle;
+    if (mp.players.local.isInAnyVehicle(true)) {
+        var vehicle = mp.players.local.vehicle;
         if (vehicle == null) return;
 
         if (vehicle.getClass() == 15) {
-            if (vehicle.getPedInSeat(-1) == localplayer.handle || vehicle.getPedInSeat(0) == localplayer.handle) return;
+            if (vehicle.getPedInSeat(-1) == mp.players.local.handle || vehicle.getPedInSeat(0) == mp.players.local.handle) return;
         }
         else {
             if (canUseInCar.indexOf(current) == -1) return;
@@ -479,10 +473,10 @@ var checkTimer = setInterval(function () {
 
     if (currentWeapon() != givenWeapon) {
 		ammosweap = 0;
-        mp.game.invoke(getNative("GIVE_WEAPON_TO_PED"), localplayer.handle, givenWeapon, 1, false, true);
-        mp.game.invoke(getNative("SET_PED_AMMO"), localplayer.handle, givenWeapon, 0);
-        localplayer.taskReloadWeapon(false);
-        localplayer.taskSwapWeapon(false);
+        mp.game.invoke(getNative("GIVE_WEAPON_TO_PED"), mp.players.local.handle, givenWeapon, 1, false, true);
+        mp.game.invoke(getNative("SET_PED_AMMO"), mp.players.local.handle, givenWeapon, 0);
+        mp.players.local.taskReloadWeapon(false);
+        mp.players.local.taskSwapWeapon(false);
         mp.gui.execute(`HUD.ammo=0;`);
     }
 }, 100);
@@ -504,7 +498,7 @@ var canUseInCar = [
 ];
 mp.events.add('playerWeaponShot', (targetPosition, targetEntity) => {
     var current = currentWeapon();
-    var ammo = mp.game.invoke(getNative("GET_AMMO_IN_PED_WEAPON"), localplayer.handle, current);
+    var ammo = mp.game.invoke(getNative("GET_AMMO_IN_PED_WEAPON"), mp.players.local.handle, current);
     mp.gui.execute(`HUD.ammo=${ammo};`);
 	
 	if (current != -1569615261 && current != 911657153) {
@@ -512,8 +506,8 @@ mp.events.add('playerWeaponShot', (targetPosition, targetEntity) => {
 		if(ammosweap == 0 && ammo != 0) {
 			mp.events.callRemote('takeoffWeapon', current, 0, 1);
 			ammosweap = 0;
-			mp.game.invoke(getNative("SET_PED_AMMO"), localplayer.handle, current, 0);
-			mp.game.invoke(getNative("REMOVE_WEAPON_FROM_PED"), localplayer.handle, current);
+			mp.game.invoke(getNative("SET_PED_AMMO"), mp.players.local.handle, current, 0);
+			mp.game.invoke(getNative("REMOVE_WEAPON_FROM_PED"), mp.players.local.handle, current);
 			givenWeapon = -1569615261;
 			mp.gui.execute(`HUD.ammo=0;`);
 		}
@@ -521,14 +515,14 @@ mp.events.add('playerWeaponShot', (targetPosition, targetEntity) => {
 	
 	if (ammo <= 0) {
 		ammosweap = 0;
-        localplayer.taskSwapWeapon(false);
+        mp.players.local.taskSwapWeapon(false);
         mp.gui.execute(`HUD.ammo=0;`);
     }
 });
 mp.events.add('render', () => {
     try {
         mp.game.controls.disableControlAction(2, 45, true); // reload control
-        //localplayer.setCanSwitchWeapon(false);
+        //mp.players.local.setCanSwitchWeapon(false);
 
         //     weapon switch controls       //
 		mp.game.controls.disableControlAction(1, 243, true); // CCPanelDisable
@@ -598,7 +592,7 @@ mp.events.add("removeAllWeapons", function () {
 });
 
 mp.events.add('svem', (pm, tm) => {
-	var vehc = localplayer.vehicle;
+	var vehc = mp.players.local.vehicle;
 	vehc.setEnginePowerMultiplier(pm);
 	vehc.setEngineTorqueMultiplier(tm);
 });

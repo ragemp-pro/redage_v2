@@ -31,13 +31,13 @@ function pointingAt(distance) {
 }
 
 mp.events.add("AGM", (toggle) => {
-	admingm = toggle;
-	localplayer.setInvincible(toggle);
+	global.admingm = toggle;
+	mp.players.local.setInvincible(toggle);
 	mp.game.graphics.notify(toggle ? '~g~Бессмертие включено' : '~r~Бессмертие выключено');
 });
 
 mp.keys.bind(Keys.VK_F7, false, function () {
-    if (!loggedin || localplayer.getVariable('IS_ADMIN') !== true) return;
+    if (!loggedin || mp.players.local.getVariable('IS_ADMIN') !== true) return;
 
     const controls = mp.game.controls;
     const fly = global.fly;
@@ -48,7 +48,7 @@ mp.keys.bind(Keys.VK_F7, false, function () {
 
     const player = mp.players.local;
 
-    if(!admingm) player.setInvincible(fly.flying);
+    if(!global.admingm) player.setInvincible(fly.flying);
     player.freezePosition(fly.flying);
     player.setAlpha(fly.flying ? 0 : 255);
 

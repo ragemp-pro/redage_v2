@@ -1,22 +1,21 @@
-const localPlayer = mp.players.local;
 let autoPilotActivated = false;
 let autoPilotColshape = null;
 const vehiclesHaveAutopilot = ["teslax"];
 
 mp.keys.bind(0x73, true, function() { // F4
-	if(localPlayer.vehicle)
+	if(mp.players.local.vehicle)
 	{
         for (let k = 0; k < vehiclesHaveAutopilot.length; k++)
         {
             let model = mp.game.joaat(vehiclesHaveAutopilot[k]);
 
-            if (!localPlayer.vehicle.isModel(model))
+            if (!mp.players.local.vehicle.isModel(model))
                 return mp.game.graphics.notify("Данный транспорт не оснащен системой автопилота");
         }
 
-		if(localPlayer.vehicle.getPedInSeat(-1) == localPlayer.handle && autoPilotActivated == false)
+		if(mp.players.local.vehicle.getPedInSeat(-1) == mp.players.local.handle && autoPilotActivated == false)
 		{
-            if(localPlayer.vehicle.getIsEngineRunning() == false)
+            if(mp.players.local.vehicle.getIsEngineRunning() == false)
             {
                 mp.events.call("Сначала заведите двигатель");
                 return;
@@ -36,7 +35,7 @@ mp.keys.bind(0x73, true, function() { // F4
 						
 						if(coord) 
 						{
-							localPlayer.taskVehicleDriveToCoordLongrange(localPlayer.vehicle.handle, coord.x, coord.y, 0.0, 22.0, 2883621, 40.0);
+							mp.players.local.taskVehicleDriveToCoordLongrange(mp.players.local.vehicle.handle, coord.x, coord.y, 0.0, 22.0, 2883621, 40.0);
 
                             mp.game.graphics.notify("~g~Автопилот активирован");
 
@@ -44,7 +43,7 @@ mp.keys.bind(0x73, true, function() { // F4
 
 							if(autoPilotColshape != null) autoPilotColshape.destroy();
 
-							autoPilotColshape = mp.colshapes.newCircle(coord.x, coord.y, 15.0, localPlayer.dimension);
+							autoPilotColshape = mp.colshapes.newCircle(coord.x, coord.y, 15.0, mp.players.local.dimension);
 						}
 
 						return ;
@@ -63,12 +62,12 @@ mp.keys.bind(0x73, true, function() { // F4
 });
 
 mp.events.add('playerEnterVehicle', () => {
-	if(localPlayer.vehicle) 
+	if(mp.players.local.vehicle) 
 		stopAutopilot(false);
 });
 
 mp.events.add('vehicleEngineHandler', () => {
-	if(localPlayer.vehicle) 
+	if(mp.players.local.vehicle) 
 		stopAutopilot();
 });
 
@@ -85,10 +84,10 @@ function stopAutopilot(stopVehicle = true)
 {
 	if(autoPilotActivated)
 	{
-		if(localPlayer.vehicle)
+		if(mp.players.local.vehicle)
 		{
-			if(stopVehicle) localPlayer.vehicle.setVelocity(0.0, 0.0, 0.0);
-			localPlayer.clearTasks();
+			if(stopVehicle) mp.players.local.vehicle.setVelocity(0.0, 0.0, 0.0);
+			mp.players.local.clearTasks();
 		}
 
 		if(autoPilotColshape != null)

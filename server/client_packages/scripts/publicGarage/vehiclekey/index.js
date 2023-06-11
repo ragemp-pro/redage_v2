@@ -30,21 +30,20 @@ mp.events.add('pressfkey', () => {
 	if (mp.gui.cursor.visible) 
 		return;
 	
-    const localPlayer = mp.players.local;
-        if (localPlayer.vehicle === null) {
+        if (mp.players.local.vehicle === null) {
             let found = false;
             mp.vehicles.forEachInStreamRange((vehicle) => {
-                const dist = distanceTo(localPlayer.position, vehicle.position);
-                if (!found && (localPlayer.isOnSpecificVehicle(vehicle.handle) || dist < 4)) {
+                const dist = distanceTo(mp.players.local.position, vehicle.position);
+                if (!found && (mp.players.local.isOnSpecificVehicle(vehicle.handle) || dist < 4)) {
 					if (vehicle.isSeatFree(-1)) {
 					    found = true;
-						localPlayer.taskEnterVehicle(vehicle.handle, 5000, -1, 1.0, 1, 0);	
+						mp.players.local.taskEnterVehicle(vehicle.handle, 5000, -1, 1.0, 1, 0);	
 					}
                 }
             });
         }
         else {
-            localPlayer.taskLeaveVehicle(localPlayer.vehicle.handle, 0);
+            mp.players.local.taskLeaveVehicle(mp.players.local.vehicle.handle, 0);
         }
 });
 
@@ -52,14 +51,13 @@ mp.events.add('pressgkey', () => {
 		if (mp.gui.cursor.visible) 
 			return;
 	
-        const localPlayer = mp.players.local;
-        if (localPlayer.vehicle === null) {
+        if (mp.players.local.vehicle === null) {
             let seats = 0;
             let remoteId = 0;
             let isVehicleFound = false;
             mp.vehicles.forEachInStreamRange((vehicle) => {
-                const dist = distanceTo(localPlayer.position, vehicle.position);
-                if (!isVehicleFound && (localPlayer.isOnSpecificVehicle(vehicle.handle) || dist < 4)) {
+                const dist = distanceTo(mp.players.local.position, vehicle.position);
+                if (!isVehicleFound && (mp.players.local.isOnSpecificVehicle(vehicle.handle) || dist < 4)) {
                     isVehicleFound = true;
                     seats = vehicle.getMaxNumberOfPassengers();
                     remoteId = vehicle.remoteId;

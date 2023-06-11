@@ -2,8 +2,8 @@
 var myalvl = 0;
 
 mp.keys.bind(Keys.VK_F12, false, function () {
-	if (!loggedin || localplayer.getVariable('IS_ADMIN') !== true) return;
-	myalvl = localplayer.getVariable('ALVL');
+	if (!loggedin || mp.players.local.getVariable('IS_ADMIN') !== true) return;
+	myalvl = mp.players.local.getVariable('ALVL');
 	if(esptoggle == 3) esptoggle = 0;
 	else esptoggle++;
 	if(esptoggle == 0) mp.game.graphics.notify('ESP: ~r~Disabled');
@@ -13,7 +13,7 @@ mp.keys.bind(Keys.VK_F12, false, function () {
 });
 
 mp.events.add('render', () => {
-	if (!loggedin || localplayer.getVariable('IS_ADMIN') !== true) return;
+	if (!loggedin || mp.players.local.getVariable('IS_ADMIN') !== true) return;
     if(esptoggle >= 1) {
 		try {
 			let position;

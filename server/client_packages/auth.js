@@ -221,7 +221,7 @@ mp.events.add('ready', function () {
     global.menuClose();
     mp.game.cam.renderScriptCams(false, true, 3000, true, true);
 
-    mp.events.call('showHUD', true);
+    mp.events.call('global.global.showhud', true);
     mp.events.call('hideTun');
     mp.game.player.setHealthRechargeMultiplier(0);
 

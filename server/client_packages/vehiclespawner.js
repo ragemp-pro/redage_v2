@@ -1,5 +1,5 @@
 mp.events.add("openFractionVehicleSpawner", (json) => {
-  if (!loggedin || chatActive || editing || cuffed || localplayer.getVariable('fraction') <= 0) return;
+  if (!loggedin || chatActive || editing || cuffed || mp.players.local.getVariable('fraction') <= 0) return;
   global.fractioncarspawner = mp.browsers.new('package://VehicleSpawner/index.html');
   global.fractioncarspawner.active = true;
   global.menuOpen();

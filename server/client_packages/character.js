@@ -37,7 +37,7 @@ for (var i = 0; i < 11; i++) appearance[i] = 255;
 
 
 function updateCharacterParents() {
-    localplayer.setHeadBlendData(
+    mp.players.local.setHeadBlendData(
         mother,
         father,
         0,
@@ -57,44 +57,44 @@ function updateCharacterParents() {
 function updateCharacterHairAndColors() {
     let currentGender = (gender) ? 0 : 1;
     // hair
-    localplayer.setComponentVariation(2, hairIDList[currentGender][hair], 0, 0);
-    localplayer.setHairColor(hairColor, 0);
+    mp.players.local.setComponentVariation(2, hairIDList[currentGender][hair], 0, 0);
+    mp.players.local.setHairColor(hairColor, 0);
 
     // appearance colors
-    localplayer.setHeadOverlayColor(2, 1, hairColor, 100); // eyebrow
-    localplayer.setHeadOverlayColor(1, 1, hairColor, 100); // beard
-    localplayer.setHeadOverlayColor(10, 1, hairColor, 100); // chesthair
+    mp.players.local.setHeadOverlayColor(2, 1, hairColor, 100); // eyebrow
+    mp.players.local.setHeadOverlayColor(1, 1, hairColor, 100); // beard
+    mp.players.local.setHeadOverlayColor(10, 1, hairColor, 100); // chesthair
 
     // eye color
-    localplayer.setEyeColor(eyeColor);
+    mp.players.local.setEyeColor(eyeColor);
 }
 
 function updateAppearance() {
     for (var i = 0; i < 11; i++) {
-        localplayer.setHeadOverlay(i, appearance[i], 100, 0, 0);
+        mp.players.local.setHeadOverlay(i, appearance[i], 100, 0, 0);
     }
 }
 
 function updateClothes() {
-    localplayer.setComponentVariation(11, outClothes, 1, 0);
-    localplayer.setComponentVariation(4, pants, 1, 0);
-    localplayer.setComponentVariation(6, shoes, 1, 0);
-    localplayer.setComponentVariation(8, 15, 0, 0);
+    mp.players.local.setComponentVariation(11, outClothes, 1, 0);
+    mp.players.local.setComponentVariation(4, pants, 1, 0);
+    mp.players.local.setComponentVariation(6, shoes, 1, 0);
+    mp.players.local.setComponentVariation(8, 15, 0, 0);
     let currentGender = (gender) ? 0 : 1;
-    localplayer.setComponentVariation(3, validTorsoIDs[currentGender][outClothes], 0, 0);
+    mp.players.local.setComponentVariation(3, validTorsoIDs[currentGender][outClothes], 0, 0);
 }
 
 mp.events.add('characterGender', (param) => {
     gender = (param == "Male") ? true : false;
     if (gender) {
-        localplayer.model = mp.game.joaat('mp_m_freemode_01');
+        mp.players.local.model = mp.game.joaat('mp_m_freemode_01');
 
         outClothes = 1;
         pants = 0;
         shoes = 1;
     }
     else {
-        localplayer.model = mp.game.joaat('mp_f_freemode_01');
+        mp.players.local.model = mp.game.joaat('mp_f_freemode_01');
 
         outClothes = 5;
         pants = 0;
@@ -107,7 +107,7 @@ mp.events.add('characterGender', (param) => {
     updateAppearance();
     updateCharacterHairAndColors();
     updateClothes();
-    for (var i = 0; i < 20; i++) localplayer.setFaceFeature(i, features[i]);
+    for (var i = 0; i < 20; i++) mp.players.local.setFaceFeature(i, features[i]);
 });
 mp.events.add('editorList', (param, value) => {
     var hairParam = (gender) ? "hairM" : "hairF";
@@ -123,26 +123,26 @@ mp.events.add('editorList', (param, value) => {
             skin = lvl;
             updateCharacterParents();
             return;
-        case "noseWidth": localplayer.setFaceFeature(0, lvl); features[0] = lvl; return;
-        case "noseHeight": localplayer.setFaceFeature(1, lvl); features[1] = lvl; return;
-        case "noseTipLength": localplayer.setFaceFeature(2, lvl); features[2] = lvl; return;
-        case "noseDepth": localplayer.setFaceFeature(3, lvl); features[3] = lvl; return;
-        case "noseTipHeight": localplayer.setFaceFeature(4, lvl); features[4] = lvl; return;
-        case "noseBroke": localplayer.setFaceFeature(5, lvl); features[5] = lvl; return;
-        case "eyebrowHeight": localplayer.setFaceFeature(6, lvl); features[6] = lvl; return;
-        case "eyebrowDepth": localplayer.setFaceFeature(7, lvl); features[7] = lvl; return;
-        case "cheekboneHeight": localplayer.setFaceFeature(8, lvl); features[8] = lvl; return;
-        case "cheekboneWidth": localplayer.setFaceFeature(9, lvl); features[9] = lvl; return;
-        case "cheekDepth": localplayer.setFaceFeature(10, lvl); features[10] = lvl; return;
-        case "eyeScale": localplayer.setFaceFeature(11, lvl); features[11] = lvl; return;
-        case "lipThickness": localplayer.setFaceFeature(12, lvl); features[12] = lvl; return;
-        case "jawWidth": localplayer.setFaceFeature(13, lvl); features[13] = lvl; return;
-        case "jawShape": localplayer.setFaceFeature(14, lvl); features[14] = lvl; return;
-        case "chinHeight": localplayer.setFaceFeature(15, lvl); features[15] = lvl; return;
-        case "chinDepth": localplayer.setFaceFeature(16, lvl); features[16] = lvl; return;
-        case "chinWidth": localplayer.setFaceFeature(17, lvl); features[17] = lvl; return;
-        case "chinIndent": localplayer.setFaceFeature(18, lvl); features[18] = lvl; return;
-        case "neck": localplayer.setFaceFeature(19, lvl); features[19] = lvl; return;
+        case "noseWidth": mp.players.local.setFaceFeature(0, lvl); features[0] = lvl; return;
+        case "noseHeight": mp.players.local.setFaceFeature(1, lvl); features[1] = lvl; return;
+        case "noseTipLength": mp.players.local.setFaceFeature(2, lvl); features[2] = lvl; return;
+        case "noseDepth": mp.players.local.setFaceFeature(3, lvl); features[3] = lvl; return;
+        case "noseTipHeight": mp.players.local.setFaceFeature(4, lvl); features[4] = lvl; return;
+        case "noseBroke": mp.players.local.setFaceFeature(5, lvl); features[5] = lvl; return;
+        case "eyebrowHeight": mp.players.local.setFaceFeature(6, lvl); features[6] = lvl; return;
+        case "eyebrowDepth": mp.players.local.setFaceFeature(7, lvl); features[7] = lvl; return;
+        case "cheekboneHeight": mp.players.local.setFaceFeature(8, lvl); features[8] = lvl; return;
+        case "cheekboneWidth": mp.players.local.setFaceFeature(9, lvl); features[9] = lvl; return;
+        case "cheekDepth": mp.players.local.setFaceFeature(10, lvl); features[10] = lvl; return;
+        case "eyeScale": mp.players.local.setFaceFeature(11, lvl); features[11] = lvl; return;
+        case "lipThickness": mp.players.local.setFaceFeature(12, lvl); features[12] = lvl; return;
+        case "jawWidth": mp.players.local.setFaceFeature(13, lvl); features[13] = lvl; return;
+        case "jawShape": mp.players.local.setFaceFeature(14, lvl); features[14] = lvl; return;
+        case "chinHeight": mp.players.local.setFaceFeature(15, lvl); features[15] = lvl; return;
+        case "chinDepth": mp.players.local.setFaceFeature(16, lvl); features[16] = lvl; return;
+        case "chinWidth": mp.players.local.setFaceFeature(17, lvl); features[17] = lvl; return;
+        case "chinIndent": mp.players.local.setFaceFeature(18, lvl); features[18] = lvl; return;
+        case "neck": mp.players.local.setFaceFeature(19, lvl); features[19] = lvl; return;
         case "father":
             father = fathers[value];
             updateCharacterParents();
@@ -207,11 +207,11 @@ mp.events.add('characterSave', () => {
 var editorBrowser = null;
 
 mp.events.add('CreatorCamera', () => {
-    localplayer.freezePosition(true);
-    localplayer.setRotation(0.0, 0.0, -185.0, 2, true);
+    mp.players.local.freezePosition(true);
+    mp.players.local.setRotation(0.0, 0.0, -185.0, 2, true);
 
-    bodyCamStart = localplayer.position;
-    var camValues = { Angle: localplayer.getRotation(2).z + 90, Dist: 0.6, Height: 0.6 };
+    bodyCamStart = mp.players.local.position;
+    var camValues = { Angle: mp.players.local.getRotation(2).z + 90, Dist: 0.6, Height: 0.6 };
     var pos = getCameraOffset(new mp.Vector3(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camValues.Height), camValues.Angle, camValues.Dist);
     bodyCam = mp.cameras.new('default', pos, new mp.Vector3(0, 0, 0), 50);
     bodyCam.pointAtCoord(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camValues.Height);
@@ -219,12 +219,12 @@ mp.events.add('CreatorCamera', () => {
     mp.game.cam.renderScriptCams(true, false, 500, true, false);
 
     updateCharacterParents();
-    for (var i = 0; i < 20; i++) localplayer.setFaceFeature(i, 0.0);
+    for (var i = 0; i < 20; i++) mp.players.local.setFaceFeature(i, 0.0);
     updateCharacterHairAndColors();
     updateAppearance();
     updateClothes();
 
-    localplayer.taskPlayAnim("amb@world_human_guard_patrol@male@base", "base", 8.0, 1, -1, 1, 0.0, false, false, false);
+    mp.players.local.taskPlayAnim("amb@world_human_guard_patrol@male@base", "base", 8.0, 1, -1, 1, 0.0, false, false, false);
 
     if(editorBrowser == null) editorBrowser = mp.browsers.new('package://cef/character.html#content-1');
 
@@ -246,8 +246,8 @@ mp.events.add('DestroyCamera', () => {
 		editorBrowser = null;
 	}
 
-    localplayer.stopAnim("amb@world_human_guard_patrol@male@base", "base", 0.0)
-    localplayer.freezePosition(false);
+    mp.players.local.stopAnim("amb@world_human_guard_patrol@male@base", "base", 0.0)
+    mp.players.local.freezePosition(false);
 
     mp.events.call('camMenu', false);
     mp.events.call('showHUD', true);

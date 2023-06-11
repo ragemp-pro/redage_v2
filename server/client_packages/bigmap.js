@@ -1,4 +1,4 @@
-const bigmap = [];
+const bigmap = {};
 
 bigmap.status = 0;
 bigmap.timer = null;
@@ -30,7 +30,7 @@ function getMinimapAnchor() {
 }
 
 mp.events.add('render', () => {
-    if (!loggedin || chatActive || editing || cuffed || localplayer.getVariable('InDeath') == true) return;
+    if (!loggedin || chatActive || editing || cuffed || mp.players.local.getVariable('InDeath') == true) return;
 
     mp.game.controls.disableControlAction(0, 48, true);
     if (mp.game.controls.isDisabledControlJustPressed(0, 48)) {
@@ -85,3 +85,5 @@ mp.events.add('render', () => {
         }
     }
 });
+
+exports = getMinimapAnchor;

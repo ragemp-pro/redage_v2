@@ -44,7 +44,7 @@ mp.events.add('phoneNavigation', (btn) => {
 // // //
 /*mp.events.add("playerQuit", (player, exitType, reason) => {
     if (phone !== null) {
-        if (player.name === localplayer.name) {
+        if (player.name === mp.players.local.name) {
             phone.destroy();
             phone = null;
             phoneOppened = false;

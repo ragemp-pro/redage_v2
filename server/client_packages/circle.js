@@ -90,7 +90,7 @@ mp.events.add('circleCallback', (index) => {
                 return;
             case "Категории":
                 if (index == 7) {
-					if(!localplayer.isFalling()) mp.events.callRemote('aSelected', -1, -1);
+					if(!mp.players.local.isFalling()) mp.events.callRemote('aSelected', -1, -1);
                     return;
                 }
                 switch (index) {

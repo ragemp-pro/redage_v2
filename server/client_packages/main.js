@@ -1,5 +1,5 @@
 ﻿var cam = mp.cameras.new('default', new mp.Vector3(0, 0, 0), new mp.Vector3(0, 0, 0), false);
-var effect = '';
+
 global.loggedin = false;
 global.lastCheck = 0;
 global.chatLastCheck = 0;
@@ -85,7 +85,7 @@ mp.game.gameplay.setFadeOutAfterDeath(false);
 mp.game.gameplay.setFadeInAfterLoad(false);
 
 mp.events.add('freeze', function (toggle) {
-    localplayer.freezePosition(toggle);
+    mp.players.local.freezePosition(toggle);
 });
 
 mp.events.add('destroyCamera', function () {
@@ -177,21 +177,21 @@ mp.events.add('loggedIn', function () {
 mp.events.add('setFollow', function (toggle, entity) {
     if (toggle) {
         if (entity && mp.players.exists(entity))
-            localplayer.taskFollowToOffsetOf(entity.handle, 0, 0, 0, 1, -1, 1, true)
+            mp.players.local.taskFollowToOffsetOf(entity.handle, 0, 0, 0, 1, -1, 1, true)
     }
     else
-        localplayer.clearTasks();
+        mp.players.local.clearTasks();
 });
 
 setInterval(function () {
-    if (localplayer.getArmour() <= 0 && localplayer.getVariable('HASARMOR') === true) {
+    if (mp.players.local.getArmour() <= 0 && mp.players.local.getVariable('HASARMOR') === true) {
         mp.events.callRemote('deletearmor');
     }
 }, 600);
 
 mp.keys.bind(Keys.VK_U, false, function () { // Animations selector
     if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 1000 || global.menuOpened) return;
-    if (localplayer.isInAnyVehicle(true)) return;
+    if (mp.players.local.isInAnyVehicle(true)) return;
     OpenCircle("Категории", 0);
 });
 
@@ -200,9 +200,9 @@ let waypoint;
 let lastWaypointCoords;
 
 mp.keys.bind(Keys.VK_P, false, function () { // Телепорт (P)
-    if (!loggedin || chatActive || editing || global.menuCheck() || cuffed || localplayer.getVariable('InDeath') == true) return;
+    if (!loggedin || chatActive || editing || global.menuCheck() || cuffed || mp.players.local.getVariable('InDeath') == true) return;
     
-    if (!global.localplayer.getVariable('IS_ADMIN')) return;
+    if (!mp.players.local.getVariable('IS_ADMIN')) return;
     if(!lastWaypointCoords){mp.game.graphics.notify(`Ошибка: ~n~~h~~r~Нет записи последнего waypoint'a.`); return;}
     mp.events.call('tpToWaypoint');
     
@@ -277,43 +277,43 @@ mp.keys.bind(Keys.VK_L, false, function () { // L key
 
 mp.keys.bind(Keys.VK_LEFT, true, () => {
 	if(mp.gui.cursor.visible || !loggedin) return;
-	if(localplayer.vehicle) {
-		if(localplayer.vehicle.getPedInSeat(-1) != localplayer.handle) return;
+	if(mp.players.local.vehicle) {
+		if(mp.players.local.vehicle.getPedInSeat(-1) != mp.players.local.handle) return;
 		if(new Date().getTime() - lastCheck > 500) {
 			lastCheck = new Date().getTime();
-			if(localplayer.vehicle.getVariable('leftlight') == true) mp.events.callRemote("VehStream_SetIndicatorLightsData", localplayer.vehicle, 0, 0);
-			else mp.events.callRemote("VehStream_SetIndicatorLightsData", localplayer.vehicle, 1, 0);
+			if(mp.players.local.vehicle.getVariable('leftlight') == true) mp.events.callRemote("VehStream_SetIndicatorLightsData", mp.players.local.vehicle, 0, 0);
+			else mp.events.callRemote("VehStream_SetIndicatorLightsData", mp.players.local.vehicle, 1, 0);
 		}
 	}
 });
 
 mp.keys.bind(Keys.VK_RIGHT, true, () => {
 	if(mp.gui.cursor.visible || !loggedin) return;
-	if(localplayer.vehicle) {
-		if(localplayer.vehicle.getPedInSeat(-1) != localplayer.handle) return;
+	if(mp.players.local.vehicle) {
+		if(mp.players.local.vehicle.getPedInSeat(-1) != mp.players.local.handle) return;
 		if(new Date().getTime() - lastCheck > 500) {
 			lastCheck = new Date().getTime();
-			if(localplayer.vehicle.getVariable('rightlight') == true) mp.events.callRemote("VehStream_SetIndicatorLightsData", localplayer.vehicle, 0, 0);
-			else mp.events.callRemote("VehStream_SetIndicatorLightsData", localplayer.vehicle, 0, 1);
+			if(mp.players.local.vehicle.getVariable('rightlight') == true) mp.events.callRemote("VehStream_SetIndicatorLightsData", mp.players.local.vehicle, 0, 0);
+			else mp.events.callRemote("VehStream_SetIndicatorLightsData", mp.players.local.vehicle, 0, 1);
 		}
 	}
 });
 
 mp.keys.bind(Keys.VK_DOWN, true, () => {
 	if(mp.gui.cursor.visible || !loggedin) return;
-	if(localplayer.vehicle) {
-		if(localplayer.vehicle.getPedInSeat(0) != localplayer.handle) return;
+	if(mp.players.local.vehicle) {
+		if(mp.players.local.vehicle.getPedInSeat(0) != mp.players.local.handle) return;
 		if(new Date().getTime() - lastCheck > 500) {
 			lastCheck = new Date().getTime();
-			if(localplayer.vehicle.getVariable('leftlight') == true && localplayer.vehicle.getVariable('rightlight') == true) mp.events.callRemote("VehStream_SetIndicatorLightsData", localplayer.vehicle, 0, 0);
-			else mp.events.callRemote("VehStream_SetIndicatorLightsData", localplayer.vehicle, 1, 1);
+			if(mp.players.local.vehicle.getVariable('leftlight') == true && mp.players.local.vehicle.getVariable('rightlight') == true) mp.events.callRemote("VehStream_SetIndicatorLightsData", mp.players.local.vehicle, 0, 0);
+			else mp.events.callRemote("VehStream_SetIndicatorLightsData", mp.players.local.vehicle, 1, 1);
 		}
 	}
 });
 
 mp.keys.bind(Keys.VK_B, false, function () { // 2 key
     if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 400 || global.menuOpened) return;
-    if (localplayer.isInAnyVehicle(false) && localplayer.vehicle.getSpeed() <= 3) {
+    if (mp.players.local.isInAnyVehicle(false) && mp.players.local.vehicle.getSpeed() <= 3) {
         lastCheck = new Date().getTime();
         mp.events.callRemote('engineCarPressed');
     }
@@ -321,7 +321,7 @@ mp.keys.bind(Keys.VK_B, false, function () { // 2 key
 
 /*
 mp.keys.bind(Keys.VK_UP, false, function () { // стрелка вверх
-    if (!loggedin || chatActive || editing || global.menuCheck() || cuffed || localplayer.getVariable('InDeath') == true || new Date().getTime() - lastCheck < 400) return;
+    if (!loggedin || chatActive || editing || global.menuCheck() || cuffed || mp.players.local.getVariable('InDeath') == true || new Date().getTime() - lastCheck < 400) return;
     mp.events.callRemote('openPlayerMenu');
 	mp.game.mobile.createMobilePhone(3);
 	mp.game.mobile.setMobilePhoneScale (0);
@@ -340,7 +340,7 @@ mp.keys.bind(Keys.VK_DOWN, true, function() {   // стрелка вниз
 
 mp.keys.bind(Keys.VK_M, false, function () {
 
-    if (!loggedin || chatActive || editing || global.menuCheck() || cuffed || localplayer.getVariable('InDeath') == true || localplayer.getVariable('AntiAnimDown') || new Date().getTime() - lastCheck < 400) return;
+    if (!loggedin || chatActive || editing || global.menuCheck() || cuffed || mp.players.local.getVariable('InDeath') == true || mp.players.local.getVariable('AntiAnimDown') || new Date().getTime() - lastCheck < 400) return;
     
     if (global.phoneOpen)
     {
@@ -380,14 +380,14 @@ mp.keys.bind(0x77, true, function () {  //F8-Key
 });
 
 mp.keys.bind(Keys.VK_X, false, function () { // X key
-    if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 1000 || global.menuOpened || localplayer.getVariable('fraction') <= 0) return;
+    if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 1000 || global.menuOpened || mp.players.local.getVariable('fraction') <= 0) return;
     mp.events.callRemote('playerPressCuffBut');
     lastCheck = new Date().getTime();
 });
 
 mp.keys.bind(Keys.VK_Z, false, function () { // Z key
     if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 1000 || global.menuOpened) return;
-    if (localplayer.isInAnyVehicle(false)) {
+    if (mp.players.local.isInAnyVehicle(false)) {
         CheckMyWaypoint();
     } else mp.events.callRemote('playerPressFollowBut');
     lastCheck = new Date().getTime();
@@ -456,7 +456,8 @@ mp.events.add('DeathTimer', (time) => {
 });
 
 mp.events.add('render', () => {
-    if (localplayer.getVariable('InDeath') == true) {
+    try {
+    if (mp.players.local.getVariable('InDeath') == true) {
         mp.game.controls.disableAllControlActions(2);
         mp.game.controls.enableControlAction(2, 1, true);
         mp.game.controls.enableControlAction(2, 2, true);
@@ -481,25 +482,9 @@ mp.events.add('render', () => {
         }
         else deathTimerOn = false;
     }
-
-    if (mp.game.controls.isControlPressed(0, 32) || 
-        mp.game.controls.isControlPressed(0, 33) || 
-        mp.game.controls.isControlPressed(0, 321) ||
-        mp.game.controls.isControlPressed(0, 34) || 
-        mp.game.controls.isControlPressed(0, 35) || 
-        mp.game.controls.isControlPressed(0, 24) || 
-        localplayer.getVariable('InDeath') == true) 
-    {
-        afkSecondsCount = 0;
-    }
-    else if (localplayer.isInAnyVehicle(false) && localplayer.vehicle.getSpeed() != 0) 
-    {
-        afkSecondsCount = 0;
-    } 
-    else if(spectating) 
-    { // Чтобы не кикало администратора в режиме слежки
-		afkSecondsCount = 0;
-	}
+} catch(e) {
+    mp.game.graphics.notify(`error: ${e}`);
+}
 });
 
 mp.events.add("playerRuleTriggered", (rule, counter) => {

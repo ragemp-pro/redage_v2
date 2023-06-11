@@ -1,4 +1,5 @@
 ﻿const vehicleNames = require('./RealCarNames.js');
+
 global.menuOpened = true;
 global.menu = null;
 
@@ -32,7 +33,7 @@ var hudWasOpened = true;
 
 mp.events.add("playerQuit", (player, exitType, reason) => {
     if (global.menu !== null) {
-        if (player.name === localplayer.name) {
+        if (player.name === mp.players.local.name) {
             global.menuClose();
             global.menu.destroy();
             global.menu = null;
@@ -820,44 +821,44 @@ mp.events.add('barber', (act, id, val) => {
         case "style":
             switch (id) {
                 case "hair":
-                    let gender = (localplayer.getVariable("GENDER")) ? 0 : 1;
+                    let gender = (mp.players.local.getVariable("GENDER")) ? 0 : 1;
                     barberValues["hair"].Style = hairIDList[gender][val];
-                    localplayer.setComponentVariation(2, barberValues["hair"].Style, 0, 0);
-                    localplayer.setHairColor(barberValues["hair"].Color, 0);
+                    mp.players.local.setComponentVariation(2, barberValues["hair"].Style, 0, 0);
+                    mp.players.local.setHairColor(barberValues["hair"].Color, 0);
                     break;
                 case "beard":
                     barberValues["beard"].Style = (val == 0) ? 255 : val - 1;
-                    localplayer.setHeadOverlay(1, barberValues["beard"].Style, 100, barberValues["beard"].Color, barberValues["beard"].Color);
+                    mp.players.local.setHeadOverlay(1, barberValues["beard"].Style, 100, barberValues["beard"].Color, barberValues["beard"].Color);
                     break;
                 case "eyebrows":
                     barberValues["eyebrows"].Style = (val == 0) ? 255 : val - 1;
-                    localplayer.setHeadOverlay(2, barberValues["eyebrows"].Style, 100, barberValues["eyebrows"].Color, barberValues["eyebrows"].Color);
+                    mp.players.local.setHeadOverlay(2, barberValues["eyebrows"].Style, 100, barberValues["eyebrows"].Color, barberValues["eyebrows"].Color);
                     break;
                 case "chesthair":
                     barberValues["chesthair"].Style = (val == 0) ? 255 : val - 1;
-                    localplayer.setHeadOverlay(10, barberValues["chesthair"].Style, 100, barberValues["chesthair"].Color, barberValues["chesthair"].Color);
+                    mp.players.local.setHeadOverlay(10, barberValues["chesthair"].Style, 100, barberValues["chesthair"].Color, barberValues["chesthair"].Color);
                     break;
                 case "lenses":
                     barberValues["lenses"].Style = val;
-                    localplayer.setEyeColor(val);
+                    mp.players.local.setEyeColor(val);
                     break;
                 case "lipstick":
                     barberValues["lipstick"].Style = (val == 0) ? 255 : val - 1;
-                    localplayer.setHeadOverlay(8, barberValues["lipstick"].Style, 100, barberValues["lipstick"].Color, barberValues["lipstick"].Color);
+                    mp.players.local.setHeadOverlay(8, barberValues["lipstick"].Style, 100, barberValues["lipstick"].Color, barberValues["lipstick"].Color);
                     break;
                 case "blush":
                     barberValues["blush"].Style = (val == 0) ? 255 : val - 1;
-                    localplayer.setHeadOverlay(5, barberValues["blush"].Style, 100, barberValues["blush"].Color, barberValues["blush"].Color);
+                    mp.players.local.setHeadOverlay(5, barberValues["blush"].Style, 100, barberValues["blush"].Color, barberValues["blush"].Color);
                     break;
                 case "makeup":
                     barberValues["makeup"].Style = (val == 0) ? 255 : val - 1;
-                    localplayer.setHeadOverlay(4, barberValues["makeup"].Style, 100, barberValues["makeup"].Color, barberValues["makeup"].Color);
+                    mp.players.local.setHeadOverlay(4, barberValues["makeup"].Style, 100, barberValues["makeup"].Color, barberValues["makeup"].Color);
                     break;
 
             }
 
             const camValues = bodyCamValues[id];
-            const camPos = getCameraOffset(new mp.Vector3(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camValues.Height), localplayer.getRotation(2).z + 90 + camValues.Angle, camValues.Dist);
+            const camPos = getCameraOffset(new mp.Vector3(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camValues.Height), mp.players.local.getRotation(2).z + 90 + camValues.Angle, camValues.Dist);
 
             bodyCam.setCoord(camPos.x, camPos.y, camPos.z);
             bodyCam.pointAtCoord(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camValues.Height);
@@ -866,28 +867,28 @@ mp.events.add('barber', (act, id, val) => {
             switch (id) {
                 case "hair":
                     barberValues["hair"].Color = val;
-                    localplayer.setComponentVariation(2, barberValues["hair"].Style, 0, 0);
-                    localplayer.setHairColor(barberValues["hair"].Color, 0);
+                    mp.players.local.setComponentVariation(2, barberValues["hair"].Style, 0, 0);
+                    mp.players.local.setHairColor(barberValues["hair"].Color, 0);
                     break;
                 case "beard":
                     barberValues["beard"].Color = val;
-                    localplayer.setHeadOverlay(1, barberValues["beard"].Style, 100, barberValues["beard"].Color, barberValues["beard"].Color);
+                    mp.players.local.setHeadOverlay(1, barberValues["beard"].Style, 100, barberValues["beard"].Color, barberValues["beard"].Color);
                     break;
                 case "eyebrows":
                     barberValues["eyebrows"].Color = val;
-                    localplayer.setHeadOverlay(2, barberValues["eyebrows"].Style, 100, barberValues["eyebrows"].Color, barberValues["eyebrows"].Color);
+                    mp.players.local.setHeadOverlay(2, barberValues["eyebrows"].Style, 100, barberValues["eyebrows"].Color, barberValues["eyebrows"].Color);
                     break;
                 case "chesthair":
                     barberValues["chesthair"].Color = val;
-                    localplayer.setHeadOverlay(10, barberValues["chesthair"].Style, 100, barberValues["chesthair"].Color, barberValues["chesthair"].Color);
+                    mp.players.local.setHeadOverlay(10, barberValues["chesthair"].Style, 100, barberValues["chesthair"].Color, barberValues["chesthair"].Color);
                     break;
                 case "lipstick":
                     barberValues["lipstick"].Color = val;
-                    localplayer.setHeadOverlay(8, barberValues["lipstick"].Style, 100, barberValues["lipstick"].Color, barberValues["lipstick"].Color);
+                    mp.players.local.setHeadOverlay(8, barberValues["lipstick"].Style, 100, barberValues["lipstick"].Color, barberValues["lipstick"].Color);
                     break;
                 case "blush":
                     barberValues["blush"].Color = val;
-                    localplayer.setHeadOverlay(5, barberValues["blush"].Style, 100, barberValues["blush"].Color, barberValues["blush"].Color);
+                    mp.players.local.setHeadOverlay(5, barberValues["blush"].Style, 100, barberValues["blush"].Color, barberValues["blush"].Color);
                     break;
             }
             break;
@@ -905,10 +906,10 @@ mp.events.add('tattoo', (act, id, val) => {
             tattooValues[tId] = val;
 
             const tattoo = tattoos[id][val];
-            var hash = (localplayer.getVariable("GENDER")) ? tattoo.MaleHash : tattoo.FemaleHash;
-            localplayer.clearDecorations();
+            var hash = (mp.players.local.getVariable("GENDER")) ? tattoo.MaleHash : tattoo.FemaleHash;
+            mp.players.local.clearDecorations();
 
-            var playerTattoos = JSON.parse(localplayer.getVariable("TATTOOS"));
+            var playerTattoos = JSON.parse(mp.players.local.getVariable("TATTOOS"));
             for (let x = 0; x < playerTattoos[tId].length; x++) { // Очищаем ненужные татушки
 
                 for (let i = 0; i < tattoo.Slots.length; i++) {
@@ -925,12 +926,12 @@ mp.events.add('tattoo', (act, id, val) => {
                 if (playerTattoos[x] != null)
                     for (let i = 0; i < playerTattoos[x].length; i++)
                         if (playerTattoos[x][i] != null)
-                            localplayer.setDecoration(mp.game.joaat(playerTattoos[x][i].Dictionary), mp.game.joaat(playerTattoos[x][i].Hash));
+                            mp.players.local.setDecoration(mp.game.joaat(playerTattoos[x][i].Dictionary), mp.game.joaat(playerTattoos[x][i].Hash));
 
-            localplayer.setDecoration(mp.game.joaat(tattoo.Dictionary), mp.game.joaat(hash)); // Ну и применяем выбранную татуировку
+            mp.players.local.setDecoration(mp.game.joaat(tattoo.Dictionary), mp.game.joaat(hash)); // Ну и применяем выбранную татуировку
 
             const camValues = bodyCamValues[id][tattoo.Slots[0]];
-            const camPos = getCameraOffset(new mp.Vector3(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camValues.Height), localplayer.getRotation(2).z + 90 + camValues.Angle, camValues.Dist);
+            const camPos = getCameraOffset(new mp.Vector3(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camValues.Height), mp.players.local.getRotation(2).z + 90 + camValues.Angle, camValues.Dist);
 
             bodyCam.setCoord(camPos.x, camPos.y, camPos.z);
             bodyCam.pointAtCoord(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camValues.Height);
@@ -963,12 +964,12 @@ mp.events.add('openBody', (isBarber, price) => {
             mp.events.call('setBody', id, JSON.stringify(bizBarberPrices), JSON.stringify(barberSkip));
         }
 
-        bodyCamStart = localplayer.position;
+        bodyCamStart = mp.players.local.position;
     }
     else {
         tattooValues = [0, 0, 0, 0, 0, 0];
 
-        let gender = localplayer.getVariable("GENDER");
+        let gender = mp.players.local.getVariable("GENDER");
 
         for (let i = 0; i < 6; i++) {
             let id = tattooIds[i];
@@ -991,7 +992,7 @@ mp.events.add('openBody', (isBarber, price) => {
     }
 
     var camValues = (isBarber) ? bodyCamValues['hair'] : bodyCamValues['torso'][0];
-    var pos = getCameraOffset(new mp.Vector3(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camValues.Height), localplayer.getRotation(2).z + 90 + camValues.Angle, camValues.Dist);
+    var pos = getCameraOffset(new mp.Vector3(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camValues.Height), mp.players.local.getRotation(2).z + 90 + camValues.Angle, camValues.Dist);
     bodyCam = mp.cameras.new('default', pos, new mp.Vector3(0, 0, 0), 50);
     bodyCam.pointAtCoord(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camValues.Height);
     bodyCam.setActive(true);
@@ -1011,7 +1012,7 @@ mp.events.add('closeBody', () => {
     bodyCam.destroy();
     mp.game.cam.renderScriptCams(false, false, 500, true, false);
 
-    localplayer.clearDecorations();
+    mp.players.local.clearDecorations();
     mp.events.callRemote("cancelBody");
 
     mp.events.call('camMenu', false);
@@ -1157,7 +1158,7 @@ mp.events.add('openAuto', (models, prices) => {
         color: [[0, 0, 0], [0, 0, 0]],
         locked: false,
         engine: false,
-        dimension: localplayer.dimension
+        dimension: mp.players.local.dimension
     });
     auto.entity.setRotation(0, 0, -136.246, 2, true);
     auto.color = "Черный";
@@ -1168,7 +1169,7 @@ mp.events.add('openAuto', (models, prices) => {
     global.menu.execute(`auto.active=true`);
 
     // donate-carroom check
-    if(localplayer.getVariable('CARROOM-DONATE')) global.menu.execute('auto.donate=true');
+    if(mp.players.local.getVariable('CARROOM-DONATE')) global.menu.execute('auto.donate=true');
     else global.menu.execute('auto.donate=false');
     //
     
@@ -1239,7 +1240,7 @@ mp.events.add('openPetshop', (models, hashes, prices, dim) => {
 	
 	pet.entity = mp.peds.new(petHashes[0], new mp.Vector3(-758.2859, 320.9569, 175.2784), 218.8, dim);
 	pet.dimension = dim;
-	localplayer.setRotation(0, 0, 0, 2, true);
+	mp.players.local.setRotation(0, 0, 0, 2, true);
     pet.model = petModels[0];
 
     global.menuOpen();
@@ -1355,7 +1356,7 @@ mp.events.add('camCB', (act, val) => {
             camMenuValues.Dist = val;
             break;
     }
-    const camPos = getCameraOffset(new mp.Vector3(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camMenuValues.Height), localplayer.getRotation(2).z + 90 + camMenuValues.Angle, camMenuValues.Dist);
+    const camPos = getCameraOffset(new mp.Vector3(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camMenuValues.Height), mp.players.local.getRotation(2).z + 90 + camMenuValues.Angle, camMenuValues.Dist);
 
     bodyCam.setCoord(camPos.x, camPos.y, camPos.z);
     bodyCam.pointAtCoord(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camMenuValues.Height);
@@ -1463,7 +1464,7 @@ function getClothesNamesArr(gender, type)
 }
 
 mp.events.add('clothes', (act, value) => {
-    const gender = (localplayer.getVariable("GENDER")) ? 1 : 0;
+    const gender = (mp.players.local.getVariable("GENDER")) ? 1 : 0;
 
     switch (act) {
         case "style":
@@ -1478,7 +1479,7 @@ mp.events.add('clothes', (act, value) => {
                     clothes.color = colors[0];
                     clothes.colors = colors;
 
-                    localplayer.setPropIndex(0, clothes.style, clothes.color, true);
+                    mp.players.local.setPropIndex(0, clothes.style, clothes.color, true);
                     return;
                 case 1:
                     var colors = clothesTops[gender][value].Colors;
@@ -1488,8 +1489,8 @@ mp.events.add('clothes', (act, value) => {
                     clothes.color = colors[0];
                     clothes.colors = colors;
 
-                    localplayer.setComponentVariation(11, clothes.style, clothes.color, 0);
-                    localplayer.setComponentVariation(3, validTorsos[gender][clothes.style], 0, 0);
+                    mp.players.local.setComponentVariation(11, clothes.style, clothes.color, 0);
+                    mp.players.local.setComponentVariation(3, validTorsos[gender][clothes.style], 0, 0);
                     return;
                 case 2:
                     var colors = clothesUnderwears[gender][value].Colors;
@@ -1499,8 +1500,8 @@ mp.events.add('clothes', (act, value) => {
                     clothes.color = colors[0];
                     clothes.colors = colors;
 
-                    localplayer.setComponentVariation(11, clothes.style, clothes.color, 0);
-                    localplayer.setComponentVariation(3, validTorsos[gender][clothes.style], 0, 0);
+                    mp.players.local.setComponentVariation(11, clothes.style, clothes.color, 0);
+                    mp.players.local.setComponentVariation(3, validTorsos[gender][clothes.style], 0, 0);
                     return;
                 case 3:
                     var colors = clothesLegs[gender][value].Colors;
@@ -1510,7 +1511,7 @@ mp.events.add('clothes', (act, value) => {
                     clothes.color = colors[0];
                     clothes.colors = colors;
 
-                    localplayer.setComponentVariation(4, clothes.style, clothes.color, 0);
+                    mp.players.local.setComponentVariation(4, clothes.style, clothes.color, 0);
                     return;
                 case 4:
                     var colors = clothesFeets[gender][value].Colors;
@@ -1520,7 +1521,7 @@ mp.events.add('clothes', (act, value) => {
                     clothes.color = colors[0];
                     clothes.colors = colors;
 
-                    localplayer.setComponentVariation(6, clothes.style, clothes.color, 0);
+                    mp.players.local.setComponentVariation(6, clothes.style, clothes.color, 0);
                     return;
                 case 5:
                     var colors = clothesGloves[gender][value].Colors;
@@ -1530,7 +1531,7 @@ mp.events.add('clothes', (act, value) => {
                     clothes.color = colors[0];
                     clothes.colors = colors;
 
-                    localplayer.setComponentVariation(3, correctGloves[gender][clothes.style][15], clothes.color, 0);
+                    mp.players.local.setComponentVariation(3, correctGloves[gender][clothes.style][15], clothes.color, 0);
                     return;
                 case 6:
                     var colors = clothesWatches[gender][value].Colors;
@@ -1540,7 +1541,7 @@ mp.events.add('clothes', (act, value) => {
                     clothes.color = colors[0];
                     clothes.colors = colors;
 
-                    localplayer.setPropIndex(6, clothes.style, clothes.color, true);
+                    mp.players.local.setPropIndex(6, clothes.style, clothes.color, true);
                     return;
                 case 7:
                     var colors = clothesGlasses[gender][value].Colors;
@@ -1550,7 +1551,7 @@ mp.events.add('clothes', (act, value) => {
                     clothes.color = colors[0];
                     clothes.colors = colors;
 
-                    localplayer.setPropIndex(1, clothes.style, clothes.color, true);
+                    mp.players.local.setPropIndex(1, clothes.style, clothes.color, true);
                     return;
                 case 8:
                     var colors = clothesJewerly[gender][value].Colors;
@@ -1560,7 +1561,7 @@ mp.events.add('clothes', (act, value) => {
                     clothes.color = colors[0];
                     clothes.colors = colors;
 
-                    localplayer.setComponentVariation(7, clothes.style, clothes.color, 0);
+                    mp.players.local.setComponentVariation(7, clothes.style, clothes.color, 0);
                     return;
             }
             break;
@@ -1570,39 +1571,39 @@ mp.events.add('clothes', (act, value) => {
             switch (clothes.type) {
                 case 0:
                     clothes.color = clothes.colors[value];
-                    localplayer.setPropIndex(0, clothes.style, clothes.color, true);
+                    mp.players.local.setPropIndex(0, clothes.style, clothes.color, true);
                     return;
                 case 1:
                     clothes.color = clothes.colors[value];
-                    localplayer.setComponentVariation(11, clothes.style, clothes.color, 0);
+                    mp.players.local.setComponentVariation(11, clothes.style, clothes.color, 0);
                     return;
                 case 2:
                     clothes.color = clothes.colors[value];
-                    localplayer.setComponentVariation(11, clothes.style, clothes.color, 0);
+                    mp.players.local.setComponentVariation(11, clothes.style, clothes.color, 0);
                     return;
                 case 3:
                     clothes.color = clothes.colors[value];
-                    localplayer.setComponentVariation(4, clothes.style, clothes.color, 0);
+                    mp.players.local.setComponentVariation(4, clothes.style, clothes.color, 0);
                     return;
                 case 4:
                     clothes.color = clothes.colors[value];
-                    localplayer.setComponentVariation(6, clothes.style, clothes.color, 0);
+                    mp.players.local.setComponentVariation(6, clothes.style, clothes.color, 0);
                     return;
                 case 5:
                     clothes.color = clothes.colors[value];
-                    localplayer.setComponentVariation(3, correctGloves[gender][clothes.style][15], clothes.color, 0);
+                    mp.players.local.setComponentVariation(3, correctGloves[gender][clothes.style][15], clothes.color, 0);
                     return;
                 case 6:
                     clothes.color = clothes.colors[value];
-                    localplayer.setPropIndex(6, clothes.style, clothes.color, true);
+                    mp.players.local.setPropIndex(6, clothes.style, clothes.color, true);
                     return;
                 case 7:
                     clothes.color = clothes.colors[value];
-                    localplayer.setPropIndex(1, clothes.style, clothes.color, true);
+                    mp.players.local.setPropIndex(1, clothes.style, clothes.color, true);
                     return;
                 case 8:
                     clothes.color = clothes.colors[value];
-                    localplayer.setComponentVariation(7, clothes.style, clothes.color, 0);
+                    mp.players.local.setComponentVariation(7, clothes.style, clothes.color, 0);
                     return;
             }
             break;
@@ -1676,33 +1677,33 @@ mp.events.add('clothes', (act, value) => {
             clothes.colors = colors;
 
             if (value == 0) {
-                localplayer.setPropIndex(0, clothes.style, clothes.color, true);
+                mp.players.local.setPropIndex(0, clothes.style, clothes.color, true);
             }
             else if (value == 1 || value == 2) {
-                localplayer.setComponentVariation(11, clothes.style, clothes.color, 0);
-                localplayer.setComponentVariation(3, validTorsos[gender][clothes.style], 0, 0);
+                mp.players.local.setComponentVariation(11, clothes.style, clothes.color, 0);
+                mp.players.local.setComponentVariation(3, validTorsos[gender][clothes.style], 0, 0);
             }
             else if (value == 3) {
-                localplayer.setComponentVariation(4, clothes.style, clothes.color, 0);
+                mp.players.local.setComponentVariation(4, clothes.style, clothes.color, 0);
             }
             else if (value == 4) {
-                localplayer.setComponentVariation(6, clothes.style, clothes.color, 0);
+                mp.players.local.setComponentVariation(6, clothes.style, clothes.color, 0);
             }
             else if (value == 5) {
-                localplayer.setComponentVariation(3, correctGloves[gender][clothes.style][15], clothes.color, 0);
+                mp.players.local.setComponentVariation(3, correctGloves[gender][clothes.style][15], clothes.color, 0);
             }
             else if (value == 6) {
-                localplayer.setPropIndex(6, clothes.style, clothes.color, true);
+                mp.players.local.setPropIndex(6, clothes.style, clothes.color, true);
             }
             else if (value == 7) {
-                localplayer.setPropIndex(1, clothes.style, clothes.color, true);
+                mp.players.local.setPropIndex(1, clothes.style, clothes.color, true);
             }
             else if (value == 8) {
-                localplayer.setComponentVariation(7, clothes.style, clothes.color, 0);
+                mp.players.local.setComponentVariation(7, clothes.style, clothes.color, 0);
             }
 
             const camValues = clothesCamValues[value];
-            const camPos = getCameraOffset(new mp.Vector3(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camValues.Height), localplayer.getRotation(2).z + 90 + camValues.Angle, camValues.Dist);
+            const camPos = getCameraOffset(new mp.Vector3(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camValues.Height), mp.players.local.getRotation(2).z + 90 + camValues.Angle, camValues.Dist);
 
             bodyCam.setCoord(camPos.x, camPos.y, camPos.z);
             bodyCam.pointAtCoord(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camValues.Height);
@@ -1729,15 +1730,15 @@ mp.events.add('closeClothes', () => {
 mp.events.add('openClothes', (price) => {
     if (global.menuCheck()) return;
 
-    bodyCamStart = localplayer.position;
-    var camValues = { Angle: localplayer.getRotation(2).z + 90, Dist: 1.3, Height: 0.3 };
+    bodyCamStart = mp.players.local.position;
+    var camValues = { Angle: mp.players.local.getRotation(2).z + 90, Dist: 1.3, Height: 0.3 };
     var pos = getCameraOffset(new mp.Vector3(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camValues.Height), camValues.Angle, camValues.Dist);
     bodyCam = mp.cameras.new('default', pos, new mp.Vector3(0, 0, 0), 50);
     bodyCam.pointAtCoord(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camValues.Height);
     bodyCam.setActive(true);
     mp.game.cam.renderScriptCams(true, false, 500, true, false);
 
-    const gender = (localplayer.getVariable("GENDER")) ? 1 : 0;
+    const gender = (mp.players.local.getVariable("GENDER")) ? 1 : 0;
 
     var styles = [];
     var prices = [];
@@ -1800,24 +1801,24 @@ mp.events.add('openClothes', (price) => {
 })
 
 function clearClothes() {
-    const gender = (localplayer.getVariable("GENDER")) ? 1 : 0;
+    const gender = (mp.players.local.getVariable("GENDER")) ? 1 : 0;
 
-    localplayer.clearProp(0);
-    localplayer.clearProp(1);
-    localplayer.clearProp(2);
-    localplayer.clearProp(6);
-    localplayer.clearProp(7);
+    mp.players.local.clearProp(0);
+    mp.players.local.clearProp(1);
+    mp.players.local.clearProp(2);
+    mp.players.local.clearProp(6);
+    mp.players.local.clearProp(7);
 
-    localplayer.setComponentVariation(1, clothesEmpty[gender][1], 0, 0);
-    localplayer.setComponentVariation(3, clothesEmpty[gender][3], 0, 0);
-    localplayer.setComponentVariation(4, clothesEmpty[gender][4], 0, 0);
-    localplayer.setComponentVariation(5, clothesEmpty[gender][5], 0, 0);
-    localplayer.setComponentVariation(6, clothesEmpty[gender][6], 0, 0);
-    localplayer.setComponentVariation(7, clothesEmpty[gender][7], 0, 0);
-    localplayer.setComponentVariation(8, clothesEmpty[gender][8], 0, 0);
-    localplayer.setComponentVariation(9, clothesEmpty[gender][9], 0, 0);
-    localplayer.setComponentVariation(10, clothesEmpty[gender][10], 0, 0);
-    localplayer.setComponentVariation(11, clothesEmpty[gender][11], 0, 0);
+    mp.players.local.setComponentVariation(1, clothesEmpty[gender][1], 0, 0);
+    mp.players.local.setComponentVariation(3, clothesEmpty[gender][3], 0, 0);
+    mp.players.local.setComponentVariation(4, clothesEmpty[gender][4], 0, 0);
+    mp.players.local.setComponentVariation(5, clothesEmpty[gender][5], 0, 0);
+    mp.players.local.setComponentVariation(6, clothesEmpty[gender][6], 0, 0);
+    mp.players.local.setComponentVariation(7, clothesEmpty[gender][7], 0, 0);
+    mp.players.local.setComponentVariation(8, clothesEmpty[gender][8], 0, 0);
+    mp.players.local.setComponentVariation(9, clothesEmpty[gender][9], 0, 0);
+    mp.players.local.setComponentVariation(10, clothesEmpty[gender][10], 0, 0);
+    mp.players.local.setComponentVariation(11, clothesEmpty[gender][11], 0, 0);
 }
 //types: styles, colors, prices
 function setClothes(type, jsonstr) {
@@ -1849,11 +1850,11 @@ mp.events.add('masks', (act, value) => {
             clothes.color = colors[0];
             clothes.colors = colors;
 
-            localplayer.setComponentVariation(1, clothes.style, clothes.color, 0);
+            mp.players.local.setComponentVariation(1, clothes.style, clothes.color, 0);
             return;
         case "color":
             clothes.color = clothes.colors[value];
-            localplayer.setComponentVariation(1, clothes.style, clothes.color, 0);
+            mp.players.local.setComponentVariation(1, clothes.style, clothes.color, 0);
             return;
     }
 })
@@ -1865,8 +1866,8 @@ mp.events.add('buyMasks', () => {
 mp.events.add('openMasks', (price) => {
     if (global.menuCheck()) return;
 
-    bodyCamStart = localplayer.position;
-    var camValues = { Angle: localplayer.getRotation(2).z + 90, Dist: 0.7, Height: 0.6 };
+    bodyCamStart = mp.players.local.position;
+    var camValues = { Angle: mp.players.local.getRotation(2).z + 90, Dist: 0.7, Height: 0.6 };
     var pos = getCameraOffset(new mp.Vector3(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camValues.Height), camValues.Angle, camValues.Dist);
     bodyCam = mp.cameras.new('default', pos, new mp.Vector3(0, 0, 0), 50);
     bodyCam.pointAtCoord(bodyCamStart.x, bodyCamStart.y, bodyCamStart.z + camValues.Height);
@@ -1896,15 +1897,15 @@ mp.events.add('openMasks', (price) => {
         price: price,
     }
 
-    localplayer.setComponentVariation(1, styles[0], colors[0], 0);
+    mp.players.local.setComponentVariation(1, styles[0], colors[0], 0);
 
     global.menuOpen();
     global.menu.execute(`masks.active=true`);
 
     mp.events.call('camMenu', true);
 
-    localplayer.clearProp(0);
-    localplayer.clearProp(1);
+    mp.players.local.clearProp(0);
+    mp.players.local.clearProp(1);
 })
 
 function setMaskCEF(type, jsonstr) {
@@ -2044,12 +2045,12 @@ mp.events.add('exitadvert', () => {
 })
 mp.keys.bind(0x75, false, function () { // F6 key report menu
     if (!loggedin || chatActive || editing || advertsactive || new Date().getTime() - global.lastCheck < 1000) return;
-    if (localplayer.getVariable('IS_ADMIN') != true) return;
+    if (mp.players.local.getVariable('IS_ADMIN') != true) return;
     global.lastCheck = new Date().getTime();
     if (!global.menuOpened) {
         global.menuOpen();
         mp.gui.cursor.visible = true;
-        if (!reportactive) report.execute(`app.playerName='${localplayer.name}'`);
+        if (!reportactive) report.execute(`app.playerName='${mp.players.local.name}'`);
         reportactive = true;
         report.execute('app.active=true;');
     } else {
@@ -2065,7 +2066,7 @@ mp.keys.bind(0x76, false, function () { // F7 key advert menu
     if (!global.menuOpened) {
         global.menuOpen();
         mp.gui.cursor.visible = true;
-        if (!advertsactive) adverts.execute(`app.playerName='${localplayer.name}'`);
+        if (!advertsactive) adverts.execute(`app.playerName='${mp.players.local.name}'`);
         advertsactive = true;
         if(adverts != null) adverts.execute('app.active=true;');
     } else {

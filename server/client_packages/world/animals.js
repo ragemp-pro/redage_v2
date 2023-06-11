@@ -31,7 +31,7 @@ mp.events.add('ChatPyBed', (id, variation) => {
 			case 0:
 				if(!variation)
 				{
-					global.pedtext = `Добро пожаловать в штат, ${localplayer.name}!`;
+					global.pedtext = `Добро пожаловать в штат, ${mp.players.local.name}!`;
 					global.pedtext2 = "мой приятель ждет тебя возле здания правительства";
 					global.pedtext3 = "он объяснит что делать дальше..";
 				}

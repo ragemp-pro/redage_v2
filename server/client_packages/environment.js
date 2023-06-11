@@ -86,3 +86,8 @@ mp.events.add('resumeTime', () => {
     mp.game.gameplay.setWeatherTypeNow(nowWeather);
     mp.game.time.setClockTime(nowTime.Hour, nowTime.Minute, 0);
 })
+
+function formatIntZero(num, length) { 
+    
+    return ("0" + num).slice(length); 
+} 

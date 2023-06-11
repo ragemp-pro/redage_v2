@@ -14,20 +14,20 @@ var isInSafeZone = false;
 var lastCuffUpdate = new Date().getTime();
 
 function getLookingAtEntity() {
-    let startPosition = localplayer.getBoneCoords(12844, 0.5, 0, 0);
+    let startPosition = mp.players.local.getBoneCoords(12844, 0.5, 0, 0);
     var resolution = mp.game.graphics.getScreenActiveResolution(1, 1);
     let secondPoint = mp.game.graphics.screen2dToWorld3d([resolution.x / 2, resolution.y / 2, (2 | 4 | 8)]);
     if (secondPoint == undefined) return null;
 
     startPosition.z -= 0.3;
-    const result = mp.raycasting.testPointToPoint(startPosition, secondPoint, localplayer, (2 | 4 | 8 | 16));
+    const result = mp.raycasting.testPointToPoint(startPosition, secondPoint, mp.players.local, (2 | 4 | 8 | 16));
 
     if (typeof result !== 'undefined') {
         if (typeof result.entity.type === 'undefined') return null;
         if (result.entity.type == 'object' && result.entity.getVariable('TYPE') == undefined) return null;
 
         let entPos = result.entity.position;
-        let lPos = localplayer.position;
+        let lPos = mp.players.local.position;
         if (mp.game.gameplay.getDistanceBetweenCoords(entPos.x, entPos.y, entPos.z, lPos.x, lPos.y, lPos.z, true) > 8) return null;
         return result.entity;
     }
@@ -37,14 +37,14 @@ function getLookingAtEntity() {
 function getNearestObjects() {
 
     var tempO = null;
-    if (localplayer.isInAnyVehicle(false)) {
+    if (mp.players.local.isInAnyVehicle(false)) {
         var players = mp.players.toArray();
         players.forEach(
             (player) => {
-                var posL = localplayer.position;
+                var posL = mp.players.local.position;
                 var posO = player.position;
                 var distance = mp.game.gameplay.getDistanceBetweenCoords(posL.x, posL.y, posL.z, posO.x, posO.y, posO.z, true);
-                if (localplayer != player && localplayer.dimension === player.dimension && distance < 2) {
+                if (mp.players.local != player && mp.players.local.dimension === player.dimension && distance < 2) {
                     if (tempO === null) tempO = player;
                     else if (mp.game.gameplay.getDistanceBetweenCoords(posL.x, posL.y, posL.z, posO.x, posO.y, posO.z, true) <
                         mp.game.gameplay.getDistanceBetweenCoords(posL.x, posL.y, posL.z, tempO.position.x, tempO.position.y, tempO.position.z, true))
@@ -56,10 +56,10 @@ function getNearestObjects() {
         var objects = mp.objects.toArray();
         objects.forEach(
             (object) => {
-                var posL = localplayer.position;
+                var posL = mp.players.local.position;
                 var posO = object.position;
                 var distance = mp.game.gameplay.getDistanceBetweenCoords(posL.x, posL.y, posL.z, posO.x, posO.y, posO.z, true);
-                if (object.getVariable('TYPE') != undefined && localplayer.dimension === object.dimension && distance < 3) {
+                if (object.getVariable('TYPE') != undefined && mp.players.local.dimension === object.dimension && distance < 3) {
                     if (tempO === null) tempO = object;
                     else if (mp.game.gameplay.getDistanceBetweenCoords(posL.x, posL.y, posL.z, posO.x, posO.y, posO.z, true) <
                         mp.game.gameplay.getDistanceBetweenCoords(posL.x, posL.y, posL.z, tempO.position.x, tempO.position.y, tempO.position.z, true))
@@ -80,7 +80,7 @@ mp.events.add('CUFFED', function (argument) {
 
 mp.events.add('hasMoney', function (argument) {
     hasmoney = argument;
-    if (!argument) localplayer.setEnableHandcuffs(false);
+    if (!argument) mp.players.local.setEnableHandcuffs(false);
 });
 
 mp.events.add('safeZone', function (argument) {
@@ -88,7 +88,7 @@ mp.events.add('safeZone', function (argument) {
 });
 
 mp.keys.bind(0x47, false, function () { // G key
-    if (global.menuCheck() || cuffed || localplayer.getVariable('InDeath') == true && !localPlayer.isInAnyVehicle(false)) return;
+    if (global.menuCheck() || cuffed || mp.players.local.getVariable('InDeath') == true && !mp.players.local.isInAnyVehicle(false)) return;
     if (circleOpen) {
         CloseCircle();
         return;
@@ -114,7 +114,7 @@ mp.keys.bind(0x47, false, function () { // G key
 });
 
 mp.keys.bind(0x71, false, function () { // F2 key
-    if (global.menuCheck() || localplayer.getVariable('InDeath') == true) return;
+    if (global.menuCheck() || mp.players.local.getVariable('InDeath') == true) return;
     // player
     if (circleOpen) {
         CloseCircle();
@@ -148,16 +148,8 @@ mp.events.add('SetOrderTruck', (vehicle) => {
 mp.events.add('render', () => {
 	try {
         if (!loggedin) return;
-		if(pressedraw) {
-			mp.game.graphics.drawText(``, [0.10, 0.75], {
-				font: 0,
-				color: [255, 255, 255, 185],
-				scale: [0.35, 0.35],
-				outline: true
-			});
-		}
-		if (!admingm) localplayer.setInvincible(false);
-        if (localplayer.isSprinting() || localplayer.isOnAnyBike()) mp.game.player.restoreStamina(100);
+		if (!global.admingm) mp.players.local.setInvincible(false);
+        if (mp.players.local.isSprinting() || mp.players.local.isOnAnyBike()) mp.game.player.restoreStamina(100);
         mp.game.player.setLockonRangeOverride(1.5);
         mp.game.controls.disableControlAction(1, 7, true);
 		// thanks to kemperrr
@@ -187,7 +179,7 @@ mp.events.add('render', () => {
 	        mp.game.controls.enableControlAction(2, 2, true);
 		}
 		if (hasmoney) {
-	        localplayer.setEnableHandcuffs(true);
+	        mp.players.local.setEnableHandcuffs(true);
         }
         if (isInSafeZone) {
             mp.game.controls.disableControlAction(2, 24, true);
@@ -209,7 +201,7 @@ mp.events.add('render', () => {
 	        lastCuffUpdate = new Date().getTime();
 		}
 
-		if (!localplayer.isInAnyVehicle(false) && !localplayer.isDead()) {
+		if (!mp.players.local.isInAnyVehicle(false) && !mp.players.local.isDead()) {
 	        if (!circleOpen)
 		        entity = getLookingAtEntity();
 	        getNearestObjects();
@@ -228,7 +220,7 @@ mp.events.add('render', () => {
 			    outline: true
 			});
 		}
-        else if (entity != null && !localplayer.isInAnyVehicle(false)) {
+        else if (entity != null && !mp.players.local.isInAnyVehicle(false)) {
 			if(truckorderveh == null || entity != truckorderveh) {
 				mp.game.graphics.drawText("G", [entity.position.x, entity.position.y, entity.position.z], {
 					font: 0,

@@ -1,3 +1,5 @@
+const spectating = require('./spmenu.js');
+
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 mp.nametags.enabled = false;
@@ -38,14 +40,14 @@ mp.events.add('render', function (nametags) {
     playerTarget = mp.players.local;
 
     // Get variables
-    var isAdmin = global.localplayer.getVariable('IS_ADMIN');
+    var isAdmin = mp.players.local.getVariable('IS_ADMIN');
 
     // Admin get target info
     if (isAdmin == true) {
         var player = playerTarget;
         if (player === undefined || player.handle === undefined || !player.handle) player = playerAimAt;
         if (player === undefined || player.handle === undefined || !player.handle) {} else {
-            if (player.getType() === 4 && player != global.localplayer) {
+            if (player.getType() === 4 && player != mp.players.local) {
                 mp.game.graphics.drawText(player.name + ' (' + player.remoteId + ')', [0.46, 0.4], { font: 4, color: [255, 255, 255, 235], scale: [2, 0.35], outline: true });
             }
         }
@@ -88,7 +90,7 @@ mp.events.add('render', function (nametags) {
                                 else text = 'ID: ' + _player.remoteId;
                             }
 
-                            var localFraction = global.localplayer.getVariable('fraction');
+                            var localFraction = mp.players.local.getVariable('fraction');
                             var playerFraction = _player.getVariable('fraction');
                             var playerFractionRankName = _player.getVariable('fractionRankName');
 
@@ -130,7 +132,7 @@ function drawPlayerTag(player, x, y, displayname, color) {
     mp.game.graphics.drawText(displayname, [x, y], { font: 4, color: color, scale: [0.35, 0.35], outline: true });
 
     // draw health & ammo bar
-    if (mp.game.player.isFreeAimingAtEntity(player.handle) || mp.game.player.isTargettingEntity(player.handle) || global.spectating) {
+    if (mp.game.player.isFreeAimingAtEntity(player.handle) || mp.game.player.isTargettingEntity(player.handle) || spectating) {
         y += 0.05125;
         var health = player.getHealth();
         health = health <= 100 ? health / 100 : (health - 100) / 100;

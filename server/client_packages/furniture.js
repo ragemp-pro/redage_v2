@@ -8,11 +8,11 @@ global.editing = false;
 var object = null;
 
 mp.events.add('startEditing', function (model) {
-    object = mp.objects.new(mp.game.joaat(model), new mp.Vector3(global.localplayer.position.x+1, global.localplayer.position.y+1, global.localplayer.position.z-0.5), //global.localplayer.getCoords(true),
+    object = mp.objects.new(mp.game.joaat(model), new mp.Vector3(mp.players.local.position.x+1, mp.players.local.position.y+1, mp.players.local.position.z-0.5), //mp.players.local.getCoords(true),
         {
             rotation: new mp.Vector3(0, 0, 0),
             alpha: 255,
-            dimension: global.localplayer.dimension
+            dimension: mp.players.local.dimension
         });
     editing = true;
 });
@@ -28,7 +28,7 @@ function updateObject() {
     {
         rotation: new mp.Vector3(pitch, rot.y, rot.z),
         alpha: 255,
-        dimension: global.localplayer.dimension
+        dimension: mp.players.local.dimension
     });
 }
 

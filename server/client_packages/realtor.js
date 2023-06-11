@@ -1,4 +1,3 @@
-const localPlayer = mp.players.local;
 global.realtorMenu = mp.browsers.new('package://cef/realtorHouses/index.html'); //2AC
 
 mp.events.add("openRealtorMenu", () => {

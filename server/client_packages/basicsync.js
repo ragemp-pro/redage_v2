@@ -74,7 +74,7 @@ const PlayerHash = mp.game.joaat("PLAYER");
 const NonFriendlyHash = mp.game.joaat("FRIENDLY_PLAYER");
 const FriendlyHash = mp.game.joaat("NON_FRIENDLY_PLAYER");
 
-localplayer.setRelationshipGroupHash(PlayerHash);
+mp.players.local.setRelationshipGroupHash(PlayerHash);
 
 mp.game.ped.addRelationshipGroup("FRIENDLY_PLAYER", 0);
 mp.game.ped.addRelationshipGroup("NON_FRIENDLY_PLAYER", 0);
@@ -90,14 +90,14 @@ mp.events.add('disabledmg', (toggle) => {
 		dmgdisabled = true;
 		mp.players.forEachInStreamRange(
 			(entity) => {
-				if(entity != localplayer) entity.setRelationshipGroupHash(FriendlyHash);
+				if(entity != mp.players.local) entity.setRelationshipGroupHash(FriendlyHash);
 			}
 		);
 	} else {
 		dmgdisabled = false;
 		mp.players.forEachInStreamRange(
 			(entity) => {
-				if(entity != localplayer) entity.setRelationshipGroupHash(NonFriendlyHash);
+				if(entity != mp.players.local) entity.setRelationshipGroupHash(NonFriendlyHash);
 			}
 		);
 	}
@@ -129,7 +129,7 @@ mp.events.add('entityStreamIn', function (entity) {
 			if (entity.getVariable('INVISIBLE') == true) entity.setAlpha(0);
 			else entity.setAlpha(255);
 		} else if(entity.type === 'ped') {
-			entity.taskLookAt(localplayer.handle, -1, 2048, 3);
+			entity.taskLookAt(mp.players.local.handle, -1, 2048, 3);
 			if(entity.getModel() == 1462895032) entity.taskPlayAnim("creatures@cat@amb@world_cat_sleeping_ground@base", "base", 8.0, 1.0, -1, 1, 0.0, false, false, false); // Cat
 			else if(entity.getModel() == 1318032802) entity.taskPlayAnim("creatures@rottweiler@amb@sleep_in_kennel@", "sleep_in_kennel", 8.0, 1.0, -1, 1, 0.0, false, false, false); // Husky
 			else if(entity.getModel() == 1832265812) entity.taskPlayAnim("creatures@pug@amb@world_dog_sitting@base", "base", 8.0, 1.0, -1, 1, 0.0, false, false, false); // Pug

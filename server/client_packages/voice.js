@@ -5,12 +5,12 @@ const MaxRange = 10.0;
 const enableMicrophone = () => {
     if (global.chatActive || !global.loggedin) return;
 
-    if (localplayer.getVariable('voice.muted') == true) return;
+    if (mp.players.local.getVariable('voice.muted') == true) return;
 
     if (mp.voiceChat.muted) {
         mp.voiceChat.muted = false;
         mp.gui.execute(`HUD.mic=${true}`);
-		localplayer.playFacialAnim("mic_chatter", "mp_facial");
+		mp.players.local.playFacialAnim("mic_chatter", "mp_facial");
     }
 }
 
@@ -19,7 +19,7 @@ const disableMicrophone = () => {
     if (!mp.voiceChat.muted) {
         mp.voiceChat.muted = true;
         mp.gui.execute(`HUD.mic=${false}`);
-		localplayer.playFacialAnim("mood_normal_1", "facials@gen_male@variations@normal");
+		mp.players.local.playFacialAnim("mood_normal_1", "facials@gen_male@variations@normal");
 
         //mp.voiceChat.cleanupAndReload(true, false, false); // voice fix (если все равно проблемы с войсом расскоментируйте это)
     }
@@ -77,7 +77,7 @@ mp.events.add('voice.phoneCall', (target) => {
 mp.events.add("voice.phoneStop", () => {
     if (PHONE.target) {
         if (mp.players.exists(PHONE.target)) {
-            let localPos = localplayer.position;
+            let localPos = mp.players.local.position;
             const playerPos = PHONE.target.position;
             let dist = mp.game.system.vdist(playerPos.x, playerPos.y, playerPos.z, localPos.x, localPos.y, localPos.z);
             if (dist > MaxRange) mp.events.callRemote("remove_voice_listener", PHONE.target);
@@ -126,13 +126,13 @@ mp.events.add('playerStartTalking', (player) => {
 mp.events.add('playerStopTalking', (player) => {
 	player.playFacialAnim("mood_normal_1", "facials@gen_male@variations@normal");
 });
-var localPos = global.localplayer.position;
-var playerPos = global.localplayer.position;
+var localPos = mp.players.local.position;
+var playerPos = mp.players.local.position;
 setInterval(() => {
-    localPos = global.localplayer.position;
+    localPos = mp.players.local.position;
 
     mp.players.forEachInStreamRange(player => {
-        if (player != global.localplayer) {
+        if (player != mp.players.local) {
             if (!player.isListening && (!PHONE.target || PHONE.target != player)) {
                 playerPos = player.position;
                 if (mp.game.system.vdist(playerPos.x, playerPos.y, playerPos.z, localPos.x, localPos.y, localPos.z) <= MaxRange) g_voiceMgr.add(player, true);

@@ -1,5 +1,5 @@
-﻿global.showhud = true;
-global.passports = {};
+﻿const getMinimapAnchor = require('./bigmap.js')
+
 var cruiseSpeed = -1;
 var cruiseLastPressed = 0;
 var showHint = true;
@@ -29,12 +29,7 @@ let fishingBarMin = 0;
 let fishingBarMax = 0;
 let movementRight = true;
 let fishingAchieveStart = 0;
-let intervalFishing;
-let isIntervalCreated = false;
-let isInZone = false;
-let isShowPrompt = false;
 let isEnter = false;
-let isjoinTable = false;
 
 mp.events.add('fishingBaitTaken', () => {
 	fishingBarMin = 0.277;
@@ -60,12 +55,6 @@ function drawFishingMinigame() {
                  fishingSuccess++;
                  if(fishingSuccess == 1) {
                      fishingState = -1;
-                     let heading = localplayer.getHeading() + 90;
-                     let point = {
-                         x: localplayer.position.x + 15*Math.cos(heading * Math.PI / 180.0),
-                         y: localplayer.position.y + 15*Math.sin(heading * Math.PI / 180.0),
-                         z: localplayer.position.z
-                     }
                      mp.events.callRemote('giveRandomFish');
                      isEnter=false;
                  } else {
@@ -129,15 +118,16 @@ mp.events.add('render', () => {
 });
 
 mp.events.add('showHUD', (show) => {
+    try {
     global.showhud = show;
-    if (!show) mp.gui.execute(`hidehelp(${!showhud})`);
-    else if (show && showHint) mp.gui.execute(`hidehelp(${!showhud})`);
+    if (!show) mp.gui.execute(`hidehelp(${!global.showhud})`);
+    else if (show && showHint) mp.gui.execute(`hidehelp(${!global.showhud})`);
 
     if (show) {
         mp.gui.execute(`HUD.server=${serverid};`);
         mp.gui.execute(`HUD.playerId=${mp.players.local.remoteId}`);
     }
-    mp.gui.execute(`hidehud(${!showhud})`);
+    mp.gui.execute(`hidehud(${!global.showhud})`);
 
 
     var screen = mp.game.graphics.getScreenActiveResolution(0,0);
@@ -146,17 +136,22 @@ mp.events.add('showHUD', (show) => {
     var minimap = getMinimapAnchor();
     mp.gui.execute(`HUD.minimapFix=${minimap.rightX * 100}`);
 	
-    var playerId = localplayer.getVariable('REMOTE_ID');
+    var playerId = mp.players.local.getVariable('REMOTE_ID');
     
-    var personId = localplayer.getVariable('PERSON_ID');
+    var personId = mp.players.local.getVariable('PERSON_ID');
 	mp.gui.execute(`HUD.personId='${personId}'`);
 	
 	mp.gui.execute(`HUD.playerId='${playerId}'`);
 	
-    mp.game.ui.displayAreaName(showhud);
-    mp.game.ui.displayRadar(showhud);
-    mp.game.ui.displayHud(showhud);
-    mp.gui.chat.show(showhud);
+    mp.game.ui.displayAreaName(global.showhud);
+    mp.game.ui.displayRadar(global.showhud);
+    mp.game.ui.displayHud(global.showhud);
+    mp.gui.chat.show(global.showhud);
+    }
+    catch(e)
+    {
+        mp.game.graphics.notify(`error: ${e} ${global.showhud} ${show}`);
+    }
 });
 
 mp.events.add('UpdateMoney', function (temp, amount) {
@@ -277,7 +272,7 @@ mp.keys.bind(Keys.VK_F5, false, function () { // F5 key
         mp.gui.execute(`hidehelp(${!showHint})`);
     }
     else if (global.showhud) {
-        global.showhud = !global.showhud;
+        global.showhud = !showhud;
         mp.events.call('showHUD', global.showhud);
     }
     else {
@@ -289,16 +284,16 @@ mp.keys.bind(Keys.VK_F5, false, function () { // F5 key
 });
 mp.keys.bind(Keys.VK_J, false, function () { // belt system (J key)
     if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 400 || global.menuOpened) return;
-    if (localplayer.isInAnyVehicle(false)) {
+    if (mp.players.local.isInAnyVehicle(false)) {
         lastCheck = new Date().getTime();
 
         if (hudstatus.belt) {
-            localplayer.setConfigFlag(32, true);
+            mp.players.local.setConfigFlag(32, true);
             //mp.events.call('notify', 2, 2, "Вы отстегнули ремень безопасности", 2000);
             mp.game.graphics.notify('~r~Вы отстегнули ремень безопасности');
         }
         else {
-            localplayer.setConfigFlag(32, false);
+            mp.players.local.setConfigFlag(32, false);
             //mp.events.call('notify', 2, 2, "Вы пристегнули ремень безопасности", 2000);
             mp.game.graphics.notify('~g~Вы пристегнули ремень безопасности');
         }
@@ -306,7 +301,7 @@ mp.keys.bind(Keys.VK_J, false, function () { // belt system (J key)
         hudstatus.belt = !hudstatus.belt;
         mp.gui.execute(`HUD.belt=${hudstatus.belt}`);
 
-        var testBelt = localplayer.getConfigFlag(32, true);
+        var testBelt = mp.players.local.getConfigFlag(32, true);
         //mp.gui.chat.push(`flag32: ` + testBelt + ` hud.belt ` + hudstatus.belt);
 
         mp.events.callRemote('beltCarPressed', testBelt);
@@ -316,14 +311,14 @@ mp.keys.bind(Keys.VK_J, false, function () { // belt system (J key)
 // CRUISE CONTROL //
 mp.keys.bind(Keys.VK_6, false, function () { // 5 key - cruise mode on/off
     if (!loggedin || global.chatActive || editing || global.menuOpened) return;
-    if (!localplayer.isInAnyVehicle(true) || localplayer.vehicle.getPedInSeat(-1) != localplayer.handle) return;
-	let vclass = localplayer.vehicle.getClass();
+    if (!mp.players.local.isInAnyVehicle(true) || mp.players.local.vehicle.getPedInSeat(-1) != mp.players.local.handle) return;
+	let vclass = mp.players.local.vehicle.getClass();
 	if(vclass == 14 || vclass == 15 || vclass == 16) return;
-	if(localplayer.vehicle.isOnAllWheels() == false) return;
+	if(mp.players.local.vehicle.isOnAllWheels() == false) return;
     if (new Date().getTime() - cruiseLastPressed < 300) {
         mp.events.call('openInput', 'Круиз-контроль', 'Укажите скорость в км/ч', 3, 'setCruise');
     } else {
-        var veh = localplayer.vehicle;
+        var veh = mp.players.local.vehicle;
         if (cruiseSpeed == -1) {
             var vspeed = veh.getSpeed();
             if (vspeed > 1) {
@@ -344,11 +339,11 @@ mp.keys.bind(Keys.VK_6, false, function () { // 5 key - cruise mode on/off
 mp.events.add('setCruiseSpeed', function (speed) {
     speed = parseInt(speed);
     if (speed === NaN || speed < 1) return;
-    if (!localplayer.isInAnyVehicle(true) || localplayer.vehicle.getPedInSeat(-1) != localplayer.handle) return;
-	let vclass = localplayer.vehicle.getClass();
+    if (!mp.players.local.isInAnyVehicle(true) || mp.players.local.vehicle.getPedInSeat(-1) != mp.players.local.handle) return;
+	let vclass = mp.players.local.vehicle.getClass();
 	if(vclass == 14 || vclass == 15 || vclass == 16) return;
-	if(localplayer.vehicle.isOnAllWheels() == false) return;
-	var veh = localplayer.vehicle;
+	if(mp.players.local.vehicle.isOnAllWheels() == false) return;
+	var veh = mp.players.local.vehicle;
 	var curSpeed = veh.getSpeed();
 	if(speed < curSpeed) {
 		mp.events.call('notify', 4, 9, "Нельзя установить скорость меньше, чем она есть на данный момент, снизьте скорость и попробуйте еще раз.", 6000);
@@ -389,7 +384,7 @@ mp.events.add('sendRPMessage', (type, msg, players) => {
         if (mp.players.exists(player)) {
 
             if (type === "chat" || type === "s") {
-                let localPos = localplayer.position;
+                let localPos = mp.players.local.position;
                 let playerPos = player.position;
                 let dist = mp.game.system.vdist(playerPos.x, playerPos.y, playerPos.z, localPos.x, localPos.y, localPos.z);
                 var color = (dist < 2) ? "FFFFFF" :
@@ -402,9 +397,9 @@ mp.events.add('sendRPMessage', (type, msg, players) => {
 			
 			var name = "";
 			if(player.getVariable('IS_MASK') == true) {
-				name = (player === localplayer || localplayer.getVariable('IS_ADMIN') == true) ? `${player.name.replace("_", " ")} (${player.getVariable('REMOTE_ID')})` : `Незнакомец (${id})`;
+				name = (player === mp.players.local || mp.players.local.getVariable('IS_ADMIN') == true) ? `${player.name.replace("_", " ")} (${player.getVariable('REMOTE_ID')})` : `Незнакомец (${id})`;
 			} else {
-				name = (player === localplayer || localplayer.getVariable('IS_ADMIN') == true || global.passports[player.name] != undefined || mp.storage.data.friends[player.name] != undefined) ? `${player.name.replace("_", " ")} (${player.getVariable('REMOTE_ID')})` : `Незнакомец (${id})`;
+				name = (player === mp.players.local || mp.players.local.getVariable('IS_ADMIN') == true || global.passports[player.name] != undefined || mp.storage.data.friends[player.name] != undefined) ? `${player.name.replace("_", " ")} (${player.getVariable('REMOTE_ID')})` : `Незнакомец (${id})`;
 			}
             msg = msg.replace("{name}", name);
         }
@@ -416,7 +411,7 @@ mp.events.add('sendRPMessage', (type, msg, players) => {
     mp.gui.chat.push(msg);
 });
 
-mp.events.add('render', (nametags) => {
+mp.events.add('render', () => {
 
     if (!global.loggedin) return;
     if(fishingState > 0) {
@@ -442,8 +437,8 @@ mp.events.add('render', (nametags) => {
     }
 
     // Update street & district
-    var street = mp.game.pathfind.getStreetNameAtCoord(localplayer.position.x, localplayer.position.y, localplayer.position.z, 0, 0);
-    let area  = mp.game.zone.getNameOfZone(localplayer.position.x, localplayer.position.y, localplayer.position.z);
+    var street = mp.game.pathfind.getStreetNameAtCoord(mp.players.local.position.x, mp.players.local.position.y, mp.players.local.position.z, 0, 0);
+    let area  = mp.game.zone.getNameOfZone(mp.players.local.position.x, mp.players.local.position.y, mp.players.local.position.z);
     if(hudstatus.street != street || hudstatus.area != area)
     {
         hudstatus.street = street;
@@ -463,13 +458,13 @@ mp.events.add('render', (nametags) => {
     }
 
     
-    if (localplayer.isInAnyVehicle(false)) {
+    if (mp.players.local.isInAnyVehicle(false)) {
 
-		if(localplayer.vehicle.getPedInSeat(-1) == localplayer.handle) {
+		if(mp.players.local.vehicle.getPedInSeat(-1) == mp.players.local.handle) {
 			if (!hudstatus.invehicle) mp.gui.execute(`HUD.inVeh=1`);
 			hudstatus.invehicle = true;
 
-			var veh = localplayer.vehicle;
+			var veh = mp.players.local.vehicle;
 
 			if (veh.getVariable('FUELTANK') !== undefined) {
 				let fueltank = veh.getVariable('FUELTANK');
@@ -552,3 +547,5 @@ mp.events.add('UpdateWater', function (temp, amount) {
 mp.events.add('updlastbonus', function (bonus) {
     mp.gui.execute(`HUD.lastbonus="${bonus}"`);
 });
+
+exports = { showhud, passports };

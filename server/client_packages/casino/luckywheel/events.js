@@ -7,7 +7,7 @@ mp.events.add(
     {
         const data = luckywheel.interaction;
         if (mp.game.gameplay.getDistanceBetweenCoords(player.position.x, player.position.y, player.position.z, data.pos.x, data.pos.y, data.pos.z, true) < data.radius && !(
-            !loggedin || chatActive || editing || global.menuOpened || cuffed || localplayer.getVariable('InDeath')
+            !loggedin || chatActive || editing || global.menuOpened || cuffed || mp.players.local.getVariable('InDeath')
         ))
         {
             if (!data.isNear)

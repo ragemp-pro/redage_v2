@@ -2,7 +2,7 @@ global.inventory = mp.browsers.new('package://cef/inventory.html');
 
 mp.keys.bind(Keys.VK_I, false, function () {
 
-    if (!loggedin || chatActive || editing || cuffed || localplayer.getVariable('InDeath') == true) return;
+    if (!loggedin || chatActive || editing || cuffed || mp.players.local.getVariable('InDeath') == true) return;
 
     if (global.inventoryOpen)
         mp.events.call('inventory', 1);

@@ -1,5 +1,5 @@
 mp.keys.bind(0x77, false, function () {
-    if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 1000 || global.menuOpened || !localplayer.getVariable("IS_ADMIN")) return;
+    if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 1000 || global.menuOpened || !mp.players.local.getVariable("IS_ADMIN")) return;
     mp.events.callRemote('openAdminPanel');
     lastCheck = new Date().getTime();
 });

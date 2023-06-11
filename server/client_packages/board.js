@@ -3,7 +3,7 @@ global.openOutType = -1;
 
 mp.keys.bind(Keys.VK_I, false, function () {
 
-    if (!loggedin || chatActive || editing || cuffed || localplayer.getVariable('InDeath') == true) return;
+    if (!loggedin || chatActive || editing || cuffed || mp.players.local.getVariable('InDeath') == true) return;
 
     if (global.boardOpen)
         mp.events.call('board', 1);
@@ -170,7 +170,7 @@ mp.events.add('boardCB', (act, type, index) => {
 
 mp.events.add("playerQuit", (player, exitType, reason) => {
     if (board !== null) {
-        if (player.name === localplayer.name) {
+        if (player.name === mp.players.local.name) {
             board.destroy();
             board = null;
         }

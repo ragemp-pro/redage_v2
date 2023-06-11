@@ -203,14 +203,14 @@ let vision_state = 0;
 
 // admin cmd /drone
 mp.events.add('client:StartAdminDrone', function () {
-    if (!loggedin || localplayer.getVariable('IS_ADMIN') !== true) return;
+    if (!loggedin || mp.players.local.getVariable('IS_ADMIN') !== true) return;
 
     drone.enter();
 });
 
 // lspd use drone
 mp.events.add('client:StartLSPDDrone', function () {
-    if (!loggedin || chatActive || editing || cuffed || localplayer.getVariable('InDeath') == true) return;
+    if (!loggedin || chatActive || editing || cuffed || mp.players.local.getVariable('InDeath') == true) return;
     
     drone.enterLspd();
 });
@@ -234,7 +234,7 @@ mp.events.add("vSync:Sound", (vehId) => {
 
 // ESC (exit drone)
 mp.keys.bind(0x1B, true, function() {
-    if (!loggedin || chatActive || editing || cuffed || localplayer.getVariable('InDeath') == true) return;
+    if (!loggedin || chatActive || editing || cuffed || mp.players.local.getVariable('InDeath') == true) return;
 
     if (isInDrone) {
         if (isLspd)
@@ -246,7 +246,7 @@ mp.keys.bind(0x1B, true, function() {
 
 // TAB (change cam effect)
 mp.keys.bind(0x09, true, function() {
-    if (!loggedin || chatActive || editing || cuffed || localplayer.getVariable('InDeath') == true) return;
+    if (!loggedin || chatActive || editing || cuffed || mp.players.local.getVariable('InDeath') == true) return;
 
     if (isInDrone) {
         drone.keyPressToggleVision();
