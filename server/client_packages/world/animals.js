@@ -89,7 +89,7 @@ function NPCTalkAnim(ped, state)
 }
 
 mp.events.add('render', () => {
-	if (!loggedin) return;
+	if (!global.loggedin) return;
 	try
 	{
 		if(pedsaying != null) {

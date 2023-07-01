@@ -34,7 +34,7 @@ mp.events.addDataHandler("isCrouched", (entity, value) => {
 
 // CTRL key to toggle crouching
 mp.keys.bind(Keys.VK_CONTROL, false, () => {
-if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 1000 || global.menuOpened || mp.players.local.vehicle) return;
+if (!global.loggedin || global.chatActive || global.editing || new Date().getTime() - global.lastCheck < 1000 || global.menuOpened || mp.players.local.vehicle) return;
     mp.events.callRemote("toggleCrouch");
 });
 

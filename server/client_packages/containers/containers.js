@@ -1,5 +1,5 @@
 mp.events.add("openContainerMenu", (json) => {
-  if (!loggedin || chatActive || editing || cuffed) return;
+  if (!global.loggedin || global.chatActive || global.editing || global.cuffed) return;
   global.containerMenu = mp.browsers.new('package://cef/ContainerSystem/index.html');
   global.containerMenu.active = true;
   global.menuOpen();

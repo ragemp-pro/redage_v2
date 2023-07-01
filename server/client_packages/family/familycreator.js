@@ -1,5 +1,5 @@
 mp.events.add("openCreatorFamilyMenu", (json) => {
-	if (!loggedin || chatActive || editing || cuffed) return;
+	if (!global.loggedin || global.chatActive || global.editing || global.cuffed) return;
 	global.menuOpen();
 	global.familyCreator = mp.browsers.new('package://cef/FamilyCreator/index.html');
 	global.familyCreator.active = true;

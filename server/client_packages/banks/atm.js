@@ -6,10 +6,10 @@ mp.events.add('openatm', () => {
     if (global.menuCheck()) return;
     atm.execute('atm.active=1');
     atm.active = true;
-    menuOpen();
+    global.menuOpen();
 });
 mp.events.add('closeatm', () => {
-    menuClose();
+    global.menuClose();
     atm.execute('atm.reset();atm.active=0');
     atm.active = false;
 })

@@ -14,7 +14,7 @@ mp.events.add('startEditing', function (model) {
             alpha: 255,
             dimension: mp.players.local.dimension
         });
-    editing = true;
+        global.editing = true;
 });
 
 function updateObject() {
@@ -79,11 +79,11 @@ function AddInstructionalEnd(type) {
 mp.events.add('endEditing', function () {
     object.destroy();
     object = null;
-    editing = false;
+    global.editing = false;
 });
 
 mp.keys.bind(0x26, false, function () { // UP Arrow
-    if (global.chatActive || !editing) return;
+    if (global.chatActive || !global.editing) return;
     switch (editing_type_idx) {
         // pos x
         case 0:
@@ -123,7 +123,7 @@ mp.keys.bind(0x26, false, function () { // UP Arrow
 });
 
 mp.keys.bind(0x28, false, function () { // DOWN Arrow
-    if (global.chatActive || !editing) return;
+    if (global.chatActive || !global.editing) return;
     switch (editing_type_idx) {
         // pos x
         case 0:
@@ -163,13 +163,13 @@ mp.keys.bind(0x28, false, function () { // DOWN Arrow
 });
 
 mp.keys.bind(0x25, false, function () { // LEFT Arrow
-    if (global.chatActive || !editing) return;
+    if (global.chatActive || !global.editing) return;
     editing_type_idx--;
     if (editing_type_idx < 0) editing_type_idx = editing_types.length - 1;
 });
 
 mp.keys.bind(0x27, false, function () { // RIGHT Arrow
-    if (global.chatActive || !editing) return;
+    if (global.chatActive || !global.editing) return;
     editing_type_idx++;
     if (editing_type_idx >= editing_types.length) editing_type_idx = 0;
 });
@@ -183,25 +183,25 @@ mp.keys.bind(0x59, false, function () { // Y key
     mp.events.callRemote('acceptEdit', position.x, position.y, position.z, rotation.x, rotation.y, rotation.z);
     object.destroy();
     object = null;
-    editing = false;
+    global.editing = false;
 });
 
 mp.keys.bind(0x4E, false, function () { // N key
-    if (global.chatActive || !editing) return;
+    if (global.chatActive || !global.editing) return;
     object.destroy();
     object = null;
-    editing = false;
+    global.editing = false;
     mp.events.callRemote('cancelEdit');
 });
 
 mp.keys.bind(0x6B, false, function () { // Add key
-    if (global.chatActive || !editing) return;
+    if (global.chatActive || !global.editing) return;
     moving_speed_idx++;
     if (moving_speed_idx >= moving_speeds.length) moving_speed_idx = 0;
 });
 
 mp.keys.bind(0x6D, false, function () { // Subtract key
-    if (global.chatActive || !editing) return;
+    if (global.chatActive || !global.editing) return;
     moving_speed_idx--;
     if (moving_speed_idx < 0) moving_speed_idx = moving_speeds.length - 1;
 });

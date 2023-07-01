@@ -5,6 +5,8 @@ global.lastCheck = 0;
 global.chatLastCheck = 0;
 global.pocketEnabled = false;
 
+global.phoneOpen = 0;
+
 //var emscol = mp.colshapes.newSphere(264.5199, -1352.684, 23.446, 50, 0);
 
 var Peds = [
@@ -140,15 +142,15 @@ mp.events.add('setPocketEnabled', function (state) {
 });
 
 mp.keys.bind(Keys.VK_Y, false, function () {
-    if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 1000 || global.menuOpened) return;
+    if (!global.loggedin || global.chatActive || global.editing || new Date().getTime() - global.lastCheck < 1000 || global.menuOpened) return;
     mp.events.callRemote('acceptPressed');
-    lastCheck = new Date().getTime();
+    global.lastCheck = new Date().getTime();
 });
 
 mp.keys.bind(Keys.VK_N, false, function () {
-    if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 1000 || global.menuOpened) return;
+    if (!global.loggedin || global.chatActive || global.editing || new Date().getTime() - global.lastCheck < 1000 || global.menuOpened) return;
     mp.events.callRemote('cancelPressed');
-    lastCheck = new Date().getTime();
+    global.lastCheck = new Date().getTime();
 });
 
 mp.events.add('connected', function () {
@@ -171,7 +173,7 @@ mp.events.add('kick', function (notify) {
 });
 
 mp.events.add('loggedIn', function () {
-    loggedin = true;
+    global.loggedin = true;
 });
 
 mp.events.add('setFollow', function (toggle, entity) {
@@ -190,9 +192,9 @@ setInterval(function () {
 }, 600);
 
 mp.keys.bind(Keys.VK_U, false, function () { // Animations selector
-    if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 1000 || global.menuOpened) return;
+    if (!global.loggedin || global.chatActive || global.editing || new Date().getTime() - global.lastCheck < 1000 || global.menuOpened) return;
     if (mp.players.local.isInAnyVehicle(true)) return;
-    OpenCircle("Категории", 0);
+    global.OpenCircle("Категории", 0);
 });
 
 // телепорт на метку
@@ -200,13 +202,13 @@ let waypoint;
 let lastWaypointCoords;
 
 mp.keys.bind(Keys.VK_P, false, function () { // Телепорт (P)
-    if (!loggedin || chatActive || editing || global.menuCheck() || cuffed || mp.players.local.getVariable('InDeath') == true) return;
+    if (!global.loggedin || global.chatActive || global.editing || global.menuCheck() || global.cuffed || mp.players.local.getVariable('InDeath') == true) return;
     
     if (!mp.players.local.getVariable('IS_ADMIN')) return;
     if(!lastWaypointCoords){mp.game.graphics.notify(`Ошибка: ~n~~h~~r~Нет записи последнего waypoint'a.`); return;}
     mp.events.call('tpToWaypoint');
     
-    lastCheck = new Date().getTime();
+    global.lastCheck = new Date().getTime();
 });
 
 function findZ(mp, maxAttempts, delay, wpos, oldpos) {
@@ -263,24 +265,24 @@ mp.events.add('render', () => {
 //
 
 mp.keys.bind(Keys.VK_E, false, function () { // E key
-    if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 1000 || global.menuOpened) return;
+    if (!global.loggedin || global.chatActive || global.editing || new Date().getTime() - global.lastCheck < 1000 || global.menuOpened) return;
     mp.events.callRemote('interactionPressed');
-    lastCheck = new Date().getTime();
+    global.lastCheck = new Date().getTime();
     global.acheat.pos();
 });
 
 mp.keys.bind(Keys.VK_L, false, function () { // L key
-    if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 1000 || global.menuOpened) return;
+    if (!global.loggedin || global.chatActive || global.editing || new Date().getTime() - global.lastCheck < 1000 || global.menuOpened) return;
     mp.events.callRemote('lockCarPressed');
-    lastCheck = new Date().getTime();
+    global.lastCheck = new Date().getTime();
 });
 
 mp.keys.bind(Keys.VK_LEFT, true, () => {
-	if(mp.gui.cursor.visible || !loggedin) return;
+	if(mp.gui.cursor.visible || !global.loggedin) return;
 	if(mp.players.local.vehicle) {
 		if(mp.players.local.vehicle.getPedInSeat(-1) != mp.players.local.handle) return;
-		if(new Date().getTime() - lastCheck > 500) {
-			lastCheck = new Date().getTime();
+		if(new Date().getTime() - global.lastCheck > 500) {
+			global.lastCheck = new Date().getTime();
 			if(mp.players.local.vehicle.getVariable('leftlight') == true) mp.events.callRemote("VehStream_SetIndicatorLightsData", mp.players.local.vehicle, 0, 0);
 			else mp.events.callRemote("VehStream_SetIndicatorLightsData", mp.players.local.vehicle, 1, 0);
 		}
@@ -288,11 +290,11 @@ mp.keys.bind(Keys.VK_LEFT, true, () => {
 });
 
 mp.keys.bind(Keys.VK_RIGHT, true, () => {
-	if(mp.gui.cursor.visible || !loggedin) return;
+	if(mp.gui.cursor.visible || !global.loggedin) return;
 	if(mp.players.local.vehicle) {
 		if(mp.players.local.vehicle.getPedInSeat(-1) != mp.players.local.handle) return;
-		if(new Date().getTime() - lastCheck > 500) {
-			lastCheck = new Date().getTime();
+		if(new Date().getTime() - global.lastCheck > 500) {
+			global.lastCheck = new Date().getTime();
 			if(mp.players.local.vehicle.getVariable('rightlight') == true) mp.events.callRemote("VehStream_SetIndicatorLightsData", mp.players.local.vehicle, 0, 0);
 			else mp.events.callRemote("VehStream_SetIndicatorLightsData", mp.players.local.vehicle, 0, 1);
 		}
@@ -300,11 +302,11 @@ mp.keys.bind(Keys.VK_RIGHT, true, () => {
 });
 
 mp.keys.bind(Keys.VK_DOWN, true, () => {
-	if(mp.gui.cursor.visible || !loggedin) return;
+	if(mp.gui.cursor.visible || !global.loggedin) return;
 	if(mp.players.local.vehicle) {
 		if(mp.players.local.vehicle.getPedInSeat(0) != mp.players.local.handle) return;
-		if(new Date().getTime() - lastCheck > 500) {
-			lastCheck = new Date().getTime();
+		if(new Date().getTime() - global.lastCheck > 500) {
+			global.lastCheck = new Date().getTime();
 			if(mp.players.local.vehicle.getVariable('leftlight') == true && mp.players.local.vehicle.getVariable('rightlight') == true) mp.events.callRemote("VehStream_SetIndicatorLightsData", mp.players.local.vehicle, 0, 0);
 			else mp.events.callRemote("VehStream_SetIndicatorLightsData", mp.players.local.vehicle, 1, 1);
 		}
@@ -312,22 +314,22 @@ mp.keys.bind(Keys.VK_DOWN, true, () => {
 });
 
 mp.keys.bind(Keys.VK_B, false, function () { // 2 key
-    if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 400 || global.menuOpened) return;
+    if (!global.loggedin || global.chatActive || global.editing || new Date().getTime() - global.lastCheck < 400 || global.menuOpened) return;
     if (mp.players.local.isInAnyVehicle(false) && mp.players.local.vehicle.getSpeed() <= 3) {
-        lastCheck = new Date().getTime();
+        global.lastCheck = new Date().getTime();
         mp.events.callRemote('engineCarPressed');
     }
 });
 
 /*
 mp.keys.bind(Keys.VK_UP, false, function () { // стрелка вверх
-    if (!loggedin || chatActive || editing || global.menuCheck() || cuffed || mp.players.local.getVariable('InDeath') == true || new Date().getTime() - lastCheck < 400) return;
+    if (!global.loggedin || global.chatActive || global.editing || global.menuCheck() || global.cuffed || mp.players.local.getVariable('InDeath') == true || new Date().getTime() - global.lastCheck < 400) return;
     mp.events.callRemote('openPlayerMenu');
 	mp.game.mobile.createMobilePhone(3);
 	mp.game.mobile.setMobilePhoneScale (0);
 	mp.game.mobile.scriptIsMovingMobilePhoneOffscreen(false);
 	mp.game.mobile.setPhoneLean(false);
-    lastCheck = new Date().getTime();
+    global.lastCheck = new Date().getTime();
 });
 
 mp.keys.bind(Keys.VK_DOWN, true, function() {   // стрелка вниз
@@ -340,7 +342,7 @@ mp.keys.bind(Keys.VK_DOWN, true, function() {   // стрелка вниз
 
 mp.keys.bind(Keys.VK_M, false, function () {
 
-    if (!loggedin || chatActive || editing || global.menuCheck() || cuffed || mp.players.local.getVariable('InDeath') == true || mp.players.local.getVariable('AntiAnimDown') || new Date().getTime() - lastCheck < 400) return;
+    if (!global.loggedin || global.chatActive || global.editing || global.menuCheck() || global.cuffed || mp.players.local.getVariable('InDeath') == true || mp.players.local.getVariable('AntiAnimDown') || new Date().getTime() - global.lastCheck < 400) return;
     
     if (global.phoneOpen)
     {
@@ -356,7 +358,7 @@ mp.keys.bind(Keys.VK_M, false, function () {
         mp.game.mobile.setMobilePhoneScale (0);
         mp.game.mobile.scriptIsMovingMobilePhoneOffscreen(false);
         mp.game.mobile.setPhoneLean(false);
-        lastCheck = new Date().getTime();
+        global.lastCheck = new Date().getTime();
 
         global.phoneOpen = 1;
     }
@@ -380,17 +382,17 @@ mp.keys.bind(0x77, true, function () {  //F8-Key
 });
 
 mp.keys.bind(Keys.VK_X, false, function () { // X key
-    if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 1000 || global.menuOpened || mp.players.local.getVariable('fraction') <= 0) return;
+    if (!global.loggedin || global.chatActive || global.editing || new Date().getTime() - global.lastCheck < 1000 || global.menuOpened || mp.players.local.getVariable('fraction') <= 0) return;
     mp.events.callRemote('playerPressCuffBut');
-    lastCheck = new Date().getTime();
+    global.lastCheck = new Date().getTime();
 });
 
 mp.keys.bind(Keys.VK_Z, false, function () { // Z key
-    if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 1000 || global.menuOpened) return;
+    if (!global.loggedin || global.chatActive || global.editing || new Date().getTime() - global.lastCheck < 1000 || global.menuOpened) return;
     if (mp.players.local.isInAnyVehicle(false)) {
         CheckMyWaypoint();
     } else mp.events.callRemote('playerPressFollowBut');
-    lastCheck = new Date().getTime();
+    global.lastCheck = new Date().getTime();
 });
 
 function CheckMyWaypoint() {
@@ -428,13 +430,13 @@ mp.events.add('syncWP', function (bX, bY, type) {
 });
 
 mp.keys.bind(Keys.VK_U, false, function () { // U key
-    if (!loggedin || chatActive || editing || global.menuOpened || new Date().getTime() - lastCheck < 1000) return;
+    if (!global.loggedin || global.chatActive || global.editing || global.menuOpened || new Date().getTime() - global.lastCheck < 1000) return;
     mp.events.callRemote('openCopCarMenu');
-    lastCheck = new Date().getTime();
+    global.lastCheck = new Date().getTime();
 });
 
 mp.keys.bind(Keys.VK_OEM_3, false, function () { // ` key
-    if (chatActive || (global.menuOpened && mp.gui.cursor.visible)) return;
+    if (global.chatActive || (global.menuOpened && mp.gui.cursor.visible)) return;
     mp.gui.cursor.visible = !mp.gui.cursor.visible;
 });
 

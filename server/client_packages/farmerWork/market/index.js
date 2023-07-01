@@ -4,7 +4,7 @@ let melogMarketLoaded = false;
 mp.peds.new(0x94562DD7, new mp.Vector3(2367.39, 4881.526, 42), 120, 0);
 
 mp.events.add("loadPage", (page, json) => {
-	if (!loggedin || chatActive || editing || cuffed) return;
+	if (!global.loggedin || global.chatActive || global.editing || global.cuffed) return;
 	if(!melogMarketLoaded)
 	{
 		global.menuOpen();

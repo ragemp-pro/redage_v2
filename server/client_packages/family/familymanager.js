@@ -1,11 +1,11 @@
 mp.keys.bind(Keys.VK_O, false, function () {
-    if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 1000 || global.menuOpened || !mp.players.local.getVariable('IS_FAMILY')) return;
+    if (!global.loggedin || global.chatActive || global.editing || new Date().getTime() - global.lastCheck < 1000 || global.menuOpened || !mp.players.local.getVariable('IS_FAMILY')) return;
     mp.events.callRemote('openfamilymanager');
-    lastCheck = new Date().getTime();
+    global.lastCheck = new Date().getTime();
 });
 
 mp.events.add("openFamilyMenu", (json) => {
-	if (!loggedin || chatActive || editing || cuffed) return;
+	if (!global.loggedin || global.chatActive || global.editing || global.cuffed) return;
 	global.menuOpen();
 	global.familyManager = mp.browsers.new('package://cef/FamilyManager/index.html');
 	global.familyManager.active = true;

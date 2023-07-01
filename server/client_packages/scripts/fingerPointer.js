@@ -138,7 +138,7 @@ mp.events.add("fpsync.update", (playerH, camPitch, camHeading) => {
 });
 
 mp.keys.bind(0x42, true, () => {
-    if (!loggedin || chatActive || editing || global.menuOpened || cuffed || global.phoneOpen ||
+    if (!global.loggedin || global.chatActive || global.editing || global.menuOpened || global.cuffed || global.phoneOpen ||
         mp.players.local.getVariable('IS_DYING') || mp.players.local.getVariable('AntiAnimDown')) return;
     if (mp.players.local.isTypingInTextChat) {
         return;
@@ -147,7 +147,7 @@ mp.keys.bind(0x42, true, () => {
 });
 
 mp.keys.bind(0x42, false, () => {
-    if (!loggedin || chatActive || editing || global.menuOpened || cuffed || global.phoneOpen ||
+    if (!global.loggedin || global.chatActive || global.editing || global.menuOpened || global.cuffed || global.phoneOpen ||
         mp.players.local.getVariable('IS_DYING') || mp.players.local.getVariable('AntiAnimDown')) return;
     if (mp.players.local.isTypingInTextChat) {
         return;

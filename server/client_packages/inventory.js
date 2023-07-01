@@ -2,7 +2,7 @@ global.inventory = mp.browsers.new('package://cef/inventory.html');
 
 mp.keys.bind(Keys.VK_I, false, function () {
 
-    if (!loggedin || chatActive || editing || cuffed || mp.players.local.getVariable('InDeath') == true) return;
+    if (!global.loggedin || global.chatActive || global.editing || global.cuffed || mp.players.local.getVariable('InDeath') == true) return;
 
     if (global.inventoryOpen)
         mp.events.call('inventory', 1);
@@ -22,7 +22,7 @@ function openInventory() {
     
 	if(inventory == null) return;
 	if (global.menuCheck()) return;
-    menuOpen();
+    global.menuOpen();
 	inventory.execute('inventory.ToggleInventory(true)');
 	global.inventoryOpen = true;
 }
@@ -30,7 +30,7 @@ function openInventory() {
 function closeInventory() {
 
 	if(inventory == null) return;
-    menuClose();
+    global.menuClose();
     //inventory.execute('context.hide()');
 	inventory.execute('inventory.ToggleInventory(false)');
     inventory.execute('inventory.trunktoggled=false');

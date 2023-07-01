@@ -67,7 +67,7 @@ function getNearestObjects() {
                 }
             });
     }
-    nearestObject = tempO;
+    global.nearestObject = tempO;
 }
 
 mp.events.add('blockMove', function (argument) {
@@ -75,7 +75,7 @@ mp.events.add('blockMove', function (argument) {
 });
 
 mp.events.add('CUFFED', function (argument) {
-    cuffed = argument;
+    global.cuffed = argument;
 });
 
 mp.events.add('hasMoney', function (argument) {
@@ -88,50 +88,50 @@ mp.events.add('safeZone', function (argument) {
 });
 
 mp.keys.bind(0x47, false, function () { // G key
-    if (global.menuCheck() || cuffed || mp.players.local.getVariable('InDeath') == true && !mp.players.local.isInAnyVehicle(false)) return;
-    if (circleOpen) {
-        CloseCircle();
+    if (global.menuCheck() || global.cuffed || mp.players.local.getVariable('InDeath') == true && !mp.players.local.isInAnyVehicle(false)) return;
+    if (global.circleOpen) {
+        global.CloseCircle();
         return;
     }
-    if (!loggedin || chatActive || entity == null || new Date().getTime() - lastCheck < 1000) return;
-    switch (entity.type) {
+    if (!global.loggedin || global.chatActive || global.entity == null || new Date().getTime() - global.lastCheck < 1000) return;
+    switch (global.entity.type) {
         case "object":
-            if (entity && mp.objects.exists(entity)) {
-                mp.events.callRemote('oSelected', entity);
+            if (global.entity && mp.objects.exists(global.entity)) {
+                mp.events.callRemote('oSelected', global.entity);
             }
-            entity = null;
+            global.entity = null;
             return;
         case "player":
             mp.gui.cursor.visible = true;
-            OpenCircle('Игрок', 0);
+            global.OpenCircle('Игрок', 0);
             break;
         case "vehicle":
             mp.gui.cursor.visible = true;
-            OpenCircle('Машина', 0);
+            global.OpenCircle('Машина', 0);
             break;
     }
-    lastCheck = new Date().getTime();
+    global.lastCheck = new Date().getTime();
 });
 
 mp.keys.bind(0x71, false, function () { // F2 key
     if (global.menuCheck() || mp.players.local.getVariable('InDeath') == true) return;
     // player
-    if (circleOpen) {
-        CloseCircle();
+    if (global.circleOpen) {
+        global.CloseCircle();
         return;
     }
-    if (!loggedin || chatActive || nearestObject == null || new Date().getTime() - lastCheck < 1000) return;
+    if (!global.loggedin || global.chatActive || global.nearestObject == null || new Date().getTime() - global.lastCheck < 1000) return;
 
-    if (nearestObject && nearestObject.type == 'object' && mp.objects.exists(nearestObject)) {
-        mp.events.callRemote('oSelected', nearestObject);
+    if (global.nearestObject && global.nearestObject.type == 'object' && mp.objects.exists(global.nearestObject)) {
+        mp.events.callRemote('oSelected', global.nearestObject);
     }
-    else if (nearestObject && mp.players.exists(nearestObject)) {
-        entity = nearestObject;
+    else if (global.nearestObject && mp.players.exists(global.nearestObject)) {
+        global.entity = global.nearestObject;
         mp.gui.cursor.visible = true;
-        OpenCircle('Игрок', 0);
+        global.OpenCircle('Игрок', 0);
     }
 
-    lastCheck = new Date().getTime();
+    global.lastCheck = new Date().getTime();
 });
 
 
@@ -147,7 +147,7 @@ mp.events.add('SetOrderTruck', (vehicle) => {
 
 mp.events.add('render', () => {
 	try {
-        if (!loggedin) return;
+        if (!global.loggedin) return;
 		if (!global.admingm) mp.players.local.setInvincible(false);
         if (mp.players.local.isSprinting() || mp.players.local.isOnAnyBike()) mp.game.player.restoreStamina(100);
         mp.game.player.setLockonRangeOverride(1.5);
@@ -196,40 +196,40 @@ mp.events.add('render', () => {
             mp.game.controls.disableControlAction(2, 264, true);
             mp.game.controls.disableControlAction(2, 331, true);
         }
-		if (mp.keys.isDown(32) && cuffed && new Date().getTime() - lastCuffUpdate >= 3000) {
+		if (mp.keys.isDown(32) && global.cuffed && new Date().getTime() - lastCuffUpdate >= 3000) {
 			mp.events.callRemote("cuffUpdate");
 	        lastCuffUpdate = new Date().getTime();
 		}
 
 		if (!mp.players.local.isInAnyVehicle(false) && !mp.players.local.isDead()) {
-	        if (!circleOpen)
-		        entity = getLookingAtEntity();
+	        if (!global.circleOpen)
+		        global.entity = getLookingAtEntity();
 	        getNearestObjects();
-		    if (entity != null && entity.getVariable('INVISIBLE') == true) entity = null;
+		    if (global.entity != null && global.entity.getVariable('INVISIBLE') == true) global.entity = null;
 		}
         else {
             getNearestObjects();
-            if (entity != nearestObject) entity = null;
+            if (global.entity !=  global.nearestObject) global.entity = null;
 		}
 
-	    if (nearestObject != null && (entity == null || entity.type != "object")) {
-		    mp.game.graphics.drawText("F2", [nearestObject.position.x, nearestObject.position.y, nearestObject.position.z], {
+	    if ( global.nearestObject != null && (global.entity == null || global.entity.type != "object")) {
+		    mp.game.graphics.drawText("F2", [global.nearestObject.position.x, global.nearestObject.position.y, global.nearestObject.position.z], {
 			    font: 0,
 	            color: [255, 255, 255, 185],
 		        scale: [0.4, 0.4],
 			    outline: true
 			});
 		}
-        else if (entity != null && !mp.players.local.isInAnyVehicle(false)) {
-			if(truckorderveh == null || entity != truckorderveh) {
-				mp.game.graphics.drawText("G", [entity.position.x, entity.position.y, entity.position.z], {
+        else if (global.entity != null && !mp.players.local.isInAnyVehicle(false)) {
+			if(truckorderveh == null || global.entity != truckorderveh) {
+				mp.game.graphics.drawText("G", [global.entity.position.x, global.entity.position.y, global.entity.position.z], {
 					font: 0,
 					color: [255, 255, 255, 185],
 					scale: [0.4, 0.4],
 					outline: true
 				});
-			} else if(entity == truckorderveh) {
-				mp.game.graphics.drawText("Su pedido", [entity.position.x, entity.position.y, entity.position.z], {
+			} else if(global.entity == truckorderveh) {
+				mp.game.graphics.drawText("Su pedido", [global.entity.position.x, global.entity.position.y, global.entity.position.z], {
 					font: 1,
 					color: [255, 255, 255, 255],
 					scale: [1.2, 1.2],

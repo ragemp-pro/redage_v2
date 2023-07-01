@@ -2,7 +2,7 @@
 var myalvl = 0;
 
 mp.keys.bind(Keys.VK_F12, false, function () {
-	if (!loggedin || mp.players.local.getVariable('IS_ADMIN') !== true) return;
+	if (!global.loggedin || mp.players.local.getVariable('IS_ADMIN') !== true) return;
 	myalvl = mp.players.local.getVariable('ALVL');
 	if(esptoggle == 3) esptoggle = 0;
 	else esptoggle++;
@@ -13,7 +13,7 @@ mp.keys.bind(Keys.VK_F12, false, function () {
 });
 
 mp.events.add('render', () => {
-	if (!loggedin || mp.players.local.getVariable('IS_ADMIN') !== true) return;
+	if (!global.loggedin || mp.players.local.getVariable('IS_ADMIN') !== true) return;
     if(esptoggle >= 1) {
 		try {
 			let position;

@@ -1,11 +1,11 @@
 mp.keys.bind(0x77, false, function () {
-    if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 1000 || global.menuOpened || !mp.players.local.getVariable("IS_ADMIN")) return;
+    if (!global.loggedin || global.chatActive || global.editing || new Date().getTime() - global.lastCheck < 1000 || global.menuOpened || !mp.players.local.getVariable("IS_ADMIN")) return;
     mp.events.callRemote('openAdminPanel');
-    lastCheck = new Date().getTime();
+    global.lastCheck = new Date().getTime();
 });
 
 mp.events.add("openAdminPanel", (json, json2) => {
-  if (!loggedin || chatActive || editing || cuffed) return;
+  if (!global.loggedin || global.chatActive || global.editing || global.cuffed) return;
   
   global.adminPanel = mp.browsers.new('package://cef/AdminPanel/index.html');
   global.adminPanel.active = false;

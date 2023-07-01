@@ -1,9 +1,10 @@
 ﻿global.board = mp.browsers.new('package://cef/board.html');
 global.openOutType = -1;
+global.boardOpen = false;
 
 mp.keys.bind(Keys.VK_I, false, function () {
 
-    if (!loggedin || chatActive || editing || cuffed || mp.players.local.getVariable('InDeath') == true) return;
+    if (!global.loggedin || global.chatActive || global.editing || global.cuffed || mp.players.local.getVariable('InDeath') == true) return;
 
     if (global.boardOpen)
         mp.events.call('board', 1);
@@ -29,7 +30,7 @@ mp.events.add('BOARD::LOAD_ASSETS_INFO', (houseData, businessData, vehiclesData)
 		"Vehicles": vehiclesData
 	}
 	let json = JSON.stringify(data);
-	board.execute(`board.properties=${json}`);
+	global.board.execute(`board.properties=${json}`);
 });
 
 // DONATE //
@@ -52,10 +53,10 @@ mp.keys.bind(0x78, false, function () { // F9
 });
 
 mp.events.add("WheelsRun", () => {
-    board.execute(`wheelrun();`);
+    global.board.execute(`wheelrun();`);
 });
 mp.events.add("WheelsRun", () => {
-    board.execute(`wheelrun();`);
+    global.board.execute(`wheelrun();`);
 });
 
 mp.events.add('wheelAdd', (id, data) => {
@@ -67,22 +68,22 @@ mp.events.add('wheel', (id, data) => {
 mp.events.add('donbuy', (id, data) => {
 	global.menuClose();
 	mp.events.call('fromBlur', 200)
-	board.execute(`board.close()`);
+	global.board.execute(`board.close()`);
     mp.events.callRemote("donate", id, data);
 });
 mp.events.add('redset', (reds_) => {
     reds = reds_;
     if (board != null)
-        board.execute(`board.balance=${reds}`);
+	global.board.execute(`board.balance=${reds}`);
 });
 
 
 function openBoard() {
 
-	if(board == null) return;
+	if(global.board == null) return;
 	if (global.menuCheck()) return;
-    menuOpen();
-	board.execute('board.active=true');
+    global.menuOpen();
+	global.board.execute('board.active=true');
 	global.boardOpen = true;
 
 	mp.events.callRemote("REMOTE::LOAD_PROPERTIES_INFO_TO_BOARD");
@@ -90,11 +91,11 @@ function openBoard() {
 
 function closeBoard() {
 	
-	if(board == null) return;
-    menuClose();
-    board.execute('context.hide()');
-	board.execute('board.active=false');
-    board.execute('board.outside=false');
+	if(global.board == null) return;
+    global.menuClose();
+    global.board.execute('context.hide()');
+	global.board.execute('board.active=false');
+    global.board.execute('board.outside=false');
     global.boardOpen = false;
 
     if (global.openOutType != -1) {
@@ -112,7 +113,7 @@ function closeBoard() {
 // // //
 var last
 mp.events.add('board', (act, data, index) => {
-    if (board === null)
+    if (global.board === null)
         global.board = mp.browsers.new('package://cef/board.html');
     //mp.gui.chat.push(`act: ${act} | data: ${data}`);
 
@@ -124,20 +125,20 @@ mp.events.add('board', (act, data, index) => {
 			closeBoard();
 			break;
         case 2:
-			board.execute(`board.stats=${data}`);
+			global.board.execute(`board.stats=${data}`);
 			break;
 		case 3:
-			board.execute(`board.itemsSet(${data})`);
+			global.board.execute(`board.itemsSet(${data})`);
 			break;
 		case 4:
-			board.execute(`board.outSet(${data})`);
+			global.board.execute(`board.outSet(${data})`);
 			break;
 		case 5:
-            board.execute(`board.outside=${data}`);
+            global.board.execute(`board.outside=${data}`);
             global.openOutType = 0;
 			break;
         case 6:
-            board.execute(`board.itemUpd(${index},${data})`);
+            global.board.execute(`board.itemUpd(${index},${data})`);
         	break;
         case 11:
             global.openOutType = -1;
@@ -169,10 +170,10 @@ mp.events.add('boardCB', (act, type, index) => {
 });
 
 mp.events.add("playerQuit", (player, exitType, reason) => {
-    if (board !== null) {
+    if (global.board !== null) {
         if (player.name === mp.players.local.name) {
-            board.destroy();
-            board = null;
+            global.board.destroy();
+            global.board = null;
         }
     }
 });

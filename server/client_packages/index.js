@@ -194,7 +194,7 @@ mp.events.add('setWorldLights', function (toggle) {
 });
 
 mp.events.add('changeChatState', function (state) {
-    chatActive = state;
+    global.chatActive = state;
 });
 
 mp.events.add('allowRoding', function (toggle) {
@@ -345,7 +345,7 @@ mp.events.add('acpos', () => {
 
 mp.keys.bind(Keys.VK_R, false, function () { // R key
 	try {
-		if (!loggedin || chatActive || new Date().getTime() - global.lastCheck < 1000 || mp.gui.cursor.visible) return;
+		if (!global.loggedin || global.chatActive || new Date().getTime() - global.lastCheck < 1000 || mp.gui.cursor.visible) return;
 		var current = currentWeapon();
 		if (current == -1569615261 || current == 911657153) return;
 		var ammo = mp.game.invoke(getNative("GET_AMMO_IN_PED_WEAPON"), mp.players.local.handle, current);
@@ -356,19 +356,19 @@ mp.keys.bind(Keys.VK_R, false, function () { // R key
 });
 
 mp.keys.bind(Keys.VK_1, false, function () { // 1 key
-    if (!loggedin || chatActive || new Date().getTime() - global.lastCheck < 1000 || global.menuOpened || mp.gui.cursor.visible) return;
+    if (!global.loggedin || global.chatActive || new Date().getTime() - global.lastCheck < 1000 || global.menuOpened || mp.gui.cursor.visible) return;
     mp.events.callRemote('changeweap', 1);
     global.lastCheck = new Date().getTime();
 });
 
 mp.keys.bind(Keys.VK_2, false, function () { // 2 key
-    if (!loggedin || chatActive || new Date().getTime() - global.lastCheck < 1000 || global.menuOpened || mp.gui.cursor.visible) return;
+    if (!global.loggedin || global.chatActive || new Date().getTime() - global.lastCheck < 1000 || global.menuOpened || mp.gui.cursor.visible) return;
     mp.events.callRemote('changeweap', 2);
     global.lastCheck = new Date().getTime();
 });
 
 mp.keys.bind(Keys.VK_3, false, function () { // 3 key
-    if (!loggedin || chatActive || new Date().getTime() - global.lastCheck < 1000 || global.menuOpened || mp.gui.cursor.visible) return;
+    if (!global.loggedin || global.chatActive || new Date().getTime() - global.lastCheck < 1000 || global.menuOpened || mp.gui.cursor.visible) return;
     mp.events.callRemote('changeweap', 3);
     global.lastCheck = new Date().getTime();
 });
@@ -600,7 +600,7 @@ mp.events.add('svem', (pm, tm) => {
 var f10rep = new Date().getTime();
 
 mp.events.add('f10report', (report) => {
-	if (!loggedin || new Date().getTime() - f10rep < 3000) return;
+	if (!global.loggedin || new Date().getTime() - f10rep < 3000) return;
     f10rep = new Date().getTime();
 	mp.events.callRemote('f10helpreport', report);
 });

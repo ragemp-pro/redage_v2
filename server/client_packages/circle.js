@@ -2,25 +2,25 @@
 global.circleOpen = false;
 var circleTitle = "";
 
-function OpenCircle(title, data) {
-    if (menuCheck() || circleOpen) return;
-    board.execute(`circle.show("${title}",${data})`);
+global.OpenCircle = function(title, data) {
+    if (global.menuCheck() || global.circleOpen) return;
+    global.board.execute(`circle.show("${title}",${data})`);
     circleTitle = title;
-    circleOpen = true;
-    menuOpen();
+    global.circleOpen = true;
+    global.menuOpen();
 }
-function CloseCircle(hide) {
-    if(hide) board.execute("circle.hide()");
-    circleOpen = false;
-    menuClose();
+global.CloseCircle = function(hide) {
+    if(hide) execute("circle.hide()");
+    global.circleOpen = false;
+    global.menuClose();
 }
 
 // // //
 mp.events.add('circleCallback', (index) => {
     if (index == -1) {
-        CloseCircle(false);
+        global.CloseCircle(false);
     } else {
-        CloseCircle(false);
+        global.CloseCircle(false);
         switch (circleTitle) {
             case "Машина":
                 switch (index) {
@@ -29,64 +29,64 @@ mp.events.add('circleCallback', (index) => {
                     case 2:
                     case 3:
                     case 4:
-                        if (entity == null) return;
-                        mp.events.callRemote('vehicleSelected', entity, index);
+                        if (global.entity == null) return;
+                        mp.events.callRemote('vehicleSelected', global.entity, index);
                         return;
                 }
                 return;
             case "Игрок":
-                if (entity == null) return;
+                if (global.entity == null) return;
                 switch (index) {
                     case 0:
-                        mp.events.callRemote('pSelected', entity, "Передать деньги");
+                        mp.events.callRemote('pSelected', global.entity, "Передать деньги");
                         return;
                     case 1:
-                        mp.events.callRemote('pSelected', entity, "Предложить обмен");
+                        mp.events.callRemote('pSelected', global.entity, "Предложить обмен");
                         return;
                     case 2:
                         if (pFraction === 0 || pFraction === 15) return;
-                        OpenCircle("Фракция", pFraction);
+                        global.OpenCircle("Фракция", pFraction);
                         return;
                     case 3:
                         //mp.gui.chat.push(">>" + entity);
-                        mp.events.callRemote('passport', entity);
+                        mp.events.callRemote('passport', global.entity);
                         return;
                     case 4:
                         //mp.gui.chat.push(">>" + entity);
-                        mp.events.callRemote('licenses', entity);
+                        mp.events.callRemote('licenses', global.entity);
                         return;
                     case 5:
-                        mp.events.callRemote('pSelected', entity, "Вылечить");
+                        mp.events.callRemote('pSelected', global.entity, "Вылечить");
                         return;
                     case 6:
-                        OpenCircle("Дом", 0);
+                        global.OpenCircle("Дом", 0);
                         return;
                     case 7:
-                        mp.events.callRemote('pSelected', entity, "Пожать руку");
+                        mp.events.callRemote('pSelected', global.entity, "Пожать руку");
                         return;
                 }
                 return;
             case "Дом":
                 switch (index) {
                     case 0:
-                        mp.events.callRemote('pSelected', entity, "Продать машину");
+                        mp.events.callRemote('pSelected', global.entity, "Продать машину");
                         return;
                     case 1:
-                        mp.events.callRemote('pSelected', entity, "Продать дом");
+                        mp.events.callRemote('pSelected', global.entity, "Продать дом");
                         return;
                     case 2:
-                        mp.events.callRemote('pSelected', entity, "Заселить в дом");
+                        mp.events.callRemote('pSelected', global.entity, "Заселить в дом");
                         return;
                     case 3:
-                        mp.events.callRemote('pSelected', entity, "Пригласить в дом");
+                        mp.events.callRemote('pSelected', global.entity, "Пригласить в дом");
                         return;
                 }
                 return;
             case "Фракция":
-                if (entity == null) return;
-                circleEntity = entity;
+                if (global.entity == null) return;
+                global.circleEntity = global.entity;
                 if (fractionActions[pFraction] == undefined) return;
-                mp.events.callRemote('pSelected', entity, fractionActions[pFraction][index]);
+                mp.events.callRemote('pSelected', global.entity, fractionActions[pFraction][index]);
                 return;
             case "Категории":
                 if (index == 7) {
@@ -102,32 +102,32 @@ mp.events.add('circleCallback', (index) => {
                     case 5:
 					case 6:
                         aCategory = index;
-                        OpenCircle("Анимации", index);
+                        global.OpenCircle("Анимации", index);
                         return;
                 }
                 return;
             case "Анимации":
 				if(aCategory == 1 && index == 7) {
 					aCategory = 10;
-                    OpenCircle("Анимации", 10);
+                    global.OpenCircle("Анимации", 10);
 				} else if(aCategory == 4 && index == 7) {
 					aCategory = 13;
-                    OpenCircle("Анимации", 13);
+                    global.OpenCircle("Анимации", 13);
 				} else if(aCategory == 5 && index == 7) {
 					aCategory = 7;
-                    OpenCircle("Анимации", 7);
+                    global.OpenCircle("Анимации", 7);
 				} else if(aCategory == 6 && index == 7) {
 					aCategory = 12;
-                    OpenCircle("Анимации", 12);
+                    global.OpenCircle("Анимации", 12);
 				} else if(aCategory == 7 && index == 7) {
 					aCategory = 8;
-                    OpenCircle("Анимации", 8);
+                    global.OpenCircle("Анимации", 8);
 				} else if(aCategory == 8 && index == 7) {
 					aCategory = 9;
-                    OpenCircle("Анимации", 9);
+                    global.OpenCircle("Анимации", 9);
 				} else if(aCategory == 10 && index == 7) {
 					aCategory = 11;
-                    OpenCircle("Анимации", 11);
+                    global.OpenCircle("Анимации", 11);
 				} else mp.events.callRemote('aSelected', aCategory, index);
                 return;
         }

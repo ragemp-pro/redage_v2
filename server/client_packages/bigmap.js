@@ -30,7 +30,7 @@ function getMinimapAnchor() {
 }
 
 mp.events.add('render', () => {
-    if (!loggedin || chatActive || editing || cuffed || mp.players.local.getVariable('InDeath') == true) return;
+    if (!global.loggedin || global.chatActive || global.editing || global.cuffed || mp.players.local.getVariable('InDeath') == true) return;
 
     mp.game.controls.disableControlAction(0, 48, true);
     if (mp.game.controls.isDisabledControlJustPressed(0, 48)) {

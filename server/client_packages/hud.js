@@ -283,9 +283,9 @@ mp.keys.bind(Keys.VK_F5, false, function () { // F5 key
     }
 });
 mp.keys.bind(Keys.VK_J, false, function () { // belt system (J key)
-    if (!loggedin || chatActive || editing || new Date().getTime() - lastCheck < 400 || global.menuOpened) return;
+    if (!global.loggedin || global.chatActive || global.editing || new Date().getTime() - global.lastCheck < 400 || global.menuOpened) return;
     if (mp.players.local.isInAnyVehicle(false)) {
-        lastCheck = new Date().getTime();
+        global.lastCheck = new Date().getTime();
 
         if (hudstatus.belt) {
             mp.players.local.setConfigFlag(32, true);
@@ -310,7 +310,7 @@ mp.keys.bind(Keys.VK_J, false, function () { // belt system (J key)
 
 // CRUISE CONTROL //
 mp.keys.bind(Keys.VK_6, false, function () { // 5 key - cruise mode on/off
-    if (!loggedin || global.chatActive || editing || global.menuOpened) return;
+    if (!global.loggedin || global.chatActive || global.editing || global.menuOpened) return;
     if (!mp.players.local.isInAnyVehicle(true) || mp.players.local.vehicle.getPedInSeat(-1) != mp.players.local.handle) return;
 	let vclass = mp.players.local.vehicle.getClass();
 	if(vclass == 14 || vclass == 15 || vclass == 16) return;

@@ -2044,7 +2044,7 @@ mp.events.add('exitadvert', () => {
     mp.gui.cursor.visible = false;
 })
 mp.keys.bind(0x75, false, function () { // F6 key report menu
-    if (!loggedin || chatActive || editing || advertsactive || new Date().getTime() - global.lastCheck < 1000) return;
+    if (!global.loggedin || global.chatActive || global.editing || advertsactive || new Date().getTime() - global.lastCheck < 1000) return;
     if (mp.players.local.getVariable('IS_ADMIN') != true) return;
     global.lastCheck = new Date().getTime();
     if (!global.menuOpened) {
@@ -2061,7 +2061,7 @@ mp.keys.bind(0x75, false, function () { // F6 key report menu
     }
 });
 mp.keys.bind(0x76, false, function () { // F7 key advert menu
-    if (!loggedin || chatActive || editing || reportactive || !advertsloaded || new Date().getTime() - global.lastCheck < 1000) return;
+    if (!global.loggedin || global.chatActive || global.editing || reportactive || !advertsloaded || new Date().getTime() - global.lastCheck < 1000) return;
     global.lastCheck = new Date().getTime();
     if (!global.menuOpened) {
         global.menuOpen();

@@ -37,7 +37,7 @@ mp.events.add("AGM", (toggle) => {
 });
 
 mp.keys.bind(Keys.VK_F7, false, function () {
-    if (!loggedin || mp.players.local.getVariable('IS_ADMIN') !== true) return;
+    if (!global.loggedin || mp.players.local.getVariable('IS_ADMIN') !== true) return;
 
     const controls = mp.game.controls;
     const fly = global.fly;
