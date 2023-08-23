@@ -47,6 +47,8 @@ mp.events.add("VehStream_SetLockStatus", (veh, status) => {
 
 
 mp.events.add("VehStream_PlayerExitVehicle", (entity) => {
+    if(!entity || entity.type != 'vehicle' || !mp.vehicles.exists(entity))
+
     setTimeout(() => {
         var Status = [];
         let y = 0;
