@@ -16,9 +16,5 @@
     
 # [Скриншоты](https://ragemp.pro/resources/gotovaja-sborka-redage-rp-v2-4-rage-mp-1-1-obnovlenija-30-dnej.112/)
 
-# Тестовый сервер (24\7):  
-![Test Server](https://ragemp.pro/attachments/1614010213970-png.996/)  
-В поиске "Harland Test Server" | IP: 95.181.155.155:22005
-
 # [Как установить сборку](INSTALL.MD)
 # [Как добавить машины на сервер? + автосалон (установка DLC)](https://www.youtube.com/watch?v=c8ZaLdm8IBk)
